@@ -23,6 +23,10 @@ class Table extends THREE.Object3D{
         this.height = height; // thickness
         this.depth = depth;
 
+        this.positionX = position.x;
+        this.positionY = position.y;
+        this.positionZ = position.z;
+
         // Create geometry and mesh for the top
         const topGeometry = new THREE.BoxGeometry(width, height, depth);
         const topMesh = new THREE.Mesh(topGeometry, topMaterial);

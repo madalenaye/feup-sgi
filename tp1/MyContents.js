@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { MyAxis } from './MyAxis.js';
 import { Plane } from './objects/Plane.js'
 import {Table} from './objects/Table.js'
+import {Candle} from './objects/Candle.js'
 
 /**
  *  This class contains the contents of out application
@@ -24,6 +25,9 @@ class MyContents  {
 
         // Table
         this.table = null
+
+        // Candle
+        this.candle = null;
 
         // box related attributes
         this.boxMesh = null
@@ -101,7 +105,6 @@ class MyContents  {
         this.planeLeft.buildLeftWall();
         this.app.scene.add(this.planeLeft);
 
-        
         // Right side in relation to the x-axis
         this.planeRight = new Plane(10, 6, material);
         this.planeRight.buildRightWall();
@@ -123,6 +126,15 @@ class MyContents  {
 
         this.table = new Table(5, 0.2, 3,{ x: 0, y: 2, z: 3 }, topMaterial, legsMaterial);
         this.app.scene.add(this.table);
+
+        // Candle
+        const candleMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, metalness: 0 });
+        const flameMaterial = new THREE.MeshStandardMaterial({ color: 0xffa500, emissive: 0xffa500, emissiveIntensity: 0.5 });
+
+        this.candle = new Candle(0.1, 0.02, candleMaterial, 0.05, 0.01 , flameMaterial, { x: this.table.positionX, y: this.table.positionY 
+                                                                                         + this.table.height, z: this.table.positionZ }); // in the center of table
+                                                                                 
+        this.app.scene.add(this.candle);
     }
     
     /**
