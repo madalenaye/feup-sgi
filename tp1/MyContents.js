@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { MyAxis } from './MyAxis.js';
+import { Plane } from './objects/Plane.js'
+import {Table} from './objects/Table.js'
 
 /**
  *  This class contains the contents of out application
@@ -13,6 +15,15 @@ class MyContents  {
     constructor(app) {
         this.app = app
         this.axis = null
+
+        // walls
+        this.planeLeft = null
+        this.planeRight = null
+        this.planeFront = null
+        this.planeBack = null
+
+        // Table
+        this.table = null
 
         // box related attributes
         this.boxMesh = null
@@ -78,6 +89,40 @@ class MyContents  {
         this.planeMesh.rotation.x = -Math.PI / 2;
         this.planeMesh.position.y = -0;
         this.app.scene.add( this.planeMesh );
+
+        // Common material for all walls
+        const material = new THREE.MeshBasicMaterial({ color: 0x524846,
+            side: THREE.DoubleSide,
+            transparent: true, 
+            opacity: 0.8  });
+
+        // Left side in relation to the x-axis
+        this.planeLeft = new Plane(10, 6, material);
+        this.planeLeft.buildLeftWall();
+        this.app.scene.add(this.planeLeft);
+
+        
+        // Right side in relation to the x-axis
+        this.planeRight = new Plane(10, 6, material);
+        this.planeRight.buildRightWall();
+        this.app.scene.add(this.planeRight);
+
+        // Front side in relation to the x-axis
+        this.planeFront = new Plane(10, 6, material);
+        this.planeFront.buildFrontWall();
+        this.app.scene.add(this.planeFront);
+        
+        // Back side in relation to the x-axis
+        this.planeBack = new Plane(10, 6, material);
+        this.planeBack.buildBackWall();
+        this.app.scene.add(this.planeBack);
+
+        // Table
+        const topMaterial = new THREE.MeshPhongMaterial({ color: 0x8B4513 }); // Top material (wood color)
+        const legsMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 }); // Leg material (metal)
+
+        this.table = new Table(5, 0.2, 3,{ x: 0, y: 2, z: 3 }, topMaterial, legsMaterial);
+        this.app.scene.add(this.table);
     }
     
     /**
