@@ -1,5 +1,10 @@
 import * as THREE from 'three';
 import { MyAxis } from './MyAxis.js';
+import { Plane } from './objects/Plane.js'
+import {Table} from './objects/Table.js'
+import {Candle} from './objects/Candle.js'
+import {Plate} from './objects/Plate.js'
+import {Cake} from './objects/Cake.js'
 
 /**
  *  This class contains the contents of out application
@@ -13,6 +18,24 @@ class MyContents  {
     constructor(app) {
         this.app = app
         this.axis = null
+
+        // walls
+        this.planeLeft = null
+        this.planeRight = null
+        this.planeFront = null
+        this.planeBack = null
+
+        // Table
+        this.table = null
+
+        // Candle
+        this.candle = null;
+
+        // Plate
+        this.plate = null;
+
+        // Cake
+        this.cake = null;
 
         // box related attributes
         this.boxMesh = null
@@ -71,13 +94,65 @@ class MyContents  {
 
         this.buildBox()
         
-        // Create a Plane Mesh with basic material
+
+        // Common material for all walls
+        const material = new THREE.MeshBasicMaterial({ color: 0x524846,
+            side: THREE.DoubleSide,
+            transparent: true, 
+            opacity: 0.8  });
+
+        // Left side in relation to the x-axis
+        this.planeLeft = new Plane(10, 6, material);
+        this.planeLeft.buildLeftWall();
+        this.app.scene.add(this.planeLeft);
+
+        // Right side in relation to the x-axis
+        this.planeRight = new Plane(10, 6, material);
+        this.planeRight.buildRightWall();
+        this.app.scene.add(this.planeRight);
+
+        // Front side in relation to the x-axis
+        this.planeFront = new Plane(10, 6, material);
+        this.planeFront.buildFrontWall();
+        this.app.scene.add(this.planeFront);
         
-        let plane = new THREE.PlaneGeometry( 10, 10 );
-        this.planeMesh = new THREE.Mesh( plane, this.planeMaterial );
-        this.planeMesh.rotation.x = -Math.PI / 2;
-        this.planeMesh.position.y = -0;
-        this.app.scene.add( this.planeMesh );
+        // Back side in relation to the x-axis
+        this.planeBack = new Plane(10, 6, material);
+        this.planeBack.buildBackWall();
+        this.app.scene.add(this.planeBack);
+
+        // Floor
+        this.floor = new Plane(10, 10, material);
+        this.floor.buildFloor();
+        this.app.scene.add(this.floor);
+        
+        // Table
+        const topMaterial = new THREE.MeshPhongMaterial({ color: 0x8B4513 }); // Top material (wood color)
+        const legsMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 }); // Leg material (metal)
+
+        this.table = new Table(5, 0.2, 3,{ x: 0, y: 2, z: 3 }, topMaterial, legsMaterial);
+        this.app.scene.add(this.table);
+
+        // Candle
+        const candleMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, metalness: 0 });
+        const flameMaterial = new THREE.MeshStandardMaterial({ color: 0xffa500, emissive: 0xffa500, emissiveIntensity: 0.5 });
+
+        this.candle = new Candle(0.1, 0.02, candleMaterial, 0.05, 0.01 , flameMaterial, { x: this.table.positionX, y: this.table.positionY 
+                                                                                         + this.table.height, z: this.table.positionZ }); // in the center of table
+                                                                                 
+        this.app.scene.add(this.candle);
+
+        // Plate
+        this.plate = new Plate(0.4, 32);
+        this.plate.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.07, this.table.positionZ);
+        this.app.scene.add(this.plate);
+
+        // Cake
+        this.cake = new Cake(0.5,0.2,Math.PI/8);
+        this.cake.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.2, this.table.positionZ);
+        this.app.scene.add(this.cake);
+
+
     }
     
     /**
