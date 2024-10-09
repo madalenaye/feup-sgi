@@ -143,14 +143,15 @@ class MyContents  {
         this.app.scene.add(this.candle);
 
         // Plate
-        this.plate = new Plate(0.5, 32);
+        this.plate = new Plate(0.4, 32);
         this.plate.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.07, this.table.positionZ);
         this.app.scene.add(this.plate);
 
         // Cake
-        this.cake = new Cake(1,1)
+        this.cake = new Cake(0.5,0.2,Math.PI/8);
+        this.cake.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.2, this.table.positionZ);
+        this.app.scene.add(this.cake);
 
-        //this.app.scene.add(this.cake);
 
     }
     
