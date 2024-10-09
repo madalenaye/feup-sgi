@@ -3,6 +3,8 @@ import { MyAxis } from './MyAxis.js';
 import { Plane } from './objects/Plane.js'
 import {Table} from './objects/Table.js'
 import {Candle} from './objects/Candle.js'
+import {Plate} from './objects/Plate.js'
+import {Cake} from './objects/Cake.js'
 
 /**
  *  This class contains the contents of out application
@@ -28,6 +30,12 @@ class MyContents  {
 
         // Candle
         this.candle = null;
+
+        // Plate
+        this.plate = null;
+
+        // Cake
+        this.cake = null;
 
         // box related attributes
         this.boxMesh = null
@@ -86,13 +94,6 @@ class MyContents  {
 
         this.buildBox()
         
-        // Create a Plane Mesh with basic material
-        
-        let plane = new THREE.PlaneGeometry( 10, 10 );
-        this.planeMesh = new THREE.Mesh( plane, this.planeMaterial );
-        this.planeMesh.rotation.x = -Math.PI / 2;
-        this.planeMesh.position.y = -0;
-        this.app.scene.add( this.planeMesh );
 
         // Common material for all walls
         const material = new THREE.MeshBasicMaterial({ color: 0x524846,
@@ -120,6 +121,11 @@ class MyContents  {
         this.planeBack.buildBackWall();
         this.app.scene.add(this.planeBack);
 
+        // Floor
+        this.floor = new Plane(10, 10, material);
+        this.floor.buildFloor();
+        this.app.scene.add(this.floor);
+        
         // Table
         const topMaterial = new THREE.MeshPhongMaterial({ color: 0x8B4513 }); // Top material (wood color)
         const legsMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 }); // Leg material (metal)
@@ -135,6 +141,17 @@ class MyContents  {
                                                                                          + this.table.height, z: this.table.positionZ }); // in the center of table
                                                                                  
         this.app.scene.add(this.candle);
+
+        // Plate
+        this.plate = new Plate(0.5, 32);
+        this.plate.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.07, this.table.positionZ);
+        this.app.scene.add(this.plate);
+
+        // Cake
+        this.cake = new Cake(1,1)
+
+        //this.app.scene.add(this.cake);
+
     }
     
     /**

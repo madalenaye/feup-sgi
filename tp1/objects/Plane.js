@@ -69,6 +69,13 @@ class Plane extends THREE.Object3D{
         this.rotation.y = Math.PI / 2;
     }
 
+    /**
+     * Method to position the plane as a floor
+     */
+    buildFloor(){
+        this.position.y = 0;
+        this.rotation.x = -Math.PI / 2;
+    }
 }
 
 export { Plane };
