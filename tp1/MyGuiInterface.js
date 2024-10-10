@@ -68,6 +68,8 @@ class MyGuiInterface  {
         lightFolder.add(this.contents.spotLight, "decay", 0, 5).name("Decay").onChange( (value) => { this.contents.updateSpotLightDecay(value) } );
         lightFolder.add(this.contents.lightPosition, "x", 0, 10).name("Position X").onChange( (value) => { this.contents.updateSpotLightPositionX(value) } );
         lightFolder.add(this.contents.lightPosition, "y", 0, 10).name("Position Y").onChange( (value) => { this.contents.updateSpotLightPositionY(value) } );
+        lightFolder.add(this.contents.spotLightTarget, "x", -10, 10).name("Target X").onChange( (value) => { this.contents.updateSpotLightTargetX(value) } );
+        lightFolder.add(this.contents.spotLightTarget, "y", -10, 10).name("Target Y").onChange( (value) => { this.contents.updateSpotLightTargetY(value) } );
 
         lightFolder.open()
     }

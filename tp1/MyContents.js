@@ -119,7 +119,10 @@ class MyContents  {
             y: 5,
             z: 1  
         };
-
+        this.spotLightTarget = {
+            x:1,
+            y:0.1
+        };
 
         this.spotLight = new THREE.SpotLight(this.spotLightColor, this.spotLightIntensity
                                             , this.spotLightDistance, this.spotLightAngle,
@@ -127,7 +130,8 @@ class MyContents  {
 
         this.spotLight.position.set(this.lightPosition.x,this.lightPosition.y,
                                     this.lightPosition.z);
-        this.spotLight.target.position.set(1,0.1);
+
+        this.spotLight.target.position.set(this.spotLightTarget.x,this.spotLightTarget.y);
         this.app.scene.add(this.spotLight)
 
         // Helper for spot light
@@ -256,11 +260,25 @@ class MyContents  {
         this.lightPosition.x = value;
         this.spotLight.position.set(this.lightPosition.x,this.lightPosition.y,
             this.lightPosition.z);
+        this.spotLightHelper.update();
     }
     updateSpotLightPositionY(value){
         this.lightPosition.y = value;
         this.spotLight.position.set(this.lightPosition.x,this.lightPosition.y,
             this.lightPosition.z);
+        this.spotLightHelper.update();
+    }
+    updateSpotLightTargetX(value){
+        this.spotLightTarget.x = value;
+        this.spotLight.target.position.set(this.spotLightTarget.x,this.spotLightTarget.y);
+        this.spotLightHelper.update();
+
+    }
+    updateSpotLightTargetY(value){
+        this.spotLightTarget.y = value;
+        this.spotLight.target.position.set(this.spotLightTarget.x,this.spotLightTarget.y);
+        this.spotLightHelper.update();
+
     }
     degreesToRadians(degrees) {
         return degrees * (Math.PI / 180);
