@@ -64,6 +64,7 @@ class MyContents  {
         this.boxMesh = new THREE.Mesh( box, boxMaterial );
         this.boxMesh.rotation.x = -Math.PI / 2;
         this.boxMesh.position.y = this.boxDisplacement.y;
+
     }
 
     /**
@@ -78,19 +79,45 @@ class MyContents  {
             this.app.scene.add(this.axis)
         }
 
+        /*
         // add a point light on top of the model
         const pointLight = new THREE.PointLight( 0xffffff, 500, 0 );
         pointLight.position.set( 0, 20, 0 );
         this.app.scene.add( pointLight );
+        */
 
+        /*
         // add a point light helper for the previous point light
         const sphereSize = 0.5;
         const pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
         this.app.scene.add( pointLightHelper );
+        */
 
         // add an ambient light
-        const ambientLight = new THREE.AmbientLight( 0x555555 );
+        const ambientLight = new THREE.AmbientLight( 0x555555,4 );
         this.app.scene.add( ambientLight );
+
+        // directional light
+        const light2 = new THREE.DirectionalLight(0xffffff, 1);
+        light2.position.set(-5, 10, -2);
+        this.app.scene.add(light2)
+
+        // Helper
+        const sphereSize2 = 0.5;
+        const directionalLightHelper = new THREE.DirectionalLightHelper( light2, sphereSize2 );
+        this.app.scene.add( directionalLightHelper );
+
+        // Spot light
+        this.intensity = 15;
+        let spotLight = new THREE.SpotLight(0xffffff, this.intensity, 8, 40*Math.PI/2, 0, 0);
+        spotLight.position.set(2,5,1);
+        spotLight.target.position.set(1,0.1);
+        this.app.scene.add(spotLight)
+
+        // Helper for spot light
+        const sphereSize3 = 0.5;
+        const spotLightHelper = new THREE.SpotLightHelper( spotLight, sphereSize3 );
+        this.app.scene.add( spotLightHelper );
 
         this.buildBox()
         
@@ -178,6 +205,9 @@ class MyContents  {
     updatePlaneShininess(value) {
         this.planeShininess = value
         this.planeMaterial.shininess = this.planeShininess
+    }
+    updateSpotLightIntensity(value){
+        this.spotLight.intensity = value
     }
     
     /**

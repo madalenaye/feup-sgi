@@ -57,6 +57,11 @@ class MyGuiInterface  {
         // note that we are using a property from the app 
         cameraFolder.add(this.app.activeCamera.position, 'x', 0, 10).name("x coord")
         cameraFolder.open()
+
+        // adds a folder to the gui interface for the light
+        const lightFolder = this.datgui.addFolder('Light')
+        lightFolder.add(this.contents.spotLight, "intensity", 0, 5).name("ambient light intensity").onChange( (value) => { this.contents.updateSpotLightIntensity(value) } );
+        lightFolder.open()
     }
 }
 
