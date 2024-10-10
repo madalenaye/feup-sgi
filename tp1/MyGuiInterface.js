@@ -60,7 +60,15 @@ class MyGuiInterface  {
 
         // adds a folder to the gui interface for the light
         const lightFolder = this.datgui.addFolder('Light')
-        lightFolder.add(this.contents.spotLight, "intensity", 0, 5).name("ambient light intensity").onChange( (value) => { this.contents.updateSpotLightIntensity(value) } );
+        lightFolder.addColor({ color: this.contents.spotLight.color.getHex() }, 'color').name("Spotlight color").onChange((value) => { this.contents.updateSpotLightColor(value); });
+        lightFolder.add(this.contents.spotLight, "intensity", 0, 100).name("Intensity").onChange( (value) => { this.contents.updateSpotLightIntensity(value) } );
+        lightFolder.add(this.contents.spotLight, "distance", 0, 100).name("Limit Distance").onChange( (value) => { this.contents.updateSpotLightDistance(value) } );
+        lightFolder.add(this.contents.spotLight, "angle", 0, 180).name("Angle").onChange( (value) => { this.contents.updateSpotLightAngle(value) } );
+        lightFolder.add(this.contents.spotLight, "penumbra", 0, 1).name("Penumbra").onChange( (value) => { this.contents.updateSpotLightPenumbra(value) } );
+        lightFolder.add(this.contents.spotLight, "decay", 0, 5).name("Decay").onChange( (value) => { this.contents.updateSpotLightDecay(value) } );
+        lightFolder.add(this.contents.lightPosition, "x", 0, 10).name("Position X").onChange( (value) => { this.contents.updateSpotLightPositionX(value) } );
+        lightFolder.add(this.contents.lightPosition, "y", 0, 10).name("Position Y").onChange( (value) => { this.contents.updateSpotLightPositionY(value) } );
+
         lightFolder.open()
     }
 }

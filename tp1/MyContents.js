@@ -108,16 +108,32 @@ class MyContents  {
         this.app.scene.add( directionalLightHelper );
 
         // Spot light
-        this.intensity = 15;
-        let spotLight = new THREE.SpotLight(0xffffff, this.intensity, 8, 40*Math.PI/2, 0, 0);
-        spotLight.position.set(2,5,1);
-        spotLight.target.position.set(1,0.1);
-        this.app.scene.add(spotLight)
+        this.spotLightColor = 0xffffff;
+        this.spotLightIntensity = 15;
+        this.spotLightDistance = 8;
+        this.spotLightAngle = this.degreesToRadians(40); 
+        this.spotLightPenumbra = 0;
+        this.spotLightDecay = 0;
+        this.lightPosition = {
+            x: 2,
+            y: 5,
+            z: 1  
+        };
+
+
+        this.spotLight = new THREE.SpotLight(this.spotLightColor, this.spotLightIntensity
+                                            , this.spotLightDistance, this.spotLightAngle,
+                                            this.spotLightPenumbra, this.spotLightDecay);
+
+        this.spotLight.position.set(this.lightPosition.x,this.lightPosition.y,
+                                    this.lightPosition.z);
+        this.spotLight.target.position.set(1,0.1);
+        this.app.scene.add(this.spotLight)
 
         // Helper for spot light
         const sphereSize3 = 0.5;
-        const spotLightHelper = new THREE.SpotLightHelper( spotLight, sphereSize3 );
-        this.app.scene.add( spotLightHelper );
+        this.spotLightHelper = new THREE.SpotLightHelper( this.spotLight, sphereSize3 );
+        this.app.scene.add( this.spotLightHelper );
 
         this.buildBox()
         
@@ -207,7 +223,47 @@ class MyContents  {
         this.planeMaterial.shininess = this.planeShininess
     }
     updateSpotLightIntensity(value){
-        this.spotLight.intensity = value
+        this.spotLightIntensity = value
+        this.spotLight.intensity = this.spotLightIntensity
+        this.spotLightHelper.update();
+        //console.log(this.spotLight.intensity)
+    }
+    updateSpotLightColor(value){
+        this.spotLight.color.setHex(value);
+        this.spotLightHelper.update(); 
+    }
+    updateSpotLightDistance(value){
+        this.spotLightDistance = value
+        this.spotLight.distance = this.spotLightDistance
+        this.spotLightHelper.update();
+    }
+    updateSpotLightAngle(value){
+        this.spotLightAngle = this.degreesToRadians(value);
+        this.spotLight.angle = this.spotLightAngle;
+        this.spotLightHelper.update();
+    }
+    updateSpotLightPenumbra(value){
+        this.spotLightPenumbra = value
+        this.spotLight.penumbra = this.spotLightPenumbra;
+        this.spotLightHelper.update();
+    }
+    updateSpotLightDecay(value){
+        this.spotLightDecay = value;
+        this.spotLight.decay = this.spotLightDecay;
+        this.spotLightHelper.update();
+    }
+    updateSpotLightPositionX(value){
+        this.lightPosition.x = value;
+        this.spotLight.position.set(this.lightPosition.x,this.lightPosition.y,
+            this.lightPosition.z);
+    }
+    updateSpotLightPositionY(value){
+        this.lightPosition.y = value;
+        this.spotLight.position.set(this.lightPosition.x,this.lightPosition.y,
+            this.lightPosition.z);
+    }
+    degreesToRadians(degrees) {
+        return degrees * (Math.PI / 180);
     }
     
     /**
