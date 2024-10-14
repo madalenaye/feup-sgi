@@ -139,9 +139,12 @@ class MyContents  {
         this.app.scene.add(this.table);
 
         // Candle
-        const candleMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, metalness: 0 });
-        const flameMaterial = new THREE.MeshStandardMaterial({ color: 0xffa500, emissive: 0xffa500, emissiveIntensity: 0.5 });
+        const candleTexture = this.prepareTexture('./Textures/candle.jpg');
+        const candleMaterial = new THREE.MeshStandardMaterial({roughness: 0.5, metalness: 0, map:candleTexture });
 
+        const flameTexture = this.prepareTexture('./Textures/fire.jpg')
+        const flameMaterial = new THREE.MeshLambertMaterial({map: flameTexture, emissive: 0xffa500, emissiveIntensity: 0.7, transparent: true, opacity: 0.8});
+        
         this.candle = new Candle(0.1, 0.02, candleMaterial, 0.05, 0.01 , flameMaterial, { x: this.table.positionX, y: this.table.positionY 
                                                                                          + this.table.height, z: this.table.positionZ }); // in the center of table
                                                                                  
