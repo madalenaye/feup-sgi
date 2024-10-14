@@ -96,10 +96,12 @@ class MyContents  {
         
 
         // Common material for all walls
-        const material = new THREE.MeshBasicMaterial({ color: 0x524846,
-            side: THREE.DoubleSide,
-            transparent: true, 
-            opacity: 0.8  });
+        const material = new THREE.MeshStandardMaterial({ 
+            color: 0xbcbcbc, 
+            side: THREE.DoubleSide, 
+            roughness: 0.5,
+            metalness: 0.0
+        });
 
         // Left side in relation to the x-axis
         this.planeLeft = new Plane(10, 6, material);
@@ -127,7 +129,10 @@ class MyContents  {
         this.app.scene.add(this.floor);
         
         // Table
-        const topMaterial = new THREE.MeshPhongMaterial({ color: 0x8B4513 }); // Top material (wood color)
+        const woodTexture = this.prepareTexture('./Textures/wood_table.jpg');
+
+        const topMaterial = new THREE.MeshLambertMaterial({ map: woodTexture }); // Top material
+
         const legsMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 }); // Leg material (metal)
 
         this.table = new Table(5, 0.2, 3,{ x: 0, y: 2, z: 3 }, topMaterial, legsMaterial);
@@ -178,6 +183,16 @@ class MyContents  {
     updatePlaneShininess(value) {
         this.planeShininess = value
         this.planeMaterial.shininess = this.planeShininess
+    }
+    /**
+     * Method that prepares the texture for the table top
+     * @param {string} imagePath
+     */
+    prepareTexture(imagePath){
+        const textureLoader = new THREE.TextureLoader();
+        const texture = textureLoader.load(imagePath);
+
+        return texture
     }
     
     /**
