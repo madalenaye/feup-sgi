@@ -5,6 +5,7 @@ import {Table} from './objects/Table.js'
 import {Candle} from './objects/Candle.js'
 import {Plate} from './objects/Plate.js'
 import {Cake} from './objects/Cake.js'
+import { Window } from './objects/Window.js';
 
 /**
  *  This class contains the contents of out application
@@ -36,6 +37,9 @@ class MyContents  {
 
         // Cake
         this.cake = null;
+
+        // Window
+        this.window = null;
 
         // box related attributes
         this.boxMesh = null
@@ -160,6 +164,10 @@ class MyContents  {
         this.cake.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.2, this.table.positionZ);
         this.app.scene.add(this.cake);
 
+        // Window
+        this.window = new Window(6, 3, 0.1, 'Textures/landscape2.jpg');
+        this.window.position.set(0, this.planeRight.height/2, -((this.floor.width/2) - ((this.window.frameThickness/2) + 0.02)));
+        this.app.scene.add(this.window);
 
     }
     
