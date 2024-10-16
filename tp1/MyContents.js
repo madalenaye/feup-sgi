@@ -134,10 +134,12 @@ class MyContents  {
         
         // Table
         const woodTexture = this.prepareTexture('./Textures/wood_table.jpg');
+        const metalTexture = this.prepareTexture('./Textures/metal_texture.jpg');
 
         const topMaterial = new THREE.MeshLambertMaterial({ map: woodTexture }); // Top material
 
-        const legsMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 }); // Leg material (metal)
+        const legsMaterial = new THREE.MeshPhongMaterial({specular:"#dddddd", map: metalTexture, shininess: 100 }); // Leg material (metal)
+
 
         this.table = new Table(5, 0.2, 3,{ x: 0, y: 2, z: 3 }, topMaterial, legsMaterial);
         this.app.scene.add(this.table);
@@ -161,8 +163,8 @@ class MyContents  {
 
         // Cake
         const cakeTexture = this.prepareTexture('./Textures/cake.jpg');
-        const cakeMaterial = new THREE.MeshLambertMaterial({map:cakeTexture });
-        this.cake = new Cake(0.5,0.2,Math.PI/8, cakeMaterial);
+        const cakeMaterial = new THREE.MeshStandardMaterial({map:cakeTexture });
+        this.cake = new Cake(0.5,0.3,Math.PI/8, cakeMaterial);
         this.cake.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.2, this.table.positionZ);
         this.app.scene.add(this.cake);
 
