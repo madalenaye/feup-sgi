@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 class Cake extends THREE.Object3D{
 
-    constructor(radius, height, angle, material = null) {
+    constructor(radius, height, angle, topMaterial) {
 
         super();
 
@@ -13,7 +13,7 @@ class Cake extends THREE.Object3D{
         
         // cake
         this.cake = new THREE.CylinderGeometry(this.radius, this.radius, this.height, 32, 1, false, 0, this.angle)
-        this.cakeMesh = new THREE.Mesh(this.cake, this.material)
+        this.cakeMesh = new THREE.Mesh(this.cake, topMaterial)
         this.add(this.cakeMesh)
 
         // cake planes
