@@ -6,6 +6,7 @@ import {Candle} from './objects/Candle.js'
 import {Plate} from './objects/Plate.js'
 import {Cake} from './objects/Cake.js'
 import { Window } from './objects/Window.js';
+import { Painting } from './objects/Painting.js';
 
 /**
  *  This class contains the contents of out application
@@ -133,7 +134,7 @@ class MyContents  {
         this.app.scene.add(this.floor);
         
         // Table
-        const woodTexture = this.prepareTexture('./Textures/wood_table.jpg');
+        const woodTexture = this.prepareTexture('./Textures/wood.jpg');
         const metalTexture = this.prepareTexture('./Textures/metal_texture.jpg');
 
         const topMaterial = new THREE.MeshLambertMaterial({ map: woodTexture }); // Top material
@@ -173,6 +174,18 @@ class MyContents  {
         this.window.position.set(0, this.planeRight.height/2, -((this.floor.width/2) - ((this.window.frameThickness/2) + 0.02)));
         this.app.scene.add(this.window);
 
+        // 1st Painting
+
+        this.painting = new Painting(1.3, 1.5, 0.1, 'Textures/pikachu.jpg');
+        this.painting.position.set(this.planeFront.width/2 - 0.1, this.planeFront.height/2 + 0.1, this.planeFront.position.z);
+        this.painting.rotateY(-Math.PI/2);
+        this.app.scene.add(this.painting);
+
+        // 2nd Painting
+        this.painting2 = new Painting(1.3, 1.5, 0.1, 'Textures/cat.jpg');
+        this.painting2.position.set(this.planeFront.width/2 - 0.1, this.planeFront.height/2 + 0.1, this.planeFront.position.z + 1.5);
+        this.painting2.rotateY(-Math.PI/2);
+        this.app.scene.add(this.painting2);
     }
     
     /**
