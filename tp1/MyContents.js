@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { MyAxis } from './MyAxis.js';
-import { MyNurbsBuilder } from './MyNurbsBuilder.js';
 
 /**
  *  This class contains the contents of out application
