@@ -7,6 +7,7 @@ import {Plate} from './objects/Plate.js'
 import {Cake} from './objects/Cake.js'
 import { Window } from './objects/Window.js';
 import { Painting } from './objects/Painting.js';
+import { Baseboard } from './objects/Baseboard.js';
 
 /**
  *  This class contains the contents of out application
@@ -41,6 +42,12 @@ class MyContents  {
 
         // Window
         this.window = null;
+
+        // Baseboards
+        this.baseboardLeft = null;
+        this.baseboardRight = null;
+        this.baseboardFront = null
+        this.baseboardBack = null
 
         // box related attributes
         this.boxMesh = null
@@ -186,6 +193,25 @@ class MyContents  {
         this.painting2.position.set(this.planeFront.width/2 - 0.1, this.planeFront.height/2 + 0.1, this.planeFront.position.z + 1.5);
         this.painting2.rotateY(-Math.PI/2);
         this.app.scene.add(this.painting2);
+
+        // Baseboard
+        const baseboardMaterial = new THREE.MeshStandardMaterial({color: 0x5f3b3b});
+
+        this.baseboardLeft = new Baseboard(this.floor.width - 0.01, 0.2, 0.05, baseboardMaterial);
+        this.baseboardLeft.buildLeftBaseboard(this.floor.position.y);
+        this.app.scene.add(this.baseboardLeft);
+
+        this.baseboardRight = new Baseboard(this.floor.width - 0.01, 0.2, 0.05, baseboardMaterial);
+        this.baseboardRight.buildRightBaseboard(this.floor.position.y);
+        this.app.scene.add(this.baseboardRight);
+
+        this.baseboardFront = new Baseboard((this.floor.width - 0.01), 0.2, 0.05, baseboardMaterial)
+        this.baseboardFront.buildFrontBaseboard(this.floor.position.y);
+        this.app.scene.add(this.baseboardFront);
+
+        this.baseboardBack = new Baseboard((this.floor.width - 0.01), 0.2, 0.05, baseboardMaterial)
+        this.baseboardBack.buildBackBaseboard(this.floor.position.y);
+        this.app.scene.add(this.baseboardBack);
     }
     
     /**

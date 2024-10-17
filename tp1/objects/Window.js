@@ -67,6 +67,7 @@ class Window extends THREE.Object3D{
         windowGroup.add(rightFrameMesh);
 
         this.add(windowGroup);
+        
     }
 
 
