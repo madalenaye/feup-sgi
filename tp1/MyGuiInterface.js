@@ -1,6 +1,7 @@
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 import { MyApp } from './MyApp.js';
 import { MyContents } from './MyContents.js';
+import * as THREE from 'three';
 
 /**
     This class customizes the gui interface for the app
@@ -57,6 +58,27 @@ class MyGuiInterface  {
         // note that we are using a property from the app 
         cameraFolder.add(this.app.activeCamera.position, 'x', 0, 10).name("x coord")
         cameraFolder.open()
+
+        const tableFolder = this.datgui.addFolder( 'Table' );
+
+        //Position
+        tableFolder.add(this.contents.table.position, 'x', -5, 5).name("Translation x")
+        tableFolder.add(this.contents.table.position, 'y', -5, 5).name("Translation y")
+        tableFolder.add(this.contents.table.position, 'z', -5, 5).name("Translation z")
+
+        tableFolder.add({ rotationX: THREE.MathUtils.radToDeg(this.contents.table.rotation.x) }, 'rotationX', 0, 360)
+        .name('Rotation x')
+        .onChange(deg => this.contents.table.rotation.x = THREE.MathUtils.degToRad(deg));
+
+        tableFolder.add({ rotationY: THREE.MathUtils.radToDeg(this.contents.table.rotation.y) }, 'rotationY', 0, 360)
+        .name('Rotation y')
+        .onChange(deg => this.contents.table.rotation.y = THREE.MathUtils.degToRad(deg));
+        
+        tableFolder.add({ rotationZ: THREE.MathUtils.radToDeg(this.contents.table.rotation.z) }, 'rotationZ', 0, 360)
+        .name('Rotation z')
+        .onChange(deg => this.contents.table.rotation.z = THREE.MathUtils.degToRad(deg));
+
+        tableFolder.open()
     }
 }
 

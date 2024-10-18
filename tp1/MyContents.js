@@ -34,6 +34,9 @@ class MyContents  {
         // Candle
         this.candle = null;
 
+        // CandlePlate
+        this.candlePlate = null;
+
         // Plate
         this.plate = null;
 
@@ -148,7 +151,6 @@ class MyContents  {
 
         const legsMaterial = new THREE.MeshPhongMaterial({specular:"#dddddd", map: metalTexture, shininess: 100 }); // Leg material (metal)
 
-
         this.table = new Table(5, 0.2, 3,{ x: 0, y: 2, z: 3 }, topMaterial, legsMaterial);
         this.app.scene.add(this.table);
 
@@ -159,10 +161,14 @@ class MyContents  {
         const flameTexture = this.prepareTexture('./Textures/fire.jpg')
         const flameMaterial = new THREE.MeshLambertMaterial({map: flameTexture, emissive: 0xffa500, emissiveIntensity: 0.7, transparent: true, opacity: 0.8});
         
-        this.candle = new Candle(0.1, 0.02, candleMaterial, 0.05, 0.01 , flameMaterial, { x: this.table.positionX, y: this.table.positionY 
-                                                                                         + this.table.height, z: this.table.positionZ }); // in the center of table
-                                                                                 
+        this.candle = new Candle(0.2, 0.02, candleMaterial, 0.05, 0.01 , flameMaterial, { x: this.table.positionX, y: this.table.positionY 
+                                                                                         + this.table.height + 0.02, z: this.table.positionZ }); // in the center of table                                                               
         this.app.scene.add(this.candle);
+
+        // Plate for Candle
+        this.candlePlate = new Plate(this.candle.cylinderRadius * 2, 20);
+        this.candlePlate.position.set(this.table.positionX, this.table.positionY + this.table.height + 0.02, this.table.positionZ);
+        this.app.scene.add(this.candlePlate);
 
         // Plate
         this.plate = new Plate(0.4, 32);
