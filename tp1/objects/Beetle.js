@@ -46,8 +46,7 @@ class Beetle extends THREE.Object3D{
             {points : [new THREE.Vector3(-(ratio1 - (2*ratio5)), 0, 0), new THREE.Vector3(-(ratio1 - (2*ratio5)), h5, 0), new THREE.Vector3(-ratio1, h5, 0), new THREE.Vector3(-ratio1, 0, 0)]} 
         ];
 
-        // Chama a função para criar e adicionar as curvas
-        curvesData.forEach((data, index) => {
+        curvesData.forEach((data) => {
             const curve = this.createCurve(data.points, numberOfSamples, positionX, positionY, positionZ, scale);
             this.add(curve);
         });
