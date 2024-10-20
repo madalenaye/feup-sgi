@@ -9,6 +9,7 @@ import { Window } from './objects/Window.js';
 import { Painting } from './objects/Painting.js';
 import { Baseboard } from './objects/Baseboard.js';
 import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
+import { Beetle } from './objects/Beetle.js';
 
 /**
  *  This class contains the contents of out application
@@ -52,6 +53,9 @@ class MyContents  {
         this.baseboardRight = null;
         this.baseboardFront = null
         this.baseboardBack = null
+
+        // Beetle
+        this.beetle = null;
 
         // box related attributes
         this.boxMesh = null
@@ -225,6 +229,10 @@ class MyContents  {
         this.baseboardBack = new Baseboard((this.floor.width - 0.01), 0.2, 0.05, baseboardMaterial)
         this.baseboardBack.buildBackBaseboard(this.floor.position.y);
         this.app.scene.add(this.baseboardBack);
+
+        // Beetle
+        this.beetle = new Beetle(-5, 3, 0, 0.25, 48);
+        this.app.scene.add(this.beetle);
 
     }
     
