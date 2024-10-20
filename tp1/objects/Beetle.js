@@ -17,6 +17,48 @@ class Beetle extends THREE.Object3D{
     constructor(positionX, positionY, positionZ, scale, numberOfSamples) {
 
         super();
+         
+        this.frameGroup = new THREE.Group();
+
+        const paintingWidth = 4.5;
+        const paintingHeight = 3;
+        const paintingDepth = 0.1;
+
+        const paintingGeometry = new THREE.BoxGeometry(paintingWidth, paintingHeight, paintingDepth);
+        const paintingMaterial = new THREE.MeshBasicMaterial({ color: 0xecf2f4 }); 
+        const painting = new THREE.Mesh(paintingGeometry, paintingMaterial);
+        painting.position.set(0, 0, 0);
+        this.frameGroup.add(painting);
+
+        const frameThickness = 0.1;
+        const frameDepth = 0.2;
+
+        const frameMaterial = new THREE.MeshBasicMaterial({ color: 0x333333 });
+
+        // Lados da moldura
+        const frameTopBottomGeometry = new THREE.BoxGeometry(paintingWidth + frameThickness * 2, frameThickness, frameDepth);
+        const frameSideGeometry = new THREE.BoxGeometry(frameThickness, paintingHeight + frameThickness * 2, frameDepth);
+
+        // Cria as partes da moldura, agora relativas ao quadro
+        const frameTop = new THREE.Mesh(frameTopBottomGeometry, frameMaterial);
+        frameTop.position.set(0, (paintingHeight / 2 + frameThickness / 2), 0);
+        this.frameGroup.add(frameTop);
+
+        const frameBottom = new THREE.Mesh(frameTopBottomGeometry, frameMaterial);
+        frameBottom.position.set(0, -(paintingHeight / 2 + frameThickness / 2), 0);
+        this.frameGroup.add(frameBottom);
+
+        const frameLeft = new THREE.Mesh(frameSideGeometry, frameMaterial);
+        frameLeft.position.set(-(paintingWidth / 2 + frameThickness / 2), 0, 0);
+        this.frameGroup.add(frameLeft);
+
+        const frameRight = new THREE.Mesh(frameSideGeometry, frameMaterial);
+        frameRight.position.set((paintingWidth / 2 + frameThickness / 2), 0, 0);
+        this.frameGroup.add(frameRight);
+
+        this.frameGroup.position.set(positionX + 0.15, positionY + 0.7, positionZ);
+        this.frameGroup.rotation.y = Math.PI / 2;
+        this.add(this.frameGroup);
 
         //Curve 1
         const ratio1 = 8;
@@ -47,7 +89,7 @@ class Beetle extends THREE.Object3D{
         ];
 
         curvesData.forEach((data) => {
-            const curve = this.createCurve(data.points, numberOfSamples, positionX, positionY, positionZ, scale);
+            const curve = this.createCurve(data.points, numberOfSamples, positionX + 0.2, positionY, positionZ, scale);
             this.add(curve);
         });
     }
