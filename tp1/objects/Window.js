@@ -70,6 +70,22 @@ class Window extends THREE.Object3D{
 
     }
 
+    /**
+     * Method responsible for activating the light coming from the window.
+     */
+    activateWindowLight(){
+
+        const width = this.width/1.5; 
+        const height = this.height/1.5;
+        const intensity = 5;
+
+        const rectLight = new THREE.RectAreaLight(0xf5ac3d, intensity, width, height);
+        rectLight.position.set(this.position.x, this.position.y, this.position.z); 
+        rectLight.lookAt(0, this.position.y, 0); 
+
+        return rectLight
+    }
+
 
 }
 

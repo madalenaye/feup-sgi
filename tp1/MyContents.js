@@ -8,6 +8,7 @@ import {Cake} from './objects/Cake.js'
 import { Window } from './objects/Window.js';
 import { Painting } from './objects/Painting.js';
 import { Baseboard } from './objects/Baseboard.js';
+import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
 
 /**
  *  This class contains the contents of out application
@@ -187,6 +188,12 @@ class MyContents  {
         this.window.position.set(0, this.planeRight.height/2, -((this.floor.width/2) - ((this.window.frameThickness/2) + 0.02)));
         this.app.scene.add(this.window);
 
+        this.rectLight = this.window.activateWindowLight()
+        this.app.scene.add(this.rectLight);
+
+        //const helper = new RectAreaLightHelper( this.rectLight );
+        //this.rectLight.add( helper );
+
         // 1st Painting
 
         this.painting = new Painting(1.3, 1.5, 0.1, 'Textures/pikachu.jpg');
@@ -218,6 +225,7 @@ class MyContents  {
         this.baseboardBack = new Baseboard((this.floor.width - 0.01), 0.2, 0.05, baseboardMaterial)
         this.baseboardBack.buildBackBaseboard(this.floor.position.y);
         this.app.scene.add(this.baseboardBack);
+
     }
     
     /**
