@@ -10,6 +10,7 @@ import { Painting } from './objects/Painting.js';
 import { Baseboard } from './objects/Baseboard.js';
 import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
 import { Beetle } from './objects/Beetle.js';
+import { Newspaper } from './objects/Newspaper.js';
 
 /**
  *  This class contains the contents of out application
@@ -56,6 +57,9 @@ class MyContents  {
 
         // Beetle
         this.beetle = null;
+
+        //Newspaper
+        this.newspaper = null;
 
         // box related attributes
         this.boxMesh = null
@@ -116,11 +120,14 @@ class MyContents  {
         
 
         // Common material for all walls
-        const material = new THREE.MeshStandardMaterial({ 
+        const material = new THREE.MeshPhysicalMaterial({ 
             color: 0xbcbcbc, 
             side: THREE.DoubleSide, 
             roughness: 0.5,
-            metalness: 0.0
+            metalness: 0.0,
+            clearcoat: 0.1, 
+            clearcoatRoughness: 0.3,
+            reflectivity: 0.5 
         });
 
         // Left side in relation to the x-axis
@@ -233,6 +240,10 @@ class MyContents  {
         // Beetle
         this.beetle = new Beetle(-5, 3, 0, 0.25, 48);
         this.app.scene.add(this.beetle);
+
+        //Newspaper
+        this.newspaper = new Newspaper(this.table.positionX - 1.8,this.table.positionY+0.2,this.table.positionZ+0.4);
+        this.app.scene.add(this.newspaper);
 
     }
     

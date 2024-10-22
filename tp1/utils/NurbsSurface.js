@@ -9,7 +9,7 @@ export const nurbsSurface = {
         let surfaceData;
         let mesh;
 
-        surfaceData = this.nurbsBuilder.build(controlPoints, orderU, orderV, samplesU, samplesV, this.material);
+        surfaceData = this.builder.build(controlPoints, orderU, orderV, samplesU, samplesV, material);
         mesh = new THREE.Mesh(surfaceData, material);
         mesh.position.set(positionX, positionY, positionZ);
 
