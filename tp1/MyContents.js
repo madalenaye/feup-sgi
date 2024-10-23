@@ -11,6 +11,7 @@ import { Baseboard } from './objects/Baseboard.js';
 import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
 import { Beetle } from './objects/Beetle.js';
 import { Newspaper } from './objects/Newspaper.js';
+import {Flower} from './objects/Flower.js';
 
 /**
  *  This class contains the contents of out application
@@ -60,6 +61,9 @@ class MyContents  {
 
         //Newspaper
         this.newspaper = null;
+
+        //Flower
+        this.flower = null;
 
         // box related attributes
         this.boxMesh = null
@@ -244,6 +248,16 @@ class MyContents  {
         //Newspaper
         this.newspaper = new Newspaper(this.table.positionX - 1.8,this.table.positionY+0.2,this.table.positionZ+0.4);
         this.app.scene.add(this.newspaper);
+
+        
+        //Flower
+        const stemMaterial = new THREE.MeshBasicMaterial({ color: 0x008000 });
+        const flowerCenterMaterial = new THREE.MeshBasicMaterial({ color: 0x260851 , side: THREE.DoubleSide });
+        const petalMaterial = new THREE.MeshBasicMaterial({ color: 0xc81f07  });
+
+        this.flower = new Flower(64, 0.1, 8, -this.floor.width/2 + 1, 0, this.floor.width/2 - 1, stemMaterial, flowerCenterMaterial, petalMaterial, 0.4);
+
+        this.app.scene.add(this.flower);
 
     }
     
