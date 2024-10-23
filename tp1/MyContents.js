@@ -12,6 +12,8 @@ import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js
 import { Beetle } from './objects/Beetle.js';
 import { Newspaper } from './objects/Newspaper.js';
 import {Flower} from './objects/Flower.js';
+import { Spring } from './objects/Spring.js';
+
 
 /**
  *  This class contains the contents of out application
@@ -258,6 +260,11 @@ class MyContents  {
         this.flower = new Flower(64, 0.1, 8, -this.floor.width/2 + 1, 0, this.floor.width/2 - 1, stemMaterial, flowerCenterMaterial, petalMaterial, 0.4);
 
         this.app.scene.add(this.flower);
+
+        // Spring
+        this.spring = new Spring(0.1, 48, 0.04, 5);
+        this.spring.position.set(this.table.positionX - 1 , this.table.positionY + this.table.height, this.table.positionZ + 1);
+        this.app.scene.add(this.spring);
 
     }
     
