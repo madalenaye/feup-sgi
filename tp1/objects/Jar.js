@@ -5,7 +5,7 @@ class Jar extends THREE.Object3D{
     constructor(radius, height, segments){
         super();
         this.jarTexture = new THREE.TextureLoader().load("Textures/glass.png");
-        this.jarMaterial = new THREE.MeshStandardMaterial({color: 0xffffff, map: this.jarTexture, side: THREE.DoubleSide, transparent: true});
+        this.jarMaterial = new THREE.MeshStandardMaterial({color: 0xffffff, map: this.jarTexture, side: THREE.DoubleSide, transparent: true, opacity: 0.8});
         this.controlPoints = [
             // U = 0
             [

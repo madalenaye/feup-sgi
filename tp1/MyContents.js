@@ -196,7 +196,7 @@ class MyContents  {
         // Cake
         const cakeTexture = this.prepareTexture('./Textures/cake.jpg');
         const cakeMaterial = new THREE.MeshStandardMaterial({map:cakeTexture });
-        this.cake = new Cake(0.5,0.3,Math.PI/8, cakeMaterial);
+        this.cake = new Cake(0.45,0.3,Math.PI/8, cakeMaterial);
         this.cake.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.2, this.table.positionZ);
         this.app.scene.add(this.cake);
 
@@ -268,7 +268,7 @@ class MyContents  {
 
         // Jar
         this.jar = new Jar();
-        this.jar.position.set(this.floor.position.x, this.floor.position.y + 0.5, this.floor.position.z - 3);
+        this.jar.position.set(this.floor.position.x, this.floor.position.y + 0.5, this.floor.position.z - 2.5);
         this.app.scene.add(this.jar);
 
     }
