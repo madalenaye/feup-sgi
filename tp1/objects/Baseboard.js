@@ -33,34 +33,34 @@ class Baseboard extends THREE.Object3D{
     /**
      * Method to position the parallelepiped as a left baseborad
      */
-    buildLeftBaseboard(planeY){
+    buildLeftBaseboard(planeY, floorHeight){
         this.position.y = (planeY + this.height/2) + 0.01;
-        this.position.z = (this.width / 2.0) - (this.depth - 0.02);
+        this.position.z = (floorHeight / 2.0) - (this.depth - 0.02);
     }
 
     /**
      * Method to position the parallelepiped as a right baseboard
      */
-    buildRightBaseboard(planeY){
+    buildRightBaseboard(planeY, floorHeight){
         this.position.y = (planeY + this.height/2) + 0.01;
-        this.position.z = -((this.width / 2.0) - (this.depth - 0.02));
+        this.position.z = -((floorHeight / 2.0) - (this.depth - 0.02));
     }
 
     /**
      * Method to position the parallelepiped as a front baseboard
      */
-    buildFrontBaseboard(planeY){
+    buildFrontBaseboard(planeY, floorWidth){
         this.position.y = (planeY + this.height/2) + 0.01;
-        this.position.x = (this.width / 2.0) - (this.depth - 0.02);
+        this.position.x = (floorWidth / 2.0) - (this.depth - 0.02);
         this.rotation.y = Math.PI / 2;
     }
 
     /**
      * Method to position the parallelepiped as a back baseboard
      */
-    buildBackBaseboard(planeY){
+    buildBackBaseboard(planeY, floorWidth){
         this.position.y = (planeY + this.height/2) + 0.01;
-        this.position.x = -((this.width / 2.0) - (this.depth - 0.02));
+        this.position.x = -((floorWidth / 2.0) - (this.depth - 0.02));
         this.rotation.y = Math.PI / 2;
     }
 

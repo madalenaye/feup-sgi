@@ -38,34 +38,34 @@ class Plane extends THREE.Object3D{
     /**
      * Method to position the plane as a left wall
      */
-    buildLeftWall(){
+    buildLeftWall(floorHeight){
         this.position.y = this.height / 2.0;
-        this.position.z = this.width / 2.0;
+        this.position.z = floorHeight / 2.0;
     }
 
     /**
      * Method to position the plane as a right wall
      */
-    buildRightWall(){
+    buildRightWall(floorHeight){
         this.position.y = this.height / 2.0;
-        this.position.z = -(this.width / 2.0);
+        this.position.z = -(floorHeight / 2.0);
     }
 
     /**
      * Method to position the plane as a front wall
      */
-    buildFrontWall(){
+    buildFrontWall(floorWidth){
         this.position.y = this.height / 2.0;
-        this.position.x = this.width / 2.0;
+        this.position.x = floorWidth / 2.0;
         this.rotation.y = Math.PI / 2;
     }
 
     /**
      * Method to position the plane as a back wall
      */
-    buildBackWall(){
+    buildBackWall(floorWidth){
         this.position.y = this.height / 2.0;
-        this.position.x = -(this.width / 2.0);
+        this.position.x = -(floorWidth / 2.0);
         this.rotation.y = Math.PI / 2;
     }
 

@@ -136,30 +136,30 @@ class MyContents  {
             reflectivity: 0.5 
         });
 
+        // Floor
+        this.floor = new Plane(15, 20, material);
+        this.floor.buildFloor();
+        this.app.scene.add(this.floor);
+
         // Left side in relation to the x-axis
-        this.planeLeft = new Plane(10, 6, material);
-        this.planeLeft.buildLeftWall();
+        this.planeLeft = new Plane(this.floor.width, 6, material);
+        this.planeLeft.buildLeftWall(this.floor.height);
         this.app.scene.add(this.planeLeft);
 
         // Right side in relation to the x-axis
-        this.planeRight = new Plane(10, 6, material);
-        this.planeRight.buildRightWall();
+        this.planeRight = new Plane(this.floor.width, 6, material);
+        this.planeRight.buildRightWall(this.floor.height);
         this.app.scene.add(this.planeRight);
 
         // Front side in relation to the x-axis
-        this.planeFront = new Plane(10, 6, material);
-        this.planeFront.buildFrontWall();
+        this.planeFront = new Plane(this.floor.height, 6, material);
+        this.planeFront.buildFrontWall(this.floor.width);
         this.app.scene.add(this.planeFront);
         
         // Back side in relation to the x-axis
-        this.planeBack = new Plane(10, 6, material);
-        this.planeBack.buildBackWall();
+        this.planeBack = new Plane(this.floor.height, 6, material);
+        this.planeBack.buildBackWall(this.floor.width);
         this.app.scene.add(this.planeBack);
-
-        // Floor
-        this.floor = new Plane(10, 10, material);
-        this.floor.buildFloor();
-        this.app.scene.add(this.floor);
         
         // Table
         const woodTexture = this.prepareTexture('./Textures/wood.jpg');
@@ -202,7 +202,7 @@ class MyContents  {
 
         // Window
         this.window = new Window(6, 3, 0.1, 'Textures/landscape2.jpg');
-        this.window.position.set(0, this.planeRight.height/2, -((this.floor.width/2) - ((this.window.frameThickness/2) + 0.02)));
+        this.window.position.set(0, this.planeRight.height/2, -((this.floor.height/2) - ((this.window.frameThickness/2) + 0.02)));
         this.app.scene.add(this.window);
 
         this.rectLight = this.window.activateWindowLight()
@@ -214,13 +214,13 @@ class MyContents  {
         // 1st Painting
 
         this.painting = new Painting(1.3, 1.5, 0.1, 'Textures/pikachu.jpg');
-        this.painting.position.set(this.planeFront.width/2 - 0.1, this.planeFront.height/2 + 0.1, this.planeFront.position.z);
+        this.painting.position.set(this.floor.width/2 - 0.1, this.planeFront.height/2 + 0.1, this.planeFront.position.z);
         this.painting.rotateY(-Math.PI/2);
         this.app.scene.add(this.painting);
 
         // 2nd Painting
         this.painting2 = new Painting(1.3, 1.5, 0.1, 'Textures/cat.jpg');
-        this.painting2.position.set(this.planeFront.width/2 - 0.1, this.planeFront.height/2 + 0.1, this.planeFront.position.z + 1.5);
+        this.painting2.position.set(this.floor.width/2 - 0.1, this.planeFront.height/2 + 0.1, this.planeFront.position.z + 1.5);
         this.painting2.rotateY(-Math.PI/2);
         this.app.scene.add(this.painting2);
 
@@ -228,23 +228,23 @@ class MyContents  {
         const baseboardMaterial = new THREE.MeshStandardMaterial({color: 0x5f3b3b});
 
         this.baseboardLeft = new Baseboard(this.floor.width - 0.01, 0.2, 0.05, baseboardMaterial);
-        this.baseboardLeft.buildLeftBaseboard(this.floor.position.y);
+        this.baseboardLeft.buildLeftBaseboard(this.floor.position.y, this.floor.height);
         this.app.scene.add(this.baseboardLeft);
 
         this.baseboardRight = new Baseboard(this.floor.width - 0.01, 0.2, 0.05, baseboardMaterial);
-        this.baseboardRight.buildRightBaseboard(this.floor.position.y);
+        this.baseboardRight.buildRightBaseboard(this.floor.position.y, this.floor.height);
         this.app.scene.add(this.baseboardRight);
 
-        this.baseboardFront = new Baseboard((this.floor.width - 0.01), 0.2, 0.05, baseboardMaterial)
-        this.baseboardFront.buildFrontBaseboard(this.floor.position.y);
+        this.baseboardFront = new Baseboard((this.floor.height - 0.01), 0.2, 0.05, baseboardMaterial)
+        this.baseboardFront.buildFrontBaseboard(this.floor.position.y, this.floor.width);
         this.app.scene.add(this.baseboardFront);
 
-        this.baseboardBack = new Baseboard((this.floor.width - 0.01), 0.2, 0.05, baseboardMaterial)
-        this.baseboardBack.buildBackBaseboard(this.floor.position.y);
+        this.baseboardBack = new Baseboard((this.floor.height - 0.01), 0.2, 0.05, baseboardMaterial)
+        this.baseboardBack.buildBackBaseboard(this.floor.position.y, this.floor.width);
         this.app.scene.add(this.baseboardBack);
 
         // Beetle
-        this.beetle = new Beetle(-5, 3, 0, 0.25, 48);
+        this.beetle = new Beetle(-this.floor.width/2, 3, 0, 0.25, 48);
         this.app.scene.add(this.beetle);
 
         //Newspaper
@@ -326,6 +326,7 @@ class MyContents  {
      * this method is called from the render method of the app
      * updates are trigered by boxEnabled property changes
      */
+    
     updateBoxIfRequired() {
         if (this.boxEnabled !== this.lastBoxEnabled) {
             this.lastBoxEnabled = this.boxEnabled
