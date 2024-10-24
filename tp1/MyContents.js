@@ -9,6 +9,11 @@ import { Window } from './objects/Window.js';
 import { Painting } from './objects/Painting.js';
 import { Baseboard } from './objects/Baseboard.js';
 import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
+import { Beetle } from './objects/Beetle.js';
+import { Newspaper } from './objects/Newspaper.js';
+import {Flower} from './objects/Flower.js';
+import { Spring } from './objects/Spring.js';
+import { Jar } from './objects/Jar.js';
 
 /**
  *  This class contains the contents of out application
@@ -52,6 +57,15 @@ class MyContents  {
         this.baseboardRight = null;
         this.baseboardFront = null
         this.baseboardBack = null
+
+        // Beetle
+        this.beetle = null;
+
+        //Newspaper
+        this.newspaper = null;
+
+        //Flower
+        this.flower = null;
 
         // box related attributes
         this.boxMesh = null
@@ -112,11 +126,14 @@ class MyContents  {
         
 
         // Common material for all walls
-        const material = new THREE.MeshStandardMaterial({ 
+        const material = new THREE.MeshPhysicalMaterial({ 
             color: 0xbcbcbc, 
             side: THREE.DoubleSide, 
             roughness: 0.5,
-            metalness: 0.0
+            metalness: 0.0,
+            clearcoat: 0.1, 
+            clearcoatRoughness: 0.3,
+            reflectivity: 0.5 
         });
 
         // Left side in relation to the x-axis
@@ -179,7 +196,7 @@ class MyContents  {
         // Cake
         const cakeTexture = this.prepareTexture('./Textures/cake.jpg');
         const cakeMaterial = new THREE.MeshStandardMaterial({map:cakeTexture });
-        this.cake = new Cake(0.5,0.3,Math.PI/8, cakeMaterial);
+        this.cake = new Cake(0.45,0.3,Math.PI/8, cakeMaterial);
         this.cake.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.2, this.table.positionZ);
         this.app.scene.add(this.cake);
 
@@ -225,6 +242,34 @@ class MyContents  {
         this.baseboardBack = new Baseboard((this.floor.width - 0.01), 0.2, 0.05, baseboardMaterial)
         this.baseboardBack.buildBackBaseboard(this.floor.position.y);
         this.app.scene.add(this.baseboardBack);
+
+        // Beetle
+        this.beetle = new Beetle(-5, 3, 0, 0.25, 48);
+        this.app.scene.add(this.beetle);
+
+        //Newspaper
+        this.newspaper = new Newspaper(this.table.positionX - 1.8,this.table.positionY+0.2,this.table.positionZ+0.4);
+        this.app.scene.add(this.newspaper);
+
+        
+        //Flower
+        const stemMaterial = new THREE.MeshBasicMaterial({ color: 0x008000 });
+        const flowerCenterMaterial = new THREE.MeshBasicMaterial({ color: 0x260851 , side: THREE.DoubleSide });
+        const petalMaterial = new THREE.MeshBasicMaterial({ color: 0xc81f07  });
+
+        this.flower = new Flower(64, 0.1, 8, -this.floor.width/2 + 1, 0, this.floor.width/2 - 1, stemMaterial, flowerCenterMaterial, petalMaterial, 0.4);
+
+        this.app.scene.add(this.flower);
+
+        // Spring
+        this.spring = new Spring(0.1, 48, 0.04, 5);
+        this.spring.position.set(this.table.positionX - 1 , this.table.positionY + this.table.height, this.table.positionZ + 1);
+        this.app.scene.add(this.spring);
+
+        // Jar
+        this.jar = new Jar();
+        this.jar.position.set(this.floor.position.x, this.floor.position.y + 0.5, this.floor.position.z - 2.5);
+        this.app.scene.add(this.jar);
 
     }
     

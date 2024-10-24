@@ -77,7 +77,7 @@ class Window extends THREE.Object3D{
 
         const width = this.width/1.5; 
         const height = this.height/1.5;
-        const intensity = 5;
+        const intensity = 7;
 
         const rectLight = new THREE.RectAreaLight(0xf5ac3d, intensity, width, height);
         rectLight.position.set(this.position.x, this.position.y, this.position.z); 
