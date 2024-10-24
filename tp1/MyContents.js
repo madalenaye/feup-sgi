@@ -5,6 +5,10 @@ import {Table} from './objects/Table.js'
 import {Candle} from './objects/Candle.js'
 import {Plate} from './objects/Plate.js'
 import {Cake} from './objects/Cake.js'
+import { Window } from './objects/Window.js';
+import { Painting } from './objects/Painting.js';
+import { Baseboard } from './objects/Baseboard.js';
+import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
 
 /**
  *  This class contains the contents of out application
@@ -31,11 +35,23 @@ class MyContents  {
         // Candle
         this.candle = null;
 
+        // CandlePlate
+        this.candlePlate = null;
+
         // Plate
         this.plate = null;
 
         // Cake
         this.cake = null;
+
+        // Window
+        this.window = null;
+
+        // Baseboards
+        this.baseboardLeft = null;
+        this.baseboardRight = null;
+        this.baseboardFront = null
+        this.baseboardBack = null
 
         // box related attributes
         this.boxMesh = null
@@ -96,10 +112,12 @@ class MyContents  {
         
 
         // Common material for all walls
-        const material = new THREE.MeshBasicMaterial({ color: 0x524846,
-            side: THREE.DoubleSide,
-            transparent: true, 
-            opacity: 0.8  });
+        const material = new THREE.MeshStandardMaterial({ 
+            color: 0xbcbcbc, 
+            side: THREE.DoubleSide, 
+            roughness: 0.5,
+            metalness: 0.0
+        });
 
         // Left side in relation to the x-axis
         this.planeLeft = new Plane(10, 6, material);
@@ -127,20 +145,31 @@ class MyContents  {
         this.app.scene.add(this.floor);
         
         // Table
-        const topMaterial = new THREE.MeshPhongMaterial({ color: 0x8B4513 }); // Top material (wood color)
-        const legsMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 }); // Leg material (metal)
+        const woodTexture = this.prepareTexture('./Textures/wood.jpg');
+        const metalTexture = this.prepareTexture('./Textures/metal_texture.jpg');
+
+        const topMaterial = new THREE.MeshLambertMaterial({ map: woodTexture }); // Top material
+
+        const legsMaterial = new THREE.MeshPhongMaterial({specular:"#dddddd", map: metalTexture, shininess: 100 }); // Leg material (metal)
 
         this.table = new Table(5, 0.2, 3,{ x: 0, y: 2, z: 3 }, topMaterial, legsMaterial);
         this.app.scene.add(this.table);
 
         // Candle
-        const candleMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, metalness: 0 });
-        const flameMaterial = new THREE.MeshStandardMaterial({ color: 0xffa500, emissive: 0xffa500, emissiveIntensity: 0.5 });
+        const candleTexture = this.prepareTexture('./Textures/candle.jpg');
+        const candleMaterial = new THREE.MeshStandardMaterial({roughness: 0.5, metalness: 0, map:candleTexture });
 
-        this.candle = new Candle(0.1, 0.02, candleMaterial, 0.05, 0.01 , flameMaterial, { x: this.table.positionX, y: this.table.positionY 
-                                                                                         + this.table.height, z: this.table.positionZ }); // in the center of table
-                                                                                 
+        const flameTexture = this.prepareTexture('./Textures/fire.jpg')
+        const flameMaterial = new THREE.MeshLambertMaterial({map: flameTexture, emissive: 0xffa500, emissiveIntensity: 0.7, transparent: true, opacity: 0.8});
+        
+        this.candle = new Candle(0.2, 0.02, candleMaterial, 0.05, 0.01 , flameMaterial, { x: this.table.positionX, y: this.table.positionY 
+                                                                                         + this.table.height + 0.02, z: this.table.positionZ }); // in the center of table                                                               
         this.app.scene.add(this.candle);
+
+        // Plate for Candle
+        this.candlePlate = new Plate(this.candle.cylinderRadius * 2, 20);
+        this.candlePlate.position.set(this.table.positionX, this.table.positionY + this.table.height + 0.02, this.table.positionZ);
+        this.app.scene.add(this.candlePlate);
 
         // Plate
         this.plate = new Plate(0.4, 32);
@@ -148,10 +177,54 @@ class MyContents  {
         this.app.scene.add(this.plate);
 
         // Cake
-        this.cake = new Cake(0.5,0.2,Math.PI/8);
+        const cakeTexture = this.prepareTexture('./Textures/cake.jpg');
+        const cakeMaterial = new THREE.MeshStandardMaterial({map:cakeTexture });
+        this.cake = new Cake(0.5,0.3,Math.PI/8, cakeMaterial);
         this.cake.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.2, this.table.positionZ);
         this.app.scene.add(this.cake);
 
+        // Window
+        this.window = new Window(6, 3, 0.1, 'Textures/landscape2.jpg');
+        this.window.position.set(0, this.planeRight.height/2, -((this.floor.width/2) - ((this.window.frameThickness/2) + 0.02)));
+        this.app.scene.add(this.window);
+
+        this.rectLight = this.window.activateWindowLight()
+        this.app.scene.add(this.rectLight);
+
+        //const helper = new RectAreaLightHelper( this.rectLight );
+        //this.rectLight.add( helper );
+
+        // 1st Painting
+
+        this.painting = new Painting(1.3, 1.5, 0.1, 'Textures/pikachu.jpg');
+        this.painting.position.set(this.planeFront.width/2 - 0.1, this.planeFront.height/2 + 0.1, this.planeFront.position.z);
+        this.painting.rotateY(-Math.PI/2);
+        this.app.scene.add(this.painting);
+
+        // 2nd Painting
+        this.painting2 = new Painting(1.3, 1.5, 0.1, 'Textures/cat.jpg');
+        this.painting2.position.set(this.planeFront.width/2 - 0.1, this.planeFront.height/2 + 0.1, this.planeFront.position.z + 1.5);
+        this.painting2.rotateY(-Math.PI/2);
+        this.app.scene.add(this.painting2);
+
+        // Baseboard
+        const baseboardMaterial = new THREE.MeshStandardMaterial({color: 0x5f3b3b});
+
+        this.baseboardLeft = new Baseboard(this.floor.width - 0.01, 0.2, 0.05, baseboardMaterial);
+        this.baseboardLeft.buildLeftBaseboard(this.floor.position.y);
+        this.app.scene.add(this.baseboardLeft);
+
+        this.baseboardRight = new Baseboard(this.floor.width - 0.01, 0.2, 0.05, baseboardMaterial);
+        this.baseboardRight.buildRightBaseboard(this.floor.position.y);
+        this.app.scene.add(this.baseboardRight);
+
+        this.baseboardFront = new Baseboard((this.floor.width - 0.01), 0.2, 0.05, baseboardMaterial)
+        this.baseboardFront.buildFrontBaseboard(this.floor.position.y);
+        this.app.scene.add(this.baseboardFront);
+
+        this.baseboardBack = new Baseboard((this.floor.width - 0.01), 0.2, 0.05, baseboardMaterial)
+        this.baseboardBack.buildBackBaseboard(this.floor.position.y);
+        this.app.scene.add(this.baseboardBack);
 
     }
     
@@ -178,6 +251,16 @@ class MyContents  {
     updatePlaneShininess(value) {
         this.planeShininess = value
         this.planeMaterial.shininess = this.planeShininess
+    }
+    /**
+     * Method that prepares the texture for the table top
+     * @param {string} imagePath
+     */
+    prepareTexture(imagePath){
+        const textureLoader = new THREE.TextureLoader();
+        const texture = textureLoader.load(imagePath);
+
+        return texture
     }
     
     /**

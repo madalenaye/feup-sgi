@@ -55,6 +55,7 @@ class Table extends THREE.Object3D{
         
     }
 
+
 }
 
 export { Table };

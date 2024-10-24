@@ -17,7 +17,11 @@ class Candle extends THREE.Object3D{
     constructor(cylinderHeight, cylinderRadius, cylinderMaterial, coneHeight, coneRadius, coneMaterial, position = { x: 0, y: 0, z: 0 }) {
 
         super();
-        
+        this.cylinderRadius = cylinderRadius;
+        this.positionX = position.x;
+        this.positionY = position.y;
+        this.positionZ = position.z;
+
         // Create the candle body (cylinder)
         const cylinderGeometry = new THREE.CylinderGeometry(cylinderRadius, cylinderRadius, cylinderHeight);
         const cylinderMesh = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
