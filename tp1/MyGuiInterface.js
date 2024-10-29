@@ -31,7 +31,7 @@ class MyGuiInterface  {
      */
     init() {
 
-        /*
+        
         // add a folder to the gui interface for the box
         const boxFolder = this.datgui.addFolder( 'Box' );
         // note that we are using a property from the contents object 
@@ -41,7 +41,7 @@ class MyGuiInterface  {
         boxFolder.add(this.contents.boxDisplacement, 'y', -5, 5)
         boxFolder.add(this.contents.boxDisplacement, 'z', -5, 5)
         boxFolder.open()
-        */
+        
         
         const data = {  
             'diffuse color': this.contents.diffusePlaneColor,
