@@ -37,46 +37,71 @@ class Cake extends THREE.Object3D{
         this.add(this.cakeMesh)
 
         // Cake planes
-        this.insideMaterials = [
-            new THREE.MeshStandardMaterial({ color: "#850101", map: insideTexture, roughness: 1, side: THREE.FrontSide }),
-            new THREE.MeshStandardMaterial({ color: this.color, map: insideTexture, roughness: 1, side: THREE.FrontSide }),
-            new THREE.MeshStandardMaterial({ color: "#d69292", map: insideTexture, roughness: 1, side: THREE.FrontSide })
-        ];
 
+        // different layers
+        const layerColors = ["#850101", this.color, "#d69292"];
+        this.insideMaterials = layerColors.map(color => 
+            new THREE.MeshStandardMaterial({ color, map: insideTexture, roughness: 1, side: THREE.FrontSide })
+        );
 
-        const addPlaneSegment = (side, yOffset, material, rotationY) => {
-            const plane = new THREE.PlaneGeometry(this.radius, this.height / 3, 1, 1);
-            const mesh = new THREE.Mesh(plane, material);
+     
+        const createPlaneSegment = (side, y_offset, material, rotationY) => {
+            let plane = new THREE.PlaneGeometry(this.radius, this.height / 3, 1, 1);
+            let mesh = new THREE.Mesh(plane, material);
             
-            // Set positions based on side
-            mesh.position.set(
-                side === 'A' ? Math.sin(this.angle) * (this.radius / 2) : 0,
-                yOffset,
-                side === 'A' ? Math.cos(this.angle) * (this.radius / 2) : this.radius / 2
-            );
+            let x = side === 'A' ? Math.sin(this.angle) * (this.radius / 2) : 0;
+            let z = side === 'A' ? Math.cos(this.angle) * (this.radius / 2) : this.radius / 2;
+            mesh.position.set(x, y_offset, z);
             
-            // Rotate plane to face cake center
             mesh.rotateY(rotationY);
-            this.add(mesh);
+            return mesh;
         };
 
-        const yOffsets = [- this.height / 3, 0, this.height / 3];
+        let heights = [-this.height / 3, 0, this.height / 3];
+        let angles = { A: Math.PI / 2 + this.angle, B: -Math.PI / 2 };
 
-        // Loop to create and add planes for Side A and Side B
-        for (let i = 0; i < 3; i++) {
-            addPlaneSegment('A', yOffsets[i], this.insideMaterials[i], Math.PI / 2 + this.angle);
-            addPlaneSegment('B', yOffsets[i], this.insideMaterials[i], -Math.PI / 2);
-        }
+        heights.forEach((height, i) => {
+            let material = this.insideMaterials[i];
+            this.add(createPlaneSegment('A', height, material, angles.A));
+            this.add(createPlaneSegment('B', height, material, angles.B));
+        });
 
-        // filling
-        this.fillingRadius = this.radius + 0.0001; 
-        this.fillingHeight = this.height/3;
-        this.fillingGeometry = new THREE.CylinderGeometry(this.fillingRadius, this.fillingRadius, this.fillingHeight, 32, 1, false, 0, this.angle);
-        this.fillingMaterial = new THREE.MeshStandardMaterial({ color: this.color, map: frosting, roughness: 1 });
-        this.fillingMesh = new THREE.Mesh(this.fillingGeometry, this.fillingMaterial);
-        this.fillingMesh.position.y = 0;
-        this.add(this.fillingMesh);
+        // decorations
 
+        this.pearl = new THREE.SphereGeometry(0.018, 32, 32);
+        this.pearlMaterial = new THREE.MeshPhysicalMaterial({ color: "#c7c7c7", emissive: '#757474', roughness: 0.313, reflectivity: 1, iridescence: 1, iridescenceIOR: 1.65, clearcoat: 1, clearcoatRoughness: 0.39 })
+        this.pearlMesh = new THREE.Mesh(this.pearl, this.pearlMaterial);
+        
+
+        // Function to create a pearl ring group
+        let createPearlRing = (y, radius) => {
+            const pearlRingGroup = new THREE.Group(); 
+
+            for (let angle = 0; angle < this.angle; angle += 0.028 / radius) {
+                const x = Math.cos(angle) * radius;
+                const z = Math.sin(angle) * radius;
+
+                // Create and position each pearl
+                const pearlMesh = new THREE.Mesh(this.pearl, this.pearlMaterial);
+                pearlMesh.position.set(x, y, z);
+                pearlMesh.rotateZ(-Math.PI / 2);
+
+                // Add each pearl to the pearl ring group
+                pearlRingGroup.add(pearlMesh);
+            }
+
+            return pearlRingGroup;
+        };
+
+        // Create and add pearl rings at the top and bottom
+        const topPearlRing = createPearlRing(this.height / 2, this.radius);     // Top ring of pearls
+        const bottomPearlRing = createPearlRing(-this.height / 2, this.radius); // Bottom ring of pearls
+
+
+        topPearlRing.rotateY(this.angle - Math.PI/2 - 0.018);
+        bottomPearlRing.rotateY(this.angle - Math.PI/2 - 0.018);
+        this.add(topPearlRing);
+        this.add(bottomPearlRing);
         
     }
     
