@@ -14,6 +14,15 @@ import * as THREE from 'three';
 
 class Beetle extends THREE.Object3D{
 
+    /**
+     * Constructs an object representing a Beetle.
+     * @constructor
+     * @param {number} positionX - The Beetle's position on the x-axis.
+     * @param {number} positionY - The Beetle's position on the y-axis.
+     * @param {number} positionZ - The Beetle's position on the z-axis.
+     * @param {number} scale - The Beetle's position on the z-axis.
+     * @param {number} numberOfSamples - Level of detail for the curves of the Beetle's shape.
+     */
     constructor(positionX, positionY, positionZ, scale, numberOfSamples) {
 
         super();
@@ -35,11 +44,9 @@ class Beetle extends THREE.Object3D{
 
         const frameMaterial = new THREE.MeshBasicMaterial({ color: 0x333333 });
 
-        // Lados da moldura
         const frameTopBottomGeometry = new THREE.BoxGeometry(paintingWidth + frameThickness * 2, frameThickness, frameDepth);
         const frameSideGeometry = new THREE.BoxGeometry(frameThickness, paintingHeight + frameThickness * 2, frameDepth);
 
-        // Cria as partes da moldura, agora relativas ao quadro
         const frameTop = new THREE.Mesh(frameTopBottomGeometry, frameMaterial);
         frameTop.position.set(0, (paintingHeight / 2 + frameThickness / 2), 0);
         this.frameGroup.add(frameTop);
@@ -94,6 +101,16 @@ class Beetle extends THREE.Object3D{
         });
     }
 
+    /**
+     * Method 
+     * @method
+     * @param {Array<THREE.Vector3>} points - Control points defining the shape of the curve. 
+     * @param {number} numberOfSamples - Number of points sampled along the curve for higher detail.
+     * @param {number} positionX - Position of the curve along the x-axis.
+     * @param {number} positionY - Position of the curve along the y-axis.
+     * @param {number} positionZ - Position of the curve along the z-axis.
+     * @param {number} scale - Scale factor applied to the curve in all axes.
+     */
     createCurve(points, numberOfSamples, positionX, positionY, positionZ, scale) {
         const curve = new THREE.CubicBezierCurve3(points[0], points[1], points[2], points[3]);
         const sampledPoints = curve.getPoints(numberOfSamples);
