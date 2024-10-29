@@ -12,7 +12,14 @@ import * as THREE from 'three';
  * The cylinder represents the cake itself, while the planes are used to close the cake.
  */
 class Cake extends THREE.Object3D{
-
+    /**
+     * Constructs an object representing a cake.
+     * @constructor
+     * @param {number} radius - The radius of the cake.
+     * @param {number} height - The height of the cake.
+     * @param {number} angle  - The angle of the cake.
+     * @param {THREE.Materia} topMaterial - The material applied to the top of the cake.
+     */
     constructor(radius, height, angle, topMaterial) {
 
         super();
