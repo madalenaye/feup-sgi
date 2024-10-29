@@ -194,9 +194,18 @@ class MyContents  {
         this.app.scene.add(this.plate);
 
         // Cake
-        const cakeTexture = this.prepareTexture('./Textures/cake.jpg');
-        const cakeMaterial = new THREE.MeshStandardMaterial({map:cakeTexture });
-        this.cake = new Cake(0.45,0.3,Math.PI/8, cakeMaterial);
+        this.cakeTexture = new THREE.TextureLoader().load('./Textures/cake_frosting.png');
+        this.cakeTexture.wrapS = THREE.RepeatWrapping;
+        this.cakeTexture.wrapT = THREE.RepeatWrapping;
+        this.cakeTexture.repeat.set(1, 1);
+
+        this.cakeInsideTexture = new THREE.TextureLoader().load('./Textures/inside_cake.jpg');
+        this.cakeInsideTexture.wrapS = THREE.RepeatWrapping;
+        this.cakeInsideTexture.wrapT = THREE.RepeatWrapping;
+        this.cakeInsideTexture.repeat.set(1, 1);
+
+        this.cakeColor = "#a62121"
+        this.cake = new Cake(0.45,0.3,Math.PI/5, this.cakeTexture, this.cakeInsideTexture, this.cakeColor);
         this.cake.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.2, this.table.positionZ);
         this.app.scene.add(this.cake);
 
