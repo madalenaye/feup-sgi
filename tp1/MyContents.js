@@ -70,6 +70,8 @@ class MyContents  {
 
         //Coffe table
         this.coffeTable1 = null;
+        this.coffeTable2 = null;
+        this.coffeTable3 = null;
 
         // box related attributes
         this.boxMesh = null
@@ -295,10 +297,16 @@ class MyContents  {
 
         // Coffe Table
         const topTableTexture = this.prepareTexture("./Textures/topTable.jpg");
-
         const topMaterial2 = new THREE.MeshLambertMaterial({ map: topTableTexture });
-        this.coffeTable1 = new CoffeTable(2.0, 0.1, 2.0,topMaterial2, 0.1, 2, 0.15, {x : 0, z: -4});
-        this.app.scene.add(this.coffeTable1); // Adiciona a mesa à cena
+
+        this.coffeTable1 = new CoffeTable(2.0, 0.1, 2.0,topMaterial2, 0.1, 2, 0.15, {x : -(this.floor.width/2 - 1.0) + 0.4, z: 0});
+        this.app.scene.add(this.coffeTable1); 
+
+        this.coffeTable2 = new CoffeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, {x: this.coffeTable1.positionX, z: this.floor.height/2 - 4})
+        this.app.scene.add(this.coffeTable2); 
+
+        this.coffeTable3 = new CoffeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, {x: this.coffeTable1.positionX, z: -(this.floor.height/2 - 4)})
+        this.app.scene.add(this.coffeTable3); 
 
     }
     

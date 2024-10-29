@@ -20,7 +20,7 @@ class Jar extends THREE.Object3D{
     constructor(){
         super();
         this.jarTexture = new THREE.TextureLoader().load("Textures/glass.png");
-        this.jarMaterial = new THREE.MeshStandardMaterial({color: 0xffffff, map: this.jarTexture, side: THREE.DoubleSide, transparent: true, opacity: 0.8});
+        this.jarMaterial = new THREE.MeshStandardMaterial({color: 0xffffff, map: this.jarTexture, side: THREE.DoubleSide, transparent: false, opacity: 0.8});
         this.controlPoints = [
             // U = 0
             [
@@ -72,6 +72,32 @@ class Jar extends THREE.Object3D{
         this.back.rotation.y = Math.PI;
         this.add(this.front)
         this.add(this.back)
+
+        this.createSoil(0.4);
+    }
+
+    /**
+     * Method for creating soil and positioning it in relation to the jar 
+     * @method
+     * @param {number} radius - The radius of the circle.
+     */
+    createSoil(radius) {
+
+        const textureLoader = new THREE.TextureLoader();
+        const soilTexture = textureLoader.load('Textures/soil.jpg');
+
+        const soilMaterial = new THREE.MeshStandardMaterial({
+            map: soilTexture,
+            side: THREE.DoubleSide
+        });
+
+        const soilGeometry = new THREE.CircleGeometry(radius, 32);
+        const soilMesh = new THREE.Mesh(soilGeometry, soilMaterial);
+        
+        soilMesh.rotation.x = -Math.PI / 2;
+        soilMesh.position.y = 0.4;
+
+        this.add(soilMesh);
     }
 
 }
