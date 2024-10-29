@@ -15,6 +15,16 @@ import * as THREE from 'three';
 
 class Table extends THREE.Object3D{
 
+    /**
+     * Constructs an object representing a table
+     * @constructor
+     * @param {number} width - The width of the tabletop.
+     * @param {number} height - The height of the tabletop.
+     * @param {number} depth - The thickness of the tabletop.
+     * @param {Object} position - The position of the table relative to the three axes.
+     * @param {THREE.Material} topMaterial - The material to be applied to the tabletop.
+     * @param {THREE.Material} legsMaterial - The material to be applied to the legs of the table.
+     */
     constructor(width = 1, height = 1, depth = 1, position = { x: 0, y: 0, z: 0 }, topMaterial, legsMaterial) {
 
         super();

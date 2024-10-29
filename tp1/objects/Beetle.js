@@ -102,7 +102,7 @@ class Beetle extends THREE.Object3D{
     }
 
     /**
-     * Method 
+     * Method to create a 3D curve based on control points and other parameters.
      * @method
      * @param {Array<THREE.Vector3>} points - Control points defining the shape of the curve. 
      * @param {number} numberOfSamples - Number of points sampled along the curve for higher detail.
@@ -110,6 +110,7 @@ class Beetle extends THREE.Object3D{
      * @param {number} positionY - Position of the curve along the y-axis.
      * @param {number} positionZ - Position of the curve along the z-axis.
      * @param {number} scale - Scale factor applied to the curve in all axes.
+     * @returns {THREE.Line} - A line object representing the 3D curve
      */
     createCurve(points, numberOfSamples, positionX, positionY, positionZ, scale) {
         const curve = new THREE.CubicBezierCurve3(points[0], points[1], points[2], points[3]);
