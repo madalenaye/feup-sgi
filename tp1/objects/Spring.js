@@ -1,8 +1,24 @@
+/**
+ * @file Spring.js
+ * @class Spring
+ * @extends THREE.Object3D
+ * @desc This class aims to represent a Spring.
+ */
 import * as THREE from 'three';
-import { Line2 } from 'three/addons/lines/Line2.js';
-
-
+/**
+ * @class
+ * @classdesc Represents a Spring made up of a CatmullRomCurve3 and a Line.
+ * The CatmullRomCurve3 represents the curve of the spring, while the Line is used to draw the spring.
+ */
 class Spring extends THREE.Object3D{
+    /**
+     * Constructs an object representing a spring.
+     * @constructor
+     * @param {number} radius - The radius of the spring.
+     * @param {number} npoints - The number of points for each coil of the spring.
+     * @param {number} step - The step between each coil of the spring.
+     * @param {number} ncoils - The number of coils of the spring.
+     */
     constructor(radius, npoints, step, ncoils){
         super();
         this.radius = radius;

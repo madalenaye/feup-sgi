@@ -1,6 +1,24 @@
+/**
+ * @file Plate.js
+ * @class Plate
+ * @extends THREE.Object3D
+ * @desc This class aims to represent a Plate.
+ */
 import * as THREE from 'three';
 
+/**
+ * @class
+ * @classdesc Represents a Plate made up of a cylinder and a plane.
+ * The cylinder represents the plate itself, while the plane is used to close the plate.
+ * The plate is made up of a white material.
+ */
 class Plate extends THREE.Object3D{
+    /**
+     * Constructs an object representing a plate.
+     * @constructor
+     * @param {number} radius - The radius of the plate.
+     * @param {number} segments - The number of segments of the plate.
+     */
     constructor(radius, segments){
         super();
         this.radius = radius

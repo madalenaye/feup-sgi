@@ -1,6 +1,25 @@
+/**
+ * @file Painting.js
+ * @class Painting
+ * @extends THREE.Object3D
+ * @desc This class aims to represent a Painting.
+ */
 import * as THREE from 'three';
 
+/**
+ * @class
+ * @classdesc Represents a Painting made up of a plane and four frames made up of boxes.
+ * The plane represents the image of the painting, while the frames are used to hold the painting
+ */
 class Painting extends THREE.Object3D{
+    /**
+     * Constructs an object representing a painting and its frames.
+     * @constructor
+     * @param {number} width - The width of the painting.
+     * @param {number} height - The height of the painting.
+     * @param {number} depth - The depth of the frames.
+     * @param {string} imagePath - The path to the image of the painting.
+     */
     constructor(width, height, depth, imagePath){
         super();
         this.width = width;

@@ -1,8 +1,23 @@
+/**
+ * @file Jar.js
+ * @class Jar
+ * @extends THREE.Object3D
+ * @desc This class aims to represent a jar.
+ */
 import * as THREE from 'three';
 import { MyNurbsBuilder } from '../MyNurbsBuilder.js';
 
+/**
+ * @class
+ * @classdesc Represents a jar that consists of a front and a back surface. These surfaces are represented by a NURBS surface.
+ * The jar is made up of a glass texture.
+ */
 class Jar extends THREE.Object3D{
-    constructor(radius, height, segments){
+    /**
+     * Constructs an object representing a jar.
+     * @constructor
+     */
+    constructor(){
         super();
         this.jarTexture = new THREE.TextureLoader().load("Textures/glass.png");
         this.jarMaterial = new THREE.MeshStandardMaterial({color: 0xffffff, map: this.jarTexture, side: THREE.DoubleSide, transparent: true, opacity: 0.8});
