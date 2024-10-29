@@ -14,6 +14,17 @@ import * as THREE from 'three';
 
 class Candle extends THREE.Object3D{
 
+    /**
+     * Constructs an object representing a candle.
+     * @constructor
+     * @param {number} cylinderHeight - The height of the candle.
+     * @param {number} cylinderRadius - The radius of the candle.
+     * @param {THREE.Material} cylinderMaterial - The material to apply to the candle.
+     * @param {number} coneHeight - The height of the flame.
+     * @param {number} coneRadius - The radius of the flame.
+     * @param {THREE.Material} coneMaterial - The material to apply to the flame.
+     * @param {Object} position - Represents the position of the candle relative to the three axes.
+     */
     constructor(cylinderHeight, cylinderRadius, cylinderMaterial, coneHeight, coneRadius, coneMaterial, position = { x: 0, y: 0, z: 0 }) {
 
         super();
