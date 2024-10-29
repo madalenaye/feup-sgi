@@ -1,9 +1,27 @@
+/**
+ * @file Newspaper.js
+ * @class Newspaper
+ * @extends THREE.Object3D
+ * @desc This class aims to represent a newspaper. 
+ */
+
 import * as THREE from 'three';
 import { nurbsSurface } from '../utils/NurbsSurface.js';
 
+/**
+ * @class
+ * @classdesc Represents a newspaper that consists of 4 pages. These pages are represented by surfaces.
+ */
 
 class Newspaper extends THREE.Object3D{
 
+    /**
+     * Constructs an object representing a newspaper.
+     * @constructor
+     * @param {number} positionX - The position of the newspaper on the x-axis. 
+     * @param {number} positionY - The position of the newspaper on the y-axis.
+     * @param {number} positionZ - The position of the newspaper on the z-axis.
+     */
     constructor(positionX, positionY, positionZ){
         super();
 
