@@ -1,5 +1,16 @@
+/**
+ * @file Cake.js
+ * @class Cake
+ * @extends THREE.Object3D
+ * @desc This class aims to represent a Cake.
+ */
 import * as THREE from 'three';
 
+/**
+ * @class
+ * @classdesc Represents a Cake made up of a cylinder and two planes.
+ * The cylinder represents the cake itself, while the planes are used to close the cake.
+ */
 class Cake extends THREE.Object3D{
 
     constructor(radius, height, angle, topMaterial) {
