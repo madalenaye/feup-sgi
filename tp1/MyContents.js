@@ -14,6 +14,7 @@ import { Newspaper } from './objects/Newspaper.js';
 import {Flower} from './objects/Flower.js';
 import { Spring } from './objects/Spring.js';
 import { Jar } from './objects/Jar.js';
+import { CoffeTable } from './objects/CoffeTable.js';
 
 /**
  *  This class contains the contents of out application
@@ -66,6 +67,9 @@ class MyContents  {
 
         //Flower
         this.flower = null;
+
+        //Coffe table
+        this.coffeTable1 = null;
 
         // box related attributes
         this.boxMesh = null
@@ -125,8 +129,8 @@ class MyContents  {
         this.buildBox()
         
 
-        // Common material for all walls
-        const material = new THREE.MeshPhysicalMaterial({ 
+        // Floor material
+        const floorMaterial = new THREE.MeshPhysicalMaterial({ 
             color: 0xbcbcbc, 
             side: THREE.DoubleSide, 
             roughness: 0.5,
@@ -137,27 +141,45 @@ class MyContents  {
         });
 
         // Floor
-        this.floor = new Plane(15, 20, material);
+        this.floor = new Plane(15, 20, floorMaterial);
         this.floor.buildFloor();
         this.app.scene.add(this.floor);
 
+        // Walls
+        const wallsTexture = this.prepareTexture('./Textures/wall.jpg');
+
+        wallsTexture.wrapS = THREE.RepeatWrapping;
+        wallsTexture.wrapT = THREE.RepeatWrapping;
+        wallsTexture.repeat.set(2, 2);
+
+        const wallsMaterial = new THREE.MeshPhysicalMaterial({  
+            map: wallsTexture,
+            color: 0xffffff,
+            side: THREE.DoubleSide, 
+            roughness: 0.5,
+            metalness: 0.0,
+            clearcoat: 0.1, 
+            clearcoatRoughness: 0.3,
+            reflectivity: 0.5 
+        });
+
         // Left side in relation to the x-axis
-        this.planeLeft = new Plane(this.floor.width, 6, material);
+        this.planeLeft = new Plane(this.floor.width, 6, wallsMaterial);
         this.planeLeft.buildLeftWall(this.floor.height);
         this.app.scene.add(this.planeLeft);
 
         // Right side in relation to the x-axis
-        this.planeRight = new Plane(this.floor.width, 6, material);
+        this.planeRight = new Plane(this.floor.width, 6, wallsMaterial);
         this.planeRight.buildRightWall(this.floor.height);
         this.app.scene.add(this.planeRight);
 
         // Front side in relation to the x-axis
-        this.planeFront = new Plane(this.floor.height, 6, material);
+        this.planeFront = new Plane(this.floor.height, 6, wallsMaterial);
         this.planeFront.buildFrontWall(this.floor.width);
         this.app.scene.add(this.planeFront);
         
         // Back side in relation to the x-axis
-        this.planeBack = new Plane(this.floor.height, 6, material);
+        this.planeBack = new Plane(this.floor.height, 6, wallsMaterial);
         this.planeBack.buildBackWall(this.floor.width);
         this.app.scene.add(this.planeBack);
         
@@ -251,16 +273,6 @@ class MyContents  {
         this.newspaper = new Newspaper(this.table.positionX - 1.8,this.table.positionY+0.2,this.table.positionZ+0.4);
         this.app.scene.add(this.newspaper);
 
-        
-        //Flower
-        const stemMaterial = new THREE.MeshBasicMaterial({ color: 0x008000 });
-        const flowerCenterMaterial = new THREE.MeshBasicMaterial({ color: 0x260851 , side: THREE.DoubleSide });
-        const petalMaterial = new THREE.MeshBasicMaterial({ color: 0xc81f07  });
-
-        this.flower = new Flower(64, 0.1, 8, -this.floor.width/2 + 1, 0, this.floor.width/2 - 1, stemMaterial, flowerCenterMaterial, petalMaterial, 0.4);
-
-        this.app.scene.add(this.flower);
-
         // Spring
         this.spring = new Spring(0.1, 48, 0.04, 5);
         this.spring.position.set(this.table.positionX - 1 , this.table.positionY + this.table.height, this.table.positionZ + 1);
@@ -268,8 +280,25 @@ class MyContents  {
 
         // Jar
         this.jar = new Jar();
-        this.jar.position.set(this.floor.position.x, this.floor.position.y + 0.5, this.floor.position.z - 2.5);
+        this.jar.position.set(this.floor.width/2 - 0.7, this.floor.position.y + 0.5, -this.floor.height/2 + 0.7);
         this.app.scene.add(this.jar);
+
+        //Flower
+        const stemMaterial = new THREE.MeshBasicMaterial({ color: 0x008000 });
+        const flowerCenterMaterial = new THREE.MeshBasicMaterial({ color: 0x260851 , side: THREE.DoubleSide });
+        const petalMaterial = new THREE.MeshBasicMaterial({ color: 0xc81f07  });
+        console.log(this.jar.position.x);
+        console.log(this.jar.position.z);
+        this.flower = new Flower(64, 0.1, 8, this.jar.position.x, 0.01, this.jar.position.z, stemMaterial, flowerCenterMaterial, petalMaterial, 0.4);
+
+        this.app.scene.add(this.flower);
+
+        // Coffe Table
+        const topTableTexture = this.prepareTexture("./Textures/topTable.jpg");
+
+        const topMaterial2 = new THREE.MeshLambertMaterial({ map: topTableTexture });
+        this.coffeTable1 = new CoffeTable(2.0, 0.1, 2.0,topMaterial2, 0.1, 2, 0.15, {x : 0, z: -4});
+        this.app.scene.add(this.coffeTable1); // Adiciona a mesa à cena
 
     }
     
