@@ -20,7 +20,7 @@ class Beetle extends THREE.Object3D{
      * @param {number} positionX - The Beetle's position on the x-axis.
      * @param {number} positionY - The Beetle's position on the y-axis.
      * @param {number} positionZ - The Beetle's position on the z-axis.
-     * @param {number} scale - The Beetle's position on the z-axis.
+     * @param {number} scale - Scaling factor relative to the Beetle's size.
      * @param {number} numberOfSamples - Level of detail for the curves of the Beetle's shape.
      */
     constructor(positionX, positionY, positionZ, scale, numberOfSamples) {

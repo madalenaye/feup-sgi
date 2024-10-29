@@ -15,6 +15,21 @@ import * as THREE from 'three';
 
 class Flower extends THREE.Object3D{
 
+
+    /**
+     * Constructs an object representing a flower.
+     * @constructor
+     * @param {number} tubularSegments - The number of segmented tubular shapes used to create the flower. 
+     * @param {number} radius - The radius of the stem.
+     * @param {number} radialSegments - The number of segments around the stem.
+     * @param {number} positionX - The position of the flower on the x-axis.
+     * @param {number} positionY - The position of the flower on the y-axis.
+     * @param {number} positionZ - The position of the flower on the z-axis.
+     * @param {THREE.Material} stemMaterial - The material to be applied to the stem.
+     * @param {THREE.Material} flowerCenterMaterial - The material to be applied to the centre of the flower.
+     * @param {THREE.Material} petalMaterial - The material to be applied to the petals.
+     * @param {number} scale - The scaling factor that allows changing the size of the flower.
+     */
     constructor(tubularSegments, radius, radialSegments, positionX, positionY, positionZ, stemMaterial, flowerCenterMaterial, petalMaterial, scale) {
 
         super();
