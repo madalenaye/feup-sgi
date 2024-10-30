@@ -20,12 +20,11 @@ class Candle extends THREE.Object3D{
      * @param {number} cylinderHeight - The height of the candle.
      * @param {number} cylinderRadius - The radius of the candle.
      * @param {THREE.Material} cylinderMaterial - The material to apply to the candle.
-     * @param {number} coneHeight - The height of the flame.
-     * @param {number} coneRadius - The radius of the flame.
-     * @param {THREE.Material} coneMaterial - The material to apply to the flame.
+     * @param {number} flameRadius - The radius of the flame.
+     * @param {THREE.Material} flameMaterial - The material to apply to the flame.
      * @param {Object} position - Represents the position of the candle relative to the three axes.
      */
-    constructor(cylinderHeight, cylinderRadius, cylinderMaterial, coneHeight, coneRadius, coneMaterial, position = { x: 0, y: 0, z: 0 }) {
+    constructor(cylinderHeight, cylinderRadius, cylinderMaterial, flameRadius, flameMaterial, position = { x: 0, y: 0, z: 0 }) {
 
         super();
         this.cylinderRadius = cylinderRadius;
@@ -40,12 +39,18 @@ class Candle extends THREE.Object3D{
         this.add(cylinderMesh); 
 
         
-        // Create the flame (cone)
-        const coneGeometry = new THREE.ConeGeometry(coneRadius, coneHeight);
-        const coneMesh = new THREE.Mesh(coneGeometry, coneMaterial);
-        coneMesh.position.set(0, cylinderHeight/2 + coneHeight /2 , 0);
-        
-        cylinderMesh.add(coneMesh); // The cone is "children" of the cylinder
+        // Create the flame
+        const flameGeometry = new THREE.SphereGeometry(flameRadius, 32, 32);
+        const flameMesh = new THREE.Mesh(flameGeometry, flameMaterial);
+
+        flameMesh.scale.set(1, 2.4, 1);
+        flameMesh.position.set(0, cylinderHeight / 2 + 0.017, 0);
+
+        const flameLight = new THREE.PointLight(0xffa500, 0.5, 3);
+        flameLight.position.set(0, cylinderHeight / 2 + 0.010, 0);
+
+        cylinderMesh.add(flameMesh);
+        flameMesh.add(flameLight);
         
     }
 

@@ -15,6 +15,9 @@ import {Flower} from './objects/Flower.js';
 import { Spring } from './objects/Spring.js';
 import { Jar } from './objects/Jar.js';
 import { Lamp } from './objects/Lamp.js';
+import { CoffeTable } from './objects/CoffeTable.js';
+import { Chair } from './objects/Chair.js';
+import { Cup } from './objects/Cup.js';
 
 /**
  *  This class contains the contents of out application
@@ -67,6 +70,24 @@ class MyContents  {
 
         //Flower
         this.flower = null;
+
+        //Coffe table
+        this.coffeTable1 = null;
+        this.coffeTable2 = null;
+        this.coffeTable3 = null;
+
+        //Chair
+        this.chair1 = null;
+        this.chair2 = null;
+        this.chair3 = null;
+        this.chair4 = null;
+        this.chair5 = null;
+        this.chair6 = null;
+        this.chair7 = null;
+
+        //Cup
+        this.cup = null;
+        this.cup2 = null;
 
         // box related attributes
         this.boxMesh = null
@@ -130,8 +151,8 @@ class MyContents  {
         //this.buildBox()
         
 
-        // Common material for all walls
-        const material = new THREE.MeshPhysicalMaterial({ 
+        // Floor material
+        const floorMaterial = new THREE.MeshPhysicalMaterial({ 
             color: 0xbcbcbc, 
             side: THREE.DoubleSide, 
             roughness: 0.5,
@@ -142,27 +163,45 @@ class MyContents  {
         });
 
         // Floor
-        this.floor = new Plane(15, 20, material);
+        this.floor = new Plane(15, 20, floorMaterial);
         this.floor.buildFloor();
         this.app.scene.add(this.floor);
 
+        // Walls
+        const wallsTexture = this.prepareTexture('./Textures/wall.jpg');
+
+        wallsTexture.wrapS = THREE.RepeatWrapping;
+        wallsTexture.wrapT = THREE.RepeatWrapping;
+        wallsTexture.repeat.set(2, 2);
+
+        const wallsMaterial = new THREE.MeshPhysicalMaterial({  
+            map: wallsTexture,
+            color: 0xffffff,
+            side: THREE.DoubleSide, 
+            roughness: 0.5,
+            metalness: 0.0,
+            clearcoat: 0.1, 
+            clearcoatRoughness: 0.3,
+            reflectivity: 0.5 
+        });
+
         // Left side in relation to the x-axis
-        this.planeLeft = new Plane(this.floor.width, 6, material);
+        this.planeLeft = new Plane(this.floor.width, 6, wallsMaterial);
         this.planeLeft.buildLeftWall(this.floor.height);
         this.app.scene.add(this.planeLeft);
 
         // Right side in relation to the x-axis
-        this.planeRight = new Plane(this.floor.width, 6, material);
+        this.planeRight = new Plane(this.floor.width, 6, wallsMaterial);
         this.planeRight.buildRightWall(this.floor.height);
         this.app.scene.add(this.planeRight);
 
         // Front side in relation to the x-axis
-        this.planeFront = new Plane(this.floor.height, 6, material);
+        this.planeFront = new Plane(this.floor.height, 6, wallsMaterial);
         this.planeFront.buildFrontWall(this.floor.width);
         this.app.scene.add(this.planeFront);
         
         // Back side in relation to the x-axis
-        this.planeBack = new Plane(this.floor.height, 6, material);
+        this.planeBack = new Plane(this.floor.height, 6, wallsMaterial);
         this.planeBack.buildBackWall(this.floor.width);
         this.app.scene.add(this.planeBack);
         
@@ -180,11 +219,10 @@ class MyContents  {
         // Candle
         const candleTexture = this.prepareTexture('./Textures/candle.jpg');
         const candleMaterial = new THREE.MeshStandardMaterial({roughness: 0.5, metalness: 0, map:candleTexture });
-
-        const flameTexture = this.prepareTexture('./Textures/fire.jpg')
-        const flameMaterial = new THREE.MeshLambertMaterial({map: flameTexture, emissive: 0xffa500, emissiveIntensity: 0.7, transparent: true, opacity: 0.8});
         
-        this.candle = new Candle(0.2, 0.02, candleMaterial, 0.05, 0.01 , flameMaterial, { x: this.table.positionX, y: this.table.positionY 
+        const flameMaterial = new THREE.MeshLambertMaterial({emissive: 0xffa500, emissiveIntensity: 1, transparent: false, shininess: 800});
+        
+        this.candle = new Candle(0.2, 0.02, candleMaterial, 0.010, flameMaterial, { x: this.table.positionX, y: this.table.positionY 
                                                                                          + this.table.height + 0.02, z: this.table.positionZ }); // in the center of table                                                               
         this.app.scene.add(this.candle);
 
@@ -265,16 +303,6 @@ class MyContents  {
         this.newspaper = new Newspaper(this.table.positionX - 1.8,this.table.positionY+0.2,this.table.positionZ+0.4);
         this.app.scene.add(this.newspaper);
 
-        
-        //Flower
-        const stemMaterial = new THREE.MeshBasicMaterial({ color: 0x008000 });
-        const flowerCenterMaterial = new THREE.MeshBasicMaterial({ color: 0x260851 , side: THREE.DoubleSide });
-        const petalMaterial = new THREE.MeshBasicMaterial({ color: 0xc81f07  });
-
-        this.flower = new Flower(64, 0.1, 8, -this.floor.width/2 + 1, 0, this.floor.width/2 - 1, stemMaterial, flowerCenterMaterial, petalMaterial, 0.4);
-
-        this.app.scene.add(this.flower);
-
         // Spring
         this.spring = new Spring(0.1, 48, 0.04, 5);
         this.spring.position.set(this.table.positionX - 1 , this.table.positionY + this.table.height, this.table.positionZ + 1);
@@ -282,7 +310,7 @@ class MyContents  {
 
         // Jar
         this.jar = new Jar();
-        this.jar.position.set(this.floor.position.x, this.floor.position.y + 0.5, this.floor.position.z - 2.5);
+        this.jar.position.set(this.floor.width/2 - 0.7, this.floor.position.y + 0.5, -this.floor.height/2 + 0.7);
         this.app.scene.add(this.jar);
 
         // Lamp
@@ -290,6 +318,72 @@ class MyContents  {
         this.lamp.position.set(this.table.positionX + 0.5, this.cake.position.y - 0.15, this.table.positionZ);
         this.lamp.rotation.y = Math.PI/2;
         this.app.scene.add(this.lamp);
+        //Flower
+        const stemMaterial = new THREE.MeshBasicMaterial({ color: 0x008000 });
+        const flowerCenterMaterial = new THREE.MeshBasicMaterial({ color: 0x260851 , side: THREE.DoubleSide });
+        const petalMaterial = new THREE.MeshBasicMaterial({ color: 0xc81f07  });
+        console.log(this.jar.position.x);
+        console.log(this.jar.position.z);
+        this.flower = new Flower(64, 0.1, 8, this.jar.position.x, 0.01, this.jar.position.z, stemMaterial, flowerCenterMaterial, petalMaterial, 0.4);
+
+        this.app.scene.add(this.flower);
+
+        // Coffe Table
+        const topTableTexture = this.prepareTexture("./Textures/topTable.jpg");
+        const topMaterial2 = new THREE.MeshLambertMaterial({ map: topTableTexture });
+
+        this.coffeTable1 = new CoffeTable(2.0, 0.1, 2.0,topMaterial2, 0.1, 2, 0.15, {x : -(this.floor.width/2 - 1.0) + 0.4, z: 0});
+        this.app.scene.add(this.coffeTable1); 
+
+        this.coffeTable2 = new CoffeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, {x: this.coffeTable1.positionX, z: this.floor.height/2 - 4})
+        this.app.scene.add(this.coffeTable2); 
+
+        this.coffeTable3 = new CoffeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, {x: this.coffeTable1.positionX, z: -(this.floor.height/2 - 4)})
+        this.app.scene.add(this.coffeTable3); 
+
+        // Chairs
+        const seatTexture = this.prepareTexture("./Textures/seatChair2.jpg");
+        const seatMaterial = new THREE.MeshPhongMaterial({ map: seatTexture, shininess: 3,specular: 0x799f52 });
+
+        //Chairs - table 2
+        this.chair1 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, topMaterial2, this.coffeTable2.positionX, this.coffeTable2.positionZ - this.coffeTable2.tableWidth/2, 0);
+        this.app.scene.add(this.chair1);
+
+        this.chair2 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, topMaterial2, this.coffeTable2.positionX, this.coffeTable2.positionZ + this.coffeTable2.tableWidth/2, Math.PI);
+        this.app.scene.add(this.chair2);
+
+        this.chair3 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, topMaterial2, this.coffeTable2.positionX + (this.coffeTable2.tableWidth/2 + 0.3), this.coffeTable2.positionZ, 3*Math.PI/2);
+        this.app.scene.add(this.chair3);
+
+        //Chairs - table 1
+        this.chair4 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, topMaterial2, this.coffeTable2.positionX, - (this.coffeTable2.tableWidth/2 + 0.4), Math.PI/4);
+        this.app.scene.add(this.chair4);
+
+        this.chair5 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, topMaterial2, this.coffeTable2.positionX, (this.coffeTable2.tableWidth/2 + 0.4), Math.PI - Math.PI/4);
+        this.app.scene.add(this.chair5);
+
+        //Chairs - table 3
+        this.chair6 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, topMaterial2, this.coffeTable2.positionX, -this.coffeTable2.positionZ - this.coffeTable2.tableWidth/2, 0);
+        this.app.scene.add(this.chair6);
+
+        this.chair7 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, topMaterial2, this.coffeTable2.positionX, -this.coffeTable2.positionZ + this.coffeTable2.tableWidth/2, Math.PI);
+        this.app.scene.add(this.chair7);
+
+        // Cup
+        const cupTexture = this.prepareTexture("./Textures/cup.jpg");
+        cupTexture.wrapS = THREE.RepeatWrapping;
+        cupTexture.wrapT = THREE.RepeatWrapping;
+        cupTexture.repeat.set(2, 1); 
+
+        const cupMaterial = new THREE.MeshPhongMaterial({map: cupTexture, color: 0xffffff,emissive: 0x333333,shininess: 200,side: THREE.DoubleSide }); 
+        this.cup = new Cup(0.1, 0.05, 0.1, 0.05, cupMaterial, this.coffeTable2.positionX, this.coffeTable2.height + this.coffeTable2.tableHeight + 0.1/2, this.coffeTable2.positionZ - 0.5, true);
+        this.app.scene.add(this.cup);
+
+        this.cup2 = new Cup(0.1, 0.05, 0.1, 0.05, cupMaterial, this.coffeTable1.positionX - 0.3, this.coffeTable1.height + this.coffeTable1.tableHeight + 0.15, this.coffeTable1.positionZ, false, Math.PI/16)
+        this.app.scene.add(this.cup2);
+
+        const coffeStain = this.cup2.createCoffeeStain(this.coffeTable1.positionX - 0.2, this.coffeTable1.height + this.coffeTable1.tableHeight + 0.06, this.coffeTable1.positionZ);
+        this.app.scene.add(coffeStain);
     }
     
     /**

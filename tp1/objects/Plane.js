@@ -15,6 +15,13 @@ import * as THREE from 'three';
 
 class Plane extends THREE.Object3D{
 
+    /**
+     * Constructs an object representing the floor or wall.
+     * @constructor
+     * @param {number} width - The width of the plane.
+     * @param {number} height - The height of the plane.
+     * @param {THREE.Material} material - The material to be applied to the plane.
+     */
     constructor(width = 1, height = 1, material = null) {
 
         super();
@@ -37,6 +44,8 @@ class Plane extends THREE.Object3D{
 
     /**
      * Method to position the plane as a left wall
+     * @method
+     * @param {number} floorHeight - The height of the floor.
      */
     buildLeftWall(floorHeight){
         this.position.y = this.height / 2.0;
@@ -45,6 +54,8 @@ class Plane extends THREE.Object3D{
 
     /**
      * Method to position the plane as a right wall
+     * @method 
+     * @param {number} floorHeight - The height of the floor.
      */
     buildRightWall(floorHeight){
         this.position.y = this.height / 2.0;
@@ -53,6 +64,8 @@ class Plane extends THREE.Object3D{
 
     /**
      * Method to position the plane as a front wall
+     * @method
+     * @param {number} floorWidth - The width of the floor.
      */
     buildFrontWall(floorWidth){
         this.position.y = this.height / 2.0;
@@ -62,6 +75,8 @@ class Plane extends THREE.Object3D{
 
     /**
      * Method to position the plane as a back wall
+     * @method
+     * @param {number} floorWidth - The width of the floor.
      */
     buildBackWall(floorWidth){
         this.position.y = this.height / 2.0;
@@ -71,6 +86,7 @@ class Plane extends THREE.Object3D{
 
     /**
      * Method to position the plane as a floor
+     * @method
      */
     buildFloor(){
         this.position.y = 0;

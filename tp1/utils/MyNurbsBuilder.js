@@ -1,15 +1,20 @@
+/**
+ * @file MyNurbsBuilder.js
+ * @class MyNurbsBuilder
+ * @extends THREE.Object3D
+ * @desc This class contains the contents of out application 
+ */
+
+
 import * as THREE from 'three';
 
 import { NURBSSurface } from 'three/addons/curves/NURBSSurface.js';
 
 import { ParametricGeometry } from 'three/addons/geometries/ParametricGeometry.js';
 
-
-
 /**
-
- *  This class contains the contents of out application
-
+ * @class
+ * @classdesc This class contains the contents of out application.
  */
 
 class MyNurbsBuilder  {
@@ -17,9 +22,9 @@ class MyNurbsBuilder  {
 
     /**
 
-       constructs the object
-
-       @param {MyApp} app The application object
+       Constructs the object
+       @constructor
+       @param {MyApp} app - The application object
 
     */
 
@@ -29,7 +34,17 @@ class MyNurbsBuilder  {
 
     }
 
-
+    /**
+     * Method to build a NURBS surface based on given control points, degrees, and sample counts for each axis. 
+     * @method
+     * @param {Array<Array<THREE.Vector3>>} controlPoints - A 2D array of control points defining the surface grid
+     * @param {number} degree1 - The degree of the NURBS surface in the first direction (U).
+     * @param {number} degree2 - The degree of the NURBS surface in the second direction (V).
+     * @param {number} samples1 - The number of samples along the U direction for generating the geometry.
+     * @param {number} samples2 - The number of samples along the V direction for generating the geometry.
+     * @param {THREE.Material} material - The material applied to the NURBS surface geometry.
+     * @returns {THREE.Geometry} The generated NURBS surface geometry
+     */
     build(controlPoints, degree1, degree2, samples1, samples2, material) {
 
 

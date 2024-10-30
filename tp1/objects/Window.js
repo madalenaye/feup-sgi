@@ -16,6 +16,14 @@ import * as THREE from 'three';
 
 class Window extends THREE.Object3D{
 
+    /**
+     * Constructs an object representing a window.
+     * @constructor
+     * @param {number} width - The width of the window.
+     * @param {number} height - The height of the window.
+     * @param {number} frameThickness - The thickness of the window frame. 
+     * @param {string} imagePath - The path to the landscape image.
+     */
     constructor(width, height, frameThickness, imagePath) {
 
         super();
@@ -72,6 +80,8 @@ class Window extends THREE.Object3D{
 
     /**
      * Method responsible for activating the light coming from the window.
+     * @method
+     * @returns {THREE.RectAreaLight} - A rectangular area light positioned to simulate light from the window.
      */
     activateWindowLight(){
 
