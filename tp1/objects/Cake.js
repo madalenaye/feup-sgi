@@ -34,16 +34,12 @@ class Cake extends THREE.Object3D{
         this.cake = new THREE.CylinderGeometry(this.radius, this.radius, this.height, 32, 1, false, 0, this.angle)
         this.cakeMaterial = new THREE.MeshStandardMaterial({map: frosting, roughness: 1})
         this.cakeMesh = new THREE.Mesh(this.cake, this.cakeMaterial)
-        this.add(this.cakeMesh)
-
-        // Cake planes
-
-        // different layers
+   
+        // Cake planes - different layers
         const layerColors = ["#850101", this.color, "#d69292"];
         this.insideMaterials = layerColors.map(color => 
             new THREE.MeshStandardMaterial({ color, map: insideTexture, roughness: 1, side: THREE.FrontSide })
         );
-
      
         const createPlaneSegment = (side, y_offset, material, rotationY) => {
             let plane = new THREE.PlaneGeometry(this.radius, this.height / 3, 1, 1);
@@ -62,8 +58,8 @@ class Cake extends THREE.Object3D{
 
         heights.forEach((height, i) => {
             let material = this.insideMaterials[i];
-            this.add(createPlaneSegment('A', height, material, angles.A));
-            this.add(createPlaneSegment('B', height, material, angles.B));
+            this.cakeMesh.add(createPlaneSegment('A', height, material, angles.A));
+            this.cakeMesh.add(createPlaneSegment('B', height, material, angles.B));
         });
 
         // decorations
@@ -100,8 +96,10 @@ class Cake extends THREE.Object3D{
 
         topPearlRing.rotateY(this.angle - Math.PI/2 - 0.018);
         bottomPearlRing.rotateY(this.angle - Math.PI/2 - 0.018);
-        this.add(topPearlRing);
-        this.add(bottomPearlRing);
+        this.cakeMesh.add(topPearlRing);
+        this.cakeMesh.add(bottomPearlRing);
+    
+        this.add(this.cakeMesh);
         
     }
     

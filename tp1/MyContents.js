@@ -14,6 +14,7 @@ import { Newspaper } from './objects/Newspaper.js';
 import {Flower} from './objects/Flower.js';
 import { Spring } from './objects/Spring.js';
 import { Jar } from './objects/Jar.js';
+import { CeilingLight } from './objects/CeilingLight.js';
 
 /**
  *  This class contains the contents of out application
@@ -80,6 +81,9 @@ class MyContents  {
         this.planeShininess = 30
         this.planeMaterial = new THREE.MeshPhongMaterial({ color: this.diffusePlaneColor, 
             specular: this.specularPlaneColor, emissive: "#000000", shininess: this.planeShininess })
+
+        // Ceiling Light
+        this.ceilingLight = null;
     }
 
     /**
@@ -105,7 +109,7 @@ class MyContents  {
         if (this.axis === null) {
             // create and attach the axis to the scene
             this.axis = new MyAxis(this)
-            this.app.scene.add(this.axis)
+            //this.app.scene.add(this.axis)
         }
 
         // add a point light on top of the model
@@ -279,6 +283,11 @@ class MyContents  {
         this.jar = new Jar();
         this.jar.position.set(this.floor.position.x, this.floor.position.y + 0.5, this.floor.position.z - 2.5);
         this.app.scene.add(this.jar);
+
+        // Ceiling Light
+        this.ceilingLight = new CeilingLight(this.plate.object);
+        this.ceilingLight.build();
+        this.app.scene.add(this.ceilingLight);
 
     }
     
