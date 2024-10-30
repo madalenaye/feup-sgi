@@ -30,6 +30,7 @@ class CoffeTable extends THREE.Object3D{
 
         super();
 
+        this.tableWidth = tableWidth;
         this.positionX = position.x;
         this.positionZ = position.z;
         

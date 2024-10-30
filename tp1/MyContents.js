@@ -15,6 +15,7 @@ import {Flower} from './objects/Flower.js';
 import { Spring } from './objects/Spring.js';
 import { Jar } from './objects/Jar.js';
 import { CoffeTable } from './objects/CoffeTable.js';
+import { Chair } from './objects/Chair.js';
 
 /**
  *  This class contains the contents of out application
@@ -72,6 +73,15 @@ class MyContents  {
         this.coffeTable1 = null;
         this.coffeTable2 = null;
         this.coffeTable3 = null;
+
+        //Chair
+        this.chair1 = null;
+        this.chair2 = null;
+        this.chair3 = null;
+        this.chair4 = null;
+        this.chair5 = null;
+        this.chair6 = null;
+        this.chair7 = null;
 
         // box related attributes
         this.boxMesh = null
@@ -307,6 +317,30 @@ class MyContents  {
         this.coffeTable3 = new CoffeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, {x: this.coffeTable1.positionX, z: -(this.floor.height/2 - 4)})
         this.app.scene.add(this.coffeTable3); 
 
+        // Chairs
+        //Chairs - table 2
+        this.chair1 = new Chair(1.2, 1.2, 0.1, topMaterial2, 0.05, 1.4, this.coffeTable2.positionX, this.coffeTable2.positionZ - this.coffeTable2.tableWidth/2, 0);
+        this.app.scene.add(this.chair1);
+
+        this.chair2 = new Chair(1.2, 1.2, 0.1, topMaterial2, 0.05, 1.4, this.coffeTable2.positionX, this.coffeTable2.positionZ + this.coffeTable2.tableWidth/2, Math.PI);
+        this.app.scene.add(this.chair2);
+
+        this.chair3 = new Chair(1.2, 1.2, 0.1, topMaterial2, 0.05, 1.4, this.coffeTable2.positionX + (this.coffeTable2.tableWidth/2 + 0.3), this.coffeTable2.positionZ, 3*Math.PI/2);
+        this.app.scene.add(this.chair3);
+
+        //Chairs - table 1
+        this.chair4 = new Chair(1.2, 1.2, 0.1, topMaterial2, 0.05, 1.4, this.coffeTable2.positionX, - (this.coffeTable2.tableWidth/2 + 0.4), Math.PI/4);
+        this.app.scene.add(this.chair4);
+
+        this.chair5 = new Chair(1.2, 1.2, 0.1, topMaterial2, 0.05, 1.4, this.coffeTable2.positionX, (this.coffeTable2.tableWidth/2 + 0.4), Math.PI - Math.PI/4);
+        this.app.scene.add(this.chair5);
+
+        //Chairs - table 3
+        this.chair6 = new Chair(1.2, 1.2, 0.1, topMaterial2, 0.05, 1.4, this.coffeTable2.positionX, -this.coffeTable2.positionZ - this.coffeTable2.tableWidth/2, 0);
+        this.app.scene.add(this.chair6);
+
+        this.chair7 = new Chair(1.2, 1.2, 0.1, topMaterial2, 0.05, 1.4, this.coffeTable2.positionX, -this.coffeTable2.positionZ + this.coffeTable2.tableWidth/2, Math.PI);
+        this.app.scene.add(this.chair7);
     }
     
     /**
