@@ -16,6 +16,7 @@ import { Spring } from './objects/Spring.js';
 import { Jar } from './objects/Jar.js';
 import { CoffeTable } from './objects/CoffeTable.js';
 import { Chair } from './objects/Chair.js';
+import { Cup } from './objects/Cup.js';
 
 /**
  *  This class contains the contents of out application
@@ -82,6 +83,10 @@ class MyContents  {
         this.chair5 = null;
         this.chair6 = null;
         this.chair7 = null;
+
+        //Cup
+        this.cup = null;
+        this.cup2 = null;
 
         // box related attributes
         this.boxMesh = null
@@ -341,6 +346,22 @@ class MyContents  {
 
         this.chair7 = new Chair(1.2, 1.2, 0.1, topMaterial2, 0.05, 1.4, this.coffeTable2.positionX, -this.coffeTable2.positionZ + this.coffeTable2.tableWidth/2, Math.PI);
         this.app.scene.add(this.chair7);
+
+        // Cup
+        const cupTexture = this.prepareTexture("./Textures/cup.jpg");
+        cupTexture.wrapS = THREE.RepeatWrapping;
+        cupTexture.wrapT = THREE.RepeatWrapping;
+        cupTexture.repeat.set(2, 1); 
+
+        const cupMaterial = new THREE.MeshPhongMaterial({map: cupTexture, color: 0xffffff,emissive: 0x333333,shininess: 200,side: THREE.DoubleSide }); 
+        this.cup = new Cup(0.1, 0.05, 0.1, 0.05, cupMaterial, this.coffeTable2.positionX, this.coffeTable2.height + this.coffeTable2.tableHeight + 0.1/2, this.coffeTable2.positionZ - 0.5, true);
+        this.app.scene.add(this.cup);
+
+        this.cup2 = new Cup(0.1, 0.05, 0.1, 0.05, cupMaterial, this.coffeTable1.positionX - 0.3, this.coffeTable1.height + this.coffeTable1.tableHeight + 0.15, this.coffeTable1.positionZ, false, Math.PI/16)
+        this.app.scene.add(this.cup2);
+
+        const coffeStain = this.cup2.createCoffeeStain(this.coffeTable1.positionX - 0.2, this.coffeTable1.height + this.coffeTable1.tableHeight + 0.06, this.coffeTable1.positionZ);
+        this.app.scene.add(coffeStain);
     }
     
     /**

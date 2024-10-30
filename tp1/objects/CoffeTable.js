@@ -31,8 +31,10 @@ class CoffeTable extends THREE.Object3D{
         super();
 
         this.tableWidth = tableWidth;
+        this.tableHeight = tableHeight;
         this.positionX = position.x;
         this.positionZ = position.z;
+        this.height = legHeight;
         
         const tableTopGeometry = new THREE.BoxGeometry(tableWidth, tableHeight, tableDepth);
         const tableTop = new THREE.Mesh(tableTopGeometry, topMaterial);
