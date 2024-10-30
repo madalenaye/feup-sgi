@@ -14,7 +14,7 @@ import { Newspaper } from './objects/Newspaper.js';
 import {Flower} from './objects/Flower.js';
 import { Spring } from './objects/Spring.js';
 import { Jar } from './objects/Jar.js';
-import { CeilingLight } from './objects/CeilingLight.js';
+import { Lamp } from './objects/Lamp.js';
 
 /**
  *  This class contains the contents of out application
@@ -81,15 +81,16 @@ class MyContents  {
         this.planeShininess = 30
         this.planeMaterial = new THREE.MeshPhongMaterial({ color: this.diffusePlaneColor, 
             specular: this.specularPlaneColor, emissive: "#000000", shininess: this.planeShininess })
+        
+        // Lamp
+        this.lamp = null;
 
-        // Ceiling Light
-        this.ceilingLight = null;
     }
 
     /**
      * builds the box mesh with material assigned
      */
-    buildBox() {    
+    /*buildBox() {    
         let boxMaterial = new THREE.MeshPhongMaterial({ color: "#ffff77", 
         specular: "#000000", emissive: "#000000", shininess: 90 })
 
@@ -98,7 +99,7 @@ class MyContents  {
         this.boxMesh = new THREE.Mesh( box, boxMaterial );
         this.boxMesh.rotation.x = -Math.PI / 2;
         this.boxMesh.position.y = this.boxDisplacement.y;
-    }
+    }*/
 
     /**
      * initializes the contents
@@ -109,7 +110,7 @@ class MyContents  {
         if (this.axis === null) {
             // create and attach the axis to the scene
             this.axis = new MyAxis(this)
-            //this.app.scene.add(this.axis)
+            this.app.scene.add(this.axis)
         }
 
         // add a point light on top of the model
@@ -126,7 +127,7 @@ class MyContents  {
         const ambientLight = new THREE.AmbientLight( 0x555555 );
         this.app.scene.add( ambientLight );
 
-        this.buildBox()
+        //this.buildBox()
         
 
         // Common material for all walls
@@ -284,11 +285,11 @@ class MyContents  {
         this.jar.position.set(this.floor.position.x, this.floor.position.y + 0.5, this.floor.position.z - 2.5);
         this.app.scene.add(this.jar);
 
-        // Ceiling Light
-        this.ceilingLight = new CeilingLight(this.plate.object);
-        this.ceilingLight.build();
-        this.app.scene.add(this.ceilingLight);
-
+        // Lamp
+        this.lamp = new Lamp(this.cake, "pink");
+        this.lamp.position.set(this.table.positionX + 0.5, this.cake.position.y - 0.15, this.table.positionZ);
+        this.lamp.rotation.y = Math.PI/2;
+        this.app.scene.add(this.lamp);
     }
     
     /**
@@ -330,14 +331,14 @@ class MyContents  {
      * rebuilds the box mesh if required
      * this method is called from the gui interface
      */
-    rebuildBox() {
+    /*rebuildBox() {
         // remove boxMesh if exists
         if (this.boxMesh !== undefined && this.boxMesh !== null) {  
             this.app.scene.remove(this.boxMesh)
         }
         this.buildBox();
         this.lastBoxEnabled = null
-    }
+    }*/
     
     /**
      * updates the box mesh if required
@@ -345,7 +346,7 @@ class MyContents  {
      * updates are trigered by boxEnabled property changes
      */
     
-    updateBoxIfRequired() {
+    /*updateBoxIfRequired() {
         if (this.boxEnabled !== this.lastBoxEnabled) {
             this.lastBoxEnabled = this.boxEnabled
             if (this.boxEnabled) {
@@ -355,7 +356,7 @@ class MyContents  {
                 this.app.scene.remove(this.boxMesh)
             }
         }
-    }
+    }*/
 
     /**
      * updates the contents
@@ -364,13 +365,13 @@ class MyContents  {
      */
     update() {
         // check if box mesh needs to be updated
-        this.updateBoxIfRequired()
+       /*this.updateBoxIfRequired()
 
         // sets the box mesh position based on the displacement vector
         this.boxMesh.position.x = this.boxDisplacement.x
         this.boxMesh.position.y = this.boxDisplacement.y
         this.boxMesh.position.z = this.boxDisplacement.z
-        
+        */
     }
 
 }
