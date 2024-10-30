@@ -20,12 +20,13 @@ class Chair extends THREE.Object3D {
      * @param {number} seatWidth - The width of the chair's seat.
      * @param {number} seatDepth - The depth of the chair's seat.
      * @param {number} seatHeight - The height of the seat from the ground.
-     * @param {THREE.Material} material - The material to apply to the seat.
+     * @param {THREE.Material} seatMaterial - The material to apply to the seat.
      * @param {number} legRadius - The radius of the chair's legs.
      * @param {number} legHeight - The height of the chair's legs.
      * @param {number} angle - The orientation of the chair.
+     * @param {THREE.Material} legMaterial - The material to apply to the legs.
      */
-    constructor(seatWidth, seatDepth, seatHeight, seatMaterial, legRadius, legHeight, positionX, positionZ, angle) {
+    constructor(seatWidth, seatDepth, seatHeight, seatMaterial, legRadius, legHeight, legMaterial, positionX, positionZ, angle) {
         super();
         this.positionX = positionX;
         this.positionZ = positionZ;
@@ -47,7 +48,7 @@ class Chair extends THREE.Object3D {
         legPositions.forEach(([x, y, z], index) => {
             const heightMultiplier = (index === 0 || index === 1) ? 1.8 : 1;
             const legGeometry = new THREE.CylinderGeometry(legRadius, legRadius, legHeight * heightMultiplier);
-            const legMesh = new THREE.Mesh(legGeometry, seatMaterial);
+            const legMesh = new THREE.Mesh(legGeometry, legMaterial);
             legMesh.position.set(x, y + (legHeight * heightMultiplier) / 2, z);
             chairGroup.add(legMesh);
         });
@@ -58,11 +59,11 @@ class Chair extends THREE.Object3D {
 
         const backrestGeometry = new THREE.BoxGeometry(backrestWidth, backrestHeight, backrestDepth);
         
-        const backrestMesh1 = new THREE.Mesh(backrestGeometry, seatMaterial);
+        const backrestMesh1 = new THREE.Mesh(backrestGeometry, legMaterial);
         backrestMesh1.position.set(0, 2 * legHeight - 0.5, -(seatDepth / 2 - legRadius));
         backrestMesh1.rotation.x = Math.PI / 2;
 
-        const backrestMesh2 = new THREE.Mesh(backrestGeometry, seatMaterial);
+        const backrestMesh2 = new THREE.Mesh(backrestGeometry, legMaterial);
         backrestMesh2.position.set(0, 2 * legHeight - 0.8, -(seatDepth / 2 - legRadius));
         backrestMesh2.rotation.x = Math.PI / 2;
 
