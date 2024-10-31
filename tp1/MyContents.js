@@ -394,8 +394,8 @@ class MyContents  {
 
         // Door
         this.door = new Door(this.planeLeft.width * 0.2, this.planeLeft.height / 1.4);
-        //this.door.position.set(0, this.planeLeft.position.y - 0.85 - (this.door.height / 2 + 0.05), this.planeLeft.position.z - 0.05);
-        //this.door.rotation.y = Math.PI / 2;
+        this.door.position.set(0, this.planeLeft.position.y - 0.85 - (this.door.height / 2 + 0.05), this.planeLeft.position.z - 0.05);
+        this.door.rotation.y = Math.PI / 2;
         this.app.scene.add(this.door);
         
     }

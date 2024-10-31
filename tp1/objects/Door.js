@@ -19,30 +19,41 @@ class Door extends THREE.Object3D{
         this.doorMesh.position.set(0, this.height / 2 + 0.05, 0);
         this.add(this.doorMesh)
 
-        this.glass = new THREE.BoxGeometry(this.width/1.45, this.height/2.3, 0.2);
+        this.glass = new THREE.BoxGeometry(this.width/1.45, this.height/2.3, 0.15);
         this.glassMesh = new THREE.Mesh(this.glass, this.doorGlass);
         this.glassMesh.rotation.y = Math.PI / 2;
-        this.glassMesh.position.set(0.015, this.height / 2 + 0.95, 0);
+        this.glassMesh.position.set(0.005, this.height / 2 + 0.95, 0);
         this.add(this.glassMesh)
 
-        this.doorHandle = new THREE.BoxGeometry(0.15, 0.3, 0.02);
-        this.doorHandleMaterial = new THREE.MeshStandardMaterial({ color: "#dedcdc" });
+        this.doorHandleMaterial = new THREE.MeshStandardMaterial({ color: "#ebebeb" });
+
+        this.doorBase = new THREE.CylinderGeometry(0.1, 0.1, 0.01, 50);
+        this.doorBaseMesh = new THREE.Mesh(this.doorBase, this.doorHandleMaterial);
+        this.doorBaseMesh.rotation.z = Math.PI / 2;
+        this.doorBaseMesh.position.set(0.06, this.height / 2 - 0.1, this.width / 2 - 0.25);
+    
+
+        this.doorHandleHelper = new THREE.CylinderGeometry(0.025, 0.025, 0.2, 50);
+        this.doorHandleHelperMesh = new THREE.Mesh(this.doorHandleHelper, this.doorHandleMaterial);
+        this.doorHandleHelperMesh.rotation.z = Math.PI / 2;
+        this.doorHandleHelperMesh.position.set(0.08, this.height / 2 - 0.1, this.width / 2 - 0.25);
+
+        this.doorHandle = new THREE.CylinderGeometry(0.02, 0.02, 0.4, 50);
         this.doorHandleMesh = new THREE.Mesh(this.doorHandle, this.doorHandleMaterial);
-        this.doorHandleMesh.rotation.y = Math.PI / 2;
-        this.doorHandleMesh.position.set(0.1, this.height / 2 - 0.12, this.width / 2 - 0.24);
-        this.add(this.doorHandleMesh);
+        this.doorHandleMesh.rotation.x = -Math.PI / 2;
+        this.doorHandleMesh.position.set(0.16, this.height / 2 - 0.1, this.width / 2 - 0.45);
 
-        this.doorKnob = new THREE.TorusGeometry(0.03, 0.02, 16, 100);
-        this.doorKnobMesh = new THREE.Mesh(this.doorKnob, this.doorHandleMaterial);
-        this.doorKnobMesh.rotation.y = Math.PI / 2;
-        this.doorKnobMesh.position.set(0.1, this.height / 2 - 0.12, this.width / 2 - 0.24);
-        this.add(this.doorKnobMesh);
+        this.doorHandleGroup = new THREE.Group();
+        this.doorHandleGroup.add(this.doorBaseMesh);
+        this.doorHandleGroup.add(this.doorHandleHelperMesh);
+        this.doorHandleGroup.add(this.doorHandleMesh);
+        this.add(this.doorHandleGroup);
 
-        this.doorKnob2 = new THREE.SphereGeometry(0.05, 16, 100);
-        this.doorKnobMesh2 = new THREE.Mesh(this.doorKnob2, this.doorHandleMaterial);
-        this.doorKnobMesh2.rotation.y = Math.PI / 2;
-        this.doorKnobMesh2.position.set(0.14, this.height / 2 - 0.12, this.width / 2 - 0.24);
-        this.add(this.doorKnobMesh2);
+        this.otherDoorHandleGroup = this.doorHandleGroup.clone();
+        this.otherDoorHandleGroup.rotation.y = -Math.PI;
+        this.otherDoorHandleGroup.rotation.x = Math.PI;
+        this.otherDoorHandleGroup.position.set(0, this.height - 0.2, this.width/2 - 1.5);
+        this.add(this.otherDoorHandleGroup);
     
     }
 }
