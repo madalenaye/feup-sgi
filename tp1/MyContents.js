@@ -348,31 +348,8 @@ class MyContents  {
         // Chairs
         const seatTexture = this.prepareTexture("./Textures/seatChair2.jpg");
         const seatMaterial = new THREE.MeshPhongMaterial({ map: seatTexture, shininess: 3,specular: 0x799f52 });
-
-        //Chairs - table 2
-        this.chair1 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, topMaterial2, this.coffeeTable2.positionX, this.coffeeTable2.positionZ - this.coffeeTable2.tableWidth/2, 0);
-        this.app.scene.add(this.chair1);
-
-        this.chair2 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, topMaterial2, this.coffeeTable2.positionX, this.coffeeTable2.positionZ + this.coffeeTable2.tableWidth/2, Math.PI);
-        this.app.scene.add(this.chair2);
-
-        this.chair3 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, topMaterial2, this.coffeeTable2.positionX + (this.coffeeTable2.tableWidth/2 + 0.3), this.coffeeTable2.positionZ, 3*Math.PI/2);
-        this.app.scene.add(this.chair3);
-
-        //Chairs - table 1
-        this.chair4 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, topMaterial2, this.coffeeTable2.positionX, - (this.coffeeTable2.tableWidth/2 + 0.4), Math.PI/4);
-        this.app.scene.add(this.chair4);
-
-        this.chair5 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, topMaterial2, this.coffeeTable2.positionX, (this.coffeeTable2.tableWidth/2 + 0.4), Math.PI - Math.PI/4);
-        this.app.scene.add(this.chair5);
-
-        //Chairs - table 3
-        this.chair6 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, topMaterial2, this.coffeeTable2.positionX, -this.coffeeTable2.positionZ - this.coffeeTable2.tableWidth/2, 0);
-        this.app.scene.add(this.chair6);
-
-        this.chair7 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, topMaterial2, this.coffeeTable2.positionX, -this.coffeeTable2.positionZ + this.coffeeTable2.tableWidth/2, Math.PI);
-        this.app.scene.add(this.chair7);
-
+        this.buildSceneChairs(seatMaterial, topMaterial2);
+    
         // Cup
         const cupTexture = this.prepareTexture("./Textures/cup.jpg");
         cupTexture.wrapS = THREE.RepeatWrapping;
@@ -394,6 +371,38 @@ class MyContents  {
         this.coffeeMachine.rotation.y = Math.PI/2;
         this.app.scene.add(this.coffeeMachine);
 
+    }
+
+    /**
+     * Method responsible for constructing the chair scene.
+     * @method
+     * @param {THREE.Material} seatMaterial - Material to be applied to the chair seats.
+     * @param {THREE.Material} legsMaterial - Material to be applied to the chair legs.
+     */
+    buildSceneChairs(seatMaterial, legsMaterial){
+        //Chairs - table 2
+        this.chair1 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, legsMaterial, this.coffeeTable2.positionX, this.coffeeTable2.positionZ - this.coffeeTable2.tableWidth/2, 0);
+        this.app.scene.add(this.chair1);
+
+        this.chair2 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, legsMaterial, this.coffeeTable2.positionX, this.coffeeTable2.positionZ + this.coffeeTable2.tableWidth/2, Math.PI);
+        this.app.scene.add(this.chair2);
+
+        this.chair3 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, legsMaterial, this.coffeeTable2.positionX + (this.coffeeTable2.tableWidth/2 + 0.3), this.coffeeTable2.positionZ, 3*Math.PI/2);
+        this.app.scene.add(this.chair3);
+
+        //Chairs - table 1
+        this.chair4 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, legsMaterial, this.coffeeTable2.positionX, - (this.coffeeTable2.tableWidth/2 + 0.4), Math.PI/4);
+        this.app.scene.add(this.chair4);
+
+        this.chair5 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, legsMaterial, this.coffeeTable2.positionX, (this.coffeeTable2.tableWidth/2 + 0.4), Math.PI - Math.PI/4);
+        this.app.scene.add(this.chair5);
+
+        //Chairs - table 3
+        this.chair6 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, legsMaterial, this.coffeeTable2.positionX, -this.coffeeTable2.positionZ - this.coffeeTable2.tableWidth/2, 0);
+        this.app.scene.add(this.chair6);
+
+        this.chair7 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, legsMaterial, this.coffeeTable2.positionX, -this.coffeeTable2.positionZ + this.coffeeTable2.tableWidth/2, Math.PI);
+        this.app.scene.add(this.chair7);
     }
     
     /**
