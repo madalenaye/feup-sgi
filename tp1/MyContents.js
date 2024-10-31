@@ -20,6 +20,7 @@ import { Chair } from './objects/Chair.js';
 import { Cup } from './objects/Cup.js';
 import { Door } from './objects/Door.js';
 import { CoffeeMachine } from './objects/CoffeeMachine.js';
+import { ShopSign } from './objects/ShopSign.js';
 
 /**
  *  This class contains the contents of out application
@@ -115,6 +116,9 @@ class MyContents  {
         // Door
         this.door = null;
 
+        // Shop Sign
+        this.shopSign = null;
+
     }
 
     /**
@@ -172,7 +176,7 @@ class MyContents  {
         });
 
         // Floor
-        this.floor = new Plane(15, 20, floorMaterial);
+        this.floor = new Plane(15, 15, floorMaterial);
         this.floor.buildFloor();
         this.app.scene.add(this.floor);
 
@@ -186,7 +190,6 @@ class MyContents  {
         const wallsMaterial = new THREE.MeshPhysicalMaterial({  
             map: wallsTexture,
             color: 0xffffff,
-            side: THREE.DoubleSide, 
             roughness: 0.5,
             metalness: 0.0,
             clearcoat: 0.1, 
@@ -196,7 +199,7 @@ class MyContents  {
             opacity: 1,
             transparent: true
         });
-
+    
         // Left side in relation to the x-axis
         this.planeLeft = new Plane(this.floor.width, 6, wallsMaterial);
         this.planeLeft.buildLeftWall(this.floor.height);
@@ -388,6 +391,10 @@ class MyContents  {
         this.coffeeMachine.rotation.y = Math.PI/2;
         this.app.scene.add(this.coffeeMachine);
 
+        // Shop Sign
+        this.shopSign = new ShopSign("The Coffee™ Shop");
+        this.shopSign.position.set(this.door.position.x + 2.3, this.planeFront.height/2 + 1.7, this.planeLeft.position.z - 0.01);
+        this.app.scene.add(this.shopSign);
     }
 
     /**
