@@ -20,6 +20,7 @@ import { Chair } from './objects/Chair.js';
 import { Cup } from './objects/Cup.js';
 import { Door } from './objects/Door.js';
 import { CoffeeMachine } from './objects/CoffeeMachine.js';
+import { ShopSign } from './objects/ShopSign.js';
 
 /**
  *  This class contains the contents of out application
@@ -109,6 +110,9 @@ class MyContents  {
         // Door
         this.door = null;
 
+        // Shop Sign
+        this.shopSign = null;
+
     }
 
     /**
@@ -166,7 +170,7 @@ class MyContents  {
         });
 
         // Floor
-        this.floor = new Plane(15, 20, floorMaterial);
+        this.floor = new Plane(15, 15, floorMaterial);
         this.floor.buildFloor();
         this.app.scene.add(this.floor);
 
@@ -190,7 +194,7 @@ class MyContents  {
             opacity: this.wallMaterialProperties.opacity,
             transparent: this.wallMaterialProperties.transparent
         });
-
+    
         // Left side in relation to the x-axis
         this.planeLeft = new Plane(this.floor.width, 6, this.wallsMaterial);
         this.planeLeft.buildLeftWall(this.floor.height);
@@ -341,10 +345,10 @@ class MyContents  {
         this.coffeeTable1 = new CoffeeTable(2.0, 0.1, 2.0,topMaterial2, 0.1, 2, 0.15, {x : -(this.floor.width/2 - 1.0) + 0.4, z: 0});
         this.app.scene.add(this.coffeeTable1); 
 
-        this.coffeeTable2 = new CoffeeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, {x: this.coffeeTable1.positionX, z: this.floor.height/2 - 4})
+        this.coffeeTable2 = new CoffeeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, {x: this.coffeeTable1.positionX, z: this.floor.height/2 - 2.5})
         this.app.scene.add(this.coffeeTable2); 
 
-        this.coffeeTable3 = new CoffeeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, {x: this.coffeeTable1.positionX, z: -(this.floor.height/2 - 4)})
+        this.coffeeTable3 = new CoffeeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, {x: this.coffeeTable1.positionX, z: -(this.floor.height/2 - 2.5)})
         this.app.scene.add(this.coffeeTable3); 
 
         // Chairs
@@ -382,6 +386,10 @@ class MyContents  {
         this.coffeeMachine.rotation.y = Math.PI/2;
         this.app.scene.add(this.coffeeMachine);
 
+        // Shop Sign
+        this.shopSign = new ShopSign("The Coffee™ Shop");
+        this.shopSign.position.set(this.door.position.x + 2.3, this.planeFront.height/2 + 1.7, this.planeLeft.position.z - 0.01);
+        this.app.scene.add(this.shopSign);
     }
 
     /**

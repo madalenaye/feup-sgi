@@ -11,7 +11,7 @@ class Door extends THREE.Object3D{
         this.doorTexture.wrapT = THREE.RepeatWrapping;
         this.doorTexture.repeat.set(1, 1);
         this.doorMaterial = new THREE.MeshStandardMaterial({ map: this.doorTexture, side: THREE.FrontSide, opacity: 1, transparent: true });
-        this.doorGlass = new THREE.MeshPhysicalMaterial({color: "#ffffff", transmission: 1, thickness: 1.5, roughness: 0.07, envMapIntensity: 1.5});
+        this.doorGlass = new THREE.MeshPhysicalMaterial({color: "#ffffff", transmission: 1, thickness: 1.5, roughness: 0.07, envMapIntensity: 1.5, reflectivity:0});
         
         this.door = new THREE.BoxGeometry(this.width, this.height, 0.1);
         this.doorMesh = new THREE.Mesh(this.door, this.doorMaterial);
