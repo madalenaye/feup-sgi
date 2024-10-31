@@ -186,7 +186,10 @@ class MyContents  {
             metalness: 0.0,
             clearcoat: 0.1, 
             clearcoatRoughness: 0.3,
-            reflectivity: 0.5 
+            reflectivity: 0.5,
+            side: THREE.FrontSide,
+            opacity: 1,
+            transparent: true
         });
 
         // Left side in relation to the x-axis
@@ -390,8 +393,9 @@ class MyContents  {
         this.app.scene.add(coffeStain);
 
         // Door
-        this.door = new Door();
-        this.door.position.set(-this.floor.width/2, 3, 0);
+        this.door = new Door(this.planeLeft.width * 0.2, this.planeLeft.height / 1.4);
+        //this.door.position.set(0, this.planeLeft.position.y - 0.85 - (this.door.height / 2 + 0.05), this.planeLeft.position.z - 0.05);
+        //this.door.rotation.y = Math.PI / 2;
         this.app.scene.add(this.door);
         
     }

@@ -31,12 +31,7 @@ class Plane extends THREE.Object3D{
         
         const geometry = new THREE.PlaneGeometry(width, height);
         
-        this.planeMesh = new THREE.Mesh(geometry, material || new THREE.MeshBasicMaterial({
-            color: 0xffffff,
-            side: THREE.DoubleSide,
-            transparent: true,
-            opacity: 0.8
-        }));
+        this.planeMesh = new THREE.Mesh(geometry, material);
     
         this.add(this.planeMesh);
         
@@ -50,6 +45,7 @@ class Plane extends THREE.Object3D{
     buildLeftWall(floorHeight){
         this.position.y = this.height / 2.0;
         this.position.z = floorHeight / 2.0;
+        this.rotation.y = Math.PI;
     }
 
     /**
@@ -70,7 +66,7 @@ class Plane extends THREE.Object3D{
     buildFrontWall(floorWidth){
         this.position.y = this.height / 2.0;
         this.position.x = floorWidth / 2.0;
-        this.rotation.y = Math.PI / 2;
+        this.rotation.y = -Math.PI / 2;
     }
 
     /**
