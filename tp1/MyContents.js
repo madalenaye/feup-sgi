@@ -159,8 +159,12 @@ class MyContents  {
         
 
         // Floor material
+        this.floorTexture = new THREE.TextureLoader().load('./Textures/floor.jpg');
+        this.floorTexture.wrapS = THREE.RepeatWrapping;
+        this.floorTexture.wrapT = THREE.RepeatWrapping;
+        this.floorTexture.repeat.set(1,4);
         const floorMaterial = new THREE.MeshPhysicalMaterial({ 
-            color: 0xbcbcbc, 
+            map: this.floorTexture,
             side: THREE.DoubleSide, 
             roughness: 0.5,
             metalness: 0.0,
@@ -373,7 +377,7 @@ class MyContents  {
         this.app.scene.add(coffeStain);
 
         // Door
-        this.door = new Door(this.planeLeft.width * 0.2, this.planeLeft.height / 1.4);
+        this.door = new Door(this.planeLeft.width * 0.2, this.planeLeft.height / 1.3);
         this.door.position.set(0, this.planeLeft.position.y - 0.85 - (this.door.height / 2 + 0.05), this.planeLeft.position.z - 0.05);
         this.door.rotation.y = Math.PI / 2;
         this.app.scene.add(this.door);
@@ -388,7 +392,7 @@ class MyContents  {
 
         // Shop Sign
         this.shopSign = new ShopSign("The Coffee™ Shop");
-        this.shopSign.position.set(this.door.position.x + 2.3, this.planeFront.height/2 + 1.7, this.planeLeft.position.z - 0.01);
+        this.shopSign.position.set(this.door.position.x + 1.9, this.planeFront.height/2 + 1.9, this.planeLeft.position.z - 0.01);
         this.app.scene.add(this.shopSign);
     }
 

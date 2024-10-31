@@ -12,7 +12,7 @@ class ShopSign extends THREE.Object3D{
        
             this.textGeometry = new TextGeometry(this.text, {
                 font: this.font,
-                size: 0.35,
+                size: 0.3,
                 height: 0.01,
             });
             this.textMaterial = new THREE.MeshPhongMaterial({color: "black"});
