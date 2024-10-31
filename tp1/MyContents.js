@@ -76,6 +76,7 @@ class MyContents  {
 
         //Flower
         this.flower = null;
+        this.flower2 = null;
 
         //Coffe table
         this.coffeeTable1 = null;
@@ -331,6 +332,10 @@ class MyContents  {
         this.jar.position.set(this.floor.width/2 - 0.7, this.floor.position.y + 0.5, -this.floor.height/2 + 0.7);
         this.app.scene.add(this.jar);
 
+        this.jar2 = new Jar(); 
+        this.jar2.position.set(this.floor.width/2 - 0.7, this.floor.position.y + 0.5, this.floor.height/2 - 0.7);
+        this.app.scene.add(this.jar2)
+
         // Lamp
         this.lamp = new Lamp(this.cake, "pink");
         this.lamp.position.set(this.table.positionX + 0.5, this.cake.position.y - 0.15, this.table.positionZ);
@@ -340,11 +345,13 @@ class MyContents  {
         const stemMaterial = new THREE.MeshBasicMaterial({ color: 0x008000 });
         const flowerCenterMaterial = new THREE.MeshBasicMaterial({ color: 0x260851 , side: THREE.DoubleSide });
         const petalMaterial = new THREE.MeshBasicMaterial({ color: 0xc81f07  });
-        console.log(this.jar.position.x);
-        console.log(this.jar.position.z);
-        this.flower = new Flower(64, 0.1, 8, this.jar.position.x, 0.01, this.jar.position.z, stemMaterial, flowerCenterMaterial, petalMaterial, 0.4);
-
+        this.flower = new Flower(64, 0.1, 8, this.jar.position.x, 0.01, this.jar.position.z, stemMaterial, flowerCenterMaterial, petalMaterial, 0.4, 10);
         this.app.scene.add(this.flower);
+        
+        const flowerCenterMaterial2 = new THREE.MeshBasicMaterial({ color: 0xd77fce , side: THREE.DoubleSide });
+        const petalMaterial2 = new THREE.MeshBasicMaterial({ color: 0xf0bb16 });
+        this.flower2 = new Flower(64, 0.1, 8, this.jar2.position.x - 0.1, 0.01, this.jar2.position.z, stemMaterial, flowerCenterMaterial2, petalMaterial2, 0.42, 10)
+        this.app.scene.add(this.flower2);
 
         // Coffee Table
         const topTableTexture = this.prepareTexture("./Textures/topTable.jpg");
@@ -401,7 +408,7 @@ class MyContents  {
         this.app.scene.add(this.counter);
 
         // Coffee Machine
-        this.coffeeMachine = new CoffeeMachine(this.counter.position.x + 0.25, 2.36, this.counter.position.z - 1.5, 1);
+        this.coffeeMachine = new CoffeeMachine(this.counter.position.x + 0.25, 2.50, this.counter.position.z - 1.5, 1);
         this.coffeeMachine.rotation.y = Math.PI/2;
         this.coffeeMachine.scale.set(0.75, 0.75, 0.75);
         this.app.scene.add(this.coffeeMachine);

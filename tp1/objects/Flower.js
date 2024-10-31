@@ -30,7 +30,7 @@ class Flower extends THREE.Object3D{
      * @param {THREE.Material} petalMaterial - The material to be applied to the petals.
      * @param {number} scale - The scaling factor that allows changing the size of the flower.
      */
-    constructor(tubularSegments, radius, radialSegments, positionX, positionY, positionZ, stemMaterial, flowerCenterMaterial, petalMaterial, scale) {
+    constructor(tubularSegments, radius, radialSegments, positionX, positionY, positionZ, stemMaterial, flowerCenterMaterial, petalMaterial, scale, numPetals) {
 
         super();
         this.positionX = positionX;
@@ -58,7 +58,6 @@ class Flower extends THREE.Object3D{
         // 3. Create the petals
         const petalGeometry = new THREE.SphereGeometry(0.5, 16, 16);
         
-        const numPetals = 10;
         const petalRadius = 1;
         for (let i = 0; i < numPetals; i++) {
             const angle = (i / numPetals) * Math.PI * 2; // Angle to distribute the petals
