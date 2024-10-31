@@ -28,30 +28,42 @@ class MyAxis extends THREE.Object3D {
         // a cone geometry for the xx axis
         const xx = new THREE.ConeGeometry( this.baseRadius, this.size, 32 ); 
         const xxMaterial = new THREE.MeshBasicMaterial( {color: this.xxColor} );
-        const xxMesh = new THREE.Mesh(xx, xxMaterial ); 
-        xxMesh.position.set(this.size/2,0,0);
-        xxMesh.rotation.z = -Math.PI / 2;
-        this.add( xxMesh );
+        this.xxMesh = new THREE.Mesh(xx, xxMaterial ); 
+        this.xxMesh.position.set(this.size/2,0,0);
+        this.xxMesh.rotation.z = -Math.PI / 2;
+        this.add( this.xxMesh );
 
         // a cone geometry for the yy axis
         const yy = new THREE.ConeGeometry( this.baseRadius, this.size, 32 ); 
         const yyMaterial = new THREE.MeshBasicMaterial( {color: this.yyColor} );
-        const yyMesh = new THREE.Mesh(yy, yyMaterial ); 
-        yyMesh.position.set(0, this.size/2,0);
-        this.add( yyMesh );
+        this.yyMesh = new THREE.Mesh(yy, yyMaterial ); 
+        this.yyMesh.position.set(0, this.size/2,0);
+        this.add( this.yyMesh );
 
         // a cone geometry for the zz axis
         const zz = new THREE.ConeGeometry( this.baseRadius, this.size, 32 ); 
         const zzMaterial = new THREE.MeshBasicMaterial( {color: this.zzColor} );
-        const zzMesh = new THREE.Mesh(zz, zzMaterial ); 
-        zzMesh.position.set(0,0,this.size/2);
-        zzMesh.rotation.x = Math.PI / 2;
-        this.add( zzMesh ); 
+        this.zzMesh = new THREE.Mesh(zz, zzMaterial ); 
+        this.zzMesh.position.set(0,0,this.size/2);
+        this.zzMesh.rotation.x = Math.PI / 2;
+        this.add( this.zzMesh ); 
 
         // an axis helper
-        const axesHelper = new THREE.AxesHelper( 5 );
-        axesHelper.setColors ( new THREE.Color( this.xxColor ),  new THREE.Color( this.yyColor ),  new THREE.Color( this.zzColor ))
-        this.add( axesHelper );
+        this.axesHelper = new THREE.AxesHelper( 5 );
+        this.axesHelper.setColors ( new THREE.Color( this.xxColor ),  new THREE.Color( this.yyColor ),  new THREE.Color( this.zzColor ))
+        this.add( this.axesHelper );
+    }
+
+    /**
+     * Method to update the visibility of the axes
+     * @method
+     * @param {boolean} visible - Boolean indicating whether the axes should be visible
+     */
+    setVisible(visible) {
+        this.axesHelper.visible = visible;
+        this.xxMesh.visible = visible;
+        this.yyMesh.visible = visible;
+        this.zzMesh.visible = visible;
     }
 }
 

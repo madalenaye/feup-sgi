@@ -31,7 +31,7 @@ class MyGuiInterface  {
      */
     init() {
 
-        
+        /*
         // add a folder to the gui interface for the box
         const boxFolder = this.datgui.addFolder( 'Box' );
         // note that we are using a property from the contents object 
@@ -54,12 +54,18 @@ class MyGuiInterface  {
         planeFolder.addColor( data, 'specular color' ).onChange( (value) => { this.contents.updateSpecularPlaneColor(value) } );
         planeFolder.add(this.contents, 'planeShininess', 0, 1000).name("shininess").onChange( (value) => { this.contents.updatePlaneShininess(value) } );
         planeFolder.open();
+        */
 
         // adds a folder to the gui interface for the camera
         const cameraFolder = this.datgui.addFolder('Camera')
         cameraFolder.add(this.app, 'activeCameraName', [ 'Perspective', 'Left', 'Right', 'Top', 'Front', 'Back' ] ).name("active camera");
         // note that we are using a property from the app 
         cameraFolder.add(this.app.activeCamera.position, 'x', 0, 10).name("x coord")
+        cameraFolder.add(this.app.activeCamera.position, 'y', 0, 10).name("y coord")
+        cameraFolder.add(this.app.activeCamera.position, 'z', 0, 10).name("z coord")
+        cameraFolder.add(this.contents, 'axisEnabled').name("Axis").onChange(() => {
+            this.contents.toggleAxisVisibility();
+        });
         cameraFolder.open()
 
         const tableFolder = this.datgui.addFolder( 'Table' );
