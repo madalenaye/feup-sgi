@@ -21,6 +21,7 @@ import { Cup } from './objects/Cup.js';
 import { Door } from './objects/Door.js';
 import { CoffeeMachine } from './objects/CoffeeMachine.js';
 import { ShopSign } from './objects/ShopSign.js';
+import { Counter } from './objects/Counter.js';
 
 /**
  *  This class contains the contents of out application
@@ -113,6 +114,9 @@ class MyContents  {
         // Shop Sign
         this.shopSign = null;
 
+        // Counter
+        this.counter = null;
+
     }
 
     /**
@@ -159,8 +163,12 @@ class MyContents  {
         
 
         // Floor material
+        this.floorTexture = new THREE.TextureLoader().load('./Textures/floor.jpg');
+        this.floorTexture.wrapS = THREE.RepeatWrapping;
+        this.floorTexture.wrapT = THREE.RepeatWrapping;
+        this.floorTexture.repeat.set(1,4);
         const floorMaterial = new THREE.MeshPhysicalMaterial({ 
-            color: 0xbcbcbc, 
+            map: this.floorTexture,
             side: THREE.DoubleSide, 
             roughness: 0.5,
             metalness: 0.0,
@@ -373,7 +381,7 @@ class MyContents  {
         this.app.scene.add(coffeStain);
 
         // Door
-        this.door = new Door(this.planeLeft.width * 0.2, this.planeLeft.height / 1.4);
+        this.door = new Door(this.planeLeft.width * 0.2, this.planeLeft.height / 1.3);
         this.door.position.set(0, this.planeLeft.position.y - 0.85 - (this.door.height / 2 + 0.05), this.planeLeft.position.z - 0.05);
         this.door.rotation.y = Math.PI / 2;
         this.app.scene.add(this.door);
@@ -381,15 +389,22 @@ class MyContents  {
         const coffeeStain = this.cup2.createCoffeeStain(this.coffeeTable1.positionX - 0.2, this.coffeeTable1.height + this.coffeeTable1.tableHeight + 0.06, this.coffeeTable1.positionZ);
         this.app.scene.add(coffeeStain);
 
-        // Coffee Machine
-        this.coffeeMachine = new CoffeeMachine(this.coffeeTable3.positionX, 2.6, this.coffeeTable3.positionZ, 1);
-        this.coffeeMachine.rotation.y = Math.PI/2;
-        this.app.scene.add(this.coffeeMachine);
 
         // Shop Sign
         this.shopSign = new ShopSign("The Coffee™ Shop");
-        this.shopSign.position.set(this.door.position.x + 2.3, this.planeFront.height/2 + 1.7, this.planeLeft.position.z - 0.01);
+        this.shopSign.position.set(this.door.position.x + 1.9, this.planeFront.height/2 + 1.9, this.planeLeft.position.z - 0.01);
         this.app.scene.add(this.shopSign);
+
+        // Counter
+        this.counter = new Counter();
+        this.counter.position.set(this.planeFront.position.x - 2.5, this.floor.position.y + 1.1, this.painting.position.z + 0.8);
+        this.app.scene.add(this.counter);
+
+        // Coffee Machine
+        this.coffeeMachine = new CoffeeMachine(this.counter.position.x + 0.25, 2.36, this.counter.position.z - 1.5, 1);
+        this.coffeeMachine.rotation.y = Math.PI/2;
+        this.coffeeMachine.scale.set(0.75, 0.75, 0.75);
+        this.app.scene.add(this.coffeeMachine);
     }
 
     /**

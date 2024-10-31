@@ -1,0 +1,42 @@
+import * as THREE from 'three';
+
+class Counter extends THREE.Object3D{
+    constructor(){
+        super();
+        this.counter = new THREE.BoxGeometry(5, 2, 1.5);
+        this.counterTexture = new THREE.TextureLoader().load('textures/counter.jpeg');
+        this.counterTexture.wrapS = THREE.RepeatWrapping;
+        this.counterTexture.wrapT = THREE.RepeatWrapping;
+        this.counterTexture.repeat.set(2, 2);
+        this.counterMaterial = new THREE.MeshStandardMaterial({ map: this.counterTexture, specular: "#ffffff", shininess: 1, diffuse: "#ffffff" });
+        this.counterMesh = new THREE.Mesh(this.counter, this.counterMaterial);
+
+        this.counterRight = new THREE.BoxGeometry(1.5, 0.16, 0.3);
+        this.counterTopTexture = new THREE.TextureLoader().load('textures/light_wood.jpg');
+        this.counterTopMaterial = new THREE.MeshStandardMaterial({ map: this.counterTopTexture, specular: "#ffffff", shininess: 1, diffuse: "#ffffff" });
+        this.counterRightMesh = new THREE.Mesh(this.counterRight, this.counterTopMaterial);
+        this.counterRightMesh.rotation.y = Math.PI / 2;
+        this.counterRightMesh.position.set(2.35, 1.07, 0);
+
+
+        this.counterLeft = new THREE.BoxGeometry(1.5, 0.16, 0.3);
+        this.counterLeftMesh = new THREE.Mesh(this.counterLeft, this.counterTopMaterial);
+        this.counterLeftMesh.rotation.y = Math.PI / 2;
+        this.counterLeftMesh.position.set(-2.35, 1.07, 0);
+
+
+        this.counterTop = new THREE.BoxGeometry(4.4, 0.16, 0.3);
+        this.counterTopMesh = new THREE.Mesh(this.counterTop, this.counterTopMaterial);
+        this.counterTopMesh.position.set(0, 1.07, 0.6);
+
+
+        this.counterMesh.add(this.counterRightMesh);
+        this.counterMesh.add(this.counterLeftMesh);
+        this.counterMesh.add(this.counterTopMesh);
+        this.counterMesh.rotation.y = -Math.PI / 2;
+        this.add(this.counterMesh);
+
+    }
+}
+
+export { Counter };
