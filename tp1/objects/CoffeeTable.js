@@ -1,6 +1,6 @@
 /**
- * @file CoffeTable.js
- * @class CoffeTable
+ * @file CoffeeTable.js
+ * @class CoffeeTable
  * @extends THREE.Object3D
  * @desc This class aims to represent a coffe table. 
  */
@@ -12,7 +12,7 @@ import * as THREE from 'three';
  * @classdesc Represents a coffee table composed of three main elements: the tabletop, the table support, and a base. 
  */
 
-class CoffeTable extends THREE.Object3D{
+class CoffeeTable extends THREE.Object3D{
 
     /**
      * Constructs an object that represents a coffee table.
@@ -61,4 +61,4 @@ class CoffeTable extends THREE.Object3D{
 
 }
 
-export { CoffeTable };
+export { CoffeeTable };
