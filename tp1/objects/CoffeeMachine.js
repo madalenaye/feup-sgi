@@ -82,6 +82,7 @@ class CoffeeMachine extends THREE.Object3D{
         semicircle2.scale.set(0.8, 1.5, 0.8);
         baseBox.add(semicircle2);
 
+
         // Handle to open the machine
         const torusGeometry = new THREE.TorusGeometry(0.3, 0.02, 18, 100, 2 * Math.PI);
         const torusMaterial = new THREE.MeshPhongMaterial({specular:"#685a5a", color: 0x1a1717, shininess: 3, side: THREE.DoubleSide  });
@@ -92,10 +93,10 @@ class CoffeeMachine extends THREE.Object3D{
         baseBox.add(torusMesh);
 
         // Plastic net
-        const netGeometry = new THREE.BoxGeometry(0.42, 0.001, 0.5);
+        const netGeometry = new THREE.BoxGeometry(0.42, 0.003, 0.5);
         const netBox = new THREE.Mesh(netGeometry, torusMaterial);
         netBox.rotation.x = Math.PI / 2;
-        netBox.position.z = 0.5;
+        netBox.position.z = 0.51;
         baseBox.add(netBox);
 
         // Water Tank

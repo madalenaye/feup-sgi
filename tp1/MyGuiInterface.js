@@ -56,6 +56,25 @@ class MyGuiInterface  {
         planeFolder.open();
         */
 
+        const wallsFolder = this.datgui.addFolder('Walls Material');
+        const sideOptions = {
+            FrontSide: THREE.FrontSide,
+            BackSide: THREE.BackSide,
+            DoubleSide: THREE.DoubleSide
+        };
+        
+        const sideNames = Object.keys(sideOptions);
+
+        wallsFolder.addColor(this.contents.wallMaterialProperties, 'color').name('Color').onChange((value) => {this.contents.updateWallsColor(value)});
+        wallsFolder.add(this.contents.wallMaterialProperties, 'roughness', 0, 1).name('Roughness').onChange((value => {this.contents.updateWallsRoughness(value)}));
+        wallsFolder.add(this.contents.wallMaterialProperties, 'metalness', 0, 1).name('Metalness').onChange((value => {this.contents.updateWallsMetalness(value)}));
+        wallsFolder.add(this.contents.wallMaterialProperties, 'clearcoat', 0, 1).name('Clearcoat').onChange((value => {this.contents.updateWallsClearcoat(value)}));
+        wallsFolder.add(this.contents.wallMaterialProperties, 'clearcoatRoughness', 0, 1).name('ClearcoatRoughness').onChange((value => {this.contents.updateWallsClearcoatRoughness(value)}));
+        wallsFolder.add(this.contents.wallMaterialProperties, 'reflectivity', 0, 1).name('Reflectivity').onChange((value => {this.contents.updateWallsReflectivity(value)}));
+        wallsFolder.add(this.contents.wallMaterialProperties, 'opacity', 0, 1).name('Opacity').onChange((value => {this.contents.updateWallsOpacity(value)}));
+        wallsFolder.add(this.contents.wallMaterialProperties, 'side', sideNames).name('Side').onChange((value => {this.contents.updateWallsSide(sideOptions[value])}));
+        wallsFolder.open()
+
         // adds a folder to the gui interface for the camera
         const cameraFolder = this.datgui.addFolder('Camera')
         cameraFolder.add(this.app, 'activeCameraName', [ 'Perspective', 'Left', 'Right', 'Top', 'Front', 'Back' ] ).name("active camera");

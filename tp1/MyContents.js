@@ -40,6 +40,7 @@ class MyContents  {
         this.planeRight = null
         this.planeFront = null
         this.planeBack = null
+        this.wallMaterialProperties = null;
 
         // Table
         this.table = null
@@ -101,13 +102,6 @@ class MyContents  {
         this.boxEnabled = true
         this.lastBoxEnabled = null
         this.boxDisplacement = new THREE.Vector3(0,2,0)
-
-        // plane related attributes
-        this.diffusePlaneColor = "#00ffff"
-        this.specularPlaneColor = "#777777"
-        this.planeShininess = 30
-        this.planeMaterial = new THREE.MeshPhongMaterial({ color: this.diffusePlaneColor, 
-            specular: this.specularPlaneColor, emissive: "#000000", shininess: this.planeShininess })
         
         // Lamp
         this.lamp = null;
@@ -182,38 +176,38 @@ class MyContents  {
         wallsTexture.wrapS = THREE.RepeatWrapping;
         wallsTexture.wrapT = THREE.RepeatWrapping;
         wallsTexture.repeat.set(2, 2);
-
-        const wallsMaterial = new THREE.MeshPhysicalMaterial({  
+        this.wallMaterialProperties = {color: '#ffffff', roughness: 0.5, metalness: 0.0, side: THREE.FrontSide, clearcoat: 0.1, clearcoatRoughness: 0.3, reflectivity: 0.5, opacity: 1, transparent: true};
+        
+        this.wallsMaterial = new THREE.MeshPhysicalMaterial({  
             map: wallsTexture,
-            color: 0xffffff,
-            side: THREE.DoubleSide, 
-            roughness: 0.5,
-            metalness: 0.0,
-            clearcoat: 0.1, 
-            clearcoatRoughness: 0.3,
-            reflectivity: 0.5,
-            side: THREE.FrontSide,
-            opacity: 1,
-            transparent: true
+            color: this.wallMaterialProperties.color,
+            roughness: this.wallMaterialProperties.roughness,
+            metalness: this.wallMaterialProperties.metalness,
+            clearcoat: this.wallMaterialProperties.clearcoat, 
+            clearcoatRoughness: this.wallMaterialProperties.clearcoatRoughness,
+            reflectivity: this.wallMaterialProperties.reflectivity,
+            side: this.wallMaterialProperties.side,
+            opacity: this.wallMaterialProperties.opacity,
+            transparent: this.wallMaterialProperties.transparent
         });
 
         // Left side in relation to the x-axis
-        this.planeLeft = new Plane(this.floor.width, 6, wallsMaterial);
+        this.planeLeft = new Plane(this.floor.width, 6, this.wallsMaterial);
         this.planeLeft.buildLeftWall(this.floor.height);
         this.app.scene.add(this.planeLeft);
 
         // Right side in relation to the x-axis
-        this.planeRight = new Plane(this.floor.width, 6, wallsMaterial);
+        this.planeRight = new Plane(this.floor.width, 6, this.wallsMaterial);
         this.planeRight.buildRightWall(this.floor.height);
         this.app.scene.add(this.planeRight);
 
         // Front side in relation to the x-axis
-        this.planeFront = new Plane(this.floor.height, 6, wallsMaterial);
+        this.planeFront = new Plane(this.floor.height, 6, this.wallsMaterial);
         this.planeFront.buildFrontWall(this.floor.width);
         this.app.scene.add(this.planeFront);
         
         // Back side in relation to the x-axis
-        this.planeBack = new Plane(this.floor.height, 6, wallsMaterial);
+        this.planeBack = new Plane(this.floor.height, 6, this.wallsMaterial);
         this.planeBack.buildBackWall(this.floor.width);
         this.app.scene.add(this.planeBack);
         
@@ -431,31 +425,87 @@ class MyContents  {
             this.axis.setVisible(this.axisEnabled);
         }
     }
-    
+
     /**
-     * updates the diffuse plane color and the material
+     * Method to update the colour of the walls' material.
+     * @method
      * @param {THREE.Color} value 
      */
-    updateDiffusePlaneColor(value) {
-        this.diffusePlaneColor = value
-        this.planeMaterial.color.set(this.diffusePlaneColor)
+    updateWallsColor(value){
+        this.wallMaterialProperties.color = value
+        this.wallsMaterial.color.set(this.wallMaterialProperties.color)
     }
+
     /**
-     * updates the specular plane color and the material
-     * @param {THREE.Color} value 
-     */
-    updateSpecularPlaneColor(value) {
-        this.specularPlaneColor = value
-        this.planeMaterial.specular.set(this.specularPlaneColor)
-    }
-    /**
-     * updates the plane shininess and the material
+     * Method to update the roughness of the walls' material.
+     * @method
      * @param {number} value 
      */
-    updatePlaneShininess(value) {
-        this.planeShininess = value
-        this.planeMaterial.shininess = this.planeShininess
+    updateWallsRoughness(value){
+        this.wallMaterialProperties.roughness = value
+        this.wallsMaterial.roughness = this.wallMaterialProperties.roughness
     }
+
+    /**
+     * Method to update the metalness of the walls' material.
+     * @method
+     * @param {number} value 
+     */
+    updateWallsMetalness(value){
+        this.wallMaterialProperties.metalness = value
+        this.wallsMaterial.metalness = this.wallMaterialProperties.metalness
+    }
+
+    /**
+     * Method to update the clearcoat of the walls' material.
+     * @method
+     * @param {number} value 
+     */
+    updateWallsClearcoat(value){
+        this.wallMaterialProperties.clearcoat = value
+        this.wallsMaterial.clearcoat = this.wallMaterialProperties.clearcoat
+    }
+
+    /**
+     * Method to update the clearcoatRoughness of the walls' material.
+     * @method
+     * @param {number} value 
+     */
+    updateWallsClearcoatRoughness(value){
+        this.wallMaterialProperties.clearcoatRoughness = value
+        this.wallsMaterial.clearcoatRoughness = this.wallMaterialProperties.clearcoatRoughness
+    }
+
+    /**
+     * Method to update the reflectivity of the walls' material.
+     * @method
+     * @param {number} value 
+     */
+    updateWallsReflectivity(value){
+        this.wallMaterialProperties.reflectivity = value
+        this.wallsMaterial.reflectivity = this.wallMaterialProperties.reflectivity
+    }
+
+    /**
+     * Method to update the opacity of the walls' material.
+     * @method
+     * @param {number} value 
+     */
+    updateWallsOpacity(value){
+        this.wallMaterialProperties.opacity = value;
+        this.wallsMaterial.opacity = this.wallMaterialProperties.opacity;
+    }
+
+    /**
+     * Method to update the side of the walls' material.
+     * @method
+     * @param {number} value - The side property, which should be one of THREE.FrontSide (0), THREE.BackSide (1), or THREE.DoubleSide (2).
+     */
+    updateWallsSide(value){
+        this.wallMaterialProperties.side = value;
+        this.wallsMaterial.side = this.wallMaterialProperties.side;
+    }
+
     /**
      * Method that prepares the texture for the table top
      * @param {string} imagePath
