@@ -20,7 +20,7 @@ class Lamp extends THREE.Object3D{
         this.lampTexture.repeat.set(1, 1);
         this.lampMaterial = new THREE.MeshStandardMaterial({ map: this.lampTexture });
 
-        this.lampBase = new THREE.CylinderGeometry(0.3, 0.3, 0.2, 32);
+        this.lampBase = new THREE.CylinderGeometry(0.3, 0.3, 0.1, 50);
         this.lampBaseMesh = new THREE.Mesh(this.lampBase, this.woodMaterial);
         this.add(this.lampBaseMesh);
 

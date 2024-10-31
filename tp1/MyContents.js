@@ -18,6 +18,7 @@ import { Lamp } from './objects/Lamp.js';
 import { CoffeeTable } from './objects/CoffeeTable.js';
 import { Chair } from './objects/Chair.js';
 import { Cup } from './objects/Cup.js';
+import { Door } from './objects/Door.js';
 import { CoffeeMachine } from './objects/CoffeeMachine.js';
 
 /**
@@ -110,6 +111,9 @@ class MyContents  {
         // Lamp
         this.lamp = null;
 
+        // Door
+        this.door = null;
+
     }
 
     /**
@@ -186,7 +190,10 @@ class MyContents  {
             metalness: 0.0,
             clearcoat: 0.1, 
             clearcoatRoughness: 0.3,
-            reflectivity: 0.5 
+            reflectivity: 0.5,
+            side: THREE.FrontSide,
+            opacity: 1,
+            transparent: true
         });
 
         // Left side in relation to the x-axis
@@ -363,6 +370,15 @@ class MyContents  {
         this.cup2 = new Cup(0.1, 0.05, 0.1, 0.05, cupMaterial, this.coffeeTable1.positionX - 0.3, this.coffeeTable1.height + this.coffeeTable1.tableHeight + 0.15, this.coffeeTable1.positionZ, false, Math.PI/16)
         this.app.scene.add(this.cup2);
 
+        const coffeStain = this.cup2.createCoffeeStain(this.coffeeTable1.positionX - 0.2, this.coffeeTable1.height + this.coffeeTable1.tableHeight + 0.06, this.coffeeTable1.positionZ);
+        this.app.scene.add(coffeStain);
+
+        // Door
+        this.door = new Door(this.planeLeft.width * 0.2, this.planeLeft.height / 1.4);
+        this.door.position.set(0, this.planeLeft.position.y - 0.85 - (this.door.height / 2 + 0.05), this.planeLeft.position.z - 0.05);
+        this.door.rotation.y = Math.PI / 2;
+        this.app.scene.add(this.door);
+        
         const coffeeStain = this.cup2.createCoffeeStain(this.coffeeTable1.positionX - 0.2, this.coffeeTable1.height + this.coffeeTable1.tableHeight + 0.06, this.coffeeTable1.positionZ);
         this.app.scene.add(coffeeStain);
 
