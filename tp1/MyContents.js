@@ -17,6 +17,7 @@ import { Jar } from './objects/Jar.js';
 import { CoffeTable } from './objects/CoffeTable.js';
 import { Chair } from './objects/Chair.js';
 import { Cup } from './objects/Cup.js';
+import { CoffeeMachine } from './objects/CoffeeMachine.js';
 
 /**
  *  This class contains the contents of out application
@@ -87,6 +88,9 @@ class MyContents  {
         //Cup
         this.cup = null;
         this.cup2 = null;
+
+        //Coffee Machine
+        this.coffeeMachine = null;
 
         // box related attributes
         this.boxMesh = null
@@ -365,6 +369,12 @@ class MyContents  {
 
         const coffeStain = this.cup2.createCoffeeStain(this.coffeTable1.positionX - 0.2, this.coffeTable1.height + this.coffeTable1.tableHeight + 0.06, this.coffeTable1.positionZ);
         this.app.scene.add(coffeStain);
+
+        // Coffee Machine
+        this.coffeeMachine = new CoffeeMachine(0, 2.6, 2, 1);
+        this.coffeeMachine.rotation.y = Math.PI/2;
+        this.app.scene.add(this.coffeeMachine);
+
     }
     
     /**
