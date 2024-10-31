@@ -77,12 +77,6 @@ class Chair extends THREE.Object3D {
         
     }
 
-    static build(material, app){
-        this.chair10 = new Chair(1.2, 1.2, 0.1, material, 0.05, 1.4, material,0, 0, 0);
-
-        app.scene.add(this.chair10);
-
-    }
 }
 
 export { Chair };
