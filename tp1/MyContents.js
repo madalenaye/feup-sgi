@@ -350,10 +350,10 @@ class MyContents  {
         this.coffeeTable1 = new CoffeeTable(2.0, 0.1, 2.0,topMaterial2, 0.1, 2, 0.15, {x : -(this.floor.width/2 - 1.0) + 0.4, z: 0});
         this.app.scene.add(this.coffeeTable1); 
 
-        this.coffeeTable2 = new CoffeeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, {x: this.coffeeTable1.positionX, z: this.floor.height/2 - 4})
+        this.coffeeTable2 = new CoffeeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, {x: this.coffeeTable1.positionX, z: this.floor.height/2 - 2.5})
         this.app.scene.add(this.coffeeTable2); 
 
-        this.coffeeTable3 = new CoffeeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, {x: this.coffeeTable1.positionX, z: -(this.floor.height/2 - 4)})
+        this.coffeeTable3 = new CoffeeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, {x: this.coffeeTable1.positionX, z: -(this.floor.height/2 - 2.5)})
         this.app.scene.add(this.coffeeTable3); 
 
         // Chairs
