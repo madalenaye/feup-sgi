@@ -18,6 +18,7 @@ import { Lamp } from './objects/Lamp.js';
 import { CoffeTable } from './objects/CoffeTable.js';
 import { Chair } from './objects/Chair.js';
 import { Cup } from './objects/Cup.js';
+import { Door } from './objects/Door.js';
 
 /**
  *  This class contains the contents of out application
@@ -105,6 +106,9 @@ class MyContents  {
         
         // Lamp
         this.lamp = null;
+
+        // Door
+        this.door = null;
 
     }
 
@@ -384,6 +388,12 @@ class MyContents  {
 
         const coffeStain = this.cup2.createCoffeeStain(this.coffeTable1.positionX - 0.2, this.coffeTable1.height + this.coffeTable1.tableHeight + 0.06, this.coffeTable1.positionZ);
         this.app.scene.add(coffeStain);
+
+        // Door
+        this.door = new Door();
+        this.door.position.set(-this.floor.width/2, 3, 0);
+        this.app.scene.add(this.door);
+        
     }
     
     /**
