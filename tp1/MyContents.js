@@ -14,6 +14,7 @@ import { Newspaper } from './objects/Newspaper.js';
 import {Flower} from './objects/Flower.js';
 import { Spring } from './objects/Spring.js';
 import { Jar } from './objects/Jar.js';
+import { Lamp } from './objects/Lamp.js';
 import { CoffeTable } from './objects/CoffeTable.js';
 import { Chair } from './objects/Chair.js';
 import { Cup } from './objects/Cup.js';
@@ -105,12 +106,16 @@ class MyContents  {
         this.planeShininess = 30
         this.planeMaterial = new THREE.MeshPhongMaterial({ color: this.diffusePlaneColor, 
             specular: this.specularPlaneColor, emissive: "#000000", shininess: this.planeShininess })
+        
+        // Lamp
+        this.lamp = null;
+
     }
 
     /**
      * builds the box mesh with material assigned
      */
-    buildBox() {    
+    /*buildBox() {    
         let boxMaterial = new THREE.MeshPhongMaterial({ color: "#ffff77", 
         specular: "#000000", emissive: "#000000", shininess: 90 })
 
@@ -119,7 +124,7 @@ class MyContents  {
         this.boxMesh = new THREE.Mesh( box, boxMaterial );
         this.boxMesh.rotation.x = -Math.PI / 2;
         this.boxMesh.position.y = this.boxDisplacement.y;
-    }
+    }*/
 
     /**
      * initializes the contents
@@ -147,7 +152,7 @@ class MyContents  {
         const ambientLight = new THREE.AmbientLight( 0x555555 );
         this.app.scene.add( ambientLight );
 
-        this.buildBox()
+        //this.buildBox()
         
 
         // Floor material
@@ -236,10 +241,19 @@ class MyContents  {
         this.app.scene.add(this.plate);
 
         // Cake
-        const cakeTexture = this.prepareTexture('./Textures/cake.jpg');
-        const cakeMaterial = new THREE.MeshStandardMaterial({map:cakeTexture });
-        this.cake = new Cake(0.45,0.3,Math.PI/8, cakeMaterial);
-        this.cake.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.2, this.table.positionZ);
+        this.cakeTexture = new THREE.TextureLoader().load('./Textures/cake_frosting.png');
+        this.cakeTexture.wrapS = THREE.RepeatWrapping;
+        this.cakeTexture.wrapT = THREE.RepeatWrapping;
+        this.cakeTexture.repeat.set(1, 1);
+
+        this.cakeInsideTexture = new THREE.TextureLoader().load('./Textures/inside_cake.jpg');
+        this.cakeInsideTexture.wrapS = THREE.RepeatWrapping;
+        this.cakeInsideTexture.wrapT = THREE.RepeatWrapping;
+        this.cakeInsideTexture.repeat.set(1, 1);
+
+        this.cakeColor = "#a62121"
+        this.cake = new Cake(0.45,0.3,Math.PI/5, this.cakeTexture, this.cakeInsideTexture, this.cakeColor);
+        this.cake.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.25, this.table.positionZ);
         this.app.scene.add(this.cake);
 
         // Window
@@ -303,6 +317,11 @@ class MyContents  {
         this.jar.position.set(this.floor.width/2 - 0.7, this.floor.position.y + 0.5, -this.floor.height/2 + 0.7);
         this.app.scene.add(this.jar);
 
+        // Lamp
+        this.lamp = new Lamp(this.cake, "pink");
+        this.lamp.position.set(this.table.positionX + 0.5, this.cake.position.y - 0.15, this.table.positionZ);
+        this.lamp.rotation.y = Math.PI/2;
+        this.app.scene.add(this.lamp);
         //Flower
         const stemMaterial = new THREE.MeshBasicMaterial({ color: 0x008000 });
         const flowerCenterMaterial = new THREE.MeshBasicMaterial({ color: 0x260851 , side: THREE.DoubleSide });
@@ -416,14 +435,14 @@ class MyContents  {
      * rebuilds the box mesh if required
      * this method is called from the gui interface
      */
-    rebuildBox() {
+    /*rebuildBox() {
         // remove boxMesh if exists
         if (this.boxMesh !== undefined && this.boxMesh !== null) {  
             this.app.scene.remove(this.boxMesh)
         }
         this.buildBox();
         this.lastBoxEnabled = null
-    }
+    }*/
     
     /**
      * updates the box mesh if required
@@ -431,7 +450,7 @@ class MyContents  {
      * updates are trigered by boxEnabled property changes
      */
     
-    updateBoxIfRequired() {
+    /*updateBoxIfRequired() {
         if (this.boxEnabled !== this.lastBoxEnabled) {
             this.lastBoxEnabled = this.boxEnabled
             if (this.boxEnabled) {
@@ -441,7 +460,7 @@ class MyContents  {
                 this.app.scene.remove(this.boxMesh)
             }
         }
-    }
+    }*/
 
     /**
      * updates the contents
@@ -450,13 +469,13 @@ class MyContents  {
      */
     update() {
         // check if box mesh needs to be updated
-        this.updateBoxIfRequired()
+       /*this.updateBoxIfRequired()
 
         // sets the box mesh position based on the displacement vector
         this.boxMesh.position.x = this.boxDisplacement.x
         this.boxMesh.position.y = this.boxDisplacement.y
         this.boxMesh.position.z = this.boxDisplacement.z
-        
+        */
     }
 
 }
