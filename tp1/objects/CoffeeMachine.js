@@ -6,6 +6,7 @@
  */
 
 import * as THREE from 'three';
+import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
 /**
  * @class
@@ -36,12 +37,15 @@ class CoffeeMachine extends THREE.Object3D{
         const boxGeometry = new THREE.BoxGeometry(0.5, 1, 1);
         const material2 = new THREE.MeshPhongMaterial({ color: 0xeb301e, shininess: 3,specular: 0xeb301e });
         const baseBox = new THREE.Mesh(boxGeometry, material2);
+        shadowDefinitions.objectShadow(baseBox);
+
         baseBox.position.y = 0;
         this.add(baseBox);
 
         // Top: Half Cylinder
         const cylinderGeometry = new THREE.CylinderGeometry(0.25, 0.25, 1, 32, 1, false, 0, Math.PI);
         const halfCylinder = new THREE.Mesh(cylinderGeometry, material2);
+        shadowDefinitions.objectShadow(halfCylinder);
         halfCylinder.position.y = 0.5;
         halfCylinder.rotation.set(Math.PI / 2, Math.PI / 2, 0);
         this.add(halfCylinder);
@@ -50,6 +54,7 @@ class CoffeeMachine extends THREE.Object3D{
         const sphereGeometry = new THREE.SphereGeometry(0.08, 32, 16);
         const material1 = new THREE.MeshPhongMaterial({specular:"#b4aaaa", color: 0x1a1717, shininess: 3 });
         const sphere = new THREE.Mesh(sphereGeometry, material1);
+        shadowDefinitions.objectShadow(sphere, false, true);
         sphere.rotation.x = Math.PI / 2;
         sphere.position.set(0, 0.5, 0.5);
         sphere.scale.set(1, 1.7, 1);
@@ -58,6 +63,7 @@ class CoffeeMachine extends THREE.Object3D{
         const spoutGeometry = new THREE.CylinderGeometry(0.01, 0.01, 0.1, 32, 1, true);
         const spoutMaterial = new THREE.MeshStandardMaterial({ color: 0x222222, side: THREE.DoubleSide });
         const spout = new THREE.Mesh(spoutGeometry, spoutMaterial);
+        shadowDefinitions.objectShadow(spout, false, true);
         spout.rotation.x = Math.PI / 2;
         spout.position.set(0, 0.03, 0.06);
         sphere.add(spout);
@@ -86,6 +92,7 @@ class CoffeeMachine extends THREE.Object3D{
         const torusGeometry = new THREE.TorusGeometry(0.3, 0.02, 18, 100, 2 * Math.PI);
         const torusMaterial = new THREE.MeshPhongMaterial({specular:"#685a5a", color: 0x1a1717, shininess: 3, side: THREE.DoubleSide  });
         const torusMesh = new THREE.Mesh(torusGeometry, torusMaterial);
+        shadowDefinitions.objectShadow(torusMesh, false, true);
         torusMesh.rotation.x = Math.PI / 2;
         torusMesh.position.set(0, 0.5, 0.32);
         torusMesh.scale.set(1, 1.5, 1);
@@ -102,17 +109,20 @@ class CoffeeMachine extends THREE.Object3D{
         const waterTankGeometry = new THREE.BoxGeometry(0.3, 1, 0.2);
         const waterTankMaterial = new THREE.MeshStandardMaterial({ color: 0x00aaff, transparent: true, opacity: 0.5 });
         const waterTank = new THREE.Mesh(waterTankGeometry, waterTankMaterial);
-        waterTank.position.set(0, 0.01, -0.6);
+        shadowDefinitions.objectShadow(waterTank, true, false);
+        waterTank.position.set(0, 0.01, -0.60);
         baseBox.add(waterTank);
 
         // Tank caps
         const capGeometry = new THREE.BoxGeometry(0.3, 0.02, 0.2);
         const capMaterial = new THREE.MeshStandardMaterial({ color: 0x1a1717 });
         const topCap = new THREE.Mesh(capGeometry, capMaterial);
+        //shadowDefinitions.objectShadow(topCap);
         topCap.position.set(0, 0.5, 0);
         waterTank.add(topCap);
 
         const bottomCap = new THREE.Mesh(capGeometry, capMaterial);
+        //shadowDefinitions.objectShadow(bottomCap);
         bottomCap.position.set(0, -0.5, 0);
         waterTank.add(bottomCap);
 
@@ -124,9 +134,11 @@ class CoffeeMachine extends THREE.Object3D{
 
         const sphereGeometry2 = new THREE.SphereGeometry(radius, widthSegments, heightSegments, 0, phiLength);
         const sphereSlice = new THREE.Mesh(sphereGeometry2, torusMaterial);
+        shadowDefinitions.objectShadow(sphereSlice, false, true);
 
         const semicircleGeometry = new THREE.CircleGeometry(radius, 48, 0, Math.PI);
         const semicircle = new THREE.Mesh(semicircleGeometry, torusMaterial);
+        shadowDefinitions.objectShadow(semicircle, false, true);
         semicircle.rotation.z = Math.PI / 2;
         sphereSlice.add(semicircle);
         sphereSlice.rotation.set(Math.PI / 2, 0, -Math.PI / 2);

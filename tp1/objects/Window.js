@@ -8,6 +8,7 @@
 
 
 import * as THREE from 'three';
+import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
 /**
  * @class
@@ -42,6 +43,7 @@ class Window extends THREE.Object3D{
         const glassGeometry = new THREE.PlaneGeometry(glassWidth, glassHeight);
         const glassMaterial = new THREE.MeshBasicMaterial({map: windowTexture});
         const glassMesh = new THREE.Mesh(glassGeometry, glassMaterial);
+        shadowDefinitions.objectShadow(glassMesh, true, false);
 
         // Create the window frame using parallelepipeds
         const frameMaterial = new THREE.MeshBasicMaterial({ color: 0x333333 });
@@ -53,9 +55,13 @@ class Window extends THREE.Object3D{
         const rightFrameGeometry = new THREE.BoxGeometry(this.frameThickness, this.height - 2 * this.frameThickness, this.frameThickness);
 
         const topFrameMesh = new THREE.Mesh(topFrameGeometry, frameMaterial);
+        shadowDefinitions.objectShadow(topFrameMesh, false, true);
         const bottomFrameMesh = new THREE.Mesh(bottomFrameGeometry, frameMaterial);
+        shadowDefinitions.objectShadow(bottomFrameMesh, false, true);
         const leftFrameMesh = new THREE.Mesh(leftFrameGeometry, frameMaterial);
+        shadowDefinitions.objectShadow(leftFrameMesh, false, true);
         const rightFrameMesh = new THREE.Mesh(rightFrameGeometry, frameMaterial);
+        shadowDefinitions.objectShadow(rightFrameMesh, false, true);
 
         // Position the frame parts relative to the origin of the glass
         topFrameMesh.position.set(0, this.height / 2 - this.frameThickness / 2, 0);
@@ -94,6 +100,15 @@ class Window extends THREE.Object3D{
         rectLight.lookAt(0, this.position.y, 0); 
 
         return rectLight
+    }
+    
+    activateShadowLight(){
+        
+        const shadowLight = new THREE.SpotLight(0xf5ac3d, 1, 7.5, Math.PI/2.5);
+        shadowDefinitions.propertiesLightShadow(shadowLight);
+        shadowLight.position.set(this.position.x, this.position.y, this.position.z);
+
+        return shadowLight
     }
 
 

@@ -7,6 +7,7 @@
 
 
 import * as THREE from 'three';
+import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
 /**
  * @class
@@ -40,6 +41,7 @@ class Table extends THREE.Object3D{
         // Create geometry and mesh for the top
         const topGeometry = new THREE.BoxGeometry(width, height, depth);
         const topMesh = new THREE.Mesh(topGeometry, topMaterial);
+        shadowDefinitions.objectShadow(topMesh);
         topMesh.position.set(position.x, position.y + height / 2, position.z);
         this.add(topMesh);
 
@@ -59,6 +61,7 @@ class Table extends THREE.Object3D{
         for (let i = 0; i < legsPositions.length; i++) {
             const pos = legsPositions[i];
             const legMesh = new THREE.Mesh(legsGeometry, legsMaterial);
+            shadowDefinitions.objectShadow(legMesh,false, true);
             legMesh.position.set(pos.x, pos.y, pos.z);
             topMesh.add(legMesh); // The legs are "children" of the top
         }

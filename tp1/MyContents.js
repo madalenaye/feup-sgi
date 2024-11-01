@@ -23,6 +23,7 @@ import { CoffeeMachine } from './objects/CoffeeMachine.js';
 import { ShopSign } from './objects/ShopSign.js';
 import { Counter } from './objects/Counter.js';
 import { Rug } from './objects/Rug.js';
+import { shadowDefinitions } from './utils/ShadowDefinitions.js';
 
 /**
  *  This class contains the contents of out application
@@ -151,8 +152,9 @@ class MyContents  {
         }
 
         // add a point light on top of the model
-        const pointLight = new THREE.PointLight( 0xffffff, 500, 0 );
-        pointLight.position.set( 0, 20, 0 );
+        const pointLight = new THREE.PointLight( 0xffffff, 10, 0, 1 );
+        pointLight.position.set( 0, 10, 0 );
+        shadowDefinitions.propertiesLightShadow(pointLight);
         this.app.scene.add( pointLight );
 
         // add a point light helper for the previous point light
@@ -301,6 +303,12 @@ class MyContents  {
         this.rectLight = this.window.activateWindowLight()
         this.app.scene.add(this.rectLight);
 
+        this.shadowLight = this.window.activateShadowLight()
+        this.app.scene.add(this.shadowLight);
+        
+        //const spotLightHelper = new THREE.SpotLightHelper(this.shadowLight);
+        //this.app.scene.add(spotLightHelper)
+        
         //const helper = new RectAreaLightHelper( this.rectLight );
         //this.rectLight.add( helper );
 

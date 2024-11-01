@@ -6,6 +6,7 @@
  */
 
 import * as THREE from 'three';
+import { shadowDefinitions } from '../utils/ShadowDefinitions.js';
 
 /**
  * @class
@@ -36,6 +37,7 @@ class Beetle extends THREE.Object3D{
         const paintingGeometry = new THREE.BoxGeometry(paintingWidth, paintingHeight, paintingDepth);
         const paintingMaterial = new THREE.MeshBasicMaterial({ color: 0xecf2f4 }); 
         const painting = new THREE.Mesh(paintingGeometry, paintingMaterial);
+        shadowDefinitions.objectShadow(painting);
         painting.position.set(0, 0, 0);
         this.frameGroup.add(painting);
 
@@ -48,18 +50,22 @@ class Beetle extends THREE.Object3D{
         const frameSideGeometry = new THREE.BoxGeometry(frameThickness, paintingHeight + frameThickness * 2, frameDepth);
 
         const frameTop = new THREE.Mesh(frameTopBottomGeometry, frameMaterial);
+        shadowDefinitions.objectShadow(frameTop);
         frameTop.position.set(0, (paintingHeight / 2 + frameThickness / 2), 0);
         this.frameGroup.add(frameTop);
 
         const frameBottom = new THREE.Mesh(frameTopBottomGeometry, frameMaterial);
+        shadowDefinitions.objectShadow(frameBottom);
         frameBottom.position.set(0, -(paintingHeight / 2 + frameThickness / 2), 0);
         this.frameGroup.add(frameBottom);
 
         const frameLeft = new THREE.Mesh(frameSideGeometry, frameMaterial);
+        shadowDefinitions.objectShadow(frameLeft);
         frameLeft.position.set(-(paintingWidth / 2 + frameThickness / 2), 0, 0);
         this.frameGroup.add(frameLeft);
 
         const frameRight = new THREE.Mesh(frameSideGeometry, frameMaterial);
+        shadowDefinitions.objectShadow(frameRight);
         frameRight.position.set((paintingWidth / 2 + frameThickness / 2), 0, 0);
         this.frameGroup.add(frameRight);
 

@@ -6,6 +6,7 @@
  */
 
 import * as THREE from 'three';
+import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
 /**
  * @class
@@ -34,10 +35,12 @@ class Cup extends THREE.Object3D {
         const baseMaterial = new THREE.MeshPhongMaterial({color: 0xffa500,shininess: 200,side: THREE.DoubleSide });
         const baseGeometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, baseHeight, 32);
         const baseMesh = new THREE.Mesh(baseGeometry, baseMaterial);
+        shadowDefinitions.objectShadow(baseMesh, false, true);
         baseMesh.position.y = baseHeight / 2;
 
         const bodyGeometry = new THREE.CylinderGeometry(radiusTop, radiusTop, cupHeight, 32, 1, true);
         const bodyMesh = new THREE.Mesh(bodyGeometry, material);
+        shadowDefinitions.objectShadow(bodyMesh, false, true);
         bodyMesh.position.y = baseHeight + cupHeight / 2; 
 
         const cupGroup = new THREE.Group();
@@ -49,6 +52,7 @@ class Cup extends THREE.Object3D {
         const handleTube = 0.01;  
         const handleGeometry = new THREE.TorusGeometry(handleRadius, handleTube, 16, 100, Math.PI);
         const handleMesh = new THREE.Mesh(handleGeometry, material2);
+        shadowDefinitions.objectShadow(handleMesh, false, true);
         handleMesh.position.set(-(radiusTop), baseHeight + (cupHeight / 2), 0); 
         handleMesh.rotation.z = Math.PI / 2; 
 
@@ -65,6 +69,7 @@ class Cup extends THREE.Object3D {
                 side: THREE.DoubleSide
             });
             const coffeeMesh = new THREE.Mesh(coffeeGeometry, coffeeMaterial);
+            shadowDefinitions.objectShadow(coffeeMesh,true, false);
             coffeeMesh.position.y = baseHeight + cupHeight - 0.05;
             coffeeMesh.rotation.x = Math.PI / 2;
 
