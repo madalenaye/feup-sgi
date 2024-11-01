@@ -16,15 +16,15 @@ import { shadowDefinitions } from '../utils/ShadowDefinitions.js';
 
  class Rug extends THREE.Object3D{
     /**
-     * Constroi um objeto que representa um tapete.
+     * Constructs an object representing a rug.
      * @constructor
-     * @param {number} with - 
-     * @param {number} height - 
-     * @param {number} depth -
-     * @param {THREE.Material} material -
-     * @param {number} positionX -
-     * @param {number} positionY -
-     * @param {number} positionZ -
+     * @param {number} width - The width of the rug.
+     * @param {number} height - The height (thickness) of the rug.
+     * @param {number} depth - The depth of the rug.
+     * @param {THREE.Material} material - The material of the rug.
+     * @param {number} positionX - The X-coordinate for the rug's position.
+     * @param {number} positionY - The Y-coordinate for the rug's position.
+     * @param {number} positionZ - The Z-coordinate for the rug's position.
      */
     constructor(width, height, depth, material, positionX, positionY, positionZ){
         super();

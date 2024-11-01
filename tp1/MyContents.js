@@ -305,12 +305,9 @@ class MyContents  {
 
         this.shadowLight = this.window.activateShadowLight()
         this.app.scene.add(this.shadowLight);
-        
-        //const spotLightHelper = new THREE.SpotLightHelper(this.shadowLight);
-        //this.app.scene.add(spotLightHelper)
-        
-        //const helper = new RectAreaLightHelper( this.rectLight );
-        //this.rectLight.add( helper );
+
+        const dirLightHelper = new THREE.DirectionalLightHelper(this.shadowLight, 5);
+        const shadowHelper = new THREE.CameraHelper(this.shadowLight.shadow.camera);
 
         // 1st Painting
 

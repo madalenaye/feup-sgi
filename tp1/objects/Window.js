@@ -93,7 +93,7 @@ class Window extends THREE.Object3D{
 
         const width = this.width/1.5; 
         const height = this.height/1.5;
-        const intensity = 7;
+        const intensity = 5;
 
         const rectLight = new THREE.RectAreaLight(0xf5ac3d, intensity, width, height);
         rectLight.position.set(this.position.x, this.position.y, this.position.z); 
@@ -102,15 +102,21 @@ class Window extends THREE.Object3D{
         return rectLight
     }
     
+     /**
+     * Method responsible for activating a directional shadow light to complement the rectangular area light.
+     * @method
+     * @returns {THREE.DirectionalLight} -  A directional light source configured for casting shadows, 
+     *                                      positioned to enhance the area lighting.
+     */
     activateShadowLight(){
-        
-        const shadowLight = new THREE.SpotLight(0xf5ac3d, 1, 7.5, Math.PI/2.5);
-        shadowDefinitions.propertiesLightShadow(shadowLight);
-        shadowLight.position.set(this.position.x, this.position.y, this.position.z);
 
+        const shadowLight = new THREE.DirectionalLight(0xf5ac3d, 0.3);
+        shadowDefinitions.propertiesLightShadow(shadowLight, 2048, 2048, 0.5, 16, -3, 3, -3, 3);
+        shadowLight.position.set(this.position.x - 1, this.position.y, this.position.z); 
+        shadowLight.target.position.set(0, 2.1, 0); 
+        
         return shadowLight
     }
-
 
 }
 
