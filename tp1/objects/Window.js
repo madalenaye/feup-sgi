@@ -85,8 +85,8 @@ class Window extends THREE.Object3D{
      */
     activateWindowLight(){
 
-        const width = this.width/1.55; 
-        const height = this.height/1.55;
+        const width = this.width/1.52; 
+        const height = this.height/1.52;
         const intensity = 7;
 
         const rectLight = new THREE.RectAreaLight(0xf5ac3d, intensity, width, height);

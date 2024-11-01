@@ -151,7 +151,7 @@ class MyContents  {
         }
 
         // add a point light on top of the model
-        const pointLight = new THREE.PointLight( 0xffffff, 500, 0 );
+        const pointLight = new THREE.PointLight( 0x949494, 500, 0 );
         pointLight.position.set( 0, 20, 0 );
         this.app.scene.add( pointLight );
 
@@ -338,6 +338,8 @@ class MyContents  {
 
         // Beetle
         this.beetle = new Beetle(-this.floor.width/2, 3, 0, 0.25, 48);
+        this.beetle.scale.set(0.9, 0.8, 0.9)
+        this.beetle.position.y = 1.3
         this.app.scene.add(this.beetle);
 
         // Jar
