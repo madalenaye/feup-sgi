@@ -363,16 +363,7 @@ class MyContents  {
 
         // Coffee Table
         const topTableTexture = this.prepareTexture("./Textures/topTable.jpg");
-        const topMaterial2 = new THREE.MeshPhysicalMaterial({
-            map: topTableTexture,
-            roughness: 0.6,             // Ajusta o quanto a superfície é rugosa
-            metalness: 0.1,             // Um leve toque metálico
-            reflectivity: 0.2,          // Adiciona algum nível de reflexo
-            clearcoat: 0.3,             // Leve camada de verniz, simulando brilho
-            clearcoatRoughness: 0.2,    // Ajusta a rugosidade do verniz para não ser um reflexo perfeito
-            sheen: 0.4,                 // Adiciona um brilho suave em superfícies de madeira
-            sheenRoughness: 0.8         // Controla a rugosidade do brilho do sheen
-        });
+        const topMaterial2 = new THREE.MeshPhysicalMaterial({map: topTableTexture, roughness: 0.6, metalness: 0.1, reflectivity: 0.2, clearcoat: 0.3, clearcoatRoughness: 0.2, sheen: 0.4, sheenRoughness: 0.8});
 
         this.coffeeTable1 = new CoffeeTable(2.0, 0.1, 2.0,topMaterial2, 0.1, 2, 0.15, {x : -(this.floor.width/2 - 1.0) + 0.4, z: 0});
         this.app.scene.add(this.coffeeTable1); 
@@ -412,7 +403,6 @@ class MyContents  {
         
         const coffeeStain = this.cup2.createCoffeeStain(this.coffeeTable1.positionX - 0.2, this.coffeeTable1.height + this.coffeeTable1.tableHeight + 0.06, this.coffeeTable1.positionZ);
         this.app.scene.add(coffeeStain);
-
 
         // Shop Sign
         this.shopSign = new ShopSign("The Coffee™ Shop");
