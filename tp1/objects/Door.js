@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
 
 class Door extends THREE.Object3D{
@@ -15,12 +16,14 @@ class Door extends THREE.Object3D{
         
         this.door = new THREE.BoxGeometry(this.width, this.height, 0.1);
         this.doorMesh = new THREE.Mesh(this.door, this.doorMaterial);
+        shadowDefinitions.objectShadow(this.doorMesh, true, true);
         this.doorMesh.rotation.y = Math.PI / 2;
         this.doorMesh.position.set(0, this.height / 2 + 0.05, 0);
         this.add(this.doorMesh)
 
         this.glass = new THREE.BoxGeometry(this.width/1.45, this.height/2.3, 0.15);
         this.glassMesh = new THREE.Mesh(this.glass, this.doorGlass);
+        //shadowDefinitions.objectShadow(this.glassMesh, true, true);
         this.glassMesh.rotation.y = Math.PI / 2;
         this.glassMesh.position.set(0.005, this.height / 2 + 0.95, 0);
         this.add(this.glassMesh)
@@ -29,17 +32,20 @@ class Door extends THREE.Object3D{
 
         this.doorBase = new THREE.CylinderGeometry(0.1, 0.1, 0.01, 50);
         this.doorBaseMesh = new THREE.Mesh(this.doorBase, this.doorHandleMaterial);
+        shadowDefinitions.objectShadow(this.doorBaseMesh, true, true);
         this.doorBaseMesh.rotation.z = Math.PI / 2;
         this.doorBaseMesh.position.set(0.06, this.height / 2 - 0.1, this.width / 2 - 0.25);
     
 
         this.doorHandleHelper = new THREE.CylinderGeometry(0.025, 0.025, 0.2, 50);
         this.doorHandleHelperMesh = new THREE.Mesh(this.doorHandleHelper, this.doorHandleMaterial);
+        shadowDefinitions.objectShadow(this.doorHandleHelperMesh, true, true);
         this.doorHandleHelperMesh.rotation.z = Math.PI / 2;
         this.doorHandleHelperMesh.position.set(0.08, this.height / 2 - 0.1, this.width / 2 - 0.25);
 
         this.doorHandle = new THREE.CylinderGeometry(0.02, 0.02, 0.4, 50);
         this.doorHandleMesh = new THREE.Mesh(this.doorHandle, this.doorHandleMaterial);
+        shadowDefinitions.objectShadow(this.doorHandleMesh, true, true);
         this.doorHandleMesh.rotation.x = -Math.PI / 2;
         this.doorHandleMesh.position.set(0.16, this.height / 2 - 0.1, this.width / 2 - 0.45);
 

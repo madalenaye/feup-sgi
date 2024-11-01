@@ -42,7 +42,7 @@ class Table extends THREE.Object3D{
         const topGeometry = new THREE.BoxGeometry(width, height, depth);
         const topMesh = new THREE.Mesh(topGeometry, topMaterial);
         shadowDefinitions.objectShadow(topMesh);
-        topMesh.position.set(position.x, position.y + height / 2, position.z);
+        topMesh.position.set(position.x, position.y + height / 2 - 0.075, position.z);
         this.add(topMesh);
 
         // Create geometry and mesh for the legs (cylinders)

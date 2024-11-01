@@ -240,7 +240,7 @@ class MyContents  {
 
         const legsMaterial = new THREE.MeshPhysicalMaterial({map: metalTexture, roughness: 0.2, metalness: 0.7, reflectivity: 0.7, clearcoat: 0.3, clearcoatRoughness: 0.1});
 
-        this.table = new Table(5, 0.2, 3,{ x: 0, y: 2, z: -3 }, topMaterial, legsMaterial);
+        this.table = new Table(5, 0.2, 3,{ x: 0, y: 2.0, z: -3 }, topMaterial, legsMaterial);
         this.tableGroup.add(this.table);
 
         // Candle
@@ -249,17 +249,17 @@ class MyContents  {
         
         const flameMaterial = new THREE.MeshLambertMaterial({emissive: 0xffa500, emissiveIntensity: 1, transparent: false, shininess: 800});
         
-        this.candle = new Candle(0.2, 0.02, candleMaterial, 0.010, flameMaterial, { x: this.table.positionX, y: this.table.positionY + this.table.height+0.02, z: this.table.positionZ} );                                                             
+        this.candle = new Candle(0.2, 0.02, candleMaterial, 0.010, flameMaterial, { x: this.table.positionX, y: this.table.positionY + this.table.height-0.055, z: this.table.positionZ} );                                                             
         this.tableGroup.add(this.candle);
 
         // Plate for Candle
         this.candlePlate = new Plate(this.candle.cylinderRadius * 2, 20);
-        this.candlePlate.position.set(this.table.positionX, this.table.positionY + this.table.height + 0.02, this.table.positionZ);
+        this.candlePlate.position.set(this.table.positionX, this.table.positionY + this.table.height -0.055, this.table.positionZ);
         this.tableGroup.add(this.candlePlate);
 
         // Plate
         this.plate = new Plate(0.4, 32);
-        this.plate.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.07, this.table.positionZ);
+        this.plate.position.set(this.table.positionX + 2, this.table.positionY + this.table.height - 0.012, this.table.positionZ);
         this.app.scene.add(this.plate);
 
         // Cake
@@ -275,21 +275,21 @@ class MyContents  {
 
         this.cakeColor = "#a62121"
         this.cake = new Cake(0.45,0.3,Math.PI/5, this.cakeTexture, this.cakeInsideTexture, this.cakeColor);
-        this.cake.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.25, this.table.positionZ);
+        this.cake.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.14, this.table.positionZ);
         this.tableGroup.add(this.cake); 
 
         //Newspaper
-        this.newspaper = new Newspaper(this.table.positionX - 1.8, this.table.positionY + 0.2, this.table.positionZ + 0.4);
+        this.newspaper = new Newspaper(this.table.positionX - 1.8, this.table.positionY + 0.13, this.table.positionZ + 0.4);
         this.tableGroup.add(this.newspaper);
 
         // Spring
         this.spring = new Spring(0.1, 48, 0.04, 5);
-        this.spring.position.set(this.table.positionX - 1 , this.table.positionY + this.table.height, this.table.positionZ + 1);
+        this.spring.position.set(this.table.positionX - 1 , this.table.positionY + this.table.height - 0.1, this.table.positionZ + 1);
         this.tableGroup.add(this.spring);
 
         // Lamp
         this.lamp = new Lamp(this.cake, "pink");
-        this.lamp.position.set(this.table.positionX + 0.5, this.cake.position.y - 0.15, this.table.positionZ);
+        this.lamp.position.set(this.table.positionX + 0.5, this.cake.position.y - 0.20, this.table.positionZ);
         this.lamp.rotation.y = Math.PI/2;
         this.tableGroup.add(this.lamp);
 
@@ -315,13 +315,13 @@ class MyContents  {
         // 1st Painting
 
         this.painting = new Painting(1.3, 1.5, 0.1, 'Textures/pikachu.jpg');
-        this.painting.position.set(this.floor.width/2 - 0.1, this.planeFront.height/2 + 0.1, this.planeFront.position.z);
+        this.painting.position.set(this.floor.width/2 - 0.05, this.planeFront.height/2 + 0.1, this.planeFront.position.z);
         this.painting.rotateY(-Math.PI/2);
         this.app.scene.add(this.painting);
 
         // 2nd Painting
         this.painting2 = new Painting(1.3, 1.5, 0.1, 'Textures/cat.jpg');
-        this.painting2.position.set(this.floor.width/2 - 0.1, this.planeFront.height/2 + 0.1, this.planeFront.position.z + 1.5);
+        this.painting2.position.set(this.floor.width/2 - 0.05, this.planeFront.height/2 + 0.1, this.planeFront.position.z + 1.5);
         this.painting2.rotateY(-Math.PI/2);
         this.app.scene.add(this.painting2);
 

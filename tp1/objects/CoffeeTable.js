@@ -48,7 +48,7 @@ class CoffeeTable extends THREE.Object3D{
         const baseMaterial = new THREE.MeshPhongMaterial({color: 0xcbbda9, specular:"#dddddd", shininess: 2});
         const baseGeometry = new THREE.CylinderGeometry(baseRadius, baseRadius + 0.4, 0.05, 32);
         const base = new THREE.Mesh(baseGeometry, baseMaterial);
-        shadowDefinitions.objectShadow(base);
+        shadowDefinitions.objectShadow(base, true, false);
 
         base.position.y = -legHeight; 
 

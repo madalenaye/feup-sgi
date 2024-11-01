@@ -6,6 +6,7 @@
  */
 import * as THREE from 'three';
 import { MyNurbsBuilder } from '../MyNurbsBuilder.js';
+import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
 /**
  * @class
@@ -68,7 +69,9 @@ class Jar extends THREE.Object3D{
         this.builder = new MyNurbsBuilder();
         this.nurbsSurface = this.builder.build(this.controlPoints, 3, 5, 20, 20, this.jarMaterial);
         this.front = new THREE.Mesh(this.nurbsSurface, this.jarMaterial);
+        shadowDefinitions.objectShadow(this.front, false, true);
         this.back = new THREE.Mesh(this.nurbsSurface, this.jarMaterial);
+        shadowDefinitions.objectShadow(this.back, false, true);
         this.back.rotation.y = Math.PI;
         this.add(this.front)
         this.add(this.back)
@@ -93,6 +96,7 @@ class Jar extends THREE.Object3D{
 
         const soilGeometry = new THREE.CircleGeometry(radius, 32);
         const soilMesh = new THREE.Mesh(soilGeometry, soilMaterial);
+        shadowDefinitions.objectShadow(soilMesh, true, false);
         
         soilMesh.rotation.x = -Math.PI / 2;
         soilMesh.position.y = 0.4;

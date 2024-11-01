@@ -32,7 +32,7 @@ export const shadowDefinitions = {
      * @param {number} bottom - The bottom boundary for the shadow camera's orthographic view.
      * @param {number} top - The top boundary for the shadow camera's orthographic view. 
      */
-    propertiesLightShadow(light, width = 1024, height = 1024, near = 0.5, far = 20, left = -7.5, right = 7.5, bottom = -6, top = 6){
+    propertiesLightShadow(light, width = 2048, height = 2048, near = 0.5, far = 20, left = -7.5, right = 7.5, bottom = -6, top = 6){
         light.castShadow = true;
         light.shadow.mapSize.width = width;
         light.shadow.mapSize.height = height;

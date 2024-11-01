@@ -5,6 +5,7 @@
  * @desc This class aims to represent a Spring.
  */
 import * as THREE from 'three';
+import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 /**
  * @class
  * @classdesc Represents a Spring made up of a CatmullRomCurve3 and a Line.
@@ -43,6 +44,7 @@ class Spring extends THREE.Object3D{
 
         this.springMaterial = new THREE.LineBasicMaterial({ color: 0xffffff});
         this.spring = new THREE.Line(this.geometry, this.springMaterial);
+        shadowDefinitions.objectShadow(this.spring);
 
         this.add(this.spring);
 
