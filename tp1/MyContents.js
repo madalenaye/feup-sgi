@@ -22,6 +22,7 @@ import { Door } from './objects/Door.js';
 import { CoffeeMachine } from './objects/CoffeeMachine.js';
 import { ShopSign } from './objects/ShopSign.js';
 import { Counter } from './objects/Counter.js';
+import { Rug } from './objects/Rug.js';
 
 /**
  *  This class contains the contents of out application
@@ -117,6 +118,9 @@ class MyContents  {
 
         // Counter
         this.counter = null;
+
+        // Rug
+        this.rug = null;
 
     }
 
@@ -359,7 +363,16 @@ class MyContents  {
 
         // Coffee Table
         const topTableTexture = this.prepareTexture("./Textures/topTable.jpg");
-        const topMaterial2 = new THREE.MeshLambertMaterial({ map: topTableTexture });
+        const topMaterial2 = new THREE.MeshPhysicalMaterial({
+            map: topTableTexture,
+            roughness: 0.6,             // Ajusta o quanto a superfície é rugosa
+            metalness: 0.1,             // Um leve toque metálico
+            reflectivity: 0.2,          // Adiciona algum nível de reflexo
+            clearcoat: 0.3,             // Leve camada de verniz, simulando brilho
+            clearcoatRoughness: 0.2,    // Ajusta a rugosidade do verniz para não ser um reflexo perfeito
+            sheen: 0.4,                 // Adiciona um brilho suave em superfícies de madeira
+            sheenRoughness: 0.8         // Controla a rugosidade do brilho do sheen
+        });
 
         this.coffeeTable1 = new CoffeeTable(2.0, 0.1, 2.0,topMaterial2, 0.1, 2, 0.15, {x : -(this.floor.width/2 - 1.0) + 0.4, z: 0});
         this.app.scene.add(this.coffeeTable1); 
@@ -416,6 +429,15 @@ class MyContents  {
         this.coffeeMachine.rotation.y = Math.PI/2;
         this.coffeeMachine.scale.set(0.75, 0.75, 0.75);
         this.app.scene.add(this.coffeeMachine);
+
+        // Rug
+        const rugTexture = this.prepareTexture("./Textures/rug.jpg")
+        rugTexture.center.set(0.5, 0.5); 
+        rugTexture.rotation = Math.PI / 2; 
+        const rugMaterial = new THREE.MeshStandardMaterial({ map: rugTexture, roughness: 0.8, metalness: 0.1});
+
+        this.rug = new Rug(7, 0.05, 4, rugMaterial, 0, 0, 4);
+        this.app.scene.add(this.rug);
     }
 
     /**

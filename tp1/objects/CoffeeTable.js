@@ -39,9 +39,8 @@ class CoffeeTable extends THREE.Object3D{
         const tableTopGeometry = new THREE.BoxGeometry(tableWidth, tableHeight, tableDepth);
         const tableTop = new THREE.Mesh(tableTopGeometry, topMaterial);
 
-        const legMaterial = new THREE.MeshPhongMaterial({color: 0xF5F5DC, specular:"#dddddd", shininess: 100});
         const legGeometry = new THREE.CylinderGeometry(legRadius, legRadius, legHeight, 32);
-        const tableLeg = new THREE.Mesh(legGeometry, legMaterial);
+        const tableLeg = new THREE.Mesh(legGeometry, topMaterial);
 
         const baseMaterial = new THREE.MeshPhongMaterial({color: 0xcbbda9, specular:"#dddddd", shininess: 2});
         const baseGeometry = new THREE.CylinderGeometry(baseRadius, baseRadius + 0.4, 0.05, 32);

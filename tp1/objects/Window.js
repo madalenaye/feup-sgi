@@ -40,7 +40,7 @@ class Window extends THREE.Object3D{
         const glassWidth = this.width - 2 * this.frameThickness;
         const glassHeight = this.height - 2 * this.frameThickness;
         const glassGeometry = new THREE.PlaneGeometry(glassWidth, glassHeight);
-        const glassMaterial = new THREE.MeshBasicMaterial({map: windowTexture, side: THREE.DoubleSide});
+        const glassMaterial = new THREE.MeshBasicMaterial({map: windowTexture});
         const glassMesh = new THREE.Mesh(glassGeometry, glassMaterial);
 
         // Create the window frame using parallelepipeds
