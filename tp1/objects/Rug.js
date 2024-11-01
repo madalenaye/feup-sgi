@@ -31,7 +31,7 @@ import { shadowDefinitions } from '../utils/ShadowDefinitions.js';
        
         const geometry = new THREE.BoxGeometry(width, height, depth);
         const rugMesh = new THREE.Mesh(geometry, material);
-        shadowDefinitions.objectShadow(rugMesh, true, false);
+        shadowDefinitions.objectShadow(rugMesh, true, true);
         rugMesh.position.set(positionX, positionY, positionZ)
 
         this.add(rugMesh);
