@@ -272,7 +272,7 @@ class MyContents  {
         this.cakeInsideTexture.repeat.set(1, 1);
 
         this.cakeColor = "#a62121"
-        this.cake = new Cake(0.45,0.3,Math.PI/5, this.cakeTexture, this.cakeInsideTexture, this.cakeColor);
+        this.cake = new Cake(0.45,0.3,Math.PI/5, this.cakeTexture, this.cakeInsideTexture, this.cakeColor, candleMaterial, flameMaterial, 6);
         this.cake.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.25, this.table.positionZ);
         this.tableGroup.add(this.cake); 
 
@@ -286,7 +286,7 @@ class MyContents  {
         this.tableGroup.add(this.spring);
 
         // Lamp
-        this.lamp = new Lamp(this.cake, "pink");
+        this.lamp = new Lamp(this.plate, "pink");
         this.lamp.position.set(this.table.positionX + 0.5, this.cake.position.y - 0.15, this.table.positionZ);
         this.lamp.rotation.y = Math.PI/2;
         this.tableGroup.add(this.lamp);
@@ -298,8 +298,8 @@ class MyContents  {
         this.window.position.set(0, this.planeRight.height/2, -((this.floor.height/2) - ((this.window.frameThickness/2) + 0.02)));
         this.app.scene.add(this.window);
 
-        this.rectLight = this.window.activateWindowLight()
-        this.app.scene.add(this.rectLight);
+        //this.rectLight = this.window.activateWindowLight()
+        //this.app.scene.add(this.rectLight);
 
         //const helper = new RectAreaLightHelper( this.rectLight );
         //this.rectLight.add( helper );

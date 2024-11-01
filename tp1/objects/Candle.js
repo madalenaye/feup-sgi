@@ -46,7 +46,7 @@ class Candle extends THREE.Object3D{
         flameMesh.scale.set(1, 2.4, 1);
         flameMesh.position.set(0, cylinderHeight / 2 + 0.017, 0);
 
-        const flameLight = new THREE.PointLight(0xffa500, 0.5, 3);
+        const flameLight = new THREE.PointLight(0xbd7c04, 2, 0.9);
         flameLight.position.set(0, cylinderHeight / 2 + 0.010, 0);
 
         cylinderMesh.add(flameMesh);

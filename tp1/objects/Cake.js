@@ -5,6 +5,7 @@
  * @desc This class aims to represent a Cake.
  */
 import * as THREE from 'three';
+import { Candle } from './Candle.js';
 
 /**
  * @class
@@ -22,7 +23,7 @@ class Cake extends THREE.Object3D{
      * @param {THREE.Texture} insideTexture - The texture of the inside of the cake.
      * @param {string} color - The color of the filling.
      */
-    constructor(radius, height, angle, frosting, insideTexture, color) {
+    constructor(radius, height, angle, frosting, insideTexture, color, candleMaterial, flameMaterial) {
 
         super();
 
@@ -98,7 +99,10 @@ class Cake extends THREE.Object3D{
         bottomPearlRing.rotateY(this.angle - Math.PI/2 - 0.018);
         this.cakeMesh.add(topPearlRing);
         this.cakeMesh.add(bottomPearlRing);
-    
+        
+        // Candle
+        this.candle = new Candle(0.15, 0.015, candleMaterial, 0.009, flameMaterial, { x: 0, y: this.height/2, z:-0.1} );  
+        this.cakeMesh.add(this.candle)
         this.add(this.cakeMesh);
         
     }
