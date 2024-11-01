@@ -8,12 +8,12 @@ class Counter extends THREE.Object3D{
         this.counterTexture.wrapS = THREE.RepeatWrapping;
         this.counterTexture.wrapT = THREE.RepeatWrapping;
         this.counterTexture.repeat.set(2, 2);
-        this.counterMaterial = new THREE.MeshStandardMaterial({ map: this.counterTexture, specular: "#ffffff", shininess: 1, diffuse: "#ffffff" });
+        this.counterMaterial = new THREE.MeshStandardMaterial({ map: this.counterTexture});
         this.counterMesh = new THREE.Mesh(this.counter, this.counterMaterial);
 
         this.counterRight = new THREE.BoxGeometry(1.5, 0.16, 0.3);
         this.counterTopTexture = new THREE.TextureLoader().load('textures/light_wood.jpg');
-        this.counterTopMaterial = new THREE.MeshStandardMaterial({ map: this.counterTopTexture, specular: "#ffffff", shininess: 1, diffuse: "#ffffff" });
+        this.counterTopMaterial = new THREE.MeshStandardMaterial({ map: this.counterTopTexture});
         this.counterRightMesh = new THREE.Mesh(this.counterRight, this.counterTopMaterial);
         this.counterRightMesh.rotation.y = Math.PI / 2;
         this.counterRightMesh.position.set(2.35, 1.07, 0);

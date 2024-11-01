@@ -245,15 +245,8 @@ class MyContents  {
         const candleTexture = this.prepareTexture('./Textures/candle.jpg');
         const candleMaterial = new THREE.MeshStandardMaterial({roughness: 0.5, metalness: 0, map:candleTexture });
         
-        const flameMaterial = new THREE.MeshLambertMaterial({emissive: 0xffa500, emissiveIntensity: 1, transparent: false, shininess: 800});
+        const flameMaterial = new THREE.MeshLambertMaterial({emissive: 0xffa500, emissiveIntensity: 1, transparent: false});
         
-        this.candle = new Candle(0.2, 0.02, candleMaterial, 0.010, flameMaterial, { x: this.table.positionX, y: this.table.positionY + this.table.height+0.02, z: this.table.positionZ} );                                                             
-        this.tableGroup.add(this.candle);
-
-        // Plate for Candle
-        this.candlePlate = new Plate(this.candle.cylinderRadius * 2, 20);
-        this.candlePlate.position.set(this.table.positionX, this.table.positionY + this.table.height + 0.02, this.table.positionZ);
-        this.tableGroup.add(this.candlePlate);
 
         // Plate
         this.plate = new Plate(0.4, 32);
