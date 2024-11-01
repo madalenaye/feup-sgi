@@ -29,13 +29,13 @@ class Newspaper extends THREE.Object3D{
         map.wrapS = map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = 16;
         map.colorSpace = THREE.SRGBColorSpace;
-        let material = new THREE.MeshLambertMaterial( { map: map, side: THREE.DoubleSide,transparent: false } );
+        let material = new THREE.MeshPhysicalMaterial({map: map, side: THREE.DoubleSide, transparent: false, roughness: 0.9, metalness: 0.0, reflectivity: 0.1, clearcoat: 0});
 
         const map2 = new THREE.TextureLoader().load('./Textures/newspaper3.jpg')
         map2.wrapS = map2.wrapT = THREE.RepeatWrapping;
         map2.anisotropy = 16;
         map2.colorSpace = THREE.SRGBColorSpace;
-        let material2 = new THREE.MeshLambertMaterial( { map: map2, side: THREE.DoubleSide,transparent: false } );
+        let material2 = new THREE.MeshPhysicalMaterial( { map: map2, side: THREE.DoubleSide, transparent: false, roughness: 0.9, metalness: 0.0, reflectivity: 0.1, clearcoat: 0 } );
 
         let orderU = 2;
         let orderV = 1;

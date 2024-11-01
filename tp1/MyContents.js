@@ -225,15 +225,17 @@ class MyContents  {
         this.app.scene.add(this.planeBack);
         
         // Table
+        this.tableGroup = new THREE.Group();
+
         const woodTexture = this.prepareTexture('./Textures/wood.jpg');
         const metalTexture = this.prepareTexture('./Textures/metal_texture.jpg');
 
-        const topMaterial = new THREE.MeshLambertMaterial({ map: woodTexture }); // Top material
+        const topMaterial = new THREE.MeshPhysicalMaterial({map: woodTexture, roughness: 0.7, metalness: 0.0, clearcoat: 0.1,clearcoatRoughness: 0.9}); // Top material
 
-        const legsMaterial = new THREE.MeshPhongMaterial({specular:"#dddddd", map: metalTexture, shininess: 100 }); // Leg material (metal)
+        const legsMaterial = new THREE.MeshPhysicalMaterial({map: metalTexture, roughness: 0.2, metalness: 0.7, reflectivity: 0.7, clearcoat: 0.3, clearcoatRoughness: 0.1});
 
-        this.table = new Table(5, 0.2, 3,{ x: 0, y: 2, z: 3 }, topMaterial, legsMaterial);
-        this.app.scene.add(this.table);
+        this.table = new Table(5, 0.2, 3,{ x: 0, y: 2, z: -3 }, topMaterial, legsMaterial);
+        this.tableGroup.add(this.table);
 
         // Candle
         const candleTexture = this.prepareTexture('./Textures/candle.jpg');
@@ -241,14 +243,13 @@ class MyContents  {
         
         const flameMaterial = new THREE.MeshLambertMaterial({emissive: 0xffa500, emissiveIntensity: 1, transparent: false, shininess: 800});
         
-        this.candle = new Candle(0.2, 0.02, candleMaterial, 0.010, flameMaterial, { x: this.table.positionX, y: this.table.positionY 
-                                                                                         + this.table.height + 0.02, z: this.table.positionZ }); // in the center of table                                                               
-        this.app.scene.add(this.candle);
+        this.candle = new Candle(0.2, 0.02, candleMaterial, 0.010, flameMaterial, { x: this.table.positionX, y: this.table.positionY + this.table.height+0.02, z: this.table.positionZ} );                                                             
+        this.tableGroup.add(this.candle);
 
         // Plate for Candle
         this.candlePlate = new Plate(this.candle.cylinderRadius * 2, 20);
         this.candlePlate.position.set(this.table.positionX, this.table.positionY + this.table.height + 0.02, this.table.positionZ);
-        this.app.scene.add(this.candlePlate);
+        this.tableGroup.add(this.candlePlate);
 
         // Plate
         this.plate = new Plate(0.4, 32);
@@ -269,7 +270,24 @@ class MyContents  {
         this.cakeColor = "#a62121"
         this.cake = new Cake(0.45,0.3,Math.PI/5, this.cakeTexture, this.cakeInsideTexture, this.cakeColor);
         this.cake.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.25, this.table.positionZ);
-        this.app.scene.add(this.cake);
+        this.tableGroup.add(this.cake); 
+
+        //Newspaper
+        this.newspaper = new Newspaper(this.table.positionX - 1.8, this.table.positionY + 0.2, this.table.positionZ + 0.4);
+        this.tableGroup.add(this.newspaper);
+
+        // Spring
+        this.spring = new Spring(0.1, 48, 0.04, 5);
+        this.spring.position.set(this.table.positionX - 1 , this.table.positionY + this.table.height, this.table.positionZ + 1);
+        this.tableGroup.add(this.spring);
+
+        // Lamp
+        this.lamp = new Lamp(this.cake, "pink");
+        this.lamp.position.set(this.table.positionX + 0.5, this.cake.position.y - 0.15, this.table.positionZ);
+        this.lamp.rotation.y = Math.PI/2;
+        this.tableGroup.add(this.lamp);
+
+        this.app.scene.add(this.tableGroup);
 
         // Window
         this.window = new Window(6, 3, 0.1, 'Textures/landscape2.jpg');
@@ -318,15 +336,6 @@ class MyContents  {
         this.beetle = new Beetle(-this.floor.width/2, 3, 0, 0.25, 48);
         this.app.scene.add(this.beetle);
 
-        //Newspaper
-        this.newspaper = new Newspaper(this.table.positionX - 1.8,this.table.positionY+0.2,this.table.positionZ+0.4);
-        this.app.scene.add(this.newspaper);
-
-        // Spring
-        this.spring = new Spring(0.1, 48, 0.04, 5);
-        this.spring.position.set(this.table.positionX - 1 , this.table.positionY + this.table.height, this.table.positionZ + 1);
-        this.app.scene.add(this.spring);
-
         // Jar
         this.jar = new Jar();
         this.jar.position.set(this.floor.width/2 - 0.7, this.floor.position.y + 0.5, -this.floor.height/2 + 0.7);
@@ -336,11 +345,6 @@ class MyContents  {
         this.jar2.position.set(this.floor.width/2 - 0.7, this.floor.position.y + 0.5, this.floor.height/2 - 0.7);
         this.app.scene.add(this.jar2)
 
-        // Lamp
-        this.lamp = new Lamp(this.cake, "pink");
-        this.lamp.position.set(this.table.positionX + 0.5, this.cake.position.y - 0.15, this.table.positionZ);
-        this.lamp.rotation.y = Math.PI/2;
-        this.app.scene.add(this.lamp);
         //Flower
         const stemMaterial = new THREE.MeshBasicMaterial({ color: 0x008000 });
         const flowerCenterMaterial = new THREE.MeshBasicMaterial({ color: 0x260851 , side: THREE.DoubleSide });
