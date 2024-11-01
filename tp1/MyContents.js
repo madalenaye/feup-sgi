@@ -436,7 +436,7 @@ class MyContents  {
         rugTexture.rotation = Math.PI / 2; 
         const rugMaterial = new THREE.MeshStandardMaterial({ map: rugTexture, roughness: 0.8, metalness: 0.1});
 
-        this.rug = new Rug(7, 0.05, 4, rugMaterial, 0, 0, 4);
+        this.rug = new Rug(7, 0.03, 4, rugMaterial, 0, 0.03, 4);
         this.app.scene.add(this.rug);
     }
 
