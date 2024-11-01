@@ -231,7 +231,7 @@ class MyContents  {
         // Table
         this.tableGroup = new THREE.Group();
 
-        const woodTexture = this.prepareTexture('./Textures/wood.jpg');
+        const woodTexture = this.prepareTexture('./Textures/light_wood.jpg');
         const metalTexture = this.prepareTexture('./Textures/metal_texture.jpg');
 
         const topMaterial = new THREE.MeshPhysicalMaterial({map: woodTexture, roughness: 0.7, metalness: 0.0, clearcoat: 0.1,clearcoatRoughness: 0.9}); // Top material
@@ -295,11 +295,11 @@ class MyContents  {
 
         // Window
         this.window = new Window(6, 3, 0.1, 'Textures/landscape2.jpg');
-        this.window.position.set(0, this.planeRight.height/2, -((this.floor.height/2) - ((this.window.frameThickness/2) + 0.02)));
+        this.window.position.set(0, this.planeRight.height/2 + 1, -((this.floor.height/2) - ((this.window.frameThickness/2) + 0.02)));
         this.app.scene.add(this.window);
 
-        //this.rectLight = this.window.activateWindowLight()
-        //this.app.scene.add(this.rectLight);
+        this.rectLight = this.window.activateWindowLight()
+        this.app.scene.add(this.rectLight);
 
         //const helper = new RectAreaLightHelper( this.rectLight );
         //this.rectLight.add( helper );
