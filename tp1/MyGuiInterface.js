@@ -90,21 +90,21 @@ class MyGuiInterface  {
         const tableFolder = this.datgui.addFolder( 'Table' );
 
         //Position
-        tableFolder.add(this.contents.table.position, 'x', -5, 5).name("Translation x")
-        tableFolder.add(this.contents.table.position, 'y', -5, 5).name("Translation y")
-        tableFolder.add(this.contents.table.position, 'z', -5, 5).name("Translation z")
+        tableFolder.add(this.contents.tableGroup.position, 'x', -5, 5).name("Translation x")
+        tableFolder.add(this.contents.tableGroup.position, 'y', -5, 5).name("Translation y")
+        tableFolder.add(this.contents.tableGroup.position, 'z', -5, 5).name("Translation z")
 
-        tableFolder.add({ rotationX: THREE.MathUtils.radToDeg(this.contents.table.rotation.x) }, 'rotationX', 0, 360)
+        tableFolder.add({ rotationX: THREE.MathUtils.radToDeg(this.contents.tableGroup.rotation.x) }, 'rotationX', 0, 360)
         .name('Rotation x')
-        .onChange(deg => this.contents.table.rotation.x = THREE.MathUtils.degToRad(deg));
+        .onChange(deg => this.contents.tableGroup.rotation.x = THREE.MathUtils.degToRad(deg));
 
-        tableFolder.add({ rotationY: THREE.MathUtils.radToDeg(this.contents.table.rotation.y) }, 'rotationY', 0, 360)
+        tableFolder.add({ rotationY: THREE.MathUtils.radToDeg(this.contents.tableGroup.rotation.y) }, 'rotationY', 0, 360)
         .name('Rotation y')
-        .onChange(deg => this.contents.table.rotation.y = THREE.MathUtils.degToRad(deg));
+        .onChange(deg => this.contents.tableGroup.rotation.y = THREE.MathUtils.degToRad(deg));
         
-        tableFolder.add({ rotationZ: THREE.MathUtils.radToDeg(this.contents.table.rotation.z) }, 'rotationZ', 0, 360)
+        tableFolder.add({ rotationZ: THREE.MathUtils.radToDeg(this.contents.tableGroup.rotation.z) }, 'rotationZ', 0, 360)
         .name('Rotation z')
-        .onChange(deg => this.contents.table.rotation.z = THREE.MathUtils.degToRad(deg));
+        .onChange(deg => this.contents.tableGroup.rotation.z = THREE.MathUtils.degToRad(deg));
 
         tableFolder.open()
     }

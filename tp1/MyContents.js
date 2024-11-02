@@ -260,7 +260,7 @@ class MyContents  {
         // Plate
         this.plate = new Plate(0.4, 32);
         this.plate.position.set(this.table.positionX + 2, this.table.positionY + this.table.height - 0.012, this.table.positionZ);
-        this.app.scene.add(this.plate);
+        this.tableGroup.add(this.plate);
 
         // Cake
         this.cakeTexture = new THREE.TextureLoader().load('./Textures/cake_frosting.png');
