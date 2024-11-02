@@ -268,7 +268,7 @@ class MyContents  {
 
         this.cakeColor = "#a62121"
         this.cake = new Cake(0.45,0.3,Math.PI/5, this.cakeTexture, this.cakeInsideTexture, this.cakeColor, candleMaterial, flameMaterial, 6);
-        this.cake.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.25, this.table.positionZ);
+        this.cake.position.set(this.plate.position.x , this.table.positionY + this.table.height + 0.25, this.table.positionZ);
         this.tableGroup.add(this.cake); 
 
         //Newspaper
@@ -281,8 +281,8 @@ class MyContents  {
         this.tableGroup.add(this.spring);
 
         // Lamp
-        this.lamp = new Lamp(this.plate, "pink");
-        this.lamp.position.set(this.table.positionX + 0.5, this.cake.position.y - 0.15, this.table.positionZ);
+        this.lamp = new Lamp(this.cake, "pink");
+        this.lamp.position.set(this.cake.position.x - 1.5, this.cake.position.y - 0.15, this.table.positionZ);
         this.lamp.rotation.y = Math.PI/2;
         this.tableGroup.add(this.lamp);
 
@@ -338,6 +338,7 @@ class MyContents  {
         this.beetle = new Beetle(-this.floor.width/2, 3, 0, 0.25, 48);
         this.beetle.scale.set(0.9, 0.8, 0.9)
         this.beetle.position.y = 1.3
+        this.beetle.position.x = -0.8
         this.app.scene.add(this.beetle);
 
         // Jar
@@ -365,13 +366,13 @@ class MyContents  {
         const topTableTexture = this.prepareTexture("./Textures/topTable.jpg");
         const topMaterial2 = new THREE.MeshPhysicalMaterial({map: topTableTexture, roughness: 0.6, metalness: 0.1, reflectivity: 0.2, clearcoat: 0.3, clearcoatRoughness: 0.2, sheen: 0.4, sheenRoughness: 0.8});
 
-        this.coffeeTable1 = new CoffeeTable(2.0, 0.1, 2.0,topMaterial2, 0.1, 2, 0.15, {x : -(this.floor.width/2 - 1.0) + 0.4, z: 0});
+        this.coffeeTable1 = new CoffeeTable(2.0, 0.1, 2.0,topMaterial2, 0.1, 2, 0.15, legsMaterial, {x : -(this.floor.width/2 - 1.0) + 0.4, z: 0});
         this.app.scene.add(this.coffeeTable1); 
 
-        this.coffeeTable2 = new CoffeeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, {x: this.coffeeTable1.positionX, z: this.floor.height/2 - 2.5})
+        this.coffeeTable2 = new CoffeeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, legsMaterial, {x: this.coffeeTable1.positionX, z: this.floor.height/2 - 2.5})
         this.app.scene.add(this.coffeeTable2); 
 
-        this.coffeeTable3 = new CoffeeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, {x: this.coffeeTable1.positionX, z: -(this.floor.height/2 - 2.5)})
+        this.coffeeTable3 = new CoffeeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, legsMaterial, {x: this.coffeeTable1.positionX, z: -(this.floor.height/2 - 2.5)})
         this.app.scene.add(this.coffeeTable3); 
 
         // Chairs
