@@ -6,6 +6,7 @@
  */
 
 import * as THREE from 'three';
+import { shadowDefinitions } from '../utils/ShadowDefinitions.js';  
 
 /**
  * @class
@@ -35,6 +36,7 @@ class Candle extends THREE.Object3D{
         // Create the candle body (cylinder)
         const cylinderGeometry = new THREE.CylinderGeometry(cylinderRadius, cylinderRadius, cylinderHeight);
         const cylinderMesh = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+        shadowDefinitions.objectShadow(cylinderMesh);
         cylinderMesh.position.set(position.x, position.y + cylinderHeight / 2, position.z); // origin of the cylinder is in the center
         this.add(cylinderMesh); 
 
@@ -42,11 +44,13 @@ class Candle extends THREE.Object3D{
         // Create the flame
         const flameGeometry = new THREE.SphereGeometry(flameRadius, 32, 32);
         const flameMesh = new THREE.Mesh(flameGeometry, flameMaterial);
+        shadowDefinitions.objectShadow(flameMesh, false, true);
 
         flameMesh.scale.set(1, 2.4, 1);
         flameMesh.position.set(0, cylinderHeight / 2 + 0.017, 0);
 
         const flameLight = new THREE.PointLight(0xbd7c04, 2, 0.9);
+        shadowDefinitions.propertiesLightShadow(flameLight);
         flameLight.position.set(0, cylinderHeight / 2 + 0.010, 0);
 
         cylinderMesh.add(flameMesh);

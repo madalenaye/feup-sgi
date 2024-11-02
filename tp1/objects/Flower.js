@@ -5,8 +5,8 @@
  * @desc This class aims to represent a flower. 
  */
 
-
 import * as THREE from 'three';
+import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
 /**
  * @class
@@ -48,10 +48,12 @@ class Flower extends THREE.Object3D{
 
         const stemGeometry = new THREE.TubeGeometry(curve, tubularSegments, radius, radialSegments, false);
         const stem = new THREE.Mesh(stemGeometry, stemMaterial);
+        shadowDefinitions.objectShadow(stem, false, true);
 
         // 2. Create the flower core 
         const flowerCenterGeometry = new THREE.CircleGeometry(0.5, 32);
         const flowerCenter = new THREE.Mesh(flowerCenterGeometry, flowerCenterMaterial);
+        shadowDefinitions.objectShadow(flowerCenter, false, true);
         flowerCenter.position.set(0, 4, 0);  
         flowerCenter.rotation.x = -Math.PI / 2; 
 
@@ -62,6 +64,7 @@ class Flower extends THREE.Object3D{
         for (let i = 0; i < numPetals; i++) {
             const angle = (i / numPetals) * Math.PI * 2; // Angle to distribute the petals
             const petal = new THREE.Mesh(petalGeometry, petalMaterial);
+            shadowDefinitions.objectShadow(petal);
             
             petal.position.set(petalRadius * Math.cos(angle), 4, petalRadius * Math.sin(angle));
             petal.scale.set(0.6, 1.2, 0.2);

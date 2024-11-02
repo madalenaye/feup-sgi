@@ -5,6 +5,7 @@
  * @desc This class aims to represent a Painting.
  */
 import * as THREE from 'three';
+import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
 /**
  * @class
@@ -39,16 +40,22 @@ class Painting extends THREE.Object3D{
 
         this.back = new THREE.PlaneGeometry(this.width, this.height);
         this.backMesh = new THREE.Mesh(this.back, this.paintingMaterial);
+        shadowDefinitions.objectShadow(this.backMesh, true, false);
 
         this.frameA = new THREE.BoxGeometry(this.width, this.depth, this.depth);
         this.frameB = new THREE.BoxGeometry(this.height, this.depth, this.depth);
         this.image = new THREE.PlaneGeometry(this.width, this.height);
 
         this.imageMesh = new THREE.Mesh(this.image, this.imageMaterial);
+        shadowDefinitions.objectShadow(this.imageMesh);
         this.topFrameMesh = new THREE.Mesh(this.frameA, this.paintingMaterial);
+        shadowDefinitions.objectShadow(this.topFrameMesh);
         this.bottomFrameMesh = new THREE.Mesh(this.frameA, this.paintingMaterial);
+        shadowDefinitions.objectShadow(this.bottomFrameMesh);
         this.leftFrameMesh = new THREE.Mesh(this.frameB, this.paintingMaterial);
+        shadowDefinitions.objectShadow(this.leftFrameMesh);
         this.rightFrameMesh = new THREE.Mesh(this.frameB, this.paintingMaterial);
+        shadowDefinitions.objectShadow(this.rightFrameMesh);
 
 
         this.backMesh.rotateY(Math.PI);

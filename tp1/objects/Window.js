@@ -8,6 +8,7 @@
 
 
 import * as THREE from 'three';
+import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
 /**
  * @class
@@ -42,6 +43,7 @@ class Window extends THREE.Object3D{
         const glassGeometry = new THREE.PlaneGeometry(glassWidth, glassHeight);
         const glassMaterial = new THREE.MeshBasicMaterial({map: windowTexture});
         const glassMesh = new THREE.Mesh(glassGeometry, glassMaterial);
+        shadowDefinitions.objectShadow(glassMesh, true, false);
 
         // Create the window frame using parallelepipeds
         const frameMaterial = new THREE.MeshBasicMaterial({ color: 0x333333 });
@@ -53,9 +55,13 @@ class Window extends THREE.Object3D{
         const rightFrameGeometry = new THREE.BoxGeometry(this.frameThickness, this.height - 2 * this.frameThickness, this.frameThickness);
 
         const topFrameMesh = new THREE.Mesh(topFrameGeometry, frameMaterial);
+        shadowDefinitions.objectShadow(topFrameMesh, false, true);
         const bottomFrameMesh = new THREE.Mesh(bottomFrameGeometry, frameMaterial);
+        shadowDefinitions.objectShadow(bottomFrameMesh, false, true);
         const leftFrameMesh = new THREE.Mesh(leftFrameGeometry, frameMaterial);
+        shadowDefinitions.objectShadow(leftFrameMesh, false, true);
         const rightFrameMesh = new THREE.Mesh(rightFrameGeometry, frameMaterial);
+        shadowDefinitions.objectShadow(rightFrameMesh, false, true);
 
         // Position the frame parts relative to the origin of the glass
         topFrameMesh.position.set(0, this.height / 2 - this.frameThickness / 2, 0);
@@ -85,9 +91,9 @@ class Window extends THREE.Object3D{
      */
     activateWindowLight(){
 
-        const width = this.width/1.52; 
-        const height = this.height/1.52;
-        const intensity = 7;
+        const width = this.width/1.5; 
+        const height = this.height/1.5;
+        const intensity = 5;
 
         const rectLight = new THREE.RectAreaLight(0xf5ac3d, intensity, width, height);
         rectLight.position.set(this.position.x, this.position.y, this.position.z); 
@@ -95,7 +101,22 @@ class Window extends THREE.Object3D{
 
         return rectLight
     }
+    
+     /**
+     * Method responsible for activating a directional shadow light to complement the rectangular area light.
+     * @method
+     * @returns {THREE.DirectionalLight} -  A directional light source configured for casting shadows, 
+     *                                      positioned to enhance the area lighting.
+     */
+    activateShadowLight(){
 
+        const shadowLight = new THREE.DirectionalLight(0xf5ac3d, 0.3);
+        shadowDefinitions.propertiesLightShadow(shadowLight, 2048, 2048, 0.5, 16, -3, 3, -3, 3);
+        shadowLight.position.set(this.position.x - 1, this.position.y, this.position.z); 
+        shadowLight.target.position.set(0, 2.1, 0); 
+        
+        return shadowLight
+    }
 
 }
 

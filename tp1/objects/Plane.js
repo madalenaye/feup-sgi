@@ -7,6 +7,7 @@
 
 
 import * as THREE from 'three';
+import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
 /**
  * @class
@@ -32,7 +33,7 @@ class Plane extends THREE.Object3D{
         const geometry = new THREE.PlaneGeometry(width, height);
         
         this.planeMesh = new THREE.Mesh(geometry, material);
-    
+        shadowDefinitions.objectShadow(this.planeMesh,true, false);
         this.add(this.planeMesh);
         
     }

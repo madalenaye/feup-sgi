@@ -6,6 +6,7 @@
  */
 
 import * as THREE from 'three';
+import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
 /**
  * @class
@@ -35,6 +36,7 @@ class Chair extends THREE.Object3D {
 
         const seatGeometry = new THREE.BoxGeometry(seatWidth, seatHeight, seatDepth);
         const seatMesh = new THREE.Mesh(seatGeometry, seatMaterial);
+        shadowDefinitions.objectShadow(seatMesh, true, false);
         seatMesh.position.y = legHeight;
         chairGroup.add(seatMesh);
 
@@ -49,6 +51,7 @@ class Chair extends THREE.Object3D {
             const heightMultiplier = (index === 0 || index === 1) ? 1.8 : 1;
             const legGeometry = new THREE.CylinderGeometry(legRadius, legRadius, legHeight * heightMultiplier);
             const legMesh = new THREE.Mesh(legGeometry, legMaterial);
+            shadowDefinitions.objectShadow(legMesh, false, true);
             legMesh.position.set(x, y + (legHeight * heightMultiplier) / 2, z);
             chairGroup.add(legMesh);
         });
@@ -60,10 +63,12 @@ class Chair extends THREE.Object3D {
         const backrestGeometry = new THREE.BoxGeometry(backrestWidth, backrestHeight, backrestDepth);
         
         const backrestMesh1 = new THREE.Mesh(backrestGeometry, legMaterial);
+        shadowDefinitions.objectShadow(backrestMesh1);
         backrestMesh1.position.set(0, 2 * legHeight - 0.5, -(seatDepth / 2 - legRadius));
         backrestMesh1.rotation.x = Math.PI / 2;
 
         const backrestMesh2 = new THREE.Mesh(backrestGeometry, legMaterial);
+        shadowDefinitions.objectShadow(backrestMesh2);
         backrestMesh2.position.set(0, 2 * legHeight - 0.8, -(seatDepth / 2 - legRadius));
         backrestMesh2.rotation.x = Math.PI / 2;
 

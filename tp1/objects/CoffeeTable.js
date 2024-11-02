@@ -6,6 +6,7 @@
  */
 
 import * as THREE from 'three';
+import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
 /**
  * @class
@@ -38,13 +39,16 @@ class CoffeeTable extends THREE.Object3D{
         
         const tableTopGeometry = new THREE.BoxGeometry(tableWidth, tableHeight, tableDepth);
         const tableTop = new THREE.Mesh(tableTopGeometry, topMaterial);
+        shadowDefinitions.objectShadow(tableTop);
 
         const legGeometry = new THREE.CylinderGeometry(legRadius, legRadius, legHeight, 32);
         const tableLeg = new THREE.Mesh(legGeometry, topMaterial);
+        shadowDefinitions.objectShadow(tableLeg);
 
         const baseMaterial = new THREE.MeshPhongMaterial({color: 0xcbbda9, specular:"#dddddd", shininess: 2});
         const baseGeometry = new THREE.CylinderGeometry(baseRadius, baseRadius + 0.4, 0.05, 32);
         const base = new THREE.Mesh(baseGeometry, baseMaterial);
+        shadowDefinitions.objectShadow(base, true, false);
 
         base.position.y = -legHeight; 
 

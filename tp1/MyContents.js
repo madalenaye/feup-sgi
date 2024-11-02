@@ -23,6 +23,7 @@ import { CoffeeMachine } from './objects/CoffeeMachine.js';
 import { ShopSign } from './objects/ShopSign.js';
 import { Counter } from './objects/Counter.js';
 import { Rug } from './objects/Rug.js';
+import { shadowDefinitions } from './utils/ShadowDefinitions.js';
 
 /**
  *  This class contains the contents of out application
@@ -151,8 +152,9 @@ class MyContents  {
         }
 
         // add a point light on top of the model
-        const pointLight = new THREE.PointLight( 0x949494, 500, 0 );
-        pointLight.position.set( 0, 20, 0 );
+        const pointLight = new THREE.PointLight( 0x949494, 10, 0, 1 );
+        pointLight.position.set( 0, 10, 0 );
+        shadowDefinitions.propertiesLightShadow(pointLight);
         this.app.scene.add( pointLight );
 
         // add a point light helper for the previous point light
@@ -238,7 +240,7 @@ class MyContents  {
 
         const legsMaterial = new THREE.MeshPhysicalMaterial({map: metalTexture, roughness: 0.2, metalness: 0.7, reflectivity: 0.7, clearcoat: 0.3, clearcoatRoughness: 0.1});
 
-        this.table = new Table(5, 0.2, 3,{ x: 0, y: 2, z: -3 }, topMaterial, legsMaterial);
+        this.table = new Table(5, 0.2, 3,{ x: 0, y: 2.0, z: -3 }, topMaterial, legsMaterial);
         this.tableGroup.add(this.table);
 
         // Candle
@@ -250,8 +252,8 @@ class MyContents  {
 
         // Plate
         this.plate = new Plate(0.4, 32);
-        this.plate.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.07, this.table.positionZ);
-        this.app.scene.add(this.plate);
+        this.plate.position.set(this.table.positionX + 2, this.table.positionY + this.table.height - 0.012, this.table.positionZ);
+        this.tableGroup.add(this.plate);
 
         // Cake
         this.cakeTexture = new THREE.TextureLoader().load('./Textures/cake_frosting.png');
@@ -270,12 +272,12 @@ class MyContents  {
         this.tableGroup.add(this.cake); 
 
         //Newspaper
-        this.newspaper = new Newspaper(this.table.positionX - 1.8, this.table.positionY + 0.2, this.table.positionZ + 0.4);
+        this.newspaper = new Newspaper(this.table.positionX - 1.8, this.table.positionY + 0.13, this.table.positionZ + 0.4);
         this.tableGroup.add(this.newspaper);
 
         // Spring
         this.spring = new Spring(0.1, 48, 0.04, 5);
-        this.spring.position.set(this.table.positionX - 1 , this.table.positionY + this.table.height, this.table.positionZ + 1);
+        this.spring.position.set(this.table.positionX - 1 , this.table.positionY + this.table.height - 0.1, this.table.positionZ + 1);
         this.tableGroup.add(this.spring);
 
         // Lamp
@@ -294,19 +296,22 @@ class MyContents  {
         this.rectLight = this.window.activateWindowLight()
         this.app.scene.add(this.rectLight);
 
-        //const helper = new RectAreaLightHelper( this.rectLight );
-        //this.rectLight.add( helper );
+        this.shadowLight = this.window.activateShadowLight()
+        this.app.scene.add(this.shadowLight);
+
+        const dirLightHelper = new THREE.DirectionalLightHelper(this.shadowLight, 5);
+        const shadowHelper = new THREE.CameraHelper(this.shadowLight.shadow.camera);
 
         // 1st Painting
 
         this.painting = new Painting(1.3, 1.5, 0.1, 'Textures/pikachu.jpg');
-        this.painting.position.set(this.floor.width/2 - 0.1, this.planeFront.height/2 + 0.1, this.planeFront.position.z);
+        this.painting.position.set(this.floor.width/2 - 0.05, this.planeFront.height/2 + 0.1, this.planeFront.position.z);
         this.painting.rotateY(-Math.PI/2);
         this.app.scene.add(this.painting);
 
         // 2nd Painting
         this.painting2 = new Painting(1.3, 1.5, 0.1, 'Textures/cat.jpg');
-        this.painting2.position.set(this.floor.width/2 - 0.1, this.planeFront.height/2 + 0.1, this.planeFront.position.z + 1.5);
+        this.painting2.position.set(this.floor.width/2 - 0.05, this.planeFront.height/2 + 0.1, this.planeFront.position.z + 1.5);
         this.painting2.rotateY(-Math.PI/2);
         this.app.scene.add(this.painting2);
 

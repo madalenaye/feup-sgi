@@ -7,6 +7,7 @@
 
 
 import * as THREE from 'three';
+import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
 /**
  * @class
@@ -34,6 +35,7 @@ class Baseboard extends THREE.Object3D{
         const geometry = new THREE.BoxGeometry(this.width, this.height, this.depth);
 
         const mesh = new THREE.Mesh(geometry, material);
+        shadowDefinitions.objectShadow(mesh, true, false);
 
         this.add(mesh);
     }

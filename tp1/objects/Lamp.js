@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
 class Lamp extends THREE.Object3D{
 
@@ -22,6 +23,7 @@ class Lamp extends THREE.Object3D{
 
         this.lampBase = new THREE.CylinderGeometry(0.3, 0.3, 0.1, 50);
         this.lampBaseMesh = new THREE.Mesh(this.lampBase, this.woodMaterial);
+        shadowDefinitions.objectShadow(this.lampBaseMesh);
         this.add(this.lampBaseMesh);
 
         this.curve = new THREE.CatmullRomCurve3([
@@ -33,16 +35,19 @@ class Lamp extends THREE.Object3D{
 
         this.tubeGeometry = new THREE.TubeGeometry(this.curve, 32, 0.03, 8, false);
         this.lampPole = new THREE.Mesh(this.tubeGeometry, this.lampMaterial);
+        shadowDefinitions.objectShadow(this.lampPole);
         this.lampPole.position.z = - 0.2
 
         this.lampHead = new THREE.CylinderGeometry(0.11, 0.11, 0.1, 32);
         this.lampHeadMesh = new THREE.Mesh(this.lampHead, this.woodMaterial);
+        shadowDefinitions.objectShadow(this.lampHeadMesh);
         this.lampHeadMesh.position.set(0, 1.67, 0.15);
         this.lampHeadMesh.rotation.x = -Math.PI / 4;
 
         this.lampLight = new THREE.CylinderGeometry(0.11, 0.3, 0.4, 32, 32, true);
         this.lampMaterial2 = new THREE.MeshStandardMaterial({ map: this.lampTexture, side: THREE.DoubleSide });
         this.lampLightMesh = new THREE.Mesh(this.lampLight, this.lampMaterial2);
+        shadowDefinitions.objectShadow(this.lampLightMesh, false, true);
         this.lampLightMesh.position.set(0, 1.5, 0.32);
         this.lampLightMesh.rotation.x = -Math.PI / 4;
 
@@ -59,9 +64,9 @@ class Lamp extends THREE.Object3D{
         this.lampGlowMesh.rotation.x = -Math.PI / 4;
         this.add(this.lampGlowMesh);
 
-        this.light = new THREE.SpotLight(this.lightColor, 6, 3, Math.PI / 6, 0.2, 1);
+        this.light = new THREE.SpotLight(this.lightColor, 15, 3, Math.PI / 6, 0.2, 1);
+        shadowDefinitions.propertiesLightShadow(this.light);
         this.light.target = this.target;
-        this.light.castShadow = true;
 
         this.add(this.light);
        
