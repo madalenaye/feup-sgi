@@ -236,11 +236,11 @@ class MyContents  {
         const woodTexture = this.prepareTexture('./Textures/light_wood.jpg');
         const metalTexture = this.prepareTexture('./Textures/metal_texture.jpg');
 
-        const topMaterial = new THREE.MeshPhysicalMaterial({map: woodTexture, roughness: 0.7, metalness: 0.0, clearcoat: 0.1,clearcoatRoughness: 0.9}); // Top material
+        const topMaterial = new THREE.MeshPhysicalMaterial({map: woodTexture, roughness: 0.7, metalness: 0.0, clearcoat: 0.1,clearcoatRoughness: 0.9});
 
         const legsMaterial = new THREE.MeshPhysicalMaterial({map: metalTexture, roughness: 0.2, metalness: 0.7, reflectivity: 0.7, clearcoat: 0.3, clearcoatRoughness: 0.1});
 
-        this.table = new Table(5, 0.2, 3,{ x: 0, y: 2.0, z: -3 }, topMaterial, legsMaterial);
+        this.table = new Table(4, 0.2, 3,{ x: 0, y: 2.0, z: 0 }, topMaterial, legsMaterial);
         this.tableGroup.add(this.table);
 
         // Candle
@@ -249,10 +249,9 @@ class MyContents  {
         
         const flameMaterial = new THREE.MeshLambertMaterial({emissive: 0xffa500, emissiveIntensity: 1, transparent: false});
         
-
         // Plate
         this.plate = new Plate(0.4, 32);
-        this.plate.position.set(this.table.positionX + 2, this.table.positionY + this.table.height - 0.012, this.table.positionZ);
+        this.plate.position.set(this.table.positionX, this.table.positionY + this.table.height - 0.012, this.table.positionZ);
         this.tableGroup.add(this.plate);
 
         // Cake
@@ -266,13 +265,14 @@ class MyContents  {
         this.cakeInsideTexture.wrapT = THREE.RepeatWrapping;
         this.cakeInsideTexture.repeat.set(1, 1);
 
-        this.cakeColor = "#a62121"
+        this.cakeColor = "#a638ECB"
         this.cake = new Cake(0.45,0.3,Math.PI/5, this.cakeTexture, this.cakeInsideTexture, this.cakeColor, candleMaterial, flameMaterial, 6);
-        this.cake.position.set(this.plate.position.x , this.table.positionY + this.table.height + 0.25, this.table.positionZ);
+        this.cake.position.set(this.plate.position.x , this.table.positionY + this.table.height + 0.18, this.table.positionZ);
         this.tableGroup.add(this.cake); 
 
         //Newspaper
-        this.newspaper = new Newspaper(this.table.positionX - 1.8, this.table.positionY + 0.13, this.table.positionZ + 0.4);
+        this.newspaper = new Newspaper(this.table.positionX + 1.2, this.table.positionY + 0.13, this.table.positionZ - 0.4);
+        this.newspaper.rotation.y = -Math.PI/8;
         this.tableGroup.add(this.newspaper);
 
         // Spring
@@ -281,9 +281,9 @@ class MyContents  {
         this.tableGroup.add(this.spring);
 
         // Lamp
-        this.lamp = new Lamp(this.cake, "pink");
-        this.lamp.position.set(this.cake.position.x - 1.5, this.cake.position.y - 0.15, this.table.positionZ);
-        this.lamp.rotation.y = Math.PI/2;
+        this.lamp = new Lamp(this.cake, "#395886");
+        this.lamp.position.set(this.cake.position.x - 1.5, this.cake.position.y - 0.15, this.table.positionZ - 0.8);
+        this.lamp.rotation.y = Math.PI/4;
         this.tableGroup.add(this.lamp);
 
         this.app.scene.add(this.tableGroup);
@@ -427,7 +427,7 @@ class MyContents  {
         rugTexture.rotation = Math.PI / 2; 
         const rugMaterial = new THREE.MeshStandardMaterial({ map: rugTexture, roughness: 0.8, metalness: 0.1});
 
-        this.rug = new Rug(7, 0.03, 4, rugMaterial, 0, 0.03, 4);
+        this.rug = new Rug(7, 0.03, 4, rugMaterial, 0, 0.04, 4.8);
         this.app.scene.add(this.rug);
     }
 

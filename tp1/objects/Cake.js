@@ -39,7 +39,7 @@ class Cake extends THREE.Object3D{
         shadowDefinitions.objectShadow(this.cakeMesh);
    
         // Cake planes - different layers
-        const layerColors = ["#850101", this.color, "#d69292"];
+        const layerColors = ["#8AAEE0", this.color, "#395886"];
         this.insideMaterials = layerColors.map(color => 
             new THREE.MeshStandardMaterial({ color, map: insideTexture, roughness: 1, side: THREE.FrontSide })
         );
