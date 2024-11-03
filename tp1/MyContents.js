@@ -342,14 +342,17 @@ class MyContents  {
         this.app.scene.add(this.jar2)
 
         //Flower
-        const stemMaterial = new THREE.MeshBasicMaterial({ color: 0x008000 });
-        const flowerCenterMaterial = new THREE.MeshBasicMaterial({ color: 0x260851 , side: THREE.DoubleSide });
-        const petalMaterial = new THREE.MeshBasicMaterial({ color: 0xc81f07  });
+        const petalTexture = this.prepareTexture('./Textures/flower.jpeg');
+        const petalMaterial = new THREE.MeshBasicMaterial({ map: petalTexture, side: THREE.DoubleSide });
+
+        const stemMaterial = new THREE.MeshBasicMaterial({ color: 0x396b3f });
+        const flowerCenterMaterial = new THREE.MeshBasicMaterial({ color: 0x79addb , side: THREE.DoubleSide });
         this.flower = new Flower(64, 0.1, 8, this.jar.position.x, 0.01, this.jar.position.z, stemMaterial, flowerCenterMaterial, petalMaterial, 0.4, 10);
         this.app.scene.add(this.flower);
         
-        const flowerCenterMaterial2 = new THREE.MeshBasicMaterial({ color: 0xd77fce , side: THREE.DoubleSide });
-        const petalMaterial2 = new THREE.MeshBasicMaterial({ color: 0xf0bb16 });
+        const flowerCenterMaterial2 = new THREE.MeshBasicMaterial({ color: 0x002b6b , side: THREE.DoubleSide });
+        const petalTexture2 = this.prepareTexture('./Textures/flower2.jpg');
+        const petalMaterial2 = new THREE.MeshBasicMaterial({ map: petalTexture2, side: THREE.DoubleSide });
         this.flower2 = new Flower(64, 0.1, 8, this.jar2.position.x - 0.1, 0.01, this.jar2.position.z, stemMaterial, flowerCenterMaterial2, petalMaterial2, 0.42, 10)
         this.app.scene.add(this.flower2);
 
@@ -429,6 +432,17 @@ class MyContents  {
         this.ceilingLight2 = new CeilingLight(0x638ECB, 0.2, 0.1);
         this.ceilingLight2.position.set(this.planeRight.position.x - 5, 4.4, this.planeRight.position.z + 0.02, 0.1);
         this.app.scene.add(this.ceilingLight2);
+
+        // Decoration
+        this.decoration = new Painting(1.4, 1.5, 0.1, 'Textures/decoration.jpg');
+        this.decoration.position.set(this.planeBack.position.x + 0.02, this.painting.position.y + 1, 4);
+        this.decoration.rotation.y = Math.PI/2;
+        this.app.scene.add(this.decoration);
+
+        this.decoration2 = new Painting(1.4, 1.5, 0.1, 'Textures/decoration2.jpg');
+        this.decoration2.position.set(this.planeBack.position.x + 0.02, this.painting.position.y + 1, -4);
+        this.decoration2.rotation.y = Math.PI/2;
+        this.app.scene.add(this.decoration2);
         
     }
 
