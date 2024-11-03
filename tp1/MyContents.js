@@ -1,3 +1,11 @@
+/**
+ * @file MyContents.js
+ * @class MyContents
+ * @desc This class manages and organizes the various 3D objects and elements that comprise
+ * the content of the application. It is responsible for creating, positioning, and configuring
+ * the objects that make up the scene.
+ */
+
 import * as THREE from 'three';
 import { MyAxis } from './MyAxis.js';
 import { Plane } from './objects/Plane.js'
@@ -26,12 +34,15 @@ import { shadowDefinitions } from './utils/ShadowDefinitions.js';
 import { CeilingLight } from './objects/CeilingLight.js';
 
 /**
- *  This class contains the contents of out application
+ * @class
+ * @classdesc This class contains the contents of out application
  */
+
 class MyContents  {
 
     /**
        constructs the object
+       @constructor
        @param {MyApp} app The application object
     */ 
     constructor(app) {
@@ -144,6 +155,7 @@ class MyContents  {
 
     /**
      * initializes the contents
+     * @method
      */
     init() {
        

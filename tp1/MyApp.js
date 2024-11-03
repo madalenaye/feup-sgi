@@ -1,3 +1,8 @@
+/**
+ * @file MyApp.js
+ * @class MyApp
+ * @desc This class initializes and manages the main application, setting up the 3D scene, controls, user interface.
+ */
 
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -6,11 +11,15 @@ import { MyGuiInterface } from './MyGuiInterface.js';
 import Stats from 'three/addons/libs/stats.module.js'
 
 /**
- * This class contains the application object
+ * @class
+ * @classdesc This class contains the application object
  */
+
+
 class MyApp  {
     /**
      * the constructor
+     * @constructor
      */
     constructor() {
         this.scene = null
@@ -32,6 +41,7 @@ class MyApp  {
     }
     /**
      * initializes the application
+     * @method
      */
     init() {
                 
@@ -67,6 +77,7 @@ class MyApp  {
 
     /**
      * initializes all the cameras
+     * @method
      */
     initCameras() {
         const aspect = window.innerWidth / window.innerHeight;
@@ -122,6 +133,7 @@ class MyApp  {
 
     /**
      * sets the active camera by name
+     * @method
      * @param {String} cameraName 
      */
     setActiveCamera(cameraName) {   
@@ -134,6 +146,7 @@ class MyApp  {
      * this function is called in the render loop
      * when the active camera name changes
      * it updates the active camera and the controls
+     * @method
      */
     updateCameraIfRequired() {
 
@@ -162,6 +175,7 @@ class MyApp  {
 
     /**
      * the window resize handler
+     * @method
      */
     onResize() {
         if (this.activeCamera !== undefined && this.activeCamera !== null) {
@@ -171,7 +185,7 @@ class MyApp  {
         }
     }
     /**
-     * 
+     * @method
      * @param {MyContents} contents the contents object 
      */
     setContents(contents) {
@@ -179,6 +193,7 @@ class MyApp  {
     }
 
     /**
+     * @method
      * @param {MyGuiInterface} contents the gui interface object
      */
     setGui(gui) {   
@@ -187,6 +202,7 @@ class MyApp  {
 
     /**
     * the main render function. Called in a requestAnimationFrame loop
+    * @method
     */
     render () {
         this.stats.begin()

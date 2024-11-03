@@ -5,7 +5,7 @@
  * @desc This class aims to represent a jar.
  */
 import * as THREE from 'three';
-import { MyNurbsBuilder } from '../MyNurbsBuilder.js';
+import { MyNurbsBuilder } from '../utils/MyNurbsBuilder.js';
 import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
 /**
