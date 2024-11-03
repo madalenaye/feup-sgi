@@ -1,33 +1,44 @@
 import * as THREE from 'three';
-/*
+
 class CeilingLight extends THREE.Object3D{
-    constructor(target, lightColor, radius){
+    constructor(lightColor, innerRadius, outerRadius, lightIntensity){
         super();
-        this.light = new THREE.SpotLight(0x343deb, 1, 100);
-        this.target = new THREE.Object3D();
-        this.target.position.set(0, 5, 0);
-        this.light.target = this.target;
-        this.light.castShadow = true;
         this.lightColor = lightColor;
-        this.radius = radius;
-    }
+        this.innerRadius = innerRadius;
+        this.outerRadius = outerRadius;
+        this.lightIntensity = lightIntensity;
 
-    build(){
-        this.lightBulb = new THREE.Mesh(new THREE.SphereGeometry(this.radius, 32, 32), new THREE.MeshStandardMaterial({color: 0xffffff}));
-        this.lightBulb.castShadow = true;
 
-        this.lightBase = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.04, 32), new THREE.MeshStandardMaterial({color: 0x000000}));
-        this.lightBase.position.y = 0.16;
-        this.lightBase.castShadow = true;
-        //this.add(this.lightBase);
+        const shape = new THREE.Shape();
+        const angleStep = Math.PI / 5; 
+        const startAngle = Math.PI / 2;
+
+        for (let i = 0; i < 10; i++) {
+            
+            const radius = i % 2 === 0 ? outerRadius : innerRadius;
+
+
+            const x = radius * Math.cos(startAngle + i * angleStep);
+            const y = radius * Math.sin(startAngle + i * angleStep);
+
+            if (i === 0) {
+                shape.moveTo(x, y);  
+            } else {
+                shape.lineTo(x, y);  
+            }
+        }
+        shape.closePath();
+
+        const geometry = new THREE.ShapeGeometry(shape);
+        this.lightMaterial = new THREE.MeshBasicMaterial({ color: "#cccccc", side: THREE.DoubleSide, opacity: 0.7 });
+        this.lightMesh = new THREE.Mesh(geometry, this.lightMaterial);
+        this.add(this.lightMesh);
+
+        this.light = new THREE.PointLight(this.lightColor, this.lightIntensity, 3, 2);
+        this.light.position.y = 0.02;
         this.add(this.light);
-        //this.add(this.lightBulb);
-
-        this.lightCord = new THREE.Mesh(new THREE.CylinderGeometry(0.005, 0.005, 1.2, 32), new THREE.MeshStandardMaterial({color: 0x000000}));
-        this.lightCord.position.y = 0.6;
-        this.lightCord.castShadow = true;
-        this.add(this.lightCord);
+        
     }
 }
 
-export { CeilingLight }; */
+export { CeilingLight };

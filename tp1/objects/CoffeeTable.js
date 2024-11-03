@@ -27,7 +27,7 @@ class CoffeeTable extends THREE.Object3D{
      * @param {number} baseRadius - The radius of the circular base
      * @param {Object} position - Represents the position of the candle relative to the two axes.
      */
-    constructor(tableWidth, tableHeight, tableDepth, topMaterial, legRadius, legHeight, baseRadius, position = { x: 0, z: 0 }) {
+    constructor(tableWidth, tableHeight, tableDepth, topMaterial, legRadius, legHeight, baseRadius, legMaterial, position = { x: 0, z: 0 }) {
 
         super();
 

@@ -23,7 +23,7 @@ class Lamp extends THREE.Object3D{
 
         this.lampBase = new THREE.CylinderGeometry(0.3, 0.3, 0.1, 50);
         this.lampBaseMesh = new THREE.Mesh(this.lampBase, this.woodMaterial);
-        shadowDefinitions.objectShadow(this.lampBaseMesh);
+        shadowDefinitions.objectShadow(this.lampBaseMesh, false, true);
         this.add(this.lampBaseMesh);
 
         this.curve = new THREE.CatmullRomCurve3([
@@ -35,19 +35,19 @@ class Lamp extends THREE.Object3D{
 
         this.tubeGeometry = new THREE.TubeGeometry(this.curve, 32, 0.03, 8, false);
         this.lampPole = new THREE.Mesh(this.tubeGeometry, this.lampMaterial);
-        shadowDefinitions.objectShadow(this.lampPole);
+        shadowDefinitions.objectShadow(this.lampPole, false, true);
         this.lampPole.position.z = - 0.2
 
         this.lampHead = new THREE.CylinderGeometry(0.11, 0.11, 0.1, 32);
         this.lampHeadMesh = new THREE.Mesh(this.lampHead, this.woodMaterial);
-        shadowDefinitions.objectShadow(this.lampHeadMesh);
+        shadowDefinitions.objectShadow(this.lampHeadMesh, false, true);
         this.lampHeadMesh.position.set(0, 1.67, 0.15);
         this.lampHeadMesh.rotation.x = -Math.PI / 4;
 
         this.lampLight = new THREE.CylinderGeometry(0.11, 0.3, 0.4, 32, 32, true);
         this.lampMaterial2 = new THREE.MeshStandardMaterial({ map: this.lampTexture, side: THREE.DoubleSide });
         this.lampLightMesh = new THREE.Mesh(this.lampLight, this.lampMaterial2);
-        shadowDefinitions.objectShadow(this.lampLightMesh, false, true);
+        //shadowDefinitions.objectShadow(this.lampLightMesh, true, false);
         this.lampLightMesh.position.set(0, 1.5, 0.32);
         this.lampLightMesh.rotation.x = -Math.PI / 4;
 
@@ -64,8 +64,7 @@ class Lamp extends THREE.Object3D{
         this.lampGlowMesh.rotation.x = -Math.PI / 4;
         this.add(this.lampGlowMesh);
 
-        this.light = new THREE.SpotLight(this.lightColor, 15, 3, Math.PI / 6, 0.2, 1);
-        shadowDefinitions.propertiesLightShadow(this.light);
+        this.light = new THREE.SpotLight(this.lightColor, 10, 4, Math.PI / 6, 0.2, 1);
         this.light.target = this.target;
 
         this.add(this.light);

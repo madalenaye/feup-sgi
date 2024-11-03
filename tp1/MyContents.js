@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import { MyAxis } from './MyAxis.js';
 import { Plane } from './objects/Plane.js'
 import {Table} from './objects/Table.js'
-import {Candle} from './objects/Candle.js'
 import {Plate} from './objects/Plate.js'
 import {Cake} from './objects/Cake.js'
 import { Window } from './objects/Window.js';
@@ -24,6 +23,7 @@ import { ShopSign } from './objects/ShopSign.js';
 import { Counter } from './objects/Counter.js';
 import { Rug } from './objects/Rug.js';
 import { shadowDefinitions } from './utils/ShadowDefinitions.js';
+import { CeilingLight } from './objects/CeilingLight.js';
 
 /**
  *  This class contains the contents of out application
@@ -123,6 +123,9 @@ class MyContents  {
         // Rug
         this.rug = null;
 
+        // Ceiling Light
+        this.ceilingLight = null;
+
     }
 
     /**
@@ -152,7 +155,7 @@ class MyContents  {
         }
 
         // add a point light on top of the model
-        const pointLight = new THREE.PointLight( 0xffffff, 10, 0, 1 );
+        const pointLight = new THREE.PointLight( 0x949494, 10, 0, 1 );
         pointLight.position.set( 0, 10, 0 );
         shadowDefinitions.propertiesLightShadow(pointLight);
         this.app.scene.add( pointLight );
@@ -233,33 +236,25 @@ class MyContents  {
         // Table
         this.tableGroup = new THREE.Group();
 
-        const woodTexture = this.prepareTexture('./Textures/wood.jpg');
+        const woodTexture = this.prepareTexture('./Textures/light_wood.jpg');
         const metalTexture = this.prepareTexture('./Textures/metal_texture.jpg');
 
-        const topMaterial = new THREE.MeshPhysicalMaterial({map: woodTexture, roughness: 0.7, metalness: 0.0, clearcoat: 0.1,clearcoatRoughness: 0.9}); // Top material
+        const topMaterial = new THREE.MeshPhysicalMaterial({map: woodTexture, roughness: 0.7, metalness: 0.0, clearcoat: 0.1,clearcoatRoughness: 0.9});
 
         const legsMaterial = new THREE.MeshPhysicalMaterial({map: metalTexture, roughness: 0.2, metalness: 0.7, reflectivity: 0.7, clearcoat: 0.3, clearcoatRoughness: 0.1});
 
-        this.table = new Table(5, 0.2, 3,{ x: 0, y: 2.0, z: -3 }, topMaterial, legsMaterial);
+        this.table = new Table(4, 0.2, 3,{ x: 0, y: 2.0, z: 0 }, topMaterial, legsMaterial);
         this.tableGroup.add(this.table);
 
         // Candle
         const candleTexture = this.prepareTexture('./Textures/candle.jpg');
         const candleMaterial = new THREE.MeshStandardMaterial({roughness: 0.5, metalness: 0, map:candleTexture });
         
-        const flameMaterial = new THREE.MeshLambertMaterial({emissive: 0xffa500, emissiveIntensity: 1, transparent: false, shininess: 800});
+        const flameMaterial = new THREE.MeshLambertMaterial({emissive: 0xffa500, emissiveIntensity: 1, transparent: false});
         
-        this.candle = new Candle(0.2, 0.02, candleMaterial, 0.010, flameMaterial, { x: this.table.positionX, y: this.table.positionY + this.table.height-0.055, z: this.table.positionZ} );                                                             
-        this.tableGroup.add(this.candle);
-
-        // Plate for Candle
-        this.candlePlate = new Plate(this.candle.cylinderRadius * 2, 20);
-        this.candlePlate.position.set(this.table.positionX, this.table.positionY + this.table.height -0.055, this.table.positionZ);
-        this.tableGroup.add(this.candlePlate);
-
         // Plate
         this.plate = new Plate(0.4, 32);
-        this.plate.position.set(this.table.positionX + 2, this.table.positionY + this.table.height - 0.012, this.table.positionZ);
+        this.plate.position.set(this.table.positionX, this.table.positionY + this.table.height - 0.012, this.table.positionZ);
         this.tableGroup.add(this.plate);
 
         // Cake
@@ -273,13 +268,14 @@ class MyContents  {
         this.cakeInsideTexture.wrapT = THREE.RepeatWrapping;
         this.cakeInsideTexture.repeat.set(1, 1);
 
-        this.cakeColor = "#a62121"
-        this.cake = new Cake(0.45,0.3,Math.PI/5, this.cakeTexture, this.cakeInsideTexture, this.cakeColor);
-        this.cake.position.set(this.table.positionX + 2, this.table.positionY + this.table.height + 0.14, this.table.positionZ);
+        this.cakeColor = "#638ECB"
+        this.cake = new Cake(0.45,0.3,Math.PI/5, this.cakeTexture, this.cakeInsideTexture, this.cakeColor, candleMaterial, flameMaterial, 6);
+        this.cake.position.set(this.plate.position.x , this.table.positionY + this.table.height + 0.18, this.table.positionZ);
         this.tableGroup.add(this.cake); 
 
         //Newspaper
-        this.newspaper = new Newspaper(this.table.positionX - 1.8, this.table.positionY + 0.13, this.table.positionZ + 0.4);
+        this.newspaper = new Newspaper(this.table.positionX + 1.2, this.table.positionY + 0.13, this.table.positionZ - 0.4);
+        this.newspaper.rotation.y = -Math.PI/8;
         this.tableGroup.add(this.newspaper);
 
         // Spring
@@ -288,38 +284,37 @@ class MyContents  {
         this.tableGroup.add(this.spring);
 
         // Lamp
-        this.lamp = new Lamp(this.cake, "pink");
-        this.lamp.position.set(this.table.positionX + 0.5, this.cake.position.y - 0.20, this.table.positionZ);
-        this.lamp.rotation.y = Math.PI/2;
+        this.lamp = new Lamp(this.cake, "#395886");
+        this.lamp.position.set(this.cake.position.x - 1.5, this.cake.position.y - 0.15, this.table.positionZ - 0.8);
+        this.lamp.rotation.y = Math.PI/4;
         this.tableGroup.add(this.lamp);
 
         this.app.scene.add(this.tableGroup);
 
         // Window
-        this.window = new Window(6, 3, 0.1, 'Textures/landscape2.jpg');
-        this.window.position.set(0, this.planeRight.height/2, -((this.floor.height/2) - ((this.window.frameThickness/2) + 0.02)));
+        this.window = new Window(5, 3, 0.1, 'Textures/landscape2.jpg');
+        this.window.position.set(this.planeFront.position.x - 0.05, this.planeRight.height/2 + 1, 0);
+        this.window.rotation.y = -Math.PI/2;
         this.app.scene.add(this.window);
 
         this.rectLight = this.window.activateWindowLight()
         this.app.scene.add(this.rectLight);
 
         this.shadowLight = this.window.activateShadowLight()
-        this.app.scene.add(this.shadowLight);
+        //this.app.scene.add(this.shadowLight);
 
         const dirLightHelper = new THREE.DirectionalLightHelper(this.shadowLight, 5);
         const shadowHelper = new THREE.CameraHelper(this.shadowLight.shadow.camera);
 
         // 1st Painting
 
-        this.painting = new Painting(1.3, 1.5, 0.1, 'Textures/pikachu.jpg');
-        this.painting.position.set(this.floor.width/2 - 0.05, this.planeFront.height/2 + 0.1, this.planeFront.position.z);
-        this.painting.rotateY(-Math.PI/2);
+        this.painting = new Painting(1.4, 1.5, 0.1, 'Textures/madalena.png');
+        this.painting.position.set(this.planeRight.position.x - 1.15, this.planeFront.height/2 + 0.1, this.planeRight.position.z + 0.02);
         this.app.scene.add(this.painting);
 
         // 2nd Painting
-        this.painting2 = new Painting(1.3, 1.5, 0.1, 'Textures/cat.jpg');
-        this.painting2.position.set(this.floor.width/2 - 0.05, this.planeFront.height/2 + 0.1, this.planeFront.position.z + 1.5);
-        this.painting2.rotateY(-Math.PI/2);
+        this.painting2 = new Painting(1.4, 1.5, 0.1, 'Textures/cat.jpg');
+        this.painting2.position.set(this.planeRight.position.x + 1.15, this.planeFront.height/2 + 0.1, this.planeRight.position.z + 0.02);
         this.app.scene.add(this.painting2);
 
         // Baseboard
@@ -343,6 +338,9 @@ class MyContents  {
 
         // Beetle
         this.beetle = new Beetle(-this.floor.width/2, 3, 0, 0.25, 48);
+        this.beetle.scale.set(0.9, 0.8, 0.9)
+        this.beetle.position.y = 1.3
+        this.beetle.position.x = -0.8
         this.app.scene.add(this.beetle);
 
         // Jar
@@ -370,13 +368,13 @@ class MyContents  {
         const topTableTexture = this.prepareTexture("./Textures/topTable.jpg");
         const topMaterial2 = new THREE.MeshPhysicalMaterial({map: topTableTexture, roughness: 0.6, metalness: 0.1, reflectivity: 0.2, clearcoat: 0.3, clearcoatRoughness: 0.2, sheen: 0.4, sheenRoughness: 0.8});
 
-        this.coffeeTable1 = new CoffeeTable(2.0, 0.1, 2.0,topMaterial2, 0.1, 2, 0.15, {x : -(this.floor.width/2 - 1.0) + 0.4, z: 0});
+        this.coffeeTable1 = new CoffeeTable(2.0, 0.1, 2.0,topMaterial2, 0.1, 2, 0.15, legsMaterial, {x : -(this.floor.width/2 - 1.0) + 0.4, z: 0});
         this.app.scene.add(this.coffeeTable1); 
 
-        this.coffeeTable2 = new CoffeeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, {x: this.coffeeTable1.positionX, z: this.floor.height/2 - 2.5})
+        this.coffeeTable2 = new CoffeeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, legsMaterial, {x: this.coffeeTable1.positionX, z: this.floor.height/2 - 2.5})
         this.app.scene.add(this.coffeeTable2); 
 
-        this.coffeeTable3 = new CoffeeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, {x: this.coffeeTable1.positionX, z: -(this.floor.height/2 - 2.5)})
+        this.coffeeTable3 = new CoffeeTable(2.0, 0.1, 2.0, topMaterial2, 0.1, 2, 0.15, legsMaterial, {x: this.coffeeTable1.positionX, z: -(this.floor.height/2 - 2.5)})
         this.app.scene.add(this.coffeeTable3); 
 
         // Chairs
@@ -409,19 +407,19 @@ class MyContents  {
         const coffeeStain = this.cup2.createCoffeeStain(this.coffeeTable1.positionX - 0.2, this.coffeeTable1.height + this.coffeeTable1.tableHeight + 0.06, this.coffeeTable1.positionZ);
         this.app.scene.add(coffeeStain);
 
-        // Shop Sign
-        this.shopSign = new ShopSign("The Coffee™ Shop");
-        this.shopSign.position.set(this.door.position.x + 1.9, this.planeFront.height/2 + 1.9, this.planeLeft.position.z - 0.01);
-        this.app.scene.add(this.shopSign);
-
         // Counter
         this.counter = new Counter();
-        this.counter.position.set(this.planeFront.position.x - 2.5, this.floor.position.y + 1.1, this.painting.position.z + 0.8);
+        this.counter.position.set(this.planeRight.position.x, this.floor.position.y + 1.1, this.planeRight.position.z + 3);
+        this.counter.rotation.y = Math.PI/2;
         this.app.scene.add(this.counter);
+        
+        // Shop Sign
+        this.shopSign = new ShopSign("The Coffee™ Shop");
+        this.shopSign.position.set(this.counter.position.x - 2.5, this.planeFront.height/2 + 1.5, this.planeRight.position.z + 0.01);
+        this.app.scene.add(this.shopSign);
 
         // Coffee Machine
-        this.coffeeMachine = new CoffeeMachine(this.counter.position.x + 0.25, 2.50, this.counter.position.z - 1.5, 1);
-        this.coffeeMachine.rotation.y = Math.PI/2;
+        this.coffeeMachine = new CoffeeMachine(this.counter.position.x - 1.5, 2.50, this.counter.position.z - 0.15, 1);
         this.coffeeMachine.scale.set(0.75, 0.75, 0.75);
         this.app.scene.add(this.coffeeMachine);
 
@@ -431,8 +429,18 @@ class MyContents  {
         rugTexture.rotation = Math.PI / 2; 
         const rugMaterial = new THREE.MeshStandardMaterial({ map: rugTexture, roughness: 0.8, metalness: 0.1});
 
-        this.rug = new Rug(7, 0.03, 4, rugMaterial, 0, 0.03, 4);
+        this.rug = new Rug(7, 0.03, 4, rugMaterial, 0, 0.04, 4.8);
         this.app.scene.add(this.rug);
+
+        // Ceiling Light
+        this.ceilingLight = new CeilingLight("pink", 0.4, 0.2);
+        this.ceilingLight.position.set(this.planeRight.position.x - 4.5, 4.8, this.planeRight.position.z + 0.02, 10);
+        this.app.scene.add(this.ceilingLight);
+
+        this.ceilingLight2 = new CeilingLight(0x638ECB, 0.2, 0.1);
+        this.ceilingLight2.position.set(this.planeRight.position.x - 5, 4.4, this.planeRight.position.z + 0.02, 0.1);
+        this.app.scene.add(this.ceilingLight2);
+        
     }
 
     /**
