@@ -114,7 +114,9 @@ class MyGuiInterface  {
             'bigStar': this.contents.ceilingLight.light.intensity,
             'smallStar': this.contents.ceilingLight2.light.intensity,
             'room': this.contents.pointLight.intensity,
-            'roomColor': this.contents.pointLightColor
+            'roomColor': this.contents.pointLightColor,
+            'candleFlame': this.contents.cake.candle.flameLight.intensity,
+            'candleFlameColor': this.contents.cake.candle.flameLight.color
         }
         lightsFolder.add(lightParameters, 'spotlightIntensity', 0, 100).name('SpotLight Intensity').onChange((value) => {this.contents.lamp.spotlight.intensity = value});
         lightsFolder.add(lightParameters, 'spotlightAngle', 0, Math.PI/2).name('SpotLight Angle').onChange((value) => {this.contents.lamp.spotlight.angle = value});
@@ -122,6 +124,8 @@ class MyGuiInterface  {
         lightsFolder.add(lightParameters, 'smallStar', 0, 100).name('Small Star').onChange((value) => {this.contents.ceilingLight2.light.intensity = value});
         lightsFolder.add(lightParameters, 'room', 0, 100).name('Room').onChange((value) => {this.contents.pointLight.intensity = value});
         lightsFolder.addColor(lightParameters, 'roomColor').name('Room Color').onChange((value) => {this.contents.updateRoomColor(value)});
+        lightsFolder.add(lightParameters, 'candleFlame', 0, 100).name('Candle Flame').onChange((value) => {this.contents.cake.candle.flameLight.intensity = value});
+        lightsFolder.addColor(lightParameters, 'candleFlameColor').name('Candle Flame Color').onChange((value) => {this.contents.cake.candle.flameLight.color.set(value)});
 
     }
 }

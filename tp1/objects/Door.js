@@ -20,12 +20,13 @@ class Door extends THREE.Object3D{
      * @constructor
      * @param {number} width - The width of the door.
      * @param {number} height - The height of the door.
+     * @param {THREE.Texture} doorTexture - The texture to be applied to the door.
      */
-    constructor(width, height){
+    constructor(width, height, doorTexture){
         super();
         this.width = width;
         this.height = height;
-        this.doorTexture = new THREE.TextureLoader().load('textures/light_wood.jpg');
+        this.doorTexture = doorTexture
         this.doorTexture.wrapS = THREE.RepeatWrapping;
         this.doorTexture.wrapT = THREE.RepeatWrapping;
         this.doorTexture.repeat.set(1, 1);

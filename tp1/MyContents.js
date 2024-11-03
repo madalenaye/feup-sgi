@@ -65,7 +65,6 @@ class MyContents  {
         // Candle
         this.candle = null;
 
-
         // Plate
         this.plate = null;
 
@@ -236,7 +235,6 @@ class MyContents  {
         const metalTexture = this.prepareTexture('./Textures/metal_texture.jpg');
 
         const topMaterial = new THREE.MeshPhysicalMaterial({map: woodTexture, roughness: 0.7, metalness: 0.0, clearcoat: 0.1,clearcoatRoughness: 0.9});
-
         const legsMaterial = new THREE.MeshPhysicalMaterial({map: metalTexture, roughness: 0.2, metalness: 0.7, reflectivity: 0.7, clearcoat: 0.3, clearcoatRoughness: 0.1});
 
         this.table = new Table(4, 0.2, 3,{ x: 0, y: 2.0, z: 0 }, topMaterial, legsMaterial);
@@ -279,7 +277,7 @@ class MyContents  {
         this.tableGroup.add(this.spring);
 
         // Lamp
-        this.lamp = new Lamp(this.cake, "#395886");
+        this.lamp = new Lamp(this.cake, "#395886", woodTexture);
         this.lamp.position.set(this.cake.position.x - 1.5, this.cake.position.y - 0.15, this.table.positionZ - 0.8);
         this.lamp.rotation.y = Math.PI/4;
         this.tableGroup.add(this.lamp);
@@ -398,7 +396,7 @@ class MyContents  {
         this.app.scene.add(coffeStain);
 
         // Door
-        this.door = new Door(this.planeLeft.width * 0.2, this.planeLeft.height / 1.3);
+        this.door = new Door(this.planeLeft.width * 0.2, this.planeLeft.height / 1.3, woodTexture);
         this.door.position.set(0, this.planeLeft.position.y - 0.85 - (this.door.height / 2 + 0.05), this.planeLeft.position.z - 0.05);
         this.door.rotation.y = Math.PI / 2;
         this.app.scene.add(this.door);
@@ -407,7 +405,7 @@ class MyContents  {
         this.app.scene.add(coffeeStain);
 
         // Counter
-        this.counter = new Counter();
+        this.counter = new Counter(woodTexture);
         this.counter.position.set(this.planeRight.position.x, this.floor.position.y + 1.1, this.planeRight.position.z + 3);
         this.counter.rotation.y = Math.PI/2;
         this.app.scene.add(this.counter);

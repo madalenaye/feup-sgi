@@ -20,14 +20,15 @@ class Lamp extends THREE.Object3D{
      * @constructor
      * @param {THREE.Object3D} target - The target object for the lamp's spotlight.
      * @param {string|THREE.Color} lightColor - The color of the lamp's light.
+     * @param {THREE.Texture} woodTexture - The texture to be applied to the lamp's base and head.
      */
-    constructor(target, lightColor){
+    constructor(target, lightColor, woodTexture){
         super();
         this.target = target;
         this.lightColor = lightColor;
 
 
-        this.woodTexture = new THREE.TextureLoader().load('textures/light_wood.jpg');
+        this.woodTexture = woodTexture
         this.woodTexture.wrapS = THREE.RepeatWrapping;
         this.woodTexture.wrapT = THREE.RepeatWrapping;
         this.woodTexture.repeat.set(1, 1);

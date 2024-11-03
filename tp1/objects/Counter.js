@@ -18,10 +18,14 @@ class Counter extends THREE.Object3D{
     /**
      * Constructs an object representing a Counter.
      * @constructor
+     * @param {THREE.Texture} woodTexture - The texture to be applied to the counter's sides.
+     * @param {THREE.Texture} counterTexture - The texture to be applied to the counter's top.
      */
-    constructor(){
+    constructor(woodTexture){
         super();
         this.counter = new THREE.BoxGeometry(5, 2, 1.5);
+        this.woodTexture = woodTexture;
+
         this.counterTexture = new THREE.TextureLoader().load('textures/counter.jpeg');
         this.counterTexture.wrapS = THREE.RepeatWrapping;
         this.counterTexture.wrapT = THREE.RepeatWrapping;
@@ -31,8 +35,7 @@ class Counter extends THREE.Object3D{
         shadowDefinitions.objectShadow(this.counterMesh);
 
         this.counterRight = new THREE.BoxGeometry(1.5, 0.16, 0.3);
-        this.counterTopTexture = new THREE.TextureLoader().load('textures/light_wood.jpg');
-        this.counterTopMaterial = new THREE.MeshStandardMaterial({ map: this.counterTopTexture});
+        this.counterTopMaterial = new THREE.MeshStandardMaterial({ map: this.woodTexture});
         this.counterRightMesh = new THREE.Mesh(this.counterRight, this.counterTopMaterial);
         shadowDefinitions.objectShadow(this.counterRightMesh);
         this.counterRightMesh.rotation.y = Math.PI / 2;
