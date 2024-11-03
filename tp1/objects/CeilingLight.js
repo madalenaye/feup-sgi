@@ -1,7 +1,28 @@
+/**
+ * @file CeilingLight.js
+ * @class CeilingLight
+ * @extends THREE.Object3D
+ * @desc This class aims to represent a CeilingLight. 
+ */
+
 import * as THREE from 'three';
 import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
+/**
+ * @class
+ * @classdesc A class for creating a ceiling light with a customisable light shape, colour, intensity, and shadow properties.
+ */
+
 class CeilingLight extends THREE.Object3D{
+
+    /**
+     * Constructs an object representing a Ceiling Light.
+     * @constructor
+     * @param {string|number} lightColor - The colour of the light (can be a hex value or colour name).
+     * @param {number} innerRadius - The inner radius of the light shape.
+     * @param {number} outerRadius - The outer radius of the light shape.
+     * @param {number} lightIntensity - The intensity of the light.
+     */
     constructor(lightColor, innerRadius, outerRadius, lightIntensity){
         super();
         this.lightColor = lightColor;
