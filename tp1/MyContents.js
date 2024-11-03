@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import { MyAxis } from './MyAxis.js';
 import { Plane } from './objects/Plane.js'
 import {Table} from './objects/Table.js'
-import {Candle} from './objects/Candle.js'
 import {Plate} from './objects/Plate.js'
 import {Cake} from './objects/Cake.js'
 import { Window } from './objects/Window.js';
@@ -24,6 +23,7 @@ import { ShopSign } from './objects/ShopSign.js';
 import { Counter } from './objects/Counter.js';
 import { Rug } from './objects/Rug.js';
 import { shadowDefinitions } from './utils/ShadowDefinitions.js';
+import { CeilingLight } from './objects/CeilingLight.js';
 
 /**
  *  This class contains the contents of out application
@@ -122,6 +122,9 @@ class MyContents  {
 
         // Rug
         this.rug = null;
+
+        // Ceiling Light
+        this.ceilingLight = null;
 
     }
 
@@ -265,7 +268,7 @@ class MyContents  {
         this.cakeInsideTexture.wrapT = THREE.RepeatWrapping;
         this.cakeInsideTexture.repeat.set(1, 1);
 
-        this.cakeColor = "#a638ECB"
+        this.cakeColor = "#638ECB"
         this.cake = new Cake(0.45,0.3,Math.PI/5, this.cakeTexture, this.cakeInsideTexture, this.cakeColor, candleMaterial, flameMaterial, 6);
         this.cake.position.set(this.plate.position.x , this.table.positionY + this.table.height + 0.18, this.table.positionZ);
         this.tableGroup.add(this.cake); 
@@ -298,7 +301,7 @@ class MyContents  {
         this.app.scene.add(this.rectLight);
 
         this.shadowLight = this.window.activateShadowLight()
-        this.app.scene.add(this.shadowLight);
+        //this.app.scene.add(this.shadowLight);
 
         const dirLightHelper = new THREE.DirectionalLightHelper(this.shadowLight, 5);
         const shadowHelper = new THREE.CameraHelper(this.shadowLight.shadow.camera);
@@ -417,7 +420,6 @@ class MyContents  {
 
         // Coffee Machine
         this.coffeeMachine = new CoffeeMachine(this.counter.position.x - 1.5, 2.50, this.counter.position.z - 0.15, 1);
-        //this.coffeeMachine.rotation.y = Math.PI/2;
         this.coffeeMachine.scale.set(0.75, 0.75, 0.75);
         this.app.scene.add(this.coffeeMachine);
 
@@ -429,6 +431,17 @@ class MyContents  {
 
         this.rug = new Rug(7, 0.03, 4, rugMaterial, 0, 0.04, 4.8);
         this.app.scene.add(this.rug);
+
+        // Ceiling Light
+        this.ceilingLight = new CeilingLight("pink", 0.4, 0.2);
+        this.ceilingLight.position.set(this.planeRight.position.x - 4.5, 4.8, this.planeRight.position.z + 0.02, 10);
+        //this.ceilingLight.rotation.x = Math.PI/2;
+        this.app.scene.add(this.ceilingLight);
+
+        this.ceilingLight2 = new CeilingLight(0x638ECB, 0.2, 0.1);
+        this.ceilingLight2.position.set(this.planeRight.position.x - 5, 4.4, this.planeRight.position.z + 0.02, 0.1);
+        this.app.scene.add(this.ceilingLight2);
+        
     }
 
     /**
