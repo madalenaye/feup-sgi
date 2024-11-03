@@ -106,6 +106,23 @@ class MyGuiInterface  {
             }
         });
         musicFolder.open();
+
+        // Lights
+        const lightParameters = {
+            'spotlightIntensity': this.contents.lamp.spotlight.intensity,
+            'spotlightAngle': this.contents.lamp.spotlight.angle,
+            'bigStar': this.contents.ceilingLight.light.intensity,
+            'smallStar': this.contents.ceilingLight2.light.intensity,
+            'room': this.contents.pointLight.intensity,
+            'roomColor': this.contents.pointLightColor
+        }
+        lightsFolder.add(lightParameters, 'spotlightIntensity', 0, 100).name('SpotLight Intensity').onChange((value) => {this.contents.lamp.spotlight.intensity = value});
+        lightsFolder.add(lightParameters, 'spotlightAngle', 0, Math.PI/2).name('SpotLight Angle').onChange((value) => {this.contents.lamp.spotlight.angle = value});
+        lightsFolder.add(lightParameters, 'bigStar', 0, 100).name('Big Star').onChange((value) => {this.contents.ceilingLight.light.intensity = value});
+        lightsFolder.add(lightParameters, 'smallStar', 0, 100).name('Small Star').onChange((value) => {this.contents.ceilingLight2.light.intensity = value});
+        lightsFolder.add(lightParameters, 'room', 0, 100).name('Room').onChange((value) => {this.contents.pointLight.intensity = value});
+        lightsFolder.addColor(lightParameters, 'roomColor').name('Room Color').onChange((value) => {this.contents.updateRoomColor(value)});
+
     }
 }
 

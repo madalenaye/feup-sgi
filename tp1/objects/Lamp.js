@@ -82,13 +82,13 @@ class Lamp extends THREE.Object3D{
         this.lampGlowMesh.rotation.x = -Math.PI / 4;
         this.lamp.add(this.lampGlowMesh);
 
-        this.light = new THREE.SpotLight(this.lightColor, 10, 4, Math.PI / 6, 0.2, 1);
-        this.light.target = this.target;
-        this.light.position.set(0, 1.37, 0.42);
+        this.spotlight = new THREE.SpotLight(this.lightColor, 10, 4, Math.PI / 6, 0.2, 1);
+        this.spotlight.target = this.target;
+        this.spotlight.position.set(0, 1.37, 0.42);
         
-        this.light.castShadow = true;
+        this.spotlight.castShadow = true;
 
-        this.lamp.add(this.light);
+        this.lamp.add(this.spotlight);
         this.add(this.lamp);
        
     }

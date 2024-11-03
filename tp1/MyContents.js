@@ -159,14 +159,15 @@ class MyContents  {
         }
 
         // add a point light on top of the model
-        const pointLight = new THREE.PointLight( 0x949494, 10, 0, 1 );
-        pointLight.position.set( 0, 10, 0 );
-        shadowDefinitions.propertiesLightShadow(pointLight);
-        this.app.scene.add( pointLight );
+        this.pointLightColor = 0x949494;
+        this.pointLight = new THREE.PointLight( this.pointLightColor, 10, 0, 1 );
+        this.pointLight.position.set( 0, 10, 0 );
+        shadowDefinitions.propertiesLightShadow(this.pointLight);
+        this.app.scene.add( this.pointLight );
 
         // add a point light helper for the previous point light
         const sphereSize = 0.5;
-        const pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
+        const pointLightHelper = new THREE.PointLightHelper( this.pointLight, sphereSize );
         this.app.scene.add( pointLightHelper );
 
         // add an ambient light
@@ -457,7 +458,6 @@ class MyContents  {
         this.decoration2.rotation.y = Math.PI/2;
         this.app.scene.add(this.decoration2);
         
-        console.log(this.coffeeTable2.positionX, this.coffeeTable2.positionY, this.coffeeTable2.positionZ)
         // Targets
         this.objects = {
             Cake: new THREE.Vector3(0, 0, 0),
@@ -467,8 +467,14 @@ class MyContents  {
             "Ceilling Light": this.ceilingLight.position ?? new THREE.Vector3(0, 0, 0)
         }
         this.cameraTarget = "Cake";
+        console.log(this.lamp.spotlightIntensity)
         
     }
+    /**
+     * Method responsible for changing the target of the camera.
+     * @param {string} target - The target to be set.
+     * @returns {THREE.Vector3} - The new target.
+     */
 
     changeTarget(target) {
         return this.app.controls.target.set(...this.objects[target]);
@@ -614,6 +620,9 @@ class MyContents  {
         this.musicPlayer.stop();
     }
     
+    updateRoomColor(value){
+        this.pointLight.color.set(value);
+    }
 
     /**
      * updates the contents
