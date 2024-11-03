@@ -31,6 +31,7 @@ import { Counter } from './objects/Counter.js';
 import { Rug } from './objects/Rug.js';
 import { shadowDefinitions } from './utils/ShadowDefinitions.js';
 import { CeilingLight } from './objects/CeilingLight.js';
+import { MusicPlayer } from './Audio/MusicPlayer.js';
 
 /**
  * @class
@@ -134,6 +135,9 @@ class MyContents  {
         // Ceiling Light
         this.ceilingLight = null;
 
+        // Music Player
+        this.musicPlayer = null;
+
     }
 
     /**
@@ -141,7 +145,9 @@ class MyContents  {
      * @method
      */
     init() {
-       
+
+        this.musicPlayer = new MusicPlayer('./Audio/Sakamoto.mp3');
+
         // create once 
         if (this.axis === null) {
             // create and attach the axis to the scene
@@ -570,6 +576,7 @@ class MyContents  {
 
     /**
      * Method that prepares the texture for the table top
+     * @method
      * @param {string} imagePath
      */
     prepareTexture(imagePath){
@@ -577,6 +584,22 @@ class MyContents  {
         const texture = textureLoader.load(imagePath);
 
         return texture
+    }
+
+    /**
+     * Method that activates music
+     * @method
+     */
+    playMusic() {
+        this.musicPlayer.play();
+    }
+
+    /**
+     * Method that stops the music
+     * @method
+     */
+    stopMusic() {
+        this.musicPlayer.stop();
     }
     
 

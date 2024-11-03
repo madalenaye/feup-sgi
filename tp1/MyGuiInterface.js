@@ -118,6 +118,19 @@ class MyGuiInterface  {
         .onChange(deg => this.contents.tableGroup.rotation.z = THREE.MathUtils.degToRad(deg));
 
         tableFolder.open()
+
+        // Music
+        const musicFolder = this.datgui.addFolder('Music');
+        const musicSettings = {PlayMusic: false};
+
+        musicFolder.add(musicSettings, 'PlayMusic').name('Enable Music').onChange((value) => {
+            if (value) {
+                this.contents.musicPlayer.play(); 
+            } else {
+                this.contents.musicPlayer.stop(); 
+            }
+        });
+        musicFolder.open();
     }
 }
 
