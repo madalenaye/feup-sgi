@@ -153,6 +153,7 @@ class MyContents  {
             // create and attach the axis to the scene
             this.axis = new MyAxis(this)
             this.app.scene.add(this.axis)
+            this.axis.visible = false
         }
 
         // add a point light on top of the model
