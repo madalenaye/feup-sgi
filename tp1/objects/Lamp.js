@@ -86,10 +86,6 @@ class Lamp extends THREE.Object3D{
         this.light.target = this.target;
         this.light.position.set(0, 1.37, 0.42);
         
-        this.light.shadow.mapSize.width = 2048;
-        this.light.shadow.mapSize.height = 2048;
-        this.light.shadow.radius = 0.2;
-        this.light.shadow.bias = -0.0001;
         this.light.castShadow = true;
 
         this.lamp.add(this.light);

@@ -302,6 +302,10 @@ class MyContents  {
         this.shadowLight = this.window.activateShadowLight()
         this.app.scene.add(this.shadowLight);
 
+        const dirLightHelper = new THREE.DirectionalLightHelper(this.shadowLight, 5);
+        const shadowHelper = new THREE.CameraHelper(this.shadowLight.shadow.camera);
+
+
         // 1st Painting
 
         this.painting = new Painting(1.4, 1.5, 0.1, 'Textures/madalena.png');
@@ -444,7 +448,7 @@ class MyContents  {
         this.decoration = new Painting(1.8, 1.5, 0.1, 'Textures/decoration.jpg');
         this.decoration.position.set(this.planeBack.position.x + 0.02, this.painting.position.y + 1, 4);
         this.decoration.rotation.y = Math.PI/2;
-        this.app.scene.add(this.decoration);
+        //this.app.scene.add(this.decoration);
 
         this.decoration2 = new Painting(1.8, 1.5, 0.1, 'Textures/decoration2.jpg');
         this.decoration2.position.set(this.planeBack.position.x + 0.02, this.painting.position.y + 1, -4);
