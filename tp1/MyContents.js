@@ -274,8 +274,7 @@ class MyContents  {
         this.tableGroup.add(this.cake); 
 
         //Newspaper
-        this.newspaper = new Newspaper(this.table.positionX + 1.2, this.table.positionY + 0.13, this.table.positionZ - 0.4);
-        this.newspaper.rotation.y = -Math.PI/8;
+        this.newspaper = new Newspaper(this.table.positionX + 1.2, this.table.positionY + 0.13, this.table.positionZ - 0.1);
         this.tableGroup.add(this.newspaper);
 
         // Spring
@@ -313,7 +312,7 @@ class MyContents  {
         this.app.scene.add(this.painting);
 
         // 2nd Painting
-        this.painting2 = new Painting(1.4, 1.5, 0.1, 'Textures/cat.jpg');
+        this.painting2 = new Painting(1.4, 1.5, 0.1, 'Textures/manuel.jpg');
         this.painting2.position.set(this.planeRight.position.x + 1.15, this.planeFront.height/2 + 0.1, this.planeRight.position.z + 0.02);
         this.app.scene.add(this.painting2);
 
