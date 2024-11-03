@@ -47,7 +47,7 @@ class Lamp extends THREE.Object3D{
         this.lampLight = new THREE.CylinderGeometry(0.11, 0.3, 0.4, 32, 32, true);
         this.lampMaterial2 = new THREE.MeshStandardMaterial({ map: this.lampTexture, side: THREE.DoubleSide });
         this.lampLightMesh = new THREE.Mesh(this.lampLight, this.lampMaterial2);
-        //shadowDefinitions.objectShadow(this.lampLightMesh, true, false);
+        shadowDefinitions.objectShadow(this.lampLightMesh, false, true);
         this.lampLightMesh.position.set(0, 1.5, 0.32);
         this.lampLightMesh.rotation.x = -Math.PI / 4;
 

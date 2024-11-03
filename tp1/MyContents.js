@@ -301,7 +301,7 @@ class MyContents  {
         this.app.scene.add(this.rectLight);
 
         this.shadowLight = this.window.activateShadowLight()
-        //this.app.scene.add(this.shadowLight);
+        this.app.scene.add(this.shadowLight);
 
         const dirLightHelper = new THREE.DirectionalLightHelper(this.shadowLight, 5);
         const shadowHelper = new THREE.CameraHelper(this.shadowLight.shadow.camera);
