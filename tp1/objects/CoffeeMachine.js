@@ -35,7 +35,7 @@ class CoffeeMachine extends THREE.Object3D{
 
         // Machine main body
         const boxGeometry = new THREE.BoxGeometry(0.5, 1, 1);
-        const material2 = new THREE.MeshPhongMaterial({ color: 0xeb301e, shininess: 3,specular: 0xeb301e });
+        const material2 = new THREE.MeshPhongMaterial({ color: 0x628ecb, shininess: 3,specular: 0x8aaee0 });
         const baseBox = new THREE.Mesh(boxGeometry, material2);
         shadowDefinitions.objectShadow(baseBox);
 
