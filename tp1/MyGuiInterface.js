@@ -54,9 +54,7 @@ class MyGuiInterface  {
         cameraFolder.add(this.app.activeCamera.position, 'x', 0, 10).name("x coord")
         cameraFolder.add(this.app.activeCamera.position, 'y', 0, 10).name("y coord")
         cameraFolder.add(this.app.activeCamera.position, 'z', 0, 10).name("z coord")
-        cameraFolder.add(this.contents, 'axisEnabled').name("Axis").onChange(() => {
-            this.contents.toggleAxisVisibility();
-        });
+        cameraFolder.add(this.contents.axis, "visible", false).name("Axis")
         cameraFolder.open()
         const sideOptions = {
             FrontSide: THREE.FrontSide,

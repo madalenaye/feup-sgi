@@ -48,7 +48,7 @@ class MyContents  {
     constructor(app) {
         this.app = app
         this.axis = null
-        this.axisEnabled = true;
+        this.axisEnabled = false;
 
         // walls
         this.planeLeft = null
@@ -483,16 +483,6 @@ class MyContents  {
 
         this.chair7 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, legsMaterial, this.coffeeTable2.positionX, -this.coffeeTable2.positionZ + this.coffeeTable2.tableWidth/2, Math.PI);
         this.app.scene.add(this.chair7);
-    }
-
-    /**
-     * Method to update the visibility of the axes
-     * @method
-     */
-    toggleAxisVisibility() {
-        if (this.axis) {
-            this.axis.setVisible(this.axisEnabled);
-        }
     }
 
     /**
