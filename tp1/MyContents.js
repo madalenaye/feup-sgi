@@ -435,7 +435,6 @@ class MyContents  {
         // Ceiling Light
         this.ceilingLight = new CeilingLight("pink", 0.4, 0.2);
         this.ceilingLight.position.set(this.planeRight.position.x - 4.5, 4.8, this.planeRight.position.z + 0.02, 10);
-        //this.ceilingLight.rotation.x = Math.PI/2;
         this.app.scene.add(this.ceilingLight);
 
         this.ceilingLight2 = new CeilingLight(0x638ECB, 0.2, 0.1);
