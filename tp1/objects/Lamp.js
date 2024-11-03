@@ -1,8 +1,26 @@
+/**
+ * @file Lamp.js
+ * @class Lamp
+ * @extends THREE.Object3D
+ * @desc This class aims to represent a Lamp. 
+ */
+
 import * as THREE from 'three';
 import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
+/**
+ * @class
+ * @classdesc Represents a lamp object with a light source and visual elements such as a base, pole, head, and glow effect.
+ */
+
 class Lamp extends THREE.Object3D{
 
+    /**
+     * Constructs an object representing a Lamp.
+     * @constructor
+     * @param {THREE.Object3D} target - The target object for the lamp's spotlight.
+     * @param {string|THREE.Color} lightColor - The color of the lamp's light.
+     */
     constructor(target, lightColor){
         super();
         this.target = target;

@@ -1,8 +1,26 @@
+/**
+ * @file Door.js
+ * @class Door
+ * @extends THREE.Object3D
+ * @desc This class aims to represent a Door. 
+ */
+
 import * as THREE from 'three';
 import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
+/**
+ * @class
+ * @classdesc A 3D representation of a door with a wood-textured main body, a glass panel, and metallic handles.
+ */
 
 class Door extends THREE.Object3D{
+
+    /**
+     * Constructs an object representing a Door.
+     * @constructor
+     * @param {number} width - The width of the door.
+     * @param {number} height - The height of the door.
+     */
     constructor(width, height){
         super();
         this.width = width;

@@ -1,7 +1,24 @@
+/**
+ * @file Counter.js
+ * @class Counter
+ * @extends THREE.Object3D
+ * @desc This class aims to represent a Counter. 
+ */
+
 import * as THREE from 'three';
 import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
+/**
+ * @class
+ * @classdesc A 3D representation of a Counter object, built using multiple box geometries to form the main counter, sides, and top.
+ */
+
 class Counter extends THREE.Object3D{
+
+    /**
+     * Constructs an object representing a Counter.
+     * @constructor
+     */
     constructor(){
         super();
         this.counter = new THREE.BoxGeometry(5, 2, 1.5);

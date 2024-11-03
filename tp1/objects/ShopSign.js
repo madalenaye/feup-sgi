@@ -1,9 +1,27 @@
+/**
+ * @file ShopSign.js
+ * @class ShopSign
+ * @extends THREE.Object3D
+ * @desc This class aims to represent a ShopSign. 
+ */
+
 import * as THREE from 'three';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { shadowDefinitions } from '../utils/ShadowDefinitions.js'; 
 
+/**
+ * @class
+ * @classdesc Represents a shop sign with customizable 3D text.
+ */
+
 class ShopSign extends THREE.Object3D{
+
+    /**
+     * Constructs an object representing a Shop Sign.
+     * @constructor
+     * @param {string} text - The text to display on the shop sign.
+     */
     constructor(text){
         super();
         this.text = text;
