@@ -24,7 +24,7 @@ The scene we created incorporates all the objects and light sources required. Be
 * A shop sign created using text geometry
 * A detailed carpet with a pattern
 * A door with a window
-* A light emotting from the window with a landspace view that provides a cozy atmosphere to the scene
+* A light emitting from the window with a landspace view that provides a cozy atmosphere to the scene
 ![Scene](./screenshots/scene.png)
 ![Scene2](./screenshots/scene2.png)
 ![CoffeeMachine](./screenshots/coffeeMachine.png)
