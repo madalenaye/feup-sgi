@@ -13,13 +13,12 @@ class ShopSign extends THREE.Object3D{
        
             this.textGeometry = new TextGeometry(this.text, {
                 font: this.font,
-                size: 0.3,
+                size: 0.4,
                 height: 0.01,
             });
-            this.textMaterial = new THREE.MeshPhongMaterial({color: "black"});
+            this.textMaterial = new THREE.MeshPhongMaterial({color: "#395886"});
             this.textMesh = new THREE.Mesh(this.textGeometry, this.textMaterial);
             shadowDefinitions.objectShadow(this.textMesh, false, true);
-            this.textMesh.rotation.y = Math.PI;
             this.add(this.textMesh);
         });
     }

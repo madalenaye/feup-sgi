@@ -289,8 +289,9 @@ class MyContents  {
         this.app.scene.add(this.tableGroup);
 
         // Window
-        this.window = new Window(6, 3, 0.1, 'Textures/landscape2.jpg');
-        this.window.position.set(0, this.planeRight.height/2 + 1, -((this.floor.height/2) - ((this.window.frameThickness/2) + 0.02)));
+        this.window = new Window(5, 3, 0.1, 'Textures/landscape2.jpg');
+        this.window.position.set(this.planeFront.position.x - 0.05, this.planeRight.height/2 + 1, 0);
+        this.window.rotation.y = -Math.PI/2;
         this.app.scene.add(this.window);
 
         this.rectLight = this.window.activateWindowLight()
@@ -304,15 +305,13 @@ class MyContents  {
 
         // 1st Painting
 
-        this.painting = new Painting(1.3, 1.5, 0.1, 'Textures/pikachu.jpg');
-        this.painting.position.set(this.floor.width/2 - 0.05, this.planeFront.height/2 + 0.1, this.planeFront.position.z);
-        this.painting.rotateY(-Math.PI/2);
+        this.painting = new Painting(1.4, 1.5, 0.1, 'Textures/madalena.png');
+        this.painting.position.set(this.planeRight.position.x - 1.15, this.planeFront.height/2 + 0.1, this.planeRight.position.z + 0.02);
         this.app.scene.add(this.painting);
 
         // 2nd Painting
-        this.painting2 = new Painting(1.3, 1.5, 0.1, 'Textures/cat.jpg');
-        this.painting2.position.set(this.floor.width/2 - 0.05, this.planeFront.height/2 + 0.1, this.planeFront.position.z + 1.5);
-        this.painting2.rotateY(-Math.PI/2);
+        this.painting2 = new Painting(1.4, 1.5, 0.1, 'Textures/cat.jpg');
+        this.painting2.position.set(this.planeRight.position.x + 1.15, this.planeFront.height/2 + 0.1, this.planeRight.position.z + 0.02);
         this.app.scene.add(this.painting2);
 
         // Baseboard
@@ -405,19 +404,20 @@ class MyContents  {
         const coffeeStain = this.cup2.createCoffeeStain(this.coffeeTable1.positionX - 0.2, this.coffeeTable1.height + this.coffeeTable1.tableHeight + 0.06, this.coffeeTable1.positionZ);
         this.app.scene.add(coffeeStain);
 
-        // Shop Sign
-        this.shopSign = new ShopSign("The Coffee™ Shop");
-        this.shopSign.position.set(this.door.position.x + 1.9, this.planeFront.height/2 + 1.9, this.planeLeft.position.z - 0.01);
-        this.app.scene.add(this.shopSign);
-
         // Counter
         this.counter = new Counter();
-        this.counter.position.set(this.planeFront.position.x - 2.5, this.floor.position.y + 1.1, this.painting.position.z + 0.8);
+        this.counter.position.set(this.planeRight.position.x, this.floor.position.y + 1.1, this.planeRight.position.z + 3);
+        this.counter.rotation.y = Math.PI/2;
         this.app.scene.add(this.counter);
+        
+        // Shop Sign
+        this.shopSign = new ShopSign("The Coffee™ Shop");
+        this.shopSign.position.set(this.counter.position.x - 2.5, this.planeFront.height/2 + 1.5, this.planeRight.position.z + 0.01);
+        this.app.scene.add(this.shopSign);
 
         // Coffee Machine
-        this.coffeeMachine = new CoffeeMachine(this.counter.position.x + 0.25, 2.50, this.counter.position.z - 1.5, 1);
-        this.coffeeMachine.rotation.y = Math.PI/2;
+        this.coffeeMachine = new CoffeeMachine(this.counter.position.x - 1.5, 2.50, this.counter.position.z - 0.15, 1);
+        //this.coffeeMachine.rotation.y = Math.PI/2;
         this.coffeeMachine.scale.set(0.75, 0.75, 0.75);
         this.app.scene.add(this.coffeeMachine);
 
