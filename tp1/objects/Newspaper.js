@@ -182,25 +182,25 @@ class Newspaper extends THREE.Object3D{
         let page1 = nurbsSurface.createNurbsSurfaces(positionX,positionY,positionZ, controlPoints, orderU, orderV, 24, 24, material2);
         shadowDefinitions.objectShadow(page1, false, true);
         page1.rotation.x = -(Math.PI/2);
-        page1.rotation.z = (Math.PI/4);
+        page1.rotation.z = (Math.PI/2.5);
         page1.scale.set( 0.25,0.25,0.25 );
 
         let page2 = nurbsSurface.createNurbsSurfaces(positionX,positionY,positionZ, controlPoints2, orderU, orderV, 24, 24, material);
         shadowDefinitions.objectShadow(page2, false, true);
         page2.rotation.x = -(Math.PI/2);
-        page2.rotation.z = (Math.PI/4);
+        page2.rotation.z = (Math.PI/2.5);
         page2.scale.set( 0.25,0.25,0.25 );
 
         let page3 = nurbsSurface.createNurbsSurfaces(positionX,positionY,positionZ, controlPoints3, orderU, orderV, 24, 24, material2);
         shadowDefinitions.objectShadow(page3, false, true);
         page3.rotation.x = -(Math.PI/2);
-        page3.rotation.z = (Math.PI/4);
+        page3.rotation.z = (Math.PI/2.5);
         page3.scale.set( 0.25,0.25,0.25 );
 
         let page4 = nurbsSurface.createNurbsSurfaces(positionX,positionY,positionZ, controlPoints4, orderU, orderV, 24, 24, material);
         shadowDefinitions.objectShadow(page4, false, true);
         page4.rotation.x = -(Math.PI/2);
-        page4.rotation.z = (Math.PI/4);
+        page4.rotation.z = (Math.PI/2.5);
         page4.scale.set( 0.25,0.25,0.25 );
 
         this.add(page1);

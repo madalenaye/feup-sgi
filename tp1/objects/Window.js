@@ -113,7 +113,7 @@ class Window extends THREE.Object3D{
         const shadowLight = new THREE.DirectionalLight(0xf5ac3d, 0.3);
         shadowDefinitions.propertiesLightShadow(shadowLight, 2048, 2048, 0.5, 16, -3, 3, -3, 3);
         shadowLight.position.set(this.position.x - 1, this.position.y, this.position.z); 
-        shadowLight.target.position.set(0, 2.1, 0); 
+        shadowLight.target.position.set(0, 2.3, 0); 
         
         return shadowLight
     }
