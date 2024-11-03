@@ -73,19 +73,27 @@ class Lamp extends THREE.Object3D{
         this.lamp.add(this.lampPole);
         this.lamp.add(this.lampHeadMesh);
         this.lamp.add(this.lampLightMesh);
-        this.add(this.lamp);
+        
 
         this.lampGlowMaterial = new THREE.MeshPhongMaterial({color: this.lightColor, specular: "#ffffff", emissive: this.lightColor, shininess: 0,});
         this.lampGlow = new THREE.CylinderGeometry(0.25, 0.25, 0.01, 32);
         this.lampGlowMesh = new THREE.Mesh(this.lampGlow, this.lampGlowMaterial);
         this.lampGlowMesh.position.set(0, 1.37, 0.42);
         this.lampGlowMesh.rotation.x = -Math.PI / 4;
-        this.add(this.lampGlowMesh);
+        this.lamp.add(this.lampGlowMesh);
 
         this.light = new THREE.SpotLight(this.lightColor, 10, 4, Math.PI / 6, 0.2, 1);
         this.light.target = this.target;
+        this.light.position.set(0, 1.37, 0.42);
+        
+        this.light.shadow.mapSize.width = 2048;
+        this.light.shadow.mapSize.height = 2048;
+        this.light.shadow.radius = 0.2;
+        this.light.shadow.bias = -0.0001;
+        this.light.castShadow = true;
 
-        this.add(this.light);
+        this.lamp.add(this.light);
+        this.add(this.lamp);
        
     }
 }

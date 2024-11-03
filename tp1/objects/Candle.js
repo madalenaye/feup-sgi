@@ -44,7 +44,7 @@ class Candle extends THREE.Object3D{
         // Create the flame
         const flameGeometry = new THREE.SphereGeometry(flameRadius, 32, 32);
         const flameMesh = new THREE.Mesh(flameGeometry, flameMaterial);
-        shadowDefinitions.objectShadow(flameMesh, false, true);
+        shadowDefinitions.objectShadow(flameMesh, true, false);
 
         flameMesh.scale.set(1, 2.4, 1);
         flameMesh.position.set(0, cylinderHeight / 2 + 0.017, 0);

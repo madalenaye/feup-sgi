@@ -15,7 +15,6 @@ import {Cake} from './objects/Cake.js'
 import { Window } from './objects/Window.js';
 import { Painting } from './objects/Painting.js';
 import { Baseboard } from './objects/Baseboard.js';
-import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
 import { Beetle } from './objects/Beetle.js';
 import { Newspaper } from './objects/Newspaper.js';
 import {Flower} from './objects/Flower.js';
@@ -63,8 +62,6 @@ class MyContents  {
         // Candle
         this.candle = null;
 
-        // CandlePlate
-        this.candlePlate = null;
 
         // Plate
         this.plate = null;
@@ -140,20 +137,6 @@ class MyContents  {
     }
 
     /**
-     * builds the box mesh with material assigned
-     */
-    /*buildBox() {    
-        let boxMaterial = new THREE.MeshPhongMaterial({ color: "#ffff77", 
-        specular: "#000000", emissive: "#000000", shininess: 90 })
-
-        // Create a Cube Mesh with basic material
-        let box = new THREE.BoxGeometry(  this.boxMeshSize,  this.boxMeshSize,  this.boxMeshSize );
-        this.boxMesh = new THREE.Mesh( box, boxMaterial );
-        this.boxMesh.rotation.x = -Math.PI / 2;
-        this.boxMesh.position.y = this.boxDisplacement.y;
-    }*/
-
-    /**
      * initializes the contents
      * @method
      */
@@ -180,9 +163,7 @@ class MyContents  {
         // add an ambient light
         const ambientLight = new THREE.AmbientLight( 0x555555 );
         this.app.scene.add( ambientLight );
-
-        //this.buildBox()
-        
+       
 
         // Floor material
         this.floorTexture = new THREE.TextureLoader().load('./Textures/floor.jpg');
@@ -265,8 +246,8 @@ class MyContents  {
         const flameMaterial = new THREE.MeshLambertMaterial({emissive: 0xffa500, emissiveIntensity: 1, transparent: false});
         
         // Plate
-        this.plate = new Plate(0.4, 32);
-        this.plate.position.set(this.table.positionX, this.table.positionY + this.table.height - 0.012, this.table.positionZ);
+        this.plate = new Plate(0.45, 32);
+        this.plate.position.set(this.table.positionX, this.table.positionY + this.plate.radius/2 - 0.04, this.table.positionZ);
         this.tableGroup.add(this.plate);
 
         // Cake
@@ -282,7 +263,7 @@ class MyContents  {
 
         this.cakeColor = "#638ECB"
         this.cake = new Cake(0.45,0.3,Math.PI/5, this.cakeTexture, this.cakeInsideTexture, this.cakeColor, candleMaterial, flameMaterial, 6);
-        this.cake.position.set(this.plate.position.x , this.table.positionY + this.table.height + 0.18, this.table.positionZ);
+        this.cake.position.set(this.plate.position.x , this.plate.position.y + this.cake.height/2 - 0.025, this.table.positionZ);
         this.tableGroup.add(this.cake); 
 
         //Newspaper
@@ -313,9 +294,6 @@ class MyContents  {
 
         this.shadowLight = this.window.activateShadowLight()
         this.app.scene.add(this.shadowLight);
-
-        const dirLightHelper = new THREE.DirectionalLightHelper(this.shadowLight, 5);
-        const shadowHelper = new THREE.CameraHelper(this.shadowLight.shadow.camera);
 
         // 1st Painting
 
@@ -587,36 +565,6 @@ class MyContents  {
         return texture
     }
     
-    /**
-     * rebuilds the box mesh if required
-     * this method is called from the gui interface
-     */
-    /*rebuildBox() {
-        // remove boxMesh if exists
-        if (this.boxMesh !== undefined && this.boxMesh !== null) {  
-            this.app.scene.remove(this.boxMesh)
-        }
-        this.buildBox();
-        this.lastBoxEnabled = null
-    }*/
-    
-    /**
-     * updates the box mesh if required
-     * this method is called from the render method of the app
-     * updates are trigered by boxEnabled property changes
-     */
-    
-    /*updateBoxIfRequired() {
-        if (this.boxEnabled !== this.lastBoxEnabled) {
-            this.lastBoxEnabled = this.boxEnabled
-            if (this.boxEnabled) {
-                this.app.scene.add(this.boxMesh)
-            }
-            else {
-                this.app.scene.remove(this.boxMesh)
-            }
-        }
-    }*/
 
     /**
      * updates the contents
