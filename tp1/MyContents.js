@@ -15,7 +15,6 @@ import {Cake} from './objects/Cake.js'
 import { Window } from './objects/Window.js';
 import { Painting } from './objects/Painting.js';
 import { Baseboard } from './objects/Baseboard.js';
-import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
 import { Beetle } from './objects/Beetle.js';
 import { Newspaper } from './objects/Newspaper.js';
 import {Flower} from './objects/Flower.js';
@@ -49,7 +48,9 @@ class MyContents  {
     constructor(app) {
         this.app = app
         this.axis = null
-        this.axisEnabled = true;
+        this.axisEnabled = false;
+        this.objects = []
+        this.cameraTarget = null
 
         // walls
         this.planeLeft = null
@@ -64,8 +65,6 @@ class MyContents  {
         // Candle
         this.candle = null;
 
-        // CandlePlate
-        this.candlePlate = null;
 
         // Plate
         this.plate = null;
@@ -144,20 +143,6 @@ class MyContents  {
     }
 
     /**
-     * builds the box mesh with material assigned
-     */
-    /*buildBox() {    
-        let boxMaterial = new THREE.MeshPhongMaterial({ color: "#ffff77", 
-        specular: "#000000", emissive: "#000000", shininess: 90 })
-
-        // Create a Cube Mesh with basic material
-        let box = new THREE.BoxGeometry(  this.boxMeshSize,  this.boxMeshSize,  this.boxMeshSize );
-        this.boxMesh = new THREE.Mesh( box, boxMaterial );
-        this.boxMesh.rotation.x = -Math.PI / 2;
-        this.boxMesh.position.y = this.boxDisplacement.y;
-    }*/
-
-    /**
      * initializes the contents
      * @method
      */
@@ -170,25 +155,25 @@ class MyContents  {
             // create and attach the axis to the scene
             this.axis = new MyAxis(this)
             this.app.scene.add(this.axis)
+            this.axis.visible = false
         }
 
         // add a point light on top of the model
-        const pointLight = new THREE.PointLight( 0x949494, 10, 0, 1 );
-        pointLight.position.set( 0, 10, 0 );
-        shadowDefinitions.propertiesLightShadow(pointLight);
-        this.app.scene.add( pointLight );
+        this.pointLightColor = 0x949494;
+        this.pointLight = new THREE.PointLight( this.pointLightColor, 10, 0, 1 );
+        this.pointLight.position.set( 0, 10, 0 );
+        shadowDefinitions.propertiesLightShadow(this.pointLight);
+        this.app.scene.add( this.pointLight );
 
         // add a point light helper for the previous point light
         const sphereSize = 0.5;
-        const pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
+        const pointLightHelper = new THREE.PointLightHelper( this.pointLight, sphereSize );
         this.app.scene.add( pointLightHelper );
 
         // add an ambient light
         const ambientLight = new THREE.AmbientLight( 0x555555 );
         this.app.scene.add( ambientLight );
-
-        //this.buildBox()
-        
+       
 
         // Floor material
         this.floorTexture = new THREE.TextureLoader().load('./Textures/floor.jpg');
@@ -271,8 +256,8 @@ class MyContents  {
         const flameMaterial = new THREE.MeshLambertMaterial({emissive: 0xffa500, emissiveIntensity: 1, transparent: false});
         
         // Plate
-        this.plate = new Plate(0.4, 32);
-        this.plate.position.set(this.table.positionX, this.table.positionY + this.table.height - 0.012, this.table.positionZ);
+        this.plate = new Plate(0.45, 32);
+        this.plate.position.set(this.table.positionX, this.table.positionY + this.plate.radius/2 - 0.04, this.table.positionZ);
         this.tableGroup.add(this.plate);
 
         // Cake
@@ -288,7 +273,7 @@ class MyContents  {
 
         this.cakeColor = "#638ECB"
         this.cake = new Cake(0.45,0.3,Math.PI/5, this.cakeTexture, this.cakeInsideTexture, this.cakeColor, candleMaterial, flameMaterial, 6);
-        this.cake.position.set(this.plate.position.x , this.table.positionY + this.table.height + 0.18, this.table.positionZ);
+        this.cake.position.set(this.plate.position.x , this.plate.position.y + this.cake.height/2 - 0.025, this.table.positionZ);
         this.tableGroup.add(this.cake); 
 
         //Newspaper
@@ -296,7 +281,7 @@ class MyContents  {
         this.tableGroup.add(this.newspaper);
 
         // Spring
-        this.spring = new Spring(0.1, 48, 0.04, 5);
+        this.spring = new Spring(0.1, 48, 0.04, 8);
         this.spring.position.set(this.table.positionX - 1 , this.table.positionY + this.table.height - 0.1, this.table.positionZ + 1);
         this.tableGroup.add(this.spring);
 
@@ -322,6 +307,7 @@ class MyContents  {
 
         const dirLightHelper = new THREE.DirectionalLightHelper(this.shadowLight, 5);
         const shadowHelper = new THREE.CameraHelper(this.shadowLight.shadow.camera);
+
 
         // 1st Painting
 
@@ -370,14 +356,17 @@ class MyContents  {
         this.app.scene.add(this.jar2)
 
         //Flower
-        const stemMaterial = new THREE.MeshBasicMaterial({ color: 0x008000 });
-        const flowerCenterMaterial = new THREE.MeshBasicMaterial({ color: 0x260851 , side: THREE.DoubleSide });
-        const petalMaterial = new THREE.MeshBasicMaterial({ color: 0xc81f07  });
+        const petalTexture = this.prepareTexture('./Textures/flower.jpeg');
+        const petalMaterial = new THREE.MeshBasicMaterial({ map: petalTexture, side: THREE.DoubleSide });
+
+        const stemMaterial = new THREE.MeshBasicMaterial({ color: 0x396b3f });
+        const flowerCenterMaterial = new THREE.MeshBasicMaterial({ color: 0x79addb , side: THREE.DoubleSide });
         this.flower = new Flower(64, 0.1, 8, this.jar.position.x, 0.01, this.jar.position.z, stemMaterial, flowerCenterMaterial, petalMaterial, 0.4, 10);
         this.app.scene.add(this.flower);
         
-        const flowerCenterMaterial2 = new THREE.MeshBasicMaterial({ color: 0xd77fce , side: THREE.DoubleSide });
-        const petalMaterial2 = new THREE.MeshBasicMaterial({ color: 0xf0bb16 });
+        const flowerCenterMaterial2 = new THREE.MeshBasicMaterial({ color: 0x002b6b , side: THREE.DoubleSide });
+        const petalTexture2 = this.prepareTexture('./Textures/flower2.jpg');
+        const petalMaterial2 = new THREE.MeshBasicMaterial({ map: petalTexture2, side: THREE.DoubleSide });
         this.flower2 = new Flower(64, 0.1, 8, this.jar2.position.x - 0.1, 0.01, this.jar2.position.z, stemMaterial, flowerCenterMaterial2, petalMaterial2, 0.42, 10)
         this.app.scene.add(this.flower2);
 
@@ -457,7 +446,38 @@ class MyContents  {
         this.ceilingLight2 = new CeilingLight(0x638ECB, 0.2, 0.1);
         this.ceilingLight2.position.set(this.planeRight.position.x - 5, 4.4, this.planeRight.position.z + 0.02, 0.1);
         this.app.scene.add(this.ceilingLight2);
+
+        // Decoration
+        this.decoration = new Painting(1.8, 1.5, 0.1, 'Textures/decoration.jpg');
+        this.decoration.position.set(this.planeBack.position.x + 0.02, this.painting.position.y + 1, 4);
+        this.decoration.rotation.y = Math.PI/2;
+        this.app.scene.add(this.decoration);
+
+        this.decoration2 = new Painting(1.8, 1.5, 0.1, 'Textures/decoration2.jpg');
+        this.decoration2.position.set(this.planeBack.position.x + 0.02, this.painting.position.y + 1, -4);
+        this.decoration2.rotation.y = Math.PI/2;
+        this.app.scene.add(this.decoration2);
         
+        // Targets
+        this.objects = {
+            Cake: new THREE.Vector3(0, 0, 0),
+            Newspaper: new THREE.Vector3(2, 4, -0.5),
+            "Coffee Machine": this.coffeeMachine.position ?? new THREE.Vector3(0, 0, 0),
+            "Coffee Cup": new THREE.Vector3(-6.8,2.5, 5),
+            "Ceilling Light": this.ceilingLight.position ?? new THREE.Vector3(0, 0, 0)
+        }
+        this.cameraTarget = "Cake";
+        console.log(this.lamp.spotlightIntensity)
+        
+    }
+    /**
+     * Method responsible for changing the target of the camera.
+     * @param {string} target - The target to be set.
+     * @returns {THREE.Vector3} - The new target.
+     */
+
+    changeTarget(target) {
+        return this.app.controls.target.set(...this.objects[target]);
     }
 
     /**
@@ -490,16 +510,6 @@ class MyContents  {
 
         this.chair7 = new Chair(1.2, 1.2, 0.1, seatMaterial, 0.05, 1.4, legsMaterial, this.coffeeTable2.positionX, -this.coffeeTable2.positionZ + this.coffeeTable2.tableWidth/2, Math.PI);
         this.app.scene.add(this.chair7);
-    }
-
-    /**
-     * Method to update the visibility of the axes
-     * @method
-     */
-    toggleAxisVisibility() {
-        if (this.axis) {
-            this.axis.setVisible(this.axisEnabled);
-        }
     }
 
     /**
@@ -610,36 +620,9 @@ class MyContents  {
         this.musicPlayer.stop();
     }
     
-    /**
-     * rebuilds the box mesh if required
-     * this method is called from the gui interface
-     */
-    /*rebuildBox() {
-        // remove boxMesh if exists
-        if (this.boxMesh !== undefined && this.boxMesh !== null) {  
-            this.app.scene.remove(this.boxMesh)
-        }
-        this.buildBox();
-        this.lastBoxEnabled = null
-    }*/
-    
-    /**
-     * updates the box mesh if required
-     * this method is called from the render method of the app
-     * updates are trigered by boxEnabled property changes
-     */
-    
-    /*updateBoxIfRequired() {
-        if (this.boxEnabled !== this.lastBoxEnabled) {
-            this.lastBoxEnabled = this.boxEnabled
-            if (this.boxEnabled) {
-                this.app.scene.add(this.boxMesh)
-            }
-            else {
-                this.app.scene.remove(this.boxMesh)
-            }
-        }
-    }*/
+    updateRoomColor(value){
+        this.pointLight.color.set(value);
+    }
 
     /**
      * updates the contents

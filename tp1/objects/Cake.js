@@ -46,7 +46,6 @@ class Cake extends THREE.Object3D{
         const createPlaneSegment = (side, y_offset, material, rotationY) => {
             let plane = new THREE.PlaneGeometry(this.radius, this.height / 3, 1, 1);
             let mesh = new THREE.Mesh(plane, material);
-            //shadowDefinitions.objectShadow(mesh, false, true);
             
             let x = side === 'A' ? Math.sin(this.angle) * (this.radius / 2) : 0;
             let z = side === 'A' ? Math.cos(this.angle) * (this.radius / 2) : this.radius / 2;
@@ -70,7 +69,6 @@ class Cake extends THREE.Object3D{
         this.pearl = new THREE.SphereGeometry(0.018, 32, 32);
         this.pearlMaterial = new THREE.MeshPhysicalMaterial({ color: "#c7c7c7", emissive: '#757474', roughness: 0.313, reflectivity: 1, iridescence: 1, iridescenceIOR: 1.65, clearcoat: 1, clearcoatRoughness: 0.39 })
         this.pearlMesh = new THREE.Mesh(this.pearl, this.pearlMaterial);
-        //shadowDefinitions.objectShadow(this.pearlMesh, false, true);
         
 
         // Function to create a pearl ring group
@@ -83,7 +81,6 @@ class Cake extends THREE.Object3D{
 
                 // Create and position each pearl
                 const pearlMesh = new THREE.Mesh(this.pearl, this.pearlMaterial);
-                //shadowDefinitions.objectShadow(pearlMesh, false, true);
                 pearlMesh.position.set(x, y, z);
                 pearlMesh.rotateZ(-Math.PI / 2);
 

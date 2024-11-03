@@ -54,7 +54,7 @@ class Flower extends THREE.Object3D{
         const flowerCenterGeometry = new THREE.CircleGeometry(0.5, 32);
         const flowerCenter = new THREE.Mesh(flowerCenterGeometry, flowerCenterMaterial);
         shadowDefinitions.objectShadow(flowerCenter, false, true);
-        flowerCenter.position.set(0, 4, 0);  
+        flowerCenter.position.set(0, 4.025, 0);  
         flowerCenter.rotation.x = -Math.PI / 2; 
 
         // 3. Create the petals

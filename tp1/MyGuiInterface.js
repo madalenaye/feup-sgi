@@ -41,33 +41,22 @@ class MyGuiInterface  {
      * @method
      */
     init() {
-
-        /*
-        // add a folder to the gui interface for the box
-        const boxFolder = this.datgui.addFolder( 'Box' );
-        // note that we are using a property from the contents object 
-        boxFolder.add(this.contents, 'boxMeshSize', 0, 10).name("size").onChange( () => { this.contents.rebuildBox() } );
-        boxFolder.add(this.contents, 'boxEnabled', true).name("enabled");
-        boxFolder.add(this.contents.boxDisplacement, 'x', -5, 5)
-        boxFolder.add(this.contents.boxDisplacement, 'y', -5, 5)
-        boxFolder.add(this.contents.boxDisplacement, 'z', -5, 5)
-        boxFolder.open()
         
+        // Folders
+        const cameraFolder = this.datgui.addFolder('Camera')
+        const wallsFolder = this.datgui.addFolder('Walls Material'); 
+        const tableFolder = this.datgui.addFolder( 'Table' );
+        const musicFolder = this.datgui.addFolder('Music');
+        const lightsFolder = this.datgui.addFolder('Lights');
         
-        const data = {  
-            'diffuse color': this.contents.diffusePlaneColor,
-            'specular color': this.contents.specularPlaneColor,
-        };
-
-        // adds a folder to the gui interface for the plane
-        const planeFolder = this.datgui.addFolder( 'Plane' );
-        planeFolder.addColor( data, 'diffuse color' ).onChange( (value) => { this.contents.updateDiffusePlaneColor(value) } );
-        planeFolder.addColor( data, 'specular color' ).onChange( (value) => { this.contents.updateSpecularPlaneColor(value) } );
-        planeFolder.add(this.contents, 'planeShininess', 0, 1000).name("shininess").onChange( (value) => { this.contents.updatePlaneShininess(value) } );
-        planeFolder.open();
-        */
-
-        const wallsFolder = this.datgui.addFolder('Walls Material');
+        // Camera
+        cameraFolder.add(this.app, 'activeCameraName', [ 'Perspective', 'Left', 'Right', 'Top', 'Front', 'Back' ] ).name("active camera");
+        cameraFolder.add(this.app.activeCamera.position, 'x', 0, 10).name("x coord")
+        cameraFolder.add(this.app.activeCamera.position, 'y', 0, 10).name("y coord")
+        cameraFolder.add(this.app.activeCamera.position, 'z', 0, 10).name("z coord")
+        cameraFolder.add(this.contents.axis, "visible", false).name("Axis")
+        cameraFolder.add(this.contents, "cameraTarget", ["Cake", "Newspaper", "Coffee Machine", "Coffee Cup", "Ceilling Light"]).name("Target").onChange((value) => {this.contents.changeTarget(value)});
+        cameraFolder.open()
         const sideOptions = {
             FrontSide: THREE.FrontSide,
             BackSide: THREE.BackSide,
@@ -76,6 +65,7 @@ class MyGuiInterface  {
         
         const sideNames = Object.keys(sideOptions);
 
+        // Walls
         wallsFolder.addColor(this.contents.wallMaterialProperties, 'color').name('Color').onChange((value) => {this.contents.updateWallsColor(value)});
         wallsFolder.add(this.contents.wallMaterialProperties, 'roughness', 0, 1).name('Roughness').onChange((value => {this.contents.updateWallsRoughness(value)}));
         wallsFolder.add(this.contents.wallMaterialProperties, 'metalness', 0, 1).name('Metalness').onChange((value => {this.contents.updateWallsMetalness(value)}));
@@ -85,22 +75,8 @@ class MyGuiInterface  {
         wallsFolder.add(this.contents.wallMaterialProperties, 'opacity', 0, 1).name('Opacity').onChange((value => {this.contents.updateWallsOpacity(value)}));
         wallsFolder.add(this.contents.wallMaterialProperties, 'side', sideNames).name('Side').onChange((value => {this.contents.updateWallsSide(sideOptions[value])}));
         wallsFolder.open()
-
-        // adds a folder to the gui interface for the camera
-        const cameraFolder = this.datgui.addFolder('Camera')
-        cameraFolder.add(this.app, 'activeCameraName', [ 'Perspective', 'Left', 'Right', 'Top', 'Front', 'Back' ] ).name("active camera");
-        // note that we are using a property from the app 
-        cameraFolder.add(this.app.activeCamera.position, 'x', 0, 10).name("x coord")
-        cameraFolder.add(this.app.activeCamera.position, 'y', 0, 10).name("y coord")
-        cameraFolder.add(this.app.activeCamera.position, 'z', 0, 10).name("z coord")
-        cameraFolder.add(this.contents, 'axisEnabled').name("Axis").onChange(() => {
-            this.contents.toggleAxisVisibility();
-        });
-        cameraFolder.open()
-
-        const tableFolder = this.datgui.addFolder( 'Table' );
-
-        //Position
+        
+        //Table Position
         tableFolder.add(this.contents.tableGroup.position, 'x', -5, 5).name("Translation x")
         tableFolder.add(this.contents.tableGroup.position, 'y', -5, 5).name("Translation y")
         tableFolder.add(this.contents.tableGroup.position, 'z', -5, 5).name("Translation z")
@@ -120,7 +96,6 @@ class MyGuiInterface  {
         tableFolder.open()
 
         // Music
-        const musicFolder = this.datgui.addFolder('Music');
         const musicSettings = {PlayMusic: false};
 
         musicFolder.add(musicSettings, 'PlayMusic').name('Enable Music').onChange((value) => {
@@ -131,6 +106,23 @@ class MyGuiInterface  {
             }
         });
         musicFolder.open();
+
+        // Lights
+        const lightParameters = {
+            'spotlightIntensity': this.contents.lamp.spotlight.intensity,
+            'spotlightAngle': this.contents.lamp.spotlight.angle,
+            'bigStar': this.contents.ceilingLight.light.intensity,
+            'smallStar': this.contents.ceilingLight2.light.intensity,
+            'room': this.contents.pointLight.intensity,
+            'roomColor': this.contents.pointLightColor
+        }
+        lightsFolder.add(lightParameters, 'spotlightIntensity', 0, 100).name('SpotLight Intensity').onChange((value) => {this.contents.lamp.spotlight.intensity = value});
+        lightsFolder.add(lightParameters, 'spotlightAngle', 0, Math.PI/2).name('SpotLight Angle').onChange((value) => {this.contents.lamp.spotlight.angle = value});
+        lightsFolder.add(lightParameters, 'bigStar', 0, 100).name('Big Star').onChange((value) => {this.contents.ceilingLight.light.intensity = value});
+        lightsFolder.add(lightParameters, 'smallStar', 0, 100).name('Small Star').onChange((value) => {this.contents.ceilingLight2.light.intensity = value});
+        lightsFolder.add(lightParameters, 'room', 0, 100).name('Room').onChange((value) => {this.contents.pointLight.intensity = value});
+        lightsFolder.addColor(lightParameters, 'roomColor').name('Room Color').onChange((value) => {this.contents.updateRoomColor(value)});
+
     }
 }
 
