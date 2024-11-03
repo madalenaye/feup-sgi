@@ -49,6 +49,8 @@ class MyContents  {
         this.app = app
         this.axis = null
         this.axisEnabled = false;
+        this.objects = []
+        this.cameraTarget = null
 
         // walls
         this.planeLeft = null
@@ -448,13 +450,28 @@ class MyContents  {
         this.decoration = new Painting(1.8, 1.5, 0.1, 'Textures/decoration.jpg');
         this.decoration.position.set(this.planeBack.position.x + 0.02, this.painting.position.y + 1, 4);
         this.decoration.rotation.y = Math.PI/2;
-        //this.app.scene.add(this.decoration);
+        this.app.scene.add(this.decoration);
 
         this.decoration2 = new Painting(1.8, 1.5, 0.1, 'Textures/decoration2.jpg');
         this.decoration2.position.set(this.planeBack.position.x + 0.02, this.painting.position.y + 1, -4);
         this.decoration2.rotation.y = Math.PI/2;
         this.app.scene.add(this.decoration2);
         
+        console.log(this.coffeeTable2.positionX, this.coffeeTable2.positionY, this.coffeeTable2.positionZ)
+        // Targets
+        this.objects = {
+            Cake: new THREE.Vector3(0, 0, 0),
+            Newspaper: new THREE.Vector3(2, 4, -0.5),
+            "Coffee Machine": this.coffeeMachine.position ?? new THREE.Vector3(0, 0, 0),
+            "Coffee Cup": new THREE.Vector3(-6.8,2.5, 5),
+            "Ceilling Light": this.ceilingLight.position ?? new THREE.Vector3(0, 0, 0)
+        }
+        this.cameraTarget = "Cake";
+        
+    }
+
+    changeTarget(target) {
+        return this.app.controls.target.set(...this.objects[target]);
     }
 
     /**

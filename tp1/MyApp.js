@@ -84,7 +84,7 @@ class MyApp  {
 
         // Create a basic perspective camera
         const perspective1 = new THREE.PerspectiveCamera( 75, aspect, 0.1, 1000 )
-        perspective1.position.set(10,10,3)
+        perspective1.position.set(0,3,7)
         this.cameras['Perspective'] = perspective1
 
         // defines the frustum size for the orthographic cameras
@@ -159,7 +159,7 @@ class MyApp  {
             // call on resize to update the camera aspect ratio
             // among other things
             this.onResize()
-
+            
             // are the controls yet?
             if (this.controls === null) {
                 // Orbit controls allow the camera to orbit around a target.
