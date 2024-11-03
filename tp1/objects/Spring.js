@@ -42,7 +42,7 @@ class Spring extends THREE.Object3D{
         this.curve = new THREE.CatmullRomCurve3(this.points);
         this.geometry = new THREE.BufferGeometry().setFromPoints(this.curve.getPoints(this.npoints * this.ncoils));
 
-        this.springMaterial = new THREE.LineBasicMaterial({ color: 0xffffff});
+        this.springMaterial = new THREE.LineBasicMaterial({ color: 0xcfcfcf});
         this.spring = new THREE.Line(this.geometry, this.springMaterial);
         shadowDefinitions.objectShadow(this.spring);
 

@@ -277,7 +277,7 @@ class MyContents  {
         this.tableGroup.add(this.newspaper);
 
         // Spring
-        this.spring = new Spring(0.1, 48, 0.04, 5);
+        this.spring = new Spring(0.1, 48, 0.04, 8);
         this.spring.position.set(this.table.positionX - 1 , this.table.positionY + this.table.height - 0.1, this.table.positionZ + 1);
         this.tableGroup.add(this.spring);
 
@@ -440,12 +440,12 @@ class MyContents  {
         this.app.scene.add(this.ceilingLight2);
 
         // Decoration
-        this.decoration = new Painting(1.4, 1.5, 0.1, 'Textures/decoration.jpg');
+        this.decoration = new Painting(1.8, 1.5, 0.1, 'Textures/decoration.jpg');
         this.decoration.position.set(this.planeBack.position.x + 0.02, this.painting.position.y + 1, 4);
         this.decoration.rotation.y = Math.PI/2;
         this.app.scene.add(this.decoration);
 
-        this.decoration2 = new Painting(1.4, 1.5, 0.1, 'Textures/decoration2.jpg');
+        this.decoration2 = new Painting(1.8, 1.5, 0.1, 'Textures/decoration2.jpg');
         this.decoration2.position.set(this.planeBack.position.x + 0.02, this.painting.position.y + 1, -4);
         this.decoration2.rotation.y = Math.PI/2;
         this.app.scene.add(this.decoration2);
