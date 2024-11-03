@@ -111,13 +111,6 @@ class MyContents  {
 
         //Coffee Machine
         this.coffeeMachine = null;
-
-        // box related attributes
-        this.boxMesh = null
-        this.boxMeshSize = 1.0
-        this.boxEnabled = true
-        this.lastBoxEnabled = null
-        this.boxDisplacement = new THREE.Vector3(0,2,0)
         
         // Lamp
         this.lamp = null;
@@ -467,7 +460,6 @@ class MyContents  {
             "Ceilling Light": this.ceilingLight.position ?? new THREE.Vector3(0, 0, 0)
         }
         this.cameraTarget = "Cake";
-        console.log(this.lamp.spotlightIntensity)
         
     }
     /**
@@ -630,14 +622,6 @@ class MyContents  {
      * 
      */
     update() {
-        // check if box mesh needs to be updated
-       /*this.updateBoxIfRequired()
-
-        // sets the box mesh position based on the displacement vector
-        this.boxMesh.position.x = this.boxDisplacement.x
-        this.boxMesh.position.y = this.boxDisplacement.y
-        this.boxMesh.position.z = this.boxDisplacement.z
-        */
     }
 
 }
