@@ -65,7 +65,7 @@ class MyFileReader  {
 			this.loadFog(rootElement);
 			//this.loadTextures(rootElement);
 			//this.loadMaterials(rootElement);
-			//this.loadCameras(rootElement);
+			this.loadCameras(rootElement);
 			//this.loadNodes(rootElement);
 		}
 		catch (error) {
@@ -149,7 +149,7 @@ class MyFileReader  {
 		let value = element[attributeName];
 		if (value == null) {
 			if (required) {
-				throw new Error("element '" + element.id + "': rgb value is null for attribute '" + attributeName + "' in element '" + element.id + "'."); 
+				throw new Error("element '" + yasfAttribute + "': rgb value is null for attribute '" + attributeName + "'."); 
 			}
 			return null;
 		}
@@ -165,7 +165,7 @@ class MyFileReader  {
 			}
 		}
 
-		return this.getVectorN(value, ["r", "g", "b"]);
+		return this.getVectorN(value, ["r", "g", "b"], yasfAttribute, attributeName);
 	}
 
 	/**
@@ -207,13 +207,13 @@ class MyFileReader  {
 		return rect;
 	}
 
-  getVectorN(value, keys) {
+  getVectorN(value, keys, yasfAttribute, attributeName) {
 		let vector = new Array();
     for (let i = 0; i < keys.length; ++i) {
       const key = keys[i];
       const component = value[key];
       if (component === null || component === undefined) {
-				throw new Error("element '" + value + "': vector" + keys.length + " value is null for '" + key + "'" + " in " + keys);
+				throw new Error("element '" + yasfAttribute + "': vector" + keys.length + " value is null for '" + key + "'" + " in " + attributeName);
       }
 			 vector.push(component);
     }
@@ -227,7 +227,7 @@ class MyFileReader  {
 	 * @param {*} required if the attribte is required or not
 	 * @returns {THREE.vector3} the vector3 encoded in a THREE.Vector3 object
 	 */
-	getVector3(element, attributeName, required) {
+	getVector3(element, attributeName, required, yasfAttribute) {
 		if (required == undefined) required = true;
 		
 		if (element == null) {
@@ -240,12 +240,11 @@ class MyFileReader  {
 		let value = element[attributeName];
 		if (value == null) {
 			if (required) {
-				throw new Error("element '" + element.id + "': vector3 value is null for attribute '" + attributeName + "' in element '" + element.id + "'."); 
+				throw new Error("element '" + yasfAttribute + "': vector3 value is null for attribute '" + attributeName + "' in element '" + yasfAttribute + "'."); 
 			}
 			return null;
 		}
-
-		return this.getVectorN(value, ["x", "y", "z"]);
+		return this.getVectorN(value, ["x", "y", "z"], yasfAttribute, attributeName);
 	}
 
 	/**
@@ -410,13 +409,13 @@ class MyFileReader  {
 	 * @param {*} required if the attribte is required or not
 	 * @returns {Float} the float value
 	 */
-	getFloat(element, attributeName, required) {
+	getFloat(element, attributeName, required, yasfAttribute) {
 		if (required == undefined) required = true;
 
 		let value = element[attributeName];
 		if (value == null) {
       if (required) {
-        throw new Error("element '" + element + ": in element '" + element + "' float value is null for attribute '" + attributeName + "'."); 
+        throw new Error("element '" + yasfAttribute + ": in element '" + yasfAttribute + "' float value is null for attribute '" + attributeName + "'."); 
       }
       return null;
 		}
@@ -486,10 +485,10 @@ class MyFileReader  {
 				value = this.getInteger(options.elem, descriptor.name, descriptor.required);	
       }
 			else if (descriptor.type==="float") {
-				value = this.getFloat(options.elem, descriptor.name, descriptor.required);	
+				value = this.getFloat(options.elem, descriptor.name, descriptor.required, options.key);	
       }
 			else if (descriptor.type==="vector3") {
-				value = this.getVector3(options.elem, descriptor.name, descriptor.required);
+				value = this.getVector3(options.elem, descriptor.name, descriptor.required, options.key);
       }
 			else if (descriptor.type==="vector2") {
 				value = this.getVector2(options.elem, descriptor.name, descriptor.required);
@@ -599,35 +598,52 @@ class MyFileReader  {
 	 */
 	loadCameras(rootElement) {
 		let camerasElem = rootElement["cameras"];
+		if (!camerasElem) {
+			throw new Error("Element 'cameras' is missing in the JSON data and it is mandatory to have.");
+		}
+		let initial = false;
+		if(Object.keys(camerasElem).length < 2){
+			throw new Error("Element 'cameras': you need to at least define a camera.");
+		}
 
-    for (let key in camerasElem) {
-      let elem = camerasElem[key];
-      if (key == "initial") {
-        this.data.setActiveCameraId(elem);
-        continue;
-      }
+		for (let key in camerasElem) {
+			let elem = camerasElem[key];
+			if (key == "initial") {
+				initial = true
+				this.data.setActiveCamera(elem);
+				continue;
+			}
 
-      let camType = elem["type"];
-      if (camType == "orthogonal") {
-        this.data.addCamera(this.loadJsonItem({
-          key: key,
-          elem: elem,
-          descriptor: this.data.descriptors["orthogonal"],
-          extras: [["type", "orthogonal"]]
-        }));
-      }
-      else if (camType == "perspective") {
-        this.data.addCamera(this.loadJsonItem({
-          key: key,
-          elem: elem,
-          descriptor: this.data.descriptors["perspective"],
-          extras: [["type", "perspective"]]
-        }));
-      }
-      else {
-        throw new Error("Unrecognized camera type '" + camType + "' in camera '" + key + "'");
-      }
-    }
+			let camType = elem["type"];
+			if (camType == "orthogonal") {
+				if (initial === false){
+					throw new Error("Element 'cameras': 'cameras' element needs 'initial' attribute");
+				}
+				this.data.addCamera(this.loadJsonItem({
+				key: key,
+				elem: elem,
+				descriptor: this.data.descriptors["orthogonal"],
+				extras: [["type", "orthogonal"]]
+				}));
+			}
+			else if (camType == "perspective") {
+				if (initial === false){
+					throw new Error("Element 'cameras': 'cameras' element needs 'initial' attribute");
+				}
+				this.data.addCamera(this.loadJsonItem({
+				key: key,
+				elem: elem,
+				descriptor: this.data.descriptors["perspective"],
+				extras: [["type", "perspective"]]
+				}));
+			}
+			else {
+				throw new Error("Unrecognized camera type '" + camType + "' in camera '" + key + "'");
+			}
+		}
+		if (!(this.data.getActiveCameraID() in camerasElem)){
+			throw new Error("Element 'cameras': The 'initial' attribute must be filled with an existing camera.");
+		} 
 	}
 
 	/**
