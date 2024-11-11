@@ -64,7 +64,7 @@ class MyFileReader  {
 			//this.loadGlobals(rootElement);
 			this.loadFog(rootElement);
 			//this.loadTextures(rootElement);
-			//this.loadMaterials(rootElement);
+			this.loadMaterials(rootElement);
 			this.loadCameras(rootElement);
 			//this.loadNodes(rootElement);
 		}
@@ -73,6 +73,20 @@ class MyFileReader  {
 			console.error("Error while reading JSON data:", error.message);
 		}
 
+	}
+
+	/**
+	 * Method that checks whether an identifier is written in lowercase letters
+	 * @method
+	 * @param {string} identifier - The identifier to be checked
+	 * @param {string} element - The element where the identifier is
+	 * @returns {boolean} returns a boolean that indicates whether it is in lowercase letters
+	 */
+	checkLowercase(identifier, element){
+		let lowercase = identifier === identifier.toLowerCase();
+		if(lowercase == false){
+			throw new Error("Element " + element + ": The identifier " + identifier + " must be in lowercase letters");
+		}
 	}
 
 	/**
@@ -330,8 +344,11 @@ class MyFileReader  {
 		}
 			
 		let value = element[attributeName];
-		if (value == null && required) {
-			throw new Error("element '" + element + ": in element '" + element + "' string value is null for attribute '" + attributeName + "'."); 
+		if (value == null) {
+			if(required){
+				throw new Error("element '" + element + ": in element '" + element + "' string value is null for attribute '" + attributeName + "'.");
+			}
+			return null;
 		}
 		return value;
 	}
@@ -353,6 +370,16 @@ class MyFileReader  {
 		let value = element.getAttribute(attributeName);
 		return (value != null);
 	}
+
+	changeShadingValue(element, attributeName){
+		if(element[attributeName] == false){
+			element[attributeName] = "smooth";
+		}
+		else{
+			element[attributeName] = "flat";
+		}
+		return element[attributeName]
+	}
 	
 	/**
 	 * returns a boolean from an element for a particular attribute
@@ -361,19 +388,22 @@ class MyFileReader  {
 	 * @param {*} required if the attribte is required or not
 	 * @returns {boolean} the boolean value
 	 */
-	getBoolean(element, attributeName, required) {
+	getBoolean(element, attributeName, required, yasfAttribute) {
 		if (required == undefined) required = true;
 
 		let value = element[attributeName];
 		if (value == null) {
-      if (required) {
-        throw new Error("element '" + element + ": in element '" + element + "' bool value is null for attribute '" + attributeName + "'."); 
-      }
-      return null;
+			if (required) {
+				throw new Error("element '" + yasfAttribute + ": in element '" + yasfAttribute + "' bool value is null for attribute '" + attributeName + "'."); 
+			}
+			return null;
 		}
-    if (typeof value !== "boolean") {
-			throw new Error("element '" + element + ": in element '" + element + "' attribute '" + attributeName + "' should be bool but is '" + (typeof value) + "'")
-    }
+		if (typeof value !== "boolean") {
+			throw new Error("element '" + yasfAttribute + ": in element '" + yasfAttribute + "' attribute '" + attributeName + "' should be bool but is '" + (typeof value) + "'")
+		}
+		if(attributeName == "shading"){
+			return this.changeShadingValue(element, attributeName);
+		}
 
 		return value
 	}
@@ -414,15 +444,14 @@ class MyFileReader  {
 
 		let value = element[attributeName];
 		if (value == null) {
-      if (required) {
-        throw new Error("element '" + yasfAttribute + ": in element '" + yasfAttribute + "' float value is null for attribute '" + attributeName + "'."); 
-      }
-      return null;
+			if (required) {
+				throw new Error("element '" + yasfAttribute + ": in element '" + yasfAttribute + "' float value is null for attribute '" + attributeName + "'."); 
+			}
+			return null;
 		}
-    if (typeof value !== "number") {
-			throw new Error("element '" + element + ": in element '" + element + "' attribute '" + attributeName + "' should be float but is '" + (typeof value) + "'")
-    }
-
+		if (typeof value !== "number") {
+				throw new Error("element '" + element + ": in element '" + element + "' attribute '" + attributeName + "' should be float but is '" + (typeof value) + "'")
+		}
 		return value
 	}
 
@@ -444,7 +473,6 @@ class MyFileReader  {
   loadJsonItem(options) {
 		// create an empty object
 		let obj = {}
-
 		if (options === null || options === undefined) {
 			throw new Error("unable to load json item because arguments are null or undefined");
 		}
@@ -479,7 +507,7 @@ class MyFileReader  {
 				value = this.getString(options.elem, descriptor.name, descriptor.required);
       }
 			else if (descriptor.type==="boolean") {
-				value = this.getBoolean(options.elem, descriptor.name, descriptor.required);
+				value = this.getBoolean(options.elem, descriptor.name, descriptor.required, options.key);
       }
 			else if (descriptor.type==="integer") {
 				value = this.getInteger(options.elem, descriptor.name, descriptor.required);	
@@ -520,7 +548,13 @@ class MyFileReader  {
 
 			// if the value is null and the attribute is not required, then use the default value
 			if (value == null && descriptor.required == false && descriptor.default != undefined) {
-				value = descriptor.default;
+				if(descriptor.name == "shading"){
+					value = "smooth";
+				}
+				else{
+					value = descriptor.default;
+				}
+
 			}
 			
 			// store the value in the object
@@ -538,13 +572,14 @@ class MyFileReader  {
 	
   loadJsonItems(parentElemen, tagName, descriptor, extras, addFunc) {
     for (let elem in parentElemen) {
-      let obj = this.loadJsonItem({
-        key: elem,
-        elem: parentElemen[elem],
-        descriptor: descriptor,
-        extras: extras
-      });
-      addFunc.bind(this.data)(obj);
+		this.checkLowercase(elem, tagName);
+		let obj = this.loadJsonItem({
+			key: elem,
+			elem: parentElemen[elem],
+			descriptor: descriptor,
+			extras: extras
+		});
+		addFunc.bind(this.data)(obj);
     }
   }
 
@@ -589,7 +624,14 @@ class MyFileReader  {
 	 */
 	loadMaterials(rootElement) {
 		let elem = rootElement["materials"];
-		this.loadJsonItems(elem, 'material', this.data.descriptors["material"], [["type", "material"]], this.data.addMaterial)
+		if (!elem) {
+			throw new Error("Element 'materials' is missing in the JSON data and it is mandatory to have.");
+		}
+
+		if(Object.keys(elem).length < 1){
+			throw new Error("Element 'materials': you need to at least define a material.");
+		}
+		this.loadJsonItems(elem, 'materials', this.data.descriptors["material"], [["type", "material"]], this.data.addMaterial)
 	}
 
 	/**
@@ -597,6 +639,7 @@ class MyFileReader  {
 	 * @param {*} rootElement 
 	 */
 	loadCameras(rootElement) {
+		//TODO: Verificar se os identificadores estão vazios.
 		let camerasElem = rootElement["cameras"];
 		if (!camerasElem) {
 			throw new Error("Element 'cameras' is missing in the JSON data and it is mandatory to have.");
@@ -619,6 +662,8 @@ class MyFileReader  {
 				if (initial === false){
 					throw new Error("Element 'cameras': 'cameras' element needs 'initial' attribute");
 				}
+				//TODO: Verificar se o ID vem vazio.
+				this.checkLowercase(key, "'cameras'");
 				this.data.addCamera(this.loadJsonItem({
 				key: key,
 				elem: elem,
@@ -630,6 +675,7 @@ class MyFileReader  {
 				if (initial === false){
 					throw new Error("Element 'cameras': 'cameras' element needs 'initial' attribute");
 				}
+				this.checkLowercase(key, "'cameras'");
 				this.data.addCamera(this.loadJsonItem({
 				key: key,
 				elem: elem,

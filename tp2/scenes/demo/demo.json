@@ -51,7 +51,7 @@
             }
         },
         "materials": {
-            "tableApp": {
+            "table_app": {
                 "color": {
                     "r": 0.8,
                     "g": 0.8,
@@ -74,7 +74,7 @@
                 "texlength_s": 1,
                 "texlength_t": 1
             },
-            "leftWallApp": {
+            "left_wall_app": {
                 "emissive": {
                     "r": 0.0,
                     "g": 0.0,
@@ -98,7 +98,7 @@
                 "texlength_t": 8,
                 "twosided": true
             },
-            "rightWallApp": {
+            "right_wall_app": {
                 "emissive": {
                     "r": 0.0,
                     "g": 0.0,
@@ -122,7 +122,7 @@
                 "texlength_t": 8,
                 "twosided": true
             },
-            "floorApp": {
+            "floor_app": {
                 "emissive": {
                     "r": 0.0,
                     "g": 0.0,
@@ -146,7 +146,7 @@
                 "texlength_t": 15,
                 "twosided": true
             },
-            "crimeWeaponApp": {
+            "crime_weapon_app": {
                 "emissive": {
                     "r": 0.0,
                     "g": 0.0,
@@ -169,7 +169,7 @@
                 "texlength_s": 1,
                 "texlength_t": 1
             },
-            "tapeApp": {
+            "tape_app": {
                 "emissive": {
                     "r": 0.0,
                     "g": 0.0,
@@ -193,7 +193,7 @@
                 "texlength_t": 0.4,
                 "twosided": true
             },
-            "tapeSupportApp": {
+            "tape_support_app": {
                 "emissive": {
                     "r": 0.0,
                     "g": 0.0,
@@ -216,7 +216,7 @@
                 "texlength_s": 1,
                 "texlength_t": 1
             },
-            "pineApp": {
+            "pine_app": {
                 "emissive": {
                     "r": 0.0,
                     "g": 0.0,
@@ -240,7 +240,7 @@
                 "texlength_t": 1,
                 "wireframe": true
             },
-            "vaseApp": {
+            "vase_app": {
                 "emissive": {
                     "r": 0.0,
                     "g": 0.0,
@@ -262,7 +262,7 @@
                 "textureref": "vaseTex",
                 "texlength_s": 1,
                 "texlength_t": 1,
-                "shading": "flat"
+                "shading": true
             }
         },
         "cameras": {
