@@ -1,5 +1,32 @@
 {
     "yasf": {
-        
+        "fog": {
+            "color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0
+            },
+            "near": 1.0,
+            "far": 100.0
+        },
+        "cameras": {
+            "initial": "cam1",
+            "cam1": {
+                "type": "perspective",
+                "angle": 60,
+                "near": 0.1,
+                "far": 1000,
+                "location": {
+                    "x": 15,
+                    "y": 15,
+                    "z": 15
+                },
+                "target": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            }
+        }
     }
 }
