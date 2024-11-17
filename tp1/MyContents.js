@@ -197,10 +197,27 @@ class MyContents  {
         groupChao.add(chao)
         groupChao.position.set(0,0.14,0);
         groupEsferaInferior.add(groupChao);
+        
 
+        // troncos
+        const groupTronco = new THREE.Group();
+        const trunkTexture = textureLoader.load('./trunk.jpg');
+        const trunkMaterial = new THREE.MeshStandardMaterial({ map: trunkTexture, color: 0xffffff, metalness: 0.5, roughness: 0.5 });
+        const troncoGeometry = new THREE.CylinderGeometry(0.15, 0.15, 1, 10, 1);
+        const tronco = new THREE.Mesh(troncoGeometry, trunkMaterial);
+        tronco.rotation.set(Math.PI/2, 0, 0);
+        groupTronco.add(tronco);
+        groupTronco.position.set(0,4.1,0);
+        groupScene.add(groupTronco);
+        
+        const groupTronco2 = new THREE.Group();
+        const tronco2 = new THREE.Mesh(troncoGeometry, trunkMaterial);
+        tronco2.rotation.set(Math.PI/2, 0, 0);
+        groupTronco2.add(tronco2);
+        groupTronco2.position.set(1,4.1,0);
+        groupScene.add(groupTronco2)
+        
         this.app.scene.add(groupScene)
-
-
     }
     
     /**
