@@ -127,7 +127,133 @@
                 "transparent": true,
                 "opacity": 0.9,
                 "twosided": true
-            }
+            },
+            "cloud_m" : {
+                "color": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0
+                },
+                "emissive": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0
+                },
+                "specular": {
+                    "r": 255.0,
+                    "g": 255.0,
+                    "b": 255.0
+                },
+                "shininess": 10,
+                "transparent": true,
+                "opacity": 0.9,
+                "twosided": true
+            },
+            "fire_m": {
+                "color": {
+                    "r": 1.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "emissive": {
+                    "r": 1.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "specular": {
+                    "r": 255.0,
+                    "g": 255.0,
+                    "b": 255.0
+                },
+                "shininess": 10,
+                "transparent": true,
+                "opacity": 0.9,
+                "twosided": true
+            },
+            "floor_m1": {
+                "color": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "specular": {
+                    "r": 255.0,
+                    "g": 255.0,
+                    "b": 255.0
+                },
+                "shininess": 15,
+                "transparent": false,
+                "opacity": 1.0,
+                "twosided": true
+            },
+            "floor_m2": {
+                "color": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "specular": {
+                    "r": 255.0,
+                    "g": 255.0,
+                    "b": 255.0
+                },
+                "shininess": 15,
+                "transparent": false,
+                "opacity": 1.0,
+                "twosided": true
+            },
+            "grass_m": {
+                "color": {
+                    "r": 0.0,
+                    "g": 0.5,
+                    "b": 0.0
+                },
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.5,
+                    "b": 0.0
+                },
+                "specular": {
+                    "r": 255.0,
+                    "g": 255.0,
+                    "b": 255.0
+                },
+                "shininess": 15,
+                "transparent": false,
+                "opacity": 1.0,
+                "twosided": true
+            },
+            "wood_m": {
+                "color": {
+                    "r": 0.5,
+                    "g": 0.25,
+                    "b": 0.0
+                },
+                "emissive": {
+                    "r": 0.5,
+                    "g": 0.25,
+                    "b": 0.0
+                },
+                "specular": {
+                    "r": 255.0,
+                    "g": 255.0,
+                    "b": 255.0
+                },
+                "shininess": 15,
+                "transparent": false,
+                "opacity": 1.0,
+                "twosided": true
+            } 
         }
     }
 }
