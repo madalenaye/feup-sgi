@@ -66,8 +66,8 @@ class MyContents  {
         this.app.scene.add( pointLightHelper );
 
         // add an ambient light
-        const ambientLight = new THREE.AmbientLight( 0x555555 );
-        this.app.scene.add( ambientLight );
+        //const ambientLight = new THREE.AmbientLight( 0x555555 );
+        //this.app.scene.add( ambientLight );
 
         this.buildBox()
         
@@ -77,7 +77,130 @@ class MyContents  {
         this.planeMesh = new THREE.Mesh( plane, this.planeMaterial );
         this.planeMesh.rotation.x = -Math.PI / 2;
         this.planeMesh.position.y = -0;
-        this.app.scene.add( this.planeMesh );
+        //this.app.scene.add( this.planeMesh );
+
+        //Grupo principal scene
+        const groupScene = new THREE.Group();
+        const ambientLight = new THREE.AmbientLight( 0x555555 )
+        groupScene.add(ambientLight);
+
+        //Criar o grupo esferaSuperior que vai começar por ter a semiesfera inferior
+        const esferaSuperior = new THREE.Group();
+
+        //Criar a semiesfera
+        const radius = 4;
+        const widthSegments = 32;
+        const heightSegments = 16; 
+        const sphereGeometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments, 0, Math.PI * 2, 0, Math.PI / 2); 
+        const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xc82f23, specular: 0xffffff, shininess: 10, emissive: 0x222222, 
+                                                            transparent: false, wireframe: false, side: THREE.DoubleSide,
+                                                            opacity: 1.0 });
+        const esferaSuperiorFIG = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
+        // Adicionar a semiesfera ao grupo
+        esferaSuperior.add(esferaSuperiorFIG);
+        esferaSuperior.position.set(0,11,0);
+        groupScene.add(esferaSuperior)
+
+        //Criar o grupo para cilindro da esfera superior
+        const groupCilindro = new THREE.Group();
+        //const cilindroMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: false, side: THREE.DoubleSide });
+        const cilindroMaterial = new THREE.MeshPhongMaterial({
+            color: 0x000000,     
+            specular: 0xffffff,  
+            shininess: 15,
+            emissive: 0x000000,
+            transparent: false,
+            opacity: 1.0,
+            side: THREE.DoubleSide
+          });
+
+        const height = 0.5; 
+        const radialSegments = 32;  
+        const heightSegments2 = 1;  
+
+        const cylinderGeometry = new THREE.CylinderGeometry(3.8, 3.8, height, radialSegments, heightSegments2);
+        const cylinder = new THREE.Mesh(cylinderGeometry, cilindroMaterial);
+        groupCilindro.add(cylinder);
+        groupCilindro.position.set(0,-0.25,0);
+        esferaSuperior.add(groupCilindro);
+
+        // Criar um grupo para o circulo preto e adicionar no grupo da cilindro
+        const groupCirculo = new THREE.Group();
+        const circuloMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: false, side: THREE.DoubleSide });
+
+        const segments = 32; 
+        const circleGeometry = new THREE.CircleGeometry(0.7, segments);
+        const circulo = new THREE.Mesh(circleGeometry, circuloMaterial);
+        groupCirculo.add(circulo);
+        groupCirculo.position.set(0,-0.5,3.8);
+        groupCilindro.add(groupCirculo);
+
+        // Criar um grupo para o cilindro branco e adicionar ao grupo do circulo preto
+        const groupCilindroBranco = new THREE.Group();
+        const cilindroMaterial2 = new THREE.MeshPhongMaterial({
+            color: 0xeae1e1,   
+            specular: 0xffffff,
+            shininess: 40,
+            emissive: 0x555555,
+            transparent: true,
+            opacity: 0.9,
+            side: THREE.DoubleSide
+          });
+
+        const cylinderGeometry2 = new THREE.CylinderGeometry(0.4, 0.4, 0.08, radialSegments, heightSegments2);
+        const cylinder2 = new THREE.Mesh(cylinderGeometry2, cilindroMaterial2);
+
+        groupCilindroBranco.add(cylinder2);
+        groupCilindroBranco.rotation.set(Math.PI/2, 0, 0);
+        groupCilindroBranco.position.set(0,0,0.05);
+        groupCirculo.add(groupCilindroBranco);
+
+        //----------------------------------------------------------------------------------
+
+        //Criar esfera inferior e respetivo grupo
+        const esferaMaterial2 = new THREE.MeshPhongMaterial({
+            color: 0xe0e8e3,         
+            specular: 0xffffff,       
+            shininess: 10,           
+            emissive: 0xbdb8b8,       
+            transparent: false,       
+            opacity: 1.0,            
+            side: THREE.DoubleSide    
+          });
+        const groupEsferaInferior= new THREE.Group();
+        const sphere2Geometry = new THREE.SphereGeometry(4, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+        const esferaInferiorFIG = new THREE.Mesh(sphere2Geometry, esferaMaterial2);
+
+        groupEsferaInferior.add(esferaInferiorFIG);
+        groupEsferaInferior.rotation.set(Math.PI, 0, 0);
+        groupEsferaInferior.position.set(0,4,0);
+        groupScene.add(groupEsferaInferior);
+
+        //Criar cilindro para chão e respetivo grupo
+        const groupChao = new THREE.Group();
+        const textureLoader = new THREE.TextureLoader();
+        const textura = textureLoader.load('./grass.png');
+        const chaoMaterial = new THREE.MeshPhongMaterial({
+            map: textura,
+            color: 0xffffff, 
+            specular: 0x222222,
+            shininess: 3, 
+            emissive: 0x001100,
+            transparent: false,
+            opacity: 1.0,
+            side: THREE.DoubleSide
+          });
+        const chaoGeometry = new THREE.CylinderGeometry(3.98, 3.80, 0.1, 32, 1);
+        const chao= new THREE.Mesh(chaoGeometry, chaoMaterial);
+
+        groupChao.add(chao)
+        groupChao.position.set(0,0.14,0);
+        groupEsferaInferior.add(groupChao);
+
+        this.app.scene.add(groupScene)
+
+
     }
     
     /**
