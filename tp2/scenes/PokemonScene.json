@@ -354,6 +354,10 @@
                         "type": "noderef",
                         "nodeId": "floor"
                     },
+                    "semi_circle":{
+                        "type": "noderef",
+                        "nodeId": "semi_circle"
+                    },
                     "white_sphere":{
                         "type": "sphere",
                         "radius": 4.0,
@@ -389,6 +393,33 @@
                         "height": 0.1,
                         "slices": 32,
                         "stacks": 1
+                    }
+                }
+            },
+            "semi_circle":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": -4.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "base_cylinder_m"
+                },
+                "children": {
+                    "black_semi_circle":{
+                        "type": "ring",
+                        "inner": 0.0,
+                        "outer": 0.7,
+                        "thetasegments": 32,
+                        "phisegments": 1,
+                        "thetastart": 0.0,
+                        "thetalength": 180.0
                     }
                 }
             },
