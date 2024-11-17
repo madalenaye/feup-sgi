@@ -92,6 +92,159 @@
                 "opacity": 0.9,
                 "twosided": true
             }
+        },
+        "graph": {
+            "rootid": "scene",
+            "scene": {
+                "type": "node",
+                "children": {
+                    "upper_sphere": {
+                        "type": "noderef",
+                        "nodeId": "upper_sphere"
+                    },
+                    "point_light": {
+                        "type": "pointlight",
+                        "enabled": true,
+                        "color": {
+                            "r": 255.0,
+                            "g": 255.0,
+                            "b": 255.0
+                        },
+                        "intensity": 500.0,
+                        "distance": 0.0,
+                        "decay": 2.0,
+                        "castshadow": false,
+                        "position": {
+                            "x": 0.0,
+                            "y": 20.0,
+                            "z": 0.0
+                        }
+                    }
+                }
+            },
+            "upper_sphere": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 8.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "upper_sphere_m"
+                },
+                "children": {
+                    "base_cylinder": {
+                        "type": "noderef",
+                        "nodeId": "base_cylinder"
+                    },
+                    "black_sphere":{
+                        "type": "sphere",
+                        "radius": 3.0,
+                        "slices": 32,
+                        "stacks": 16,
+                        "thetastart": 0.0,
+                        "thetalength": 360.0,
+                        "phistart": 0.0,
+                        "philength": 90.0
+                    }
+                }
+            },
+            "base_cylinder": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": -0.25,
+                            "z": 0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "base_cylinder_m"
+                },
+                "children": {
+                    "front_circle": {
+                        "type": "noderef",
+                        "nodeId": "front_circle"
+                    },
+                    "black_cylinder":{
+                        "type": "cylinder",
+                        "base": 2.8,
+                        "top": 2.8,
+                        "height": 0.5,
+                        "slices": 32,
+                        "stacks": 1
+                    }
+                }
+            },
+            "front_circle": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": -0.3,
+                            "z": 2.8
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "base_cylinder_m"
+                },
+                "children": {
+                    "cylinder_button": {
+                        "type": "noderef",
+                        "nodeId": "cylinder_button"
+                    },
+                    "black_circle": {
+                        "type": "circle",
+                        "radius": 0.5,
+                        "segments": 32
+                    }
+                }
+            },
+            "cylinder_button": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 90.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.05
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cylinder_button_m"
+                },
+                "children": {
+                    "white_cylinder":{
+                        "type": "cylinder",
+                        "base": 0.3,
+                        "top": 0.3,
+                        "height": 0.08,
+                        "slices": 32,
+                        "stacks": 1
+                    }
+                }
+            }
         }
     }
 }
