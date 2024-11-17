@@ -254,6 +254,15 @@
                 "opacity": 1.0,
                 "twosided": true
             } 
+        },
+        "graph": {
+            "rootid": "scene",
+            "scene": {
+                "type": "node",
+                "children":{
+                    
+                }
+            }
         }
     }
 }
