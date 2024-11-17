@@ -288,6 +288,27 @@
                 "transparent": false,
                 "opacity": 1.0,
                 "twosided": true
+            },
+            "tree_crown_m":{
+                "color": {
+                    "r": 34.0,
+                    "g": 139.0,
+                    "b": 34.0
+                },
+                "emissive": {
+                    "r": 0.0,
+                    "g": 51.0,
+                    "b": 0.0
+                },
+                "specular": {
+                    "r": 85.0,
+                    "g": 85.0,
+                    "b": 85.0
+                },
+                "shininess": 10,
+                "transparent": false,
+                "opacity": 1.0,
+                "twosided": true
             }
         },
         "graph": {
