@@ -456,33 +456,57 @@
                     {
                         "type": "translate",
                         "amount": {
-                            "x": 0.0,
+                            "x": 1.0,
+                            "y": 4.1,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "trunk_m"
+                },
+                "children": {
+                    "trunk_1": {
+                        "type": "cylinder",
+                        "base": 0.15,
+                        "top": 0.15,
+                        "height": 1,
+                        "slices": 10,
+                        "stacks": 1
+                    },
+                    "fire":{
+                        "type": "noderef",
+                        "nodeId": "fire"
+                    },
+                    "trunk_2":{
+                        "type": "noderef",
+                        "nodeId": "trunk_2"
+                    }
+                }
+            },
+            "trunk_2":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.7,
                             "y": 0.0,
                             "z": 0.0
                         }
                     }
                 ],
                 "materialref": {
-                    "materialId": "fire_m"
+                    "materialId": "trunk_m"
                 },
                 "children": {
-                    "fire":{
-                        "type": "sphere",
-                        "radius": 0.5,
-                        "slices": 32,
-                        "stacks": 16,
-                        "thetastart": 0.0,
-                        "thetalength": 360.0,
-                        "phistart": 0.0,
-                        "philength": 180.0
-                    },
-                    "trunk_1": {
-                        "type": "noderef",
-                        "nodeId": "trunk_1"
-                    },
-                    "trunk_2":{
-                        "type": "noderef",
-                        "nodeId": "trunk_2"
+                    "cylinder_2": {
+                        "type": "cylinder",
+                        "base": 0.15,
+                        "top": 0.15,
+                        "height": 1,
+                        "slices": 10,
+                        "stacks": 1
                     }
                 }
             },
