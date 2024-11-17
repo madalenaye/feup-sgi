@@ -605,6 +605,22 @@
                     "tree_crown":{
                         "type": "noderef",
                         "nodeId": "tree_crown"
+                    },
+                    "fruit1":{
+                        "type": "noderef",
+                        "nodeId": "fruit1"
+                    },
+                    "fruit2":{
+                        "type": "noderef",
+                        "nodeId": "fruit2"
+                    },
+                    "fruit3":{
+                        "type": "noderef",
+                        "nodeId": "fruit3"
+                    },
+                    "fruit4":{
+                        "type": "noderef",
+                        "nodeId": "fruit4"
                     }
                 }
             },
@@ -655,6 +671,106 @@
                         "radius": 1.0,
                         "slices": 32,
                         "stacks": 16
+                    }
+                }
+            },
+            "fruit1":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.78,
+                            "y": -0.70,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "children": {
+                    "fruit": {
+                        "type": "noderef",
+                        "nodeId": "fruit"
+                    }
+                }
+            },
+            "fruit2":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": -1.0,
+                            "z": -1.0
+                        }
+                    }
+                ],
+                "children": {
+                    "fruit": {
+                        "type": "noderef",
+                        "nodeId": "fruit"
+                    }
+                }
+            },
+            "fruit3":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -0.70,
+                            "y": -2.0,
+                            "z": -0.3
+                        }
+                    }
+                ],
+                "children": {
+                    "fruit": {
+                        "type": "noderef",
+                        "nodeId": "fruit"
+                    }
+                }
+            },
+            "fruit4":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": -1.4,
+                            "z": 1.0
+                        }
+                    }
+                ],
+                "children": {
+                    "fruit": {
+                        "type": "noderef",
+                        "nodeId": "fruit"
+                    }
+                }
+            },
+            "fruit":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "fruit_m"
+                },
+                "children": {
+                    "fruit_sphere":{
+                        "type": "sphere",
+                        "radius": 0.15,
+                        "slices": 32,
+                        "stacks": 32
                     }
                 }
             },
