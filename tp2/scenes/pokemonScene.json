@@ -91,6 +91,48 @@
                 "transparent": true,
                 "opacity": 0.9,
                 "twosided": true
+            },
+            "lower_sphere_m":{
+                "color": {
+                    "r": 224.0,
+                    "g": 232.0,
+                    "b": 227.0
+                },
+                "emissive": {
+                    "r": 189.0,
+                    "g": 184.0,
+                    "b": 184.0
+                },
+                "specular": {
+                    "r": 255.0,
+                    "g": 255.0,
+                    "b": 255.0
+                },
+                "shininess": 10,
+                "transparent": false,
+                "opacity": 1.0,
+                "twosided": true
+            },
+            "floor_m":{
+                "color": {
+                    "r": 15.0,
+                    "g": 114.0,
+                    "b": 30.0
+                },
+                "emissive": {
+                    "r": 0.0,
+                    "g": 17.0,
+                    "b": 0.0
+                },
+                "specular": {
+                    "r": 34.0,
+                    "g": 34.0,
+                    "b": 34.0
+                },
+                "shininess": 3,
+                "transparent": false,
+                "opacity": 1.0,
+                "twosided": true
             }
         },
         "graph": {
@@ -101,6 +143,10 @@
                     "upper_sphere": {
                         "type": "noderef",
                         "nodeId": "upper_sphere"
+                    },
+                    "lower_sphere":{
+                        "type": "noderef",
+                        "nodeId": "lower_sphere"
                     },
                     "point_light": {
                         "type": "pointlight",
@@ -151,6 +197,72 @@
                         "thetalength": 360.0,
                         "phistart": 0.0,
                         "philength": 90.0
+                    }
+                }
+            },
+            "lower_sphere": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 180.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 4.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "lower_sphere_m"
+                },
+                "children": {
+                    "floor": {
+                        "type": "noderef",
+                        "nodeId": "floor"
+                    },
+                    "white_sphere":{
+                        "type": "sphere",
+                        "radius": 4.0,
+                        "slices": 32,
+                        "stacks": 16,
+                        "thetastart": 0.0,
+                        "thetalength": 360.0,
+                        "phistart": 0.0,
+                        "philength": 90.0
+                    }
+                }
+            },
+            "floor":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.14,
+                            "z": 0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "floor_m"
+                },
+                "children": {
+                    "green_cylinder":{
+                        "type": "cylinder",
+                        "base": 3.98,
+                        "top": 3.80,
+                        "height": 0.1,
+                        "slices": 32,
+                        "stacks": 1
                     }
                 }
             },
