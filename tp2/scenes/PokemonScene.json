@@ -70,6 +70,9 @@
             },
             "trunk_t": {
                 "filepath": "/textures/trunk.jpg"
+            },
+            "fruit_t":{
+                "filepath": "/textures/orange.jpg"
             }
         },
         "materials": {
@@ -320,6 +323,30 @@
                     "g": 85.0,
                     "b": 85.0
                 },
+                "shininess": 10,
+                "transparent": false,
+                "opacity": 1.0,
+                "twosided": true
+            },
+            "fruit_m":{
+                "color": {
+                    "r": 255.0,
+                    "g": 255.0,
+                    "b": 255.0
+                },
+                "emissive": {
+                    "r": 51.0,
+                    "g": 51.0,
+                    "b": 0.0
+                },
+                "specular": {
+                    "r": 243.0,
+                    "g": 147.0,
+                    "b": 8.0
+                },
+                "textureref": "fruit_t",
+                "texlength_s": 1.0,
+                "texlength_t": 1.0,
                 "shininess": 10,
                 "transparent": false,
                 "opacity": 1.0,
