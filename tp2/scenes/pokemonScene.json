@@ -18,8 +18,8 @@
                 "far": 1000,
                 "location": {
                     "x": 0,
-                    "y": 12,
-                    "z": 15
+                    "y": 15,
+                    "z": 20
                 },
                 "target": {
                     "x": 0,
@@ -129,7 +129,7 @@
                         "type": "translate",
                         "amount": {
                             "x": 0.0,
-                            "y": 8.0,
+                            "y": 11.0,
                             "z": 0.0
                         }
                     }
@@ -144,7 +144,7 @@
                     },
                     "black_sphere":{
                         "type": "sphere",
-                        "radius": 3.0,
+                        "radius": 4.0,
                         "slices": 32,
                         "stacks": 16,
                         "thetastart": 0.0,
@@ -176,8 +176,8 @@
                     },
                     "black_cylinder":{
                         "type": "cylinder",
-                        "base": 2.8,
-                        "top": 2.8,
+                        "base": 3.8,
+                        "top": 3.8,
                         "height": 0.5,
                         "slices": 32,
                         "stacks": 1
@@ -191,8 +191,8 @@
                         "type": "translate",
                         "amount": {
                             "x": 0.0,
-                            "y": -0.3,
-                            "z": 2.8
+                            "y": -0.5,
+                            "z": 3.8
                         }
                     }
                 ],
@@ -206,7 +206,7 @@
                     },
                     "black_circle": {
                         "type": "circle",
-                        "radius": 0.5,
+                        "radius": 0.7,
                         "segments": 32
                     }
                 }
@@ -237,8 +237,8 @@
                 "children": {
                     "white_cylinder":{
                         "type": "cylinder",
-                        "base": 0.3,
-                        "top": 0.3,
+                        "base": 0.4,
+                        "top": 0.4,
                         "height": 0.08,
                         "slices": 32,
                         "stacks": 1
