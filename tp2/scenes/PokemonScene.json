@@ -37,12 +37,12 @@
                     "b": 0.0
                 },
                 "intensity": 0.0,
-                "front": "scenes/testScene/skybox/front.png",
-                "back": "scenes/testScene/skybox/back.png",
-                "up": "scenes/testScene/skybox/front.png",
-                "down": "scenes/testScene/skybox/back.png",
-                "left": "scenes/testScene/skybox/left.png",
-                "right": "scenes/testScene/skybox/right.png"
+                "front": "/skybox/front.png",
+                "back": "/skybox/back.png",
+                "up": "/skybox/front.png",
+                "down": "/skybox/back.png",
+                "left": "/skybox/left.png",
+                "right": "/skybox/right.png"
             }
         },
         "cameras": {
@@ -66,10 +66,10 @@
         },
         "textures": {
             "floor_t": {
-                "filepath": "scenes/testScene/textures/grass.png"
+                "filepath": "/textures/grass.png"
             },
             "trunk_t": {
-                "filepath": "scenes/testScene/textures/trunk.jpg"
+                "filepath": "/textures/trunk.jpg"
             }
         },
         "materials": {
