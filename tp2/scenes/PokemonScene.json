@@ -7,18 +7,18 @@
                 "b": 0.533
             },
             "ambient": {
-                "r": 0.0,
-                "g": 0.0,
-                "b": 0.0
+                "r": 0.3,
+                "g": 0.3,
+                "b": 0.3
             },
             "fog": {
                 "color": {
-                    "r": 1.0,
-                    "g": 1.0,
-                    "b": 1.0
+                    "r": 0.1,
+                    "g": 0.1,
+                    "b": 0.1
                 },
-                "near": 1.0,
-                "far": 100.0
+                "near": 100.0,
+                "far": 800.0
             },
             "skybox": {
                 "size": {
@@ -32,17 +32,17 @@
                     "z": 0.0
                 },
                 "emissive": {
-                    "r": 1.0,
-                    "g": 1.0,
-                    "b": 1.0
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
                 },
-                "intensity": 1.0,
-                "front": "skybox/front.png",
-                "back": "skybox/back.png",
-                "up": "skybox/front.png",
-                "down": "skybox/back.png",
-                "left": "skybox/left.png",
-                "right": "skybox/right.png"
+                "intensity": 0.0,
+                "front": "scenes/testScene/skybox/front.png",
+                "back": "scenes/testScene/skybox/back.png",
+                "up": "scenes/testScene/skybox/front.png",
+                "down": "scenes/testScene/skybox/back.png",
+                "left": "scenes/testScene/skybox/left.png",
+                "right": "scenes/testScene/skybox/right.png"
             }
         },
         "cameras": {
@@ -66,10 +66,10 @@
         },
         "textures": {
             "floor_t": {
-                "filepath": "/textures/grass.png"
+                "filepath": "scenes/testScene/textures/grass.png"
             },
             "trunk_t": {
-                "filepath": "/textures/trunk.jpg"
+                "filepath": "scenes/testScene/textures/trunk.jpg"
             }
         },
         "materials": {
@@ -92,7 +92,8 @@
                 "shininess": 10,
                 "transparent": false,
                 "opacity": 1.0,
-                "twosided": true
+                "twosided": true,
+                "textureref":"trunk_t"
             },
             "base_cylinder_m":{
                 "color": {
@@ -113,7 +114,9 @@
                 "shininess": 15,
                 "transparent": false,
                 "opacity": 1.0,
-                "twosided": true
+                "twosided": true,
+                "textureref":"trunk_t"
+
             },
             "cylinder_button_m":{
                 "color": {
@@ -134,7 +137,9 @@
                 "shininess": 40,
                 "transparent": true,
                 "opacity": 0.9,
-                "twosided": true
+                "twosided": true,
+                "textureref":"trunk_t"
+
             },
             "lower_sphere_m":{
                 "color": {
@@ -155,7 +160,9 @@
                 "shininess": 10,
                 "transparent": false,
                 "opacity": 1.0,
-                "twosided": true
+                "twosided": true,
+                "textureref":"trunk_t"
+
             },
             "floor_m":{
                 "color": {
@@ -200,7 +207,9 @@
                 "shininess": 10,
                 "transparent": true,
                 "opacity": 0.9,
-                "twosided": true
+                "twosided": true,
+                "textureref":"trunk_t"
+
             },
             "fire_m": {
                 "color": {
@@ -221,7 +230,9 @@
                 "shininess": 10,
                 "transparent": true,
                 "opacity": 0.9,
-                "twosided": true
+                "twosided": true,
+                "textureref":"trunk_t"
+
             },
             "grass_m": {
                 "color": {
@@ -242,7 +253,9 @@
                 "shininess": 15,
                 "transparent": false,
                 "opacity": 1.0,
-                "twosided": true
+                "twosided": true,
+                "textureref":"trunk_t"
+
             },
             "wood_m": {
                 "color": {
@@ -263,7 +276,9 @@
                 "shininess": 15,
                 "transparent": false,
                 "opacity": 1.0,
-                "twosided": true
+                "twosided": true,
+                "textureref":"trunk_t"
+
             },
             "trunk_m": {
                 "color": {
@@ -453,10 +468,7 @@
                         "slices": 10,
                         "stacks": 1
                     },
-                    "fire":{
-                        "type": "noderef",
-                        "nodeId": "fire"
-                    },
+                   
                     "trunk_2":{
                         "type": "noderef",
                         "nodeId": "trunk_2"
