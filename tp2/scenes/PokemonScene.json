@@ -64,6 +64,11 @@
                 }
             }
         },
+        "textures": {
+            "floor_t": {
+                "filepath": "/textures/grass.png"
+            }
+        },
         "materials": {
             "upper_sphere_m": {
                 "color": {
@@ -151,9 +156,9 @@
             },
             "floor_m":{
                 "color": {
-                    "r": 15.0,
-                    "g": 114.0,
-                    "b": 30.0
+                    "r": 255.0,
+                    "g": 255.0,
+                    "b": 255.0
                 },
                 "emissive": {
                     "r": 0.0,
@@ -165,6 +170,7 @@
                     "g": 34.0,
                     "b": 34.0
                 },
+                "textureref": "floor_t",
                 "shininess": 3,
                 "transparent": false,
                 "opacity": 1.0,
