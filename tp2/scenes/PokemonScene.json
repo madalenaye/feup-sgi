@@ -95,8 +95,7 @@
                 "shininess": 10,
                 "transparent": false,
                 "opacity": 1.0,
-                "twosided": true,
-                "textureref":"trunk_t"
+                "twosided": true
             },
             "base_cylinder_m":{
                 "color": {
@@ -117,8 +116,7 @@
                 "shininess": 15,
                 "transparent": false,
                 "opacity": 1.0,
-                "twosided": true,
-                "textureref":"trunk_t"
+                "twosided": true
 
             },
             "cylinder_button_m":{
@@ -140,9 +138,7 @@
                 "shininess": 40,
                 "transparent": true,
                 "opacity": 0.9,
-                "twosided": true,
-                "textureref":"trunk_t"
-
+                "twosided": true
             },
             "lower_sphere_m":{
                 "color": {
@@ -163,9 +159,7 @@
                 "shininess": 10,
                 "transparent": false,
                 "opacity": 1.0,
-                "twosided": true,
-                "textureref":"trunk_t"
-
+                "twosided": true
             },
             "floor_m":{
                 "color": {
@@ -210,8 +204,7 @@
                 "shininess": 10,
                 "transparent": true,
                 "opacity": 0.9,
-                "twosided": true,
-                "textureref":"trunk_t"
+                "twosided": true
 
             },
             "fire_m": {
@@ -234,7 +227,9 @@
                 "transparent": true,
                 "opacity": 0.9,
                 "twosided": true,
-                "textureref":"trunk_t"
+                "textureref":"trunk_t",
+                "texlength_s": 1.0,
+                "texlength_t": 1.0
 
             },
             "grass_m": {
@@ -257,7 +252,9 @@
                 "transparent": false,
                 "opacity": 1.0,
                 "twosided": true,
-                "textureref":"trunk_t"
+                "textureref":"floor_t",
+                "texlength_s": 1.0,
+                "texlength_t": 1.0
 
             },
             "wood_m": {
@@ -497,7 +494,16 @@
                     "tree_2":{
                         "type": "noderef",
                         "nodeId": "tree_2"
+                    },
+                    "cloud_1":{
+                        "type": "noderef",
+                        "nodeId": "cloud_1"
+                    },
+                    "cloud_2":{
+                        "type": "noderef",
+                        "nodeId": "cloud_2"
                     }
+
                 }
             },
             "fireplace":{
@@ -771,6 +777,594 @@
                         "radius": 0.15,
                         "slices": 32,
                         "stacks": 32
+                    }
+                }
+            },
+            "cloud_1": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 7.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children": {
+                    "main_sphere":{
+                        "type": "noderef",
+                        "nodeId": "main_sphere"
+                    },
+                    "sphere_2":{
+                        "type": "noderef",
+                        "nodeId": "sphere_2"
+                    },
+                    "sphere_3":{
+                        "type": "noderef",
+                        "nodeId": "sphere_3"
+                    },
+                    "sphere_4":{
+                        "type": "noderef",
+                        "nodeId": "sphere_4"
+                    },
+                    "sphere_5":{
+                        "type": "noderef",
+                        "nodeId": "sphere_5"
+                    },
+                    "sphere_6":{
+                        "type": "noderef",
+                        "nodeId": "sphere_6"
+                    },
+                    "sphere_7":{
+                        "type": "noderef",
+                        "nodeId": "sphere_7"
+                    }
+                }
+            },
+            "main_sphere":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "scale",
+                        "amount": {
+                            "x": 0.95,
+                            "y": 1,
+                            "z": 1
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": -30.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children":{
+                    "main_sphere_geometry":{
+                        "type": "sphere",
+                        "radius": 0.68,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "sphere_1":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": -45.0
+                        }
+                    },
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -0.68,
+                            "y": -0.05,
+                            "z": 0.2
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children":{
+                    "sphere_1_geometry":{
+                        "type": "sphere",
+                        "radius": 0.5,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "sphere_2": {
+                "type" : "node",
+                "transforms": [
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 30.0
+                        }
+                    },
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -0.2,
+                            "y": -0.1,
+                            "z": 0.55
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children":{
+                    "sphere_2_geometry":{
+                        "type": "sphere",
+                        "radius": 0.4,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "sphere_3":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "scale",
+                        "amount": {
+                            "x": 1.2,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 45.0
+                        }
+                    },
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.7,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children":{
+                    "sphere_3_geometry":{
+                        "type": "sphere",
+                        "radius": 0.4,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "sphere_4":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -1.03,
+                            "y": 0.2,
+                            "z": 0.1
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children":{
+                    "sphere_4_geometry":{
+                        "type": "sphere",
+                        "radius": 0.28,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "sphere_5":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -1.03,
+                            "y": 0.2,
+                            "z": 0.1
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children":{
+                    "sphere_5_geometry":{
+                        "type": "sphere",
+                        "radius": 0.28,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "sphere_6": {
+                "type" : "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -1,
+                            "y": -0.06,
+                            "z": 0.45
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children":{
+                    "sphere_6_geometry":{
+                        "type": "sphere",
+                        "radius": 0.28,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "sphere_7":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "scale",
+                        "amount": {
+                            "x": 1.2,
+                            "y": 1,
+                            "z": 1
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 45.0
+                        }
+                    },
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -1.2,
+                            "y": -0.1,
+                            "z": 0.15
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children":{
+                    "sphere_7_geometry":{
+                        "type": "sphere",
+                        "radius": 0.25,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "cloud_2": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -3,
+                            "y": 0.0,
+                            "z": 7.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children": {
+                    "main2_sphere":{
+                        "type": "noderef",
+                        "nodeId": "main2_sphere"
+                    },
+                    "sphere_2":{
+                        "type": "noderef",
+                        "nodeId": "sphere2_2"
+                    },
+                    "sphere_3":{
+                        "type": "noderef",
+                        "nodeId": "sphere2_3"
+                    },
+                    "sphere_4":{
+                        "type": "noderef",
+                        "nodeId": "sphere2_4"
+                    },
+                    "sphere_5":{
+                        "type": "noderef",
+                        "nodeId": "sphere2_5"
+                    },
+                    "sphere_6":{
+                        "type": "noderef",
+                        "nodeId": "sphere2_6"
+                    },
+                    "sphere_7":{
+                        "type": "noderef",
+                        "nodeId": "sphere2_7"
+                    }
+                }
+            },
+            "main2_sphere":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "scale",
+                        "amount": {
+                            "x": 0.95,
+                            "y": 1,
+                            "z": 1
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": -30.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children":{
+                    "main2_sphere_geometry":{
+                        "type": "sphere",
+                        "radius": 0.68,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "sphere2_1":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": -45.0
+                        }
+                    },
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -0.68,
+                            "y": -0.05,
+                            "z": 0.2
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children":{
+                    "sphere2_1_geometry":{
+                        "type": "sphere",
+                        "radius": 0.5,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "sphere2_2": {
+                "type" : "node",
+                "transforms": [
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 30.0
+                        }
+                    },
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -0.2,
+                            "y": -0.1,
+                            "z": 0.55
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children":{
+                    "sphere2_2_geometry":{
+                        "type": "sphere",
+                        "radius": 0.4,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "sphere2_3":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "scale",
+                        "amount": {
+                            "x": 1.2,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 45.0
+                        }
+                    },
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.7,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children":{
+                    "sphere2_3_geometry":{
+                        "type": "sphere",
+                        "radius": 0.4,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "sphere2_4":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -1.03,
+                            "y": 0.2,
+                            "z": 0.1
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children":{
+                    "sphere2_4_geometry":{
+                        "type": "sphere",
+                        "radius": 0.28,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "sphere2_5":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -1.03,
+                            "y": 0.2,
+                            "z": 0.1
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children":{
+                    "sphere2_5_geometry":{
+                        "type": "sphere",
+                        "radius": 0.28,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "sphere2_6": {
+                "type" : "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -1,
+                            "y": -0.06,
+                            "z": 0.45
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children":{
+                    "sphere2_6_geometry":{
+                        "type": "sphere",
+                        "radius": 0.28,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "sphere2_7":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "scale",
+                        "amount": {
+                            "x": 1.2,
+                            "y": 1,
+                            "z": 1
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 45.0
+                        }
+                    },
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -1.2,
+                            "y": -0.1,
+                            "z": 0.15
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cloud_m"
+                },
+                "children":{
+                    "sphere2_7_geometry":{
+                        "type": "sphere",
+                        "radius": 0.25,
+                        "slices": 32,
+                        "stacks": 16
                     }
                 }
             },
