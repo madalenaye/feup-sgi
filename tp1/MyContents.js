@@ -175,7 +175,7 @@ class MyContents  {
         groupEsferaInferior.add(esferaInferiorFIG);
         groupEsferaInferior.rotation.set(Math.PI, 0, 0);
         groupEsferaInferior.position.set(0,4,0);
-        groupScene.add(groupEsferaInferior);
+        //groupScene.add(groupEsferaInferior);
 
         //Criar cilindro para chão e respetivo grupo
         const groupChao = new THREE.Group();
@@ -216,6 +216,66 @@ class MyContents  {
         groupTronco2.add(tronco2);
         groupTronco2.position.set(1,4.1,0);
         groupScene.add(groupTronco2)
+
+        const cloudGroup = new THREE.Group();
+        const cloudMaterial = new THREE.MeshPhysicalMaterial({ color: 0xffffff});
+        
+        // sphere1
+        const cloudGeometry1 = new THREE.SphereGeometry(0.68, 32, 16);
+        const cloud1 = new THREE.Mesh(cloudGeometry1, cloudMaterial);
+        cloud1.scale.set(0.95, 1, 1);
+        cloud1.rotation.set(0, 0, -Math.PI/6);
+        cloud1.position.set(0, 0, 0);
+        cloudGroup.add(cloud1);
+
+        // sphere2
+        const cloudGeometry2 = new THREE.SphereGeometry(0.5, 32, 16);
+        const cloud2 = new THREE.Mesh(cloudGeometry2, cloudMaterial);
+        cloud2.rotation.set(0, 0, -Math.PI/4);
+        cloud2.position.set(-0.68, -0.05, 0.2);
+        cloudGroup.add(cloud2);
+        
+        // sphere3
+        const cloudGeometry3 = new THREE.SphereGeometry(0.4, 32, 16);
+        const cloud3 = new THREE.Mesh(cloudGeometry3, cloudMaterial);
+        cloud3.rotation.set(0, 0, Math.PI/6);
+        cloud3.position.set(-0.2, -0.1, 0.55);
+        cloudGroup.add(cloud3);
+        
+
+        // sphere4
+        const cloud4 = new THREE.Mesh(cloudGeometry3, cloudMaterial);
+        cloud4.scale.set(1.2, 1, 1);
+        cloud4.rotation.set(0, 0, Math.PI/4);
+        cloud4.position.set(0.7, 0, 0);
+        cloudGroup.add(cloud4);
+
+        // sphere5
+        const cloudGeometry5 = new THREE.SphereGeometry(0.28, 32, 16);
+        const cloud5 = new THREE.Mesh(cloudGeometry5, cloudMaterial);
+        cloud5.position.set(1.15, -0.07, 0);
+        cloudGroup.add(cloud5);
+        
+        // sphere6
+        const cloud6 = new THREE.Mesh(cloudGeometry5, cloudMaterial);
+        cloud6.position.set(-1.03, 0.2, 0.1);
+        cloudGroup.add(cloud6);
+        
+        // sphere7
+        const cloud7 = new THREE.Mesh(cloudGeometry5, cloudMaterial);
+        cloud7.position.set(-1, -0.06, 0.45);
+        cloudGroup.add(cloud7);
+        
+        // sphere8
+        const cloudGeometry6 = new THREE.SphereGeometry(0.25, 32, 16);
+        const cloud8 = new THREE.Mesh(cloudGeometry6, cloudMaterial);
+        cloud8.scale.set(1.2, 1, 1);
+        cloud8.rotation.set(0, 0, Math.PI/4);
+        cloud8.position.set(-1.2, -0.1, 0.15);
+        cloudGroup.add(cloud8);
+
+        cloudGroup.position.set(0, 7, 0);
+        groupScene.add(cloudGroup);
         
         this.app.scene.add(groupScene)
     }
