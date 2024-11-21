@@ -43,11 +43,6 @@ class MyFileReader  {
         })
         .then((data) => {
           this.readJson(data);
-		  const idCamera = this.data.getActiveCameraID()
-		  console.log("A camera ativa é: " + idCamera)
-		  console.log(this.data.getCamera(idCamera));
-		  console.log("As camaras todas são: ")
-		  console.log(this.data.getCameras());
           this.onSceneLoadedCallback(this.data);
         })
         .catch((error) =>
