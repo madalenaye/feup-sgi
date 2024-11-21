@@ -110,12 +110,12 @@ class MyFileReader  {
 	 * @param {*} elem 
 	 *  @param {Array} list an array of strings with the valid attribute names	  
 	*/
-	checkForUnknownAttributes(elem, list) {
+	checkForUnknownAttributes(elem, list, key) {
 		// for each elem attributes
 		for (let attrib in elem) {
 				if (list.includes(attrib) === false) {
 					// report!
-					throw new Error("unknown attribute '" + attrib + "' in element");
+					throw new Error("unknown attribute '" + attrib + "' in element " + key);
 				}
 		}
 	}
@@ -497,7 +497,7 @@ class MyFileReader  {
 		}
 
 		if(options.key != "globals"){
-			this.checkForUnknownAttributes(options.elem, this.toArrayOfNames(options.descriptor))
+			this.checkForUnknownAttributes(options.elem, this.toArrayOfNames(options.descriptor), options.key)
 		}
 		// for each descriptor, get the value
 		for (let i=0; i < options.descriptor.length; i++) {
