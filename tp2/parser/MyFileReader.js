@@ -622,6 +622,27 @@ class MyFileReader  {
 		this.data.setSkyBox(this.loadJsonItem({ key: "skybox", elem: skybox, descriptor: this.data.descriptors["skybox"], extras: [["type", "skybox"]]}))
 	}
 
+	validateMipmaps(textures){
+		Object.entries(textures).forEach(([key, texture]) => {
+			const mipmapsDefined = [];
+			for (let i = 0; i <= 7; i++) {
+				if (`mipmap${i}` in texture) {
+					mipmapsDefined.push(i);
+				}
+			}
+	
+			if (mipmapsDefined.length > 0) {
+				for (let i = 0; i <= 7; i++) {
+					if (!(`mipmap${i}` in texture)) {
+						throw new Error(
+							`Inconsistency in texture '${key}': 'mipmap${i}' is missing, but other mipmaps are defined (${mipmapsDefined.join(", ")}).`
+						);
+					}
+				}
+			}
+		});
+	}
+
 	/**
 	 * Load the textures element
 	 * @param {*} rootElement 
@@ -631,6 +652,7 @@ class MyFileReader  {
 		if(!elem){
 			throw new Error("Element 'textures' is missing in the JSON data and it is mandatory to have. However it may be empty");
 		}
+		this.validateMipmaps(elem);
 		this.loadJsonItems(elem, 'texture', this.data.descriptors["texture"], [["type", "texture"]], this.data.addTexture)
 	}
 
@@ -643,7 +665,6 @@ class MyFileReader  {
 		if (!elem) {
 			throw new Error("Element 'materials' is missing in the JSON data and it is mandatory to have.");
 		}
-
 		if(Object.keys(elem).length < 1){
 			throw new Error("Element 'materials': you need to at least define a material.");
 		}
