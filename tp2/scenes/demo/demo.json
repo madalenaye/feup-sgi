@@ -46,32 +46,41 @@
             }
         },
         "textures": {
-            "leftWallTex": {
-                "filepath": "scenes/textures/scratchedWall.jpg"
+            "left_wall_tex": {
+                "filepath": "scenes/textures/scratchedWall.jpg",
+                "isVideo": false
             },
-            "rightWallTex": {
-                "filepath": "scenes/textures/bloodyWall.jpg"
+            "right_wall_tex": {
+                "filepath": "scenes/textures/bloodyWall.jpg",
+                "isVideo": false
             },
-            "floorTex": {
-                "filepath": "scenes/textures/test1.jpg"
+            "floor_tex": {
+                "filepath": "scenes/textures/test1.jpg",
+                "isVideo": false
             },
-            "tableTex": {
-                "filepath": "scenes/textures/table.png"
+            "table_tex": {
+                "filepath": "scenes/textures/table.png",
+                "isVideo": false
             },
-            "crimeWeaponTex": {
-                "filepath": "scenes/textures/bloodyPrints.jpg"
+            "crime_weapon_tex": {
+                "filepath": "scenes/textures/bloodyPrints.jpg",
+                "isVideo": false
             },
-            "tapeTex": {
-                "filepath": "scenes/textures/pTape.jpg"
+            "tape_tex": {
+                "filepath": "scenes/textures/pTape.jpg",
+                "isVideo": false
             },
-            "tapeSupportTex": {
-                "filepath": "scenes/textures/lamp.png"
+            "tape_support_tex": {
+                "filepath": "scenes/textures/lamp.png",
+                "isVideo": false
             },
-            "pineTex": {
-                "filepath": "scenes/textures/pine.png"
+            "pine_tex": {
+                "filepath": "scenes/textures/pine.png",
+                "isVideo": false
             },
-            "vaseTex": {
-                "filepath": "scenes/textures/vase.png"
+            "vase_tex": {
+                "filepath": "scenes/textures/vase.png",
+                "isVideo": false
             }
         },
         "materials": {
@@ -94,7 +103,7 @@
                 "shininess": 10,
                 "transparent": false,
                 "opacity": 1.0,
-                "textureref": "tableTex",
+                "textureref": "table_tex",
                 "texlength_s": 1,
                 "texlength_t": 1
             },
@@ -117,7 +126,7 @@
                 "shininess": 0.0,
                 "transparent": false,
                 "opacity": 1.0,
-                "textureref": "leftWallTex",
+                "textureref": "left_wall_tex",
                 "texlength_s": 15,
                 "texlength_t": 8,
                 "twosided": true
@@ -141,7 +150,7 @@
                 "shininess": 0.0,
                 "transparent": false,
                 "opacity": 1.0,
-                "textureref": "rightWallTex",
+                "textureref": "right_wall_tex",
                 "texlength_s": 15,
                 "texlength_t": 8,
                 "twosided": true
@@ -165,7 +174,7 @@
                 "shininess": 0.0,
                 "transparent": false,
                 "opacity": 1.0,
-                "textureref": "floorTex",
+                "textureref": "floor_tex",
                 "texlength_s": 15,
                 "texlength_t": 15,
                 "twosided": true
@@ -189,7 +198,7 @@
                 "shininess": 0.0,
                 "transparent": false,
                 "opacity": 1.0,
-                "textureref": "crimeWeaponTex",
+                "textureref": "crime_weapon_tex",
                 "texlength_s": 1,
                 "texlength_t": 1
             },
@@ -212,7 +221,7 @@
                 "shininess": 0.0,
                 "transparent": false,
                 "opacity": 1.0,
-                "textureref": "tapeTex",
+                "textureref": "tape_tex",
                 "texlength_s": 1,
                 "texlength_t": 0.4,
                 "twosided": true
@@ -236,7 +245,7 @@
                 "shininess": 0.0,
                 "transparent": false,
                 "opacity": 1.0,
-                "textureref": "tapeSupportTex",
+                "textureref": "tape_support_tex",
                 "texlength_s": 1,
                 "texlength_t": 1
             },
@@ -259,7 +268,7 @@
                 "shininess": 0.0,
                 "transparent": false,
                 "opacity": 1.0,
-                "textureref": "pineTex",
+                "textureref": "pine_tex",
                 "texlength_s": 1,
                 "texlength_t": 1,
                 "wireframe": true
@@ -283,7 +292,7 @@
                 "shininess": 0.0,
                 "transparent": false,
                 "opacity": 1.0,
-                "textureref": "vaseTex",
+                "textureref": "vase_tex",
                 "texlength_s": 1,
                 "texlength_t": 1,
                 "shading": true

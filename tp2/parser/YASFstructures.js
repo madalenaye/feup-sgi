@@ -10,7 +10,7 @@ class YASFstructures{
 
         this.materials = []
         this.lights = [];
-        this.textures = ["tableTex", "leftWallTex", "rightWallTex", "floorTex", "crimeWeaponTex", "tapeTex", "tapeSupportTex", "pineTex", "vaseTex"];
+        this.textures = [];
         
         this.cameras = [];
         this.activeCameraId = null;
@@ -294,6 +294,10 @@ class YASFstructures{
         return this.activeCameraId;
     }
 
+    getCameras(){
+        return this.cameras;
+    }
+
     addCamera(camera) {
         if (camera.type !== "orthogonal" && camera.type !== "perspective") {
             throw new Error("inconsistency: unsupported camera type " + camera.type + "!");
@@ -314,6 +318,10 @@ class YASFstructures{
         return value
     }
 
+    getMaterials(){
+        return this.materials;
+    }
+
     addMaterial(material) {
         let obj = this.getMaterial(material.id); 
         if (obj !== null && obj !== undefined) {
@@ -321,17 +329,17 @@ class YASFstructures{
         }
 
         if(material.textureref !== null){
-            if(!this.textures.includes(material.textureref)){
+            if(!(material.textureref in this.textures)){
                 throw new Error("Inconsistency: Material " + material.id + " has the texture " + material.textureref + " identifier set incorrectly. The texture with the identifier " + material.textureref +" does not exist.");
             }
         }
         if(material.bumpref !== null){
-            if(!this.textures.includes(material.bumpref)){
+            if(!(material.bumpref in this.textures)){
                 throw new Error("Inconsistency: Material " + material.id + " has the texture " + material.bumpref + " identifier set incorrectly. The texture with the identifier " + material.bumpref +" does not exist.");
             }
         }
         if(material.specularref !== null){
-            if(!this.textures.includes(material.specularref)){
+            if(!(material.specularref in this.textures)){
                 throw new Error("Inconsistency: Material " + material.id + " has the texture " + material.specularref + " identifier set incorrectly. The texture with the identifier " + material.specularref +" does not exist.");
             }
         }
@@ -355,6 +363,10 @@ class YASFstructures{
         if (value === undefined) return null
         return value
     };
+
+    getTextures(){
+        return this.textures;
+    }
 
     getLight(id) {	
         let value = this.lights[id]

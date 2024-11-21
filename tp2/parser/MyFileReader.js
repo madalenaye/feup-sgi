@@ -43,6 +43,11 @@ class MyFileReader  {
         })
         .then((data) => {
           this.readJson(data);
+		  const idCamera = this.data.getActiveCameraID()
+		  console.log("A camera ativa é: " + idCamera)
+		  console.log(this.data.getCamera(idCamera));
+		  console.log("As camaras todas são: ")
+		  console.log(this.data.getCameras());
           this.onSceneLoadedCallback(this.data);
         })
         .catch((error) =>
@@ -62,9 +67,9 @@ class MyFileReader  {
 			}
 
 			this.loadGlobals(rootElement);
-			//this.loadTextures(rootElement);
-			//this.loadMaterials(rootElement);
-			//this.loadCameras(rootElement);
+			this.loadTextures(rootElement);
+			this.loadMaterials(rootElement);
+			this.loadCameras(rootElement);
 			//this.loadNodes(rootElement);
 		}
 		catch (error) {
@@ -588,8 +593,6 @@ class MyFileReader  {
 	 * 
 	 */
   loadGlobals(rootElement) {
-	console.log("Qual o valor do rootElement: ")
-	console.log(rootElement)
     let globals = rootElement["globals"];
 	if (!globals) {
 		throw new Error("Element 'globals' is missing in the JSON data and it is mandatory to have.");
@@ -630,6 +633,9 @@ class MyFileReader  {
 	 */
 	loadTextures(rootElement) {
 		let elem = rootElement["textures"];
+		if(!elem){
+			throw new Error("Element 'textures' is missing in the JSON data and it is mandatory to have. However it may be empty");
+		}
 		this.loadJsonItems(elem, 'texture', this.data.descriptors["texture"], [["type", "texture"]], this.data.addTexture)
 	}
 
