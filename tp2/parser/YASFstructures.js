@@ -6,6 +6,7 @@ class YASFstructures{
 
         this.options = null;
         this.fog = null;
+        this.skybox = null;
 
         this.materials = []
         this.lights = [];
@@ -23,7 +24,7 @@ class YASFstructures{
 
         this.descriptors["globals"] = [
             {name: "background", type: "rgb"},
-            {name: "ambient", type: "rgb"},
+            {name: "ambient", type: "rgb"}
         ]
 
         this.descriptors["fog"] = [
@@ -262,6 +263,16 @@ class YASFstructures{
 
     getFog() {
         return this.fog;
+    }
+
+    setSkyBox(skybox){
+        this.skybox = skybox;
+        this.createCustomAttributeIfNotExists(skybox);
+        console.debug("added skyBox " + JSON.stringify(skybox));
+    }
+
+    getSkyBox(){
+        return this.skybox;
     }
 
     setRootId(rootId) {

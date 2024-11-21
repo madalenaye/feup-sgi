@@ -51,7 +51,7 @@ class MyContents {
     }
 
     onAfterSceneLoadedAndBeforeRender(data) {
-        this.printYASF(data)
+        //this.printYASF(data)
     }
 
     update() {

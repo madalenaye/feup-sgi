@@ -61,11 +61,10 @@ class MyFileReader  {
 				throw new Error("Root element 'yasf' is missing in the JSON data.");
 			}
 
-			//this.loadGlobals(rootElement);
-			this.loadFog(rootElement);
+			this.loadGlobals(rootElement);
 			//this.loadTextures(rootElement);
-			this.loadMaterials(rootElement);
-			this.loadCameras(rootElement);
+			//this.loadMaterials(rootElement);
+			//this.loadCameras(rootElement);
 			//this.loadNodes(rootElement);
 		}
 		catch (error) {
@@ -497,8 +496,9 @@ class MyFileReader  {
 			}
 		}
 
-		this.checkForUnknownAttributes(options.elem, this.toArrayOfNames(options.descriptor))
-
+		if(options.key != "globals"){
+			this.checkForUnknownAttributes(options.elem, this.toArrayOfNames(options.descriptor))
+		}
 		// for each descriptor, get the value
 		for (let i=0; i < options.descriptor.length; i++) {
 			let value = null;
@@ -588,13 +588,20 @@ class MyFileReader  {
 	 * 
 	 */
   loadGlobals(rootElement) {
+	console.log("Qual o valor do rootElement: ")
+	console.log(rootElement)
     let globals = rootElement["globals"];
+	if (!globals) {
+		throw new Error("Element 'globals' is missing in the JSON data and it is mandatory to have.");
+	}
     this.data.setOptions(this.loadJsonItem({
       key: "globals",
       elem: globals,
       descriptor: this.data.descriptors["globals"],
       extras: [["type", "globals"]]
     }));
+	this.loadFog(globals);
+	this.loadSkyBox(globals);
   }
 
 	/*
@@ -607,7 +614,15 @@ class MyFileReader  {
 		throw new Error("Element 'fog' is missing in the JSON data and it is mandatory to have.");
 	}
 	this.data.setFog(this.loadJsonItem({ key: "fog", elem: fog, descriptor: this.data.descriptors["fog"], extras: [["type", "fog"]]}))
-  }
+  	}
+
+	loadSkyBox(rootElement){
+		let skybox = rootElement["skybox"];
+		if(!skybox){
+			throw new Error("Element 'skybox' is missing in the JSON data and it is mandatory to have.");
+		}
+		this.data.setSkyBox(this.loadJsonItem({ key: "skybox", elem: skybox, descriptor: this.data.descriptors["skybox"], extras: [["type", "skybox"]]}))
+	}
 
 	/**
 	 * Load the textures element

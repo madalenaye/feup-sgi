@@ -4,22 +4,46 @@
             "background": {
                 "r": 0.0,
                 "g": 0.0,
-                "b": 0.0
+                "b": 1.0
             },
             "ambient": {
                 "r": 0.0,
-                "g": 0.0,
-                "b": 0.0
-            }
-        },
-        "fog": {
-            "color": {
-                "r": 1.0,
-                "g": 1.0,
-                "b": 1.0
+                "g": 5.0,
+                "b": 2.0
             },
-            "near": 1.0,
-            "far": 100.0
+            "fog": {
+                "color": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0
+                },
+                "near": 1.0,
+                "far": 100.0
+            },
+            "skybox": {
+                "size": {
+                    "x": 100.0,
+                    "y": 100.0,
+                    "z": 100.0
+                },
+                "center":{
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "intensity": 0.0,
+                "front": "scenes/skybox/front.png",
+                "back": "scenes/skybox/back.png",
+                "up": "scenes/skybox/top.png",
+                "down": "scenes/skybox/bottom.png",
+                "left": "scenes/skybox/left.png",
+                "right": "scenes/skybox/right.png"
+            }
         },
         "textures": {
             "leftWallTex": {
