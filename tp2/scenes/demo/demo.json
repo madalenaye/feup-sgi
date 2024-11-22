@@ -410,12 +410,12 @@
                     }
                 ],
                 "materialref": {
-                    "materialId": "tableApp"
+                    "materialId": "table_app"
                 },
                 "children": {
-                    "tableTop": {
+                    "table_top": {
                         "type": "noderef",
-                        "nodeId": "tableTop"
+                        "nodeId": "table_top"
                     },
                     "leg1": {
                         "type": "noderef",
@@ -435,7 +435,7 @@
                     }
                 }
             },
-            "tableTop": {
+            "table_top": {
                 "type": "node",
                 "transforms": [
                     {
@@ -456,9 +456,9 @@
                     }
                 ],
                 "children": {
-                    "unitCube": {
+                    "unit_cube": {
                         "type": "noderef",
-                        "nodeId": "unitCube"
+                        "nodeId": "unit_cube"
                     }
                 }
             },
@@ -475,7 +475,7 @@
                     }
                 ],
                 "children": {
-                    "unitCube": {
+                    "unit_cube": {
                         "type": "noderef",
                         "nodeId": "leg"
                     }
@@ -494,7 +494,7 @@
                     }
                 ],
                 "children": {
-                    "unitCube": {
+                    "unit_cube": {
                         "type": "noderef",
                         "nodeId": "leg"
                     }
@@ -513,7 +513,7 @@
                     }
                 ],
                 "children": {
-                    "unitCube": {
+                    "unit_cube": {
                         "type": "noderef",
                         "nodeId": "leg"
                     }
@@ -532,13 +532,26 @@
                     }
                 ],
                 "children": {
-                    "unitCube": {
+                    "unit_cube": {
                         "type": "noderef",
                         "nodeId": "leg"
                     }
                 }
             },
-            "unitCube": {
+            "leg": {
+                "type": "node",
+                "children": {
+                    "tree_trunk_cylinder":{
+                        "type": "cylinder",
+                        "base": 0.3,
+                        "top": 0.3,
+                        "height": 1.5,
+                        "slices": 32,
+                        "stacks": 1
+                    }
+                }
+            },
+            "unit_cube": {
                 "type": "node",
                 "children": {
                     "rectangle1": {

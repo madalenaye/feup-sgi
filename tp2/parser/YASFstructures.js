@@ -138,8 +138,8 @@ class YASFstructures{
             {name: "slices", type: "integer"},
             {name: "stacks", type: "integer"},
             {name: "capsclose", type: "boolean", required: false, default: false},
-            {name: "thetaStart", type: "float", required: false, default: 0.0},
-            {name: "thetaLength", type: "float", required: false, default: 2 * Math.PI},
+            {name: "thetastart", type: "float", required: false, default: 0.0},
+            {name: "thetalength", type: "float", required: false, default: 2 * Math.PI},
             {name: "distance", type: "float", required: false, default: 0.0}, // The distance at which to display this level of detail. Default 0.0.  
         ]
 
@@ -162,6 +162,26 @@ class YASFstructures{
             {name: "slices", type: "integer"},
             {name: "color_c", type: "rgb"},
             {name: "color_p", type: "rgb"},
+        ]
+
+        this.descriptors["ring"] = [
+            {name: "type", type: "string"},
+            {name: "inner", type: "float"},
+            {name: "outer", type: "float"},
+            {name: "thetasegments", type: "integer"},
+            {name: "phisegments", type: "integer"},
+            {name: "thetastart", type: "float", required: false, default: 0.0},
+            {name: "thetalength", type: "float", required: false, default: 2 * Math.PI},
+            {name: "distance", type: "float", required: false, default: 0.0}, // The distance at which to display this level of detail. Default 0.0.  
+        ]
+
+        this.descriptors["circle"] = [
+            {name: "type", type: "string"},
+            {name: "radius", type: "float"},
+            {name: "segments", type: "integer"},
+            {name: "thetastart", type: "float", required: false, default: 0.0},
+            {name: "thetalength", type: "float", required: false, default: 2 * Math.PI},
+            {name: "distance", type: "float", required: false, default: 0.0}, // The distance at which to display this level of detail. Default 0.0.  
         ]
 
         // to be used in final classes of TP2 or in TP3
@@ -237,7 +257,7 @@ class YASFstructures{
         ]
 
         this.primaryNodeIds = ["globals", "fog" ,"textures", "materials", "cameras", "graph"]
-        this.primitiveIds = ["cylinder", "rectangle", "triangle", "sphere", "nurbs" , "box", "model3d", "skybox", "lod", "polygon"]
+        this.primitiveIds = ["cylinder", "rectangle", "triangle", "sphere", "nurbs" , "box", "model3d", "skybox", "lod", "polygon", "ring", "circle"]
         this.lightIds = ["spotlight", "pointlight", "directionallight"]
     }
 
@@ -273,6 +293,10 @@ class YASFstructures{
 
     getSkyBox(){
         return this.skybox;
+    }
+
+    getRootId(){
+        return this.rootId;
     }
 
     setRootId(rootId) {
@@ -384,6 +408,10 @@ class YASFstructures{
         console.debug("added light " + JSON.stringify(light));
     }
 
+    getNodes(){
+        return this.nodes;
+    }
+
     getNode(id) {	
         let value = this.nodes[id];
         if (value === undefined) return null
@@ -429,6 +457,19 @@ class YASFstructures{
         let obj = { type : "primitive", subtype: null, representations: [], loaded : false}
         return obj
       }
+
+    findParentById(searchId) {
+        for (const key in this.nodes) {
+            const node = this.nodes[key];
+    
+            // Verificar se o nó atual possui filhos e se algum tem o ID buscado
+            if (node.children && node.children.some(child => child.id === searchId)) {
+                return node.materialIds[0]; // Retorna o ID do nó pai
+            }
+        }
+    
+        return null; // Retorna null se o pai não for encontrado
+    }
 
 }
 export { YASFstructures };

@@ -66,13 +66,16 @@
         },
         "textures": {
             "floor_t": {
-                "filepath": "scenes/textures/grass.png"
+                "filepath": "scenes/textures/grass.png",
+                "isVideo": false
             },
             "trunk_t": {
-                "filepath": "scenes/textures/trunk.jpg"
+                "filepath": "scenes/textures/trunk.jpg",
+                "isVideo": false
             },
             "fruit_t":{
-                "filepath": "scenes/textures/orange.jpg"
+                "filepath": "scenes/textures/orange.jpg",
+                "isVideo": false
             }
         },
         "materials": {

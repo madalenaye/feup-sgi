@@ -65,7 +65,7 @@ class MyFileReader  {
 			this.loadTextures(rootElement);
 			this.loadMaterials(rootElement);
 			this.loadCameras(rootElement);
-			//this.loadNodes(rootElement);
+			this.loadNodes(rootElement);
 		}
 		catch (error) {
 			this.errorMessage = error;
@@ -729,23 +729,33 @@ class MyFileReader  {
 		} 
 	}
 
+	checkMaterialId(materialId, nodeId){
+		let result = this.data.getMaterial(materialId);
+		if(result == null){
+			throw new Error("node " + nodeId + " has a materialId, " + materialId + ", which does not exist in the 'materials' section" );
+		}
+	}
+
+
 	/**
 	 * Load the nodes element
 	 * @param {*} rootElement 
 	 */
 	loadNodes(rootElement) {
-    let graphElem = rootElement["graph"];
+		let graphElem = rootElement["graph"];
+	
+		for (let key in graphElem) {
+			this.checkLowercase(key, key);
+			let elem = graphElem[key];
 
-    for (let key in graphElem) {
-      let elem = graphElem[key];
+			if (key == "rootid") {
+				this.data.setRootId(elem);
+				continue;
+			}
 
-      if (key == "rootid") {
-        this.data.setRootId(elem);
-        continue;
-      }
-
-      this.loadNode(key, elem);
-    }
+			this.loadNode(key, elem);
+		}
+	
 	}
 	
 	/**
@@ -771,12 +781,18 @@ class MyFileReader  {
 		// load material refeences
 		let materialsRef = nodeElement["materialref"];
 		if (materialsRef != null) {
-      if (materialsRef["materialId"] === null || materialsRef["materialId"] === undefined) {
-        throw new Error("node " + id + " has a materialref but not a materialId");
+      		if (materialsRef["materialId"] === null || materialsRef["materialId"] === undefined) {
+        		throw new Error("node " + id + " has a materialref but not a materialId");
 			}
-			
 			let materialId = this.getString(materialsRef, "materialId");
+			this.checkMaterialId(materialId, id);
 			obj['materialIds'].push(materialId);
+		}
+		else{
+			let materialParent = this.data.findParentById(id);
+			if(materialParent != null){
+				obj['materialIds'].push(materialParent);
+			}
 		}
 
 		// load children (primitives or other node references)
