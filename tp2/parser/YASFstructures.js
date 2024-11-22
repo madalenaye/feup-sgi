@@ -204,7 +204,9 @@ class YASFstructures{
         ]
 
         this.descriptors["controlpoint"] = [
-            {name: "position", type: "vector3"}
+            {name: "x", type: "float"},
+            {name: "y", type: "float"},
+            {name: "z", type: "float"}
         ]
 
         // -------------------

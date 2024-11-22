@@ -541,13 +541,18 @@
             "leg": {
                 "type": "node",
                 "children": {
-                    "tree_trunk_cylinder":{
-                        "type": "cylinder",
-                        "base": 0.3,
-                        "top": 0.3,
-                        "height": 1.5,
-                        "slices": 32,
-                        "stacks": 1
+                    "nurbs_leg":{
+                        "type": "nurbs",
+                        "degree_u": 1,
+                        "degree_v": 1,
+                        "parts_u": 32,
+                        "parts_v": 32,
+                        "controlpoints": [
+                                {"x": 2.0, "y": 1.0, "z": 3.0},
+                                {"x": -2.0, "y": 3.0, "z": 1.0},
+                                {"x": 4.0, "y": 2.0, "z": 4.0},
+                                {"x": -2.0, "y": -2.0, "z": -2.0}
+                        ]
                     }
                 }
             },

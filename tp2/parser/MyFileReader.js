@@ -43,6 +43,7 @@ class MyFileReader  {
         })
         .then((data) => {
           this.readJson(data);
+		  console.log(this.data.getNodes());
           this.onSceneLoadedCallback(this.data);
         })
         .catch((error) =>
@@ -795,6 +796,13 @@ class MyFileReader  {
 			}
 		}
 
+		//Shadows
+		let castShadows = this.getBoolean(nodeElement, "castshadows", false, id);
+		obj.castShadows = castShadows;
+
+		let receiveShadows = this.getBoolean(nodeElement, "receiveshadows", false, id);
+		obj.receiveShadows = receiveShadows;
+
 		// load children (primitives or other node references)
 		let children = nodeElement["children"];
 		if (children == null) {
@@ -889,6 +897,14 @@ class MyFileReader  {
 		return obj;
 	}
 
+	checkControlPoints(degree_u, degree_v, lengthControlPoints){
+		let correctPoints = (degree_u+1)*(degree_v+1)
+
+		if(lengthControlPoints != correctPoints){
+			throw new Error("The control points are poorly defined, you should have " + correctPoints + " control points and have " + lengthControlPoints);
+		}
+	}
+
 	/**
 	 * For a given primitive element, loads the available representations into the primitive object
 	 * @param {XML element} parentElem 
@@ -903,9 +919,13 @@ class MyFileReader  {
       extras: [["type", "primitive"], ["subtype", primType]]
     })
 
+	if(primType == "nurbs"){
+		this.checkControlPoints(obj.degree_u, obj.degree_v, obj.controlpoints.length)
+	}
+
     primitiveObj.subtype = primType;
     primitiveObj.representations.push(obj);
-
+	
     return;
 	}
 }
