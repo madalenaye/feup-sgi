@@ -9,7 +9,8 @@
             "ambient": {
                 "r": 0.0,
                 "g": 5.0,
-                "b": 2.0
+                "b": 2.0,
+                "intensity": 20.0
             },
             "fog": {
                 "color": {
@@ -341,28 +342,25 @@
             "scene": {
                 "type": "node",
                 "children": {
-                    "table": {
-                        "type": "noderef",
-                        "nodeId": "table"
-                    },
-                    "pointLight": {
-                        "type": "pointlight",
-                        "enabled": true,
-                        "color": {
-                            "r": 0.5,
-                            "g": 0.6,
-                            "b": 0.8
-                        },
-                        "intensity": 1.0,
-                        "distance": 1000,
-                        "decay": 2.0,
-                        "castshadow": false,
-                        "position": {
-                            "x": 33.75,
-                            "y": 37.3,
-                            "z": 33.75
-                        }
-                    }
+                    "nodesList": ["table", "pointlight"]
+                }
+            },
+            "pointlight": {
+                "type": "pointlight",
+                "enabled": true,
+                "color": {
+                    "r": 0.5,
+                    "g": 0.6,
+                    "b": 0.8
+                },
+                "intensity": 1.0,
+                "distance": 1000,
+                "decay": 2.0,
+                "castshadow": false,
+                "position": {
+                    "x": 33.75,
+                    "y": 37.3,
+                    "z": 33.75
                 }
             },
             "table": {
@@ -413,26 +411,7 @@
                     "materialId": "table_app"
                 },
                 "children": {
-                    "table_top": {
-                        "type": "noderef",
-                        "nodeId": "table_top"
-                    },
-                    "leg1": {
-                        "type": "noderef",
-                        "nodeId": "leg1"
-                    },
-                    "leg2": {
-                        "type": "noderef",
-                        "nodeId": "leg2"
-                    },
-                    "leg3": {
-                        "type": "noderef",
-                        "nodeId": "leg3"
-                    },
-                    "leg4": {
-                        "type": "noderef",
-                        "nodeId": "leg4"
-                    }
+                    "nodesList": ["table_top", "leg1", "leg2", "leg3", "leg4"]
                 }
             },
             "table_top": {
@@ -456,10 +435,7 @@
                     }
                 ],
                 "children": {
-                    "unit_cube": {
-                        "type": "noderef",
-                        "nodeId": "unit_cube"
-                    }
+                    "nodesList": ["unit_cube"]
                 }
             },
             "leg1": {
@@ -475,10 +451,7 @@
                     }
                 ],
                 "children": {
-                    "unit_cube": {
-                        "type": "noderef",
-                        "nodeId": "leg"
-                    }
+                    "nodesList": ["leg"]
                 }
             },
             "leg2": {
@@ -494,10 +467,7 @@
                     }
                 ],
                 "children": {
-                    "unit_cube": {
-                        "type": "noderef",
-                        "nodeId": "leg"
-                    }
+                    "nodesList": ["leg"]
                 }
             },
             "leg3": {
@@ -513,10 +483,7 @@
                     }
                 ],
                 "children": {
-                    "unit_cube": {
-                        "type": "noderef",
-                        "nodeId": "leg"
-                    }
+                    "nodesList": ["leg"]
                 }
             },
             "leg4": {
@@ -532,57 +499,35 @@
                     }
                 ],
                 "children": {
-                    "unit_cube": {
-                        "type": "noderef",
-                        "nodeId": "leg"
-                    }
+                    "nodesList": ["leg"]
                 }
             },
             "leg": {
                 "type": "node",
+                "materialref": {
+                    "materialId": "crime_weapon_app"
+                },
                 "children": {
-                    "nurbs_leg":{
-                        "type": "nurbs",
-                        "degree_u": 1,
-                        "degree_v": 1,
-                        "parts_u": 32,
-                        "parts_v": 32,
-                        "controlpoints": [
-                                {"x": 2.0, "y": 1.0, "z": 3.0},
-                                {"x": -2.0, "y": 3.0, "z": 1.0},
-                                {"x": 4.0, "y": 2.0, "z": 4.0},
-                                {"x": -2.0, "y": -2.0, "z": -2.0}
-                        ]
-                    }
+                    "nodesList": ["nurbs_leg"]
                 }
+            },
+            "nurbs_leg":{
+                "type": "nurbs",
+                "degree_u": 1,
+                "degree_v": 1,
+                "parts_u": 32,
+                "parts_v": 32,
+                "controlpoints": [
+                        {"x": 2.0, "y": 1.0, "z": 3.0},
+                        {"x": -2.0, "y": 3.0, "z": 1.0},
+                        {"x": 4.0, "y": 2.0, "z": 4.0},
+                        {"x": -2.0, "y": -2.0, "z": -2.0}
+                ]
             },
             "unit_cube": {
                 "type": "node",
                 "children": {
-                    "rectangle1": {
-                        "type": "noderef",
-                        "nodeId": "rectangle1"
-                    },
-                    "rectangle2": {
-                        "type": "noderef",
-                        "nodeId": "rectangle2"
-                    },
-                    "rectangle3": {
-                        "type": "noderef",
-                        "nodeId": "rectangle3"
-                    },
-                    "rectangle4": {
-                        "type": "noderef",
-                        "nodeId": "rectangle4"
-                    },
-                    "rectangle5": {
-                        "type": "noderef",
-                        "nodeId": "rectangle5"
-                    },
-                    "rectangle6": {
-                        "type": "noderef",
-                        "nodeId": "rectangle6"
-                    }
+                    "nodesList": ["rectangle1", "rectangle2", "rectangle3", "rectangle4", "rectangle5", "rectangle6"]
                 }
             },
             "rectangle1": {
@@ -606,17 +551,7 @@
                     }
                 ],
                 "children": {
-                    "rectanglePrim": {
-                        "type": "rectangle",
-                        "xy1": {
-                            "x": -0.5,
-                            "y": -0.5
-                        },
-                        "xy2": {
-                            "x": 0.5,
-                            "y": 0.5
-                        }
-                    }
+                    "nodesList": ["rectangle_prim"]
                 }
             },
             "rectangle2": {
@@ -632,17 +567,7 @@
                     }
                 ],
                 "children": {
-                    "rectanglePrim": {
-                        "type": "rectangle",
-                        "xy1": {
-                            "x": -0.5,
-                            "y": -0.5
-                        },
-                        "xy2": {
-                            "x": 0.5,
-                            "y": 0.5
-                        }
-                    }
+                    "nodesList": ["rectangle_prim"]
                 }
             },
             "rectangle3": {
@@ -666,17 +591,7 @@
                     }
                 ],
                 "children": {
-                    "rectanglePrim": {
-                        "type": "rectangle",
-                        "xy1": {
-                            "x": -0.5,
-                            "y": -0.5
-                        },
-                        "xy2": {
-                            "x": 0.5,
-                            "y": 0.5
-                        }
-                    }
+                    "nodesList": ["rectangle_prim"]
                 }
             },
             "rectangle4": {
@@ -700,17 +615,7 @@
                     }
                 ],
                 "children": {
-                    "rectanglePrim": {
-                        "type": "rectangle",
-                        "xy1": {
-                            "x": -0.5,
-                            "y": -0.5
-                        },
-                        "xy2": {
-                            "x": 0.5,
-                            "y": 0.5
-                        }
-                    }
+                    "nodesList": ["rectangle_prim"]
                 }
             },
             "rectangle5": {
@@ -734,17 +639,7 @@
                     }
                 ],
                 "children": {
-                    "rectanglePrim": {
-                        "type": "rectangle",
-                        "xy1": {
-                            "x": -0.5,
-                            "y": -0.5
-                        },
-                        "xy2": {
-                            "x": 0.5,
-                            "y": 0.5
-                        }
-                    }
+                    "nodesList": ["rectangle_prim"]
                 }
             },
             "rectangle6": {
@@ -768,17 +663,18 @@
                     }
                 ],
                 "children": {
-                    "rectanglePrim": {
-                        "type": "rectangle",
-                        "xy1": {
-                            "x": -0.5,
-                            "y": -0.5
-                        },
-                        "xy2": {
-                            "x": 0.5,
-                            "y": 0.5
-                        }
-                    }
+                    "nodesList": ["rectangle_prim"]
+                }
+            },
+            "rectangle_prim": {
+                "type": "rectangle",
+                "xy1": {
+                    "x": -0.5,
+                    "y": -0.5
+                },
+                "xy2": {
+                    "x": 0.5,
+                    "y": 0.5
                 }
             }
         }

@@ -182,6 +182,38 @@ class MyFileReader  {
 		return this.getVectorN(value, ["r", "g", "b"], yasfAttribute, attributeName);
 	}
 
+	getRGBI(element, attributeName, required, yasfAttribute){
+		if (required == undefined) required = true;
+		
+		if (element == null) {
+			throw new Error("element is null."); 
+		}
+		if (attributeName == null) {
+			throw new Error("rgb attribute name is null."); 
+		}
+			
+		let value = element[attributeName];
+		if (value == null) {
+			if (required) {
+				throw new Error("element '" + yasfAttribute + "': rgb value is null for attribute '" + attributeName + "'."); 
+			}
+			return null;
+		}
+		else{
+			for (let component of ["r", "g", "b"]) {
+				if (value[component] < 0 || value[component] > 255) {
+					throw new Error(
+						"'Invalid RGB value for '" +
+						attributeName + "' in component '" + component +
+						"' of element '" + yasfAttribute + "'. It must be between 0 and 255."
+					);
+				}
+			}
+		}
+
+		return this.getVectorN(value, ["r", "g", "b", "intensity"], yasfAttribute, attributeName);
+	}
+
 	/**
 	 * returns a rectangle2D from an element for a particular attribute
 	 * @param {*} element the xml element
@@ -504,6 +536,7 @@ class MyFileReader  {
 		for (let i=0; i < options.descriptor.length; i++) {
 			let value = null;
 			let descriptor = options.descriptor[i]
+
 			if (descriptor.type==="string")  {
 				value = this.getString(options.elem, descriptor.name, descriptor.required);
       }
@@ -525,6 +558,9 @@ class MyFileReader  {
 			else if (descriptor.type==="rgb") {
 				value = this.getRGBA(options.elem, descriptor.name, descriptor.required, options.key);
       }
+	  		else if (descriptor.type==="rgbi") {
+				value = this.getRGBI(options.elem, descriptor.name, descriptor.required, options.key);
+	  }
 			else if (descriptor.type==="rectangle2D") {
 				value = this.getRectangle2D(options.elem, descriptor.name, descriptor.required);
       }
@@ -754,7 +790,11 @@ class MyFileReader  {
 				continue;
 			}
 
-			this.loadNode(key, elem);
+			let nodeType = elem["type"]
+			if(!this.data.primitiveIds.includes(nodeType) && !this.data.lightIds.includes(nodeType)){
+				this.loadNode(key, elem, graphElem);
+			}
+			
 		}
 	
 	}
@@ -763,7 +803,7 @@ class MyFileReader  {
 	 * Load the data for a particular node elemment
 	 * @param {*} nodeElement the xml node element
 	 */
-	loadNode(id, nodeElement) {
+	loadNode(id, nodeElement, graphElem) {
     let nodeType = nodeElement["type"];
 	
 		// get if node previously added (for instance because it was a child ref in other node)
@@ -808,7 +848,7 @@ class MyFileReader  {
 		if (children == null) {
 			throw new Error("in node " + id + ", a children node is required");
 		}
-		this.loadChildren(obj, children);
+		this.loadChildren(obj, children, graphElem);
 		obj.loaded = true;
 	}
 	
@@ -849,19 +889,24 @@ class MyFileReader  {
 	 * @param {*} childrenElement the xml children element
 	 */
 
-	loadChildren(nodeObj, childrenElement) {
-    for (let child in childrenElement) {
-      let childElement = childrenElement[child];
-      const nodeType = childElement["type"];
+	loadChildren(nodeObj, childrenElement, graphElem) {
+	for (let nodeId of childrenElement["nodesList"]) {
 
-      if (nodeType == "noderef") {
-        let id = this.getString(childElement, "nodeId");
+		let childElement = graphElem[nodeId];
+
+		if (!childElement) {
+			throw new Error(`Node '${nodeId}' not found in 'graph'.`);
+		}
+		
+		const nodeType = childElement["type"];
+
+      if (nodeType == "node") {
         // add a node ref: if the node does not exist
         // create an empty one and reference it.
-        let reference = this.data.getNode(id);
+        let reference = this.data.getNode(nodeId);
         if (reference === null) {
           // does not exist, yet. create it!
-          reference = this.data.createEmptyNode(id);
+          reference = this.data.createEmptyNode(nodeId);
         }
         // reference it.
         this.data.addChildToNode(nodeObj, reference)
@@ -872,7 +917,7 @@ class MyFileReader  {
         this.data.addChildToNode(nodeObj, primitiveObj);
       }
       else if (this.data.lightIds.includes(nodeType)) {
-        let lightObj = this.loadLight(child, childElement, nodeType)					
+        let lightObj = this.loadLight(nodeId, childElement, nodeType)				
         this.data.addChildToNode(nodeObj, lightObj)
       }
       else {
