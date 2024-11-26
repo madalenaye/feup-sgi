@@ -342,25 +342,25 @@
             "scene": {
                 "type": "node",
                 "children": {
-                    "nodesList": ["table", "pointlight"]
-                }
-            },
-            "pointlight": {
-                "type": "pointlight",
-                "enabled": true,
-                "color": {
-                    "r": 0.5,
-                    "g": 0.6,
-                    "b": 0.8
-                },
-                "intensity": 1.0,
-                "distance": 1000,
-                "decay": 2.0,
-                "castshadow": false,
-                "position": {
-                    "x": 33.75,
-                    "y": 37.3,
-                    "z": 33.75
+                    "nodesList": ["table"],
+                    "pointlight": {
+                        "type": "pointlight",
+                        "enabled": true,
+                        "color": {
+                            "r": 0.5,
+                            "g": 0.6,
+                            "b": 0.8
+                        },
+                        "intensity": 1.0,
+                        "distance": 1000,
+                        "decay": 2.0,
+                        "castshadow": false,
+                        "position": {
+                            "x": 33.75,
+                            "y": 37.3,
+                            "z": 33.75
+                        }
+                    }
                 }
             },
             "table": {
