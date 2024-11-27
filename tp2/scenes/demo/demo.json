@@ -48,39 +48,39 @@
         },
         "textures": {
             "left_wall_tex": {
-                "filepath": "scenes/textures/scratchedWall.jpg",
+                "filepath": "scenes/demo/textures/scratchedWall.jpg",
                 "isVideo": false
             },
             "right_wall_tex": {
-                "filepath": "scenes/textures/bloodyWall.jpg",
+                "filepath": "scenes/demo/textures/bloodyWall.jpg",
                 "isVideo": false
             },
             "floor_tex": {
-                "filepath": "scenes/textures/test1.jpg",
+                "filepath": "scenes/demo/textures/test1.jpg",
                 "isVideo": false
             },
             "table_tex": {
-                "filepath": "scenes/textures/table.png",
+                "filepath": "scenes/demo/textures/table.png",
                 "isVideo": false
             },
             "crime_weapon_tex": {
-                "filepath": "scenes/textures/bloodyPrints.jpg",
+                "filepath": "scenes/demo/textures/bloodyPrints.jpg",
                 "isVideo": false
             },
             "tape_tex": {
-                "filepath": "scenes/textures/pTape.jpg",
+                "filepath": "scenes/demo/textures/pTape.jpg",
                 "isVideo": false
             },
             "tape_support_tex": {
-                "filepath": "scenes/textures/lamp.png",
+                "filepath": "scenes/demo/textures/lamp.png",
                 "isVideo": false
             },
             "pine_tex": {
-                "filepath": "scenes/textures/pine.png",
+                "filepath": "scenes/demo/textures/pine.png",
                 "isVideo": false
             },
             "vase_tex": {
-                "filepath": "scenes/textures/vase.png",
+                "filepath": "scenes/demo/textures/vase.png",
                 "isVideo": false
             }
         },

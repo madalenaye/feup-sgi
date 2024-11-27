@@ -3,6 +3,7 @@ import { MyAxis } from './MyAxis.js';
 import { MyFileReader } from './parser/MyFileReader.js';
 import {loadCameras} from './loaders/LoadCameras.js'
 import { loadGloabls } from './loaders/LoadGlobals.js';
+import { loadTextures } from './loaders/LoadTextures.js';
 
 /**
  *  This class contains the contents of out application
@@ -72,6 +73,8 @@ class MyContents {
         this.app.lights["ambient"] = globalsStructure.ambient;
         this.app.scene.fog = globalsStructure.fog
         this.app.scene.add(globalsStructure.skybox);
+
+        let textures = loadTextures.loadTextures(data.getTextures());
     }
 
     update() {
