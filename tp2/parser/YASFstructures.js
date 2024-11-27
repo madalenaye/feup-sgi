@@ -464,13 +464,24 @@ class YASFstructures{
         for (const key in this.nodes) {
             const node = this.nodes[key];
     
-            // Verificar se o nó atual possui filhos e se algum tem o ID buscado
             if (node.children && node.children.some(child => child.id === searchId)) {
-                return node.materialIds[0]; // Retorna o ID do nó pai
+                return node.materialIds[0]; 
             }
         }
     
-        return null; // Retorna null se o pai não for encontrado
+        return null;
+    }
+
+    findParentById_node(searchId) {
+        for (const key in this.nodes) {
+            const node = this.nodes[key];
+    
+            if (node.children && node.children.some(child => child.id === searchId)) {
+                return node 
+            }
+        }
+    
+        return null;
     }
 
 }

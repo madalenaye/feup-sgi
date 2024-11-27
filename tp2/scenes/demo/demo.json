@@ -410,9 +410,12 @@
                 "materialref": {
                     "materialId": "table_app"
                 },
+                
                 "children": {
                     "nodesList": ["table_top", "leg1", "leg2", "leg3", "leg4"]
-                }
+                },
+                "castshadows":false,
+                "receiveshadows": false
             },
             "table_top": {
                 "type": "node",
@@ -436,7 +439,9 @@
                 ],
                 "children": {
                     "nodesList": ["unit_cube"]
-                }
+                },
+                "castshadows": true,
+                "receiveshadows":true
             },
             "leg1": {
                 "type": "node",

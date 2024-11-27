@@ -837,11 +837,64 @@ class MyFileReader  {
 		}
 
 		//Shadows
-		let castShadows = this.getBoolean(nodeElement, "castshadows", false, id);
-		obj.castShadows = castShadows;
+		let nodeParent = this.data.findParentById_node(id)
 
-		let receiveShadows = this.getBoolean(nodeElement, "receiveshadows", false, id);
-		obj.receiveShadows = receiveShadows;
+		if(nodeParent != null){
+			
+			let changedCastShadows = true;
+			let changedReceiveShadows = true;
+			
+			if(nodeParent.castShadows == true){
+				changedCastShadows = false;
+			}
+			if(nodeParent.receiveShadows == true){
+				changedReceiveShadows = false;
+			}
+
+			let castShadows = this.getBoolean(nodeElement, "castshadows", false, id);
+			if(changedCastShadows == true){
+				obj.castShadows = castShadows;
+			}
+			else if(changedCastShadows == false){
+				if(castShadows !=null){
+					if(castShadows == true){
+						obj.castShadows = castShadows;
+					}
+					else{
+						throw new Error("The parent, " + nodeParent.id + ", of this node, " + id + ", has the 'castShadows' property set to 'true'. It cannot be changed");
+					}
+				}
+				else{
+					obj.castShadows = nodeParent.castShadows;
+				}
+			}
+
+			let receiveShadows = this.getBoolean(nodeElement, "receiveshadows", false, id);
+			if(changedReceiveShadows == true){
+				obj.receiveShadows = receiveShadows;
+			}
+			else if(changedReceiveShadows == false){
+				if(receiveShadows != null){
+					if(receiveShadows == true){
+						obj.receiveShadows = receiveShadows;
+					}
+					else{
+						throw new Error("The parent, " + nodeParent.id + ", of this node, " + id + ", has the 'receiveShadows' property set to 'true'. It cannot be changed");
+					}
+				}
+				else{
+					obj.receiveShadows = nodeParent.receiveShadows;
+				}
+			}
+			
+		}
+		else{
+			let castShadows = this.getBoolean(nodeElement, "castshadows", false, id);
+			obj.castShadows = castShadows;
+
+			let receiveShadows = this.getBoolean(nodeElement, "receiveshadows", false, id);
+			obj.receiveShadows = receiveShadows;
+		}
 
 		// load children (primitives or other node references)
 		let children = nodeElement["children"];
