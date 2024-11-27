@@ -23,6 +23,9 @@ class MyApp  {
         this.cameras = []
         this.frustumSize = 20
 
+        this.objects = [];
+        this.lights = [];
+
         // other attributes
         this.renderer = null
         this.controls = null
@@ -59,12 +62,16 @@ class MyApp  {
 
         // manage window resizes
         window.addEventListener('resize', this.onResize.bind(this), false );
+
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
     }
 
-    /**
+     /**
      * initializes all the cameras
      */
-    initCameras() {
+     initCameras() {
         const aspect = window.innerWidth / window.innerHeight;
 
         // Create a basic perspective camera
