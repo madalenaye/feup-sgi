@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { MyAxis } from './MyAxis.js';
 import { MyFileReader } from './parser/MyFileReader.js';
 import {loadCameras} from './loaders/LoadCameras.js'
+import { loadGloabls } from './loaders/LoadGlobals.js';
 
 /**
  *  This class contains the contents of out application
@@ -64,6 +65,13 @@ class MyContents {
         if (activeCameraId && this.app.cameras[activeCameraId]) {
             this.app.setActiveCamera(activeCameraId);
         }
+
+        let globalsStructure = loadGloabls.loadGloabls(data);
+        this.app.scene.background = globalsStructure.background;
+        this.app.scene.add(globalsStructure.ambient);
+        this.app.lights["ambient"] = globalsStructure.ambient;
+        this.app.scene.fog = globalsStructure.fog
+        this.app.scene.add(globalsStructure.skybox);
     }
 
     update() {

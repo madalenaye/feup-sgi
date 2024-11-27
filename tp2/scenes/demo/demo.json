@@ -4,22 +4,22 @@
             "background": {
                 "r": 0.0,
                 "g": 0.0,
-                "b": 1.0
+                "b": 0.0
             },
             "ambient": {
-                "r": 0.0,
-                "g": 5.0,
-                "b": 2.0,
-                "intensity": 20.0
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "intensity": 2.0
             },
             "fog": {
                 "color": {
-                    "r": 1.0,
-                    "g": 1.0,
-                    "b": 1.0
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
                 },
                 "near": 1.0,
-                "far": 100.0
+                "far": 800.0
             },
             "skybox": {
                 "size": {
@@ -37,7 +37,7 @@
                     "g": 0.0,
                     "b": 0.0
                 },
-                "intensity": 0.0,
+                "intensity":100.0,
                 "front": "scenes/skybox/front.png",
                 "back": "scenes/skybox/back.png",
                 "up": "scenes/skybox/top.png",
@@ -303,12 +303,12 @@
             "initial": "cam1",
             "cam1": {
                 "type": "perspective",
-                "angle": 60,
+                "angle": 75,
                 "near": 0.1,
                 "far": 1000,
                 "location": {
-                    "x": 15,
-                    "y": -15,
+                    "x": 0,
+                    "y": 12,
                     "z": 15
                 },
                 "target": {

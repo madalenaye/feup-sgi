@@ -7,9 +7,10 @@
                 "b": 0.533
             },
             "ambient": {
-                "r": 0.3,
-                "g": 0.3,
-                "b": 0.3
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "intensity": 2.0
             },
             "fog": {
                 "color": {
@@ -17,7 +18,7 @@
                     "g": 0.1,
                     "b": 0.1
                 },
-                "near": 100.0,
+                "near": 1.0,
                 "far": 800.0
             },
             "skybox": {
@@ -36,7 +37,7 @@
                     "g": 0.0,
                     "b": 0.0
                 },
-                "intensity": 0.0,
+                "intensity": 1.0,
                 "front": "scenes/skybox/front.png",
                 "back": "scenes/skybox/back.png",
                 "up": "scenes/skybox/top.png",
