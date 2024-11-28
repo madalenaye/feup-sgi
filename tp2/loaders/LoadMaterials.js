@@ -22,9 +22,9 @@ export const loadMaterials = {
                 bumpScale: material.bumpscale,
                 texlength_s: material.texlength_s,
                 texlength_t: material.texlength_t,
-                loadTexture: undefined,
-                loadBump: undefined,
-                loadSpecular: undefined,
+                loadTexture: null,
+                loadBump: null,
+                loadSpecular: null,
                 hasMipMap:false
             };
 
@@ -70,7 +70,7 @@ export const loadMaterials = {
             specularMap : organizeMaterial.loadSpecular
         });
 
-        if(organizeMaterial.loadTexture != undefined){
+        if(organizeMaterial.loadTexture != null){
             newMaterial.map.wrapS = THREE.RepeatWrapping;
             newMaterial.map.wrapT = THREE.RepeatWrapping;
             let repeatX = widthTex / organizeMaterial.texlength_s;
@@ -92,7 +92,7 @@ export const loadMaterials = {
             }
         }
 
-        if(organizeMaterial.loadBump != undefined){
+        if(organizeMaterial.loadBump != null){
             newMaterial.bumpMap.wrapS = THREE.RepeatWrapping;
             newMaterial.bumpMap.wrapT = THREE.RepeatWrapping;
 
@@ -108,7 +108,7 @@ export const loadMaterials = {
             newMaterial.bumpMap.repeat.set(repeatX, repeatY);
         }
 
-        if(organizeMaterial.loadSpecular != undefined){
+        if(organizeMaterial.loadSpecular != null){
             newMaterial.specularMap.wrapS = THREE.RepeatWrapping;
             newMaterial.specularMap.wrapT = THREE.RepeatWrapping;
 
@@ -123,7 +123,6 @@ export const loadMaterials = {
             }
             newMaterial.specularMap.repeat.set(repeatX, repeatY);
         }
-
         return newMaterial;
 
     }

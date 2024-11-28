@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { loadMaterials } from './LoadMaterials.js';
 
 export const loadObjects = {
 
@@ -91,22 +92,52 @@ export const loadObjects = {
         currentGroup.add(light);
     },
 
+    createRectangule(parameters, material){
+        let width =  Math.abs(parameters.xy2[0] - parameters.xy1[0]);
+        let height = Math.abs(parameters.xy2[1] - parameters.xy1[1]);
+        let newMaterial = null;
+        if(material != null || material != undefined){
+            newMaterial = loadMaterials.createMaterial(material, width, height);
+        }
+        else{
+            throw new Error("Error in function createRectangule. Lack of material");
+        }
+
+        let rectanguleGeometry = new THREE.PlaneGeometry(width, height, parameters.parts_x, parameters.parts_y);
+        let rectanguleMesh = new THREE.Mesh(rectanguleGeometry, newMaterial);
+        rectanguleMesh.position.x = (parameters.xy2[0] + parameters.xy1[0])/2;
+        rectanguleMesh.position.y = (parameters.xy2[1] + parameters.xy1[1])/2;
+
+        return rectanguleMesh;
+    },
+
+    createObject(representations, nodeParent, currentGroup, organizeMaterials){
+        switch (representations.subtype){
+            case "rectangle":
+                let retangule = loadObjects.createRectangule(representations, organizeMaterials[nodeParent.materialIds[0]]);
+                currentGroup.add(retangule);
+                break;
+
+        }
+
+    },
+
     loadObjects(rootNode, listObjects, organizeMaterials){
 
         let objects = {};
 
-        function traverseDFS(node, parentGroup = null, organizeMaterials) {
+        function traverseDFS(node, parentGroup = null, organizeMaterials, nodeParent) {
             if (!node) return;
 
             const currentGroup = new THREE.Group();
             currentGroup.name = node.id;
 
             if (node.type === 'pointlight' || node.type === 'spotlight' || node.type === 'directionallight') {
-                console.log(`Light with type: ${node.type}`);
+                //console.log(`Light with type: ${node.type}`);
                 loadObjects.loadLight(node, currentGroup);
             }
             else if (node.id) {
-                console.log(`ID: ${node.id}`);
+                //console.log(`ID: ${node.id}`);
                 loadObjects.loadNode(node, currentGroup);
             }
 
@@ -115,18 +146,20 @@ export const loadObjects = {
             }
 
             if(node.type === 'primitive'){
-                console.log(`Primitive with type: ${node.subtype}`)
+                //console.log(`Primitive with type: ${node.subtype}`)
                 currentGroup.name = "primitive";
+                const representation = node.representations[0];
+                loadObjects.createObject(representation, nodeParent, currentGroup, organizeMaterials);
                 // Criar primitiva
                 //return;
             }
 
             if (node.children && Array.isArray(node.children)) {
-                node.children.forEach(childNode => {traverseDFS(childNode, currentGroup || null);});
+                node.children.forEach(childNode => {traverseDFS(childNode, currentGroup || null, organizeMaterials, node || null);});
             }
         }
         
         const rootObject = listObjects[rootNode];
-        traverseDFS(rootObject, null, organizeMaterials);
+        traverseDFS(rootObject, null, organizeMaterials, null);
     }
 }
