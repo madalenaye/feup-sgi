@@ -61,7 +61,15 @@
             },
             "table_tex": {
                 "filepath": "scenes/demo/textures/table.png",
-                "isVideo": false
+                "isVideo": false,
+                "mipmap0": "0",
+                "mipmap1": "1",
+                "mipmap2": "2",
+                "mipmap3": "3",
+                "mipmap4": "4",
+                "mipmap5": "5",
+                "mipmap6": "6",
+                "mipmap7": "7"
             },
             "crime_weapon_tex": {
                 "filepath": "scenes/demo/textures/bloodyPrints.jpg",

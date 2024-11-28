@@ -16,16 +16,10 @@ export const loadTextures = {
                 video.play();
                 
                 const videoTexture = new THREE.VideoTexture(video);
-                videoTexture.wrapS = THREE.RepeatWrapping;
-                videoTexture.wrapT = THREE.RepeatWrapping
-
                 texturestextures[key] = videoTexture;
             }
             else{
                 let textureImage = textureLoader.load(texture.filepath)
-                textureImage.wrapS = THREE.RepeatWrapping;
-                textureImage.wrapT = THREE.RepeatWrapping;
-        
                 textures[key] = textureImage;
             }
 

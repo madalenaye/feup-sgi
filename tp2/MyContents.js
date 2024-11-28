@@ -4,6 +4,8 @@ import { MyFileReader } from './parser/MyFileReader.js';
 import {loadCameras} from './loaders/LoadCameras.js'
 import { loadGloabls } from './loaders/LoadGlobals.js';
 import { loadTextures } from './loaders/LoadTextures.js';
+import { loadMaterials } from './loaders/LoadMaterials.js';
+import {loadObjects} from './loaders/LoadObjects.js';
 
 /**
  *  This class contains the contents of out application
@@ -75,6 +77,8 @@ class MyContents {
         this.app.scene.add(globalsStructure.skybox);
 
         let textures = loadTextures.loadTextures(data.getTextures());
+        let organizeMaterials = loadMaterials.organizeProporties(textures, data.getMaterials());
+        loadObjects.loadObjects(data.getRootId(), data.getNodes(), organizeMaterials);
     }
 
     update() {
