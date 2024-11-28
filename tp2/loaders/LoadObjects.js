@@ -38,6 +38,59 @@ export const loadObjects = {
         }
     },
 
+    loadLight(node, currentGroup){
+        function configureLight(light, node) {
+            light.color = new THREE.Color(node.color);
+            light.intensity = node.intensity;
+            light.position.set(node.position[0], node.position[1], node.position[2]);
+            light.castShadow = node.castshadow;
+    
+            if (node.castshadow) {
+                light.shadow.camera.far = node.shadowfar;
+                light.shadow.mapSize.width = node.shadowmapsize;
+                light.shadow.mapSize.height = node.shadowmapsize;
+            }
+        }
+
+        let light;
+        switch (node.type) {
+            case "pointlight":
+                light = new THREE.PointLight();
+                light.distance = node.distance;
+                light.decay = node.decay;
+                break;
+
+            case "spotlight":
+                light = new THREE.SpotLight();
+                light.distance = node.distance;
+                light.angle = THREE.MathUtils.degToRad(node.angle);
+                light.decay = node.decay;
+                light.penumbra = node.penumbra;
+
+                const target = new THREE.Object3D();
+                target.position.set(node.target[0], node.target[1], node.target[2]);
+                light.target = target;
+                break;
+
+            case "directionallight":
+                light = new THREE.DirectionalLight();
+                if (node.castshadow) {
+                    light.shadow.camera.left = node.shadowleft;
+                    light.shadow.camera.right = node.shadowright;
+                    light.shadow.camera.bottom = node.shadowbottom;
+                    light.shadow.camera.top = node.shadowtop;
+                }
+                break;
+
+            default:
+                console.warn(`Unknown light type: ${node.type}`);
+                return;
+        }
+
+        configureLight(light, node);
+        currentGroup.add(light);
+    },
+
     loadObjects(rootNode, listObjects, organizeMaterials){
 
         let objects = {};
@@ -49,7 +102,7 @@ export const loadObjects = {
 
             if (node.type === 'pointlight' || node.type === 'spotlight' || node.type === 'directionallight') {
                 console.log(`Light with type: ${node.type}`);
-                //Criar a luz
+                loadObjects.loadLight(node, currentGroup);
                 //return;
             }
             else if (node.id) {
