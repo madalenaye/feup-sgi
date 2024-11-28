@@ -99,11 +99,11 @@ export const loadObjects = {
             if (!node) return;
 
             const currentGroup = new THREE.Group();
+            currentGroup.name = node.id;
 
             if (node.type === 'pointlight' || node.type === 'spotlight' || node.type === 'directionallight') {
                 console.log(`Light with type: ${node.type}`);
                 loadObjects.loadLight(node, currentGroup);
-                //return;
             }
             else if (node.id) {
                 console.log(`ID: ${node.id}`);
@@ -116,6 +116,7 @@ export const loadObjects = {
 
             if(node.type === 'primitive'){
                 console.log(`Primitive with type: ${node.subtype}`)
+                currentGroup.name = "primitive";
                 // Criar primitiva
                 //return;
             }

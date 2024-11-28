@@ -943,34 +943,35 @@ class MyFileReader  {
 	 */
 
 	loadChildren(nodeObj, childrenElement, graphElem) {
-		for (let nodeId of childrenElement["nodesList"]) {
+		if (Array.isArray(childrenElement["nodesList"])){
+			for (let nodeId of childrenElement["nodesList"]) {
+				let childElement = graphElem[nodeId];
 
-			let childElement = graphElem[nodeId];
-
-			if (!childElement) {
-				throw new Error(`Node '${nodeId}' not found in 'graph'.`);
-			}
-			
-			const nodeType = childElement["type"];
-
-			if (nodeType == "node") {
-				// add a node ref: if the node does not exist
-				// create an empty one and reference it.
-				let reference = this.data.getNode(nodeId);
-				if (reference === null) {
-				// does not exist, yet. create it!
-				reference = this.data.createEmptyNode(nodeId);
+				if (!childElement) {
+					throw new Error(`Node '${nodeId}' not found in 'graph'.`);
 				}
-				// reference it.
-				this.data.addChildToNode(nodeObj, reference)
-			}
-			else if (this.data.primitiveIds.includes(nodeType)) {
-				let primitiveObj = this.data.createEmptyPrimitive();
-				this.loadPrimitive(childElement, primitiveObj, nodeType);
-				this.data.addChildToNode(nodeObj, primitiveObj);
-			}
-			else {
-				throw new Error("unrecognized child type '" + nodeType + "'.");
+				
+				const nodeType = childElement["type"];
+
+				if (nodeType == "node") {
+					// add a node ref: if the node does not exist
+					// create an empty one and reference it.
+					let reference = this.data.getNode(nodeId);
+					if (reference === null) {
+					// does not exist, yet. create it!
+					reference = this.data.createEmptyNode(nodeId);
+					}
+					// reference it.
+					this.data.addChildToNode(nodeObj, reference)
+				}
+				else if (this.data.primitiveIds.includes(nodeType)) {
+					let primitiveObj = this.data.createEmptyPrimitive();
+					this.loadPrimitive(childElement, primitiveObj, nodeType);
+					this.data.addChildToNode(nodeObj, primitiveObj);
+				}
+				else {
+					throw new Error("unrecognized child type '" + nodeType + "'.");
+				}
 			}
 		}
 
@@ -982,6 +983,11 @@ class MyFileReader  {
 				if (this.data.lightIds.includes(nodeType)) {
 					let lightObj = this.loadLight(key, childElement, nodeType);
 					this.data.addChildToNode(nodeObj, lightObj);
+				}
+				else if(this.data.primitiveIds.includes(nodeType)){
+					let primitiveObj = this.data.createEmptyPrimitive();
+					this.loadPrimitive(childElement, primitiveObj, nodeType);
+					this.data.addChildToNode(nodeObj, primitiveObj);
 				}
 			}
 		}
