@@ -1034,6 +1034,51 @@ class MyFileReader  {
 	
     return;
 	}
+
+	loadLODs(rootElement){
+
+	}
+	/*
+	loadLOD(lodElement) {
+	
+		// get the id of the LOD
+		let id = this.getString(lodElement, "id");
+
+		// get if LOD previously added (for instance because it was a  ref in other part of the file)
+		let obj = this.data.getLOD(id);
+		if (obj == null) {
+			// otherwise add a new LOD
+			obj = this.data.createEmptyLOD(id);			
+		}
+
+		// load LOD noderef (children) elements
+		let noderefs = lodElement.getElementsByTagName('noderef');
+		if (noderefs === null || noderefs === undefined) {
+			throw new Error("in LOD " + id + ", a noderef is required");
+		}
+		if (noderefs.length == 0) {
+			throw new Error("in LOD " + id + ", at least one noderef is required");
+		}
+
+		// for each noderef
+		for (let i=0; i < noderefs.length; i++) {
+			let noderef = noderefs[i]
+			let id = this.getString(noderef, "id")
+			let mindist = this.getFloat(noderef, "mindist")
+
+			// find node by id. if not present create a new one
+			let node = this.data.getNode(id)
+			if (node == null) {
+				// otherwise add a new node
+				node = this.data.createEmptyNode(id);			
+			}
+			// store the node as child of this LOD
+			obj.children.push({ node: node, mindist: mindist, type: "lodnoderef" })
+		}
+		// set the LOD as loaded
+		obj.loaded = true;
+	}
+	*/
 }
 
 export { MyFileReader };
