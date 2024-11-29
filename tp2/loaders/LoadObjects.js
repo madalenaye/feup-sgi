@@ -92,11 +92,11 @@ export const loadObjects = {
         currentGroup.add(light);
     },
 
-    createRectangule(parameters, material){
+    createRectangule(parameters, material, castShadows, receiveShadows){
         let width =  Math.abs(parameters.xy2[0] - parameters.xy1[0]);
         let height = Math.abs(parameters.xy2[1] - parameters.xy1[1]);
         let newMaterial = null;
-        if(material != null || material != undefined){
+        if(material != null && material != undefined){
             newMaterial = loadMaterials.createMaterial(material, width, height);
         }
         else{
@@ -105,18 +105,89 @@ export const loadObjects = {
 
         let rectanguleGeometry = new THREE.PlaneGeometry(width, height, parameters.parts_x, parameters.parts_y);
         let rectanguleMesh = new THREE.Mesh(rectanguleGeometry, newMaterial);
-        rectanguleMesh.position.x = (parameters.xy2[0] + parameters.xy1[0])/2;
-        rectanguleMesh.position.y = (parameters.xy2[1] + parameters.xy1[1])/2;
+        rectanguleMesh.position.x = (parameters.xy2[0] + parameters.xy1[0])/2.0;
+        rectanguleMesh.position.y = (parameters.xy2[1] + parameters.xy1[1])/2.0;
+
+        rectanguleMesh.castShadow = castShadows ?? false;
+        rectanguleMesh.receiveShadow = receiveShadows ?? false;
 
         return rectanguleMesh;
+    },
+
+    createBox(parameters, material, castShadows, receiveShadows){
+
+        if(material == null || material == undefined){
+            throw new Error("Error in function createBox. Lack of material");
+        }
+
+        let width = Math.abs(parameters.xyz2[0] - parameters.xyz1[0]);
+        let height = Math.abs(parameters.xyz2[1] - parameters.xyz1[1]);
+        let depth = Math.abs(parameters.xyz2[2] - parameters.xyz1[2]);
+
+        let materials = [];
+
+        let material1 = loadMaterials.createMaterial(material, depth, height);
+        materials.push(material1);
+        let material2 = loadMaterials.createMaterial(material, depth, height);
+        materials.push(material2);
+
+        let material3 = loadMaterials.createMaterial(material, width, depth);
+        materials.push(material3);
+        let material4 = loadMaterials.createMaterial(material, width, depth);
+        materials.push(material4);
+
+        let material5 = loadMaterials.createMaterial(material, width, height);
+        materials.push(material5);
+        let material6 = loadMaterials.createMaterial(material, width, height);
+        materials.push(material6);
+
+        let boxGeometry = new THREE.BoxGeometry(width, height, depth);
+        let boxMesh = new THREE.Mesh(boxGeometry, materials);
+
+        boxMesh.position.x = (parameters.xyz2[0] + parameters.xyz1[0]) / 2;
+        boxMesh.position.y = (parameters.xyz2[1] + parameters.xyz1[1]) / 2;
+        boxMesh.position.z = (parameters.xyz2[2] + parameters.xyz1[2]) / 2;
+
+        boxMesh.castShadow = castShadows ?? false;
+        boxMesh.receiveShadow = receiveShadows ?? false;
+
+        return boxMesh;
+    },
+
+    createCylinder(parameters, material, castShadows, receiveShadows){
+
+        if(material == null || material == undefined){
+            throw new Error("Error in function createBox. Lack of material");
+        }
+
+        let texturesValues = [
+            [2 * Math.PI * ((parameters.top + parameters.base) / 2), parameters.height],
+            [2 * parameters.top, 2 * parameters.top],
+            [2 * parameters.base, 2 * parameters.base],  
+        ];
+
+        let materials = []
+
+        texturesValues.forEach(value => {
+            let newMaterial = loadMaterials.createMaterial(material, value[0], value[1]);
+            materials.push(newMaterial);
+        });
     },
 
     createObject(representations, nodeParent, currentGroup, organizeMaterials){
         switch (representations.subtype){
             case "rectangle":
-                let retangule = loadObjects.createRectangule(representations, organizeMaterials[nodeParent.materialIds[0]]);
+                let retangule = loadObjects.createRectangule(representations, organizeMaterials[nodeParent.materialIds[0]], nodeParent.castShadows, nodeParent.receiveShadows);
                 currentGroup.add(retangule);
                 break;
+            
+            case "box":
+                let box = loadObjects.createBox(representations, organizeMaterials[nodeParent.materialIds[0]], nodeParent.castShadows, nodeParent.receiveShadows);
+                currentGroup.add(box);
+
+            case "cylinder":
+                let cylinder = loadObjects.createCylinder(representations, organizeMaterials[nodeParent.materialIds[0]], nodeParent.castShadows, nodeParent.receiveShadows);
+                currentGroup.add(cylinder);
 
         }
 
