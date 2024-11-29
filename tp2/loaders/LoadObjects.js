@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { loadMaterials } from './LoadMaterials.js';
+import {nurbsSurface} from '../utils/NurbsSurface.js'
 
 export const loadObjects = {
 
@@ -229,6 +230,27 @@ export const loadObjects = {
         return sphereMesh;
     },
 
+    createNurb(parameters, material, castShadows, receiveShadows){
+        if(material == null || material == undefined){
+            throw new Error("Error in function createNurb. Lack of material");  
+        }
+
+        let newMaterial = loadMaterials.createMaterial(material, 1, 1);
+
+        let nurb = nurbsSurface.createNurbsSurfaces(parameters.controlpoints, 
+                                                    parameters.degree_u,
+                                                    parameters.degree_v,
+                                                    parameters.parts_u,
+                                                    parameters.parts_v,
+                                                    newMaterial)
+
+        nurb.castShadow = castShadows ?? false;
+        nurb.receiveShadow = receiveShadows ?? false;
+
+        return nurb;
+
+    },
+
     createObject(representations, nodeParent, currentGroup, organizeMaterials){
         switch (representations.subtype){
             case "rectangle":
@@ -252,6 +274,8 @@ export const loadObjects = {
                 break;
 
             case "nurbs":
+                let nurb = loadObjects.createNurb(representations, organizeMaterials[nodeParent.materialIds[0]], nodeParent.castShadows, nodeParent.receiveShadows);
+                currentGroup.add(nurb);
                 break;
             
             case "triangle":
@@ -264,44 +288,68 @@ export const loadObjects = {
 
     },
 
+    checkMaterial(node, nodeParent){
+        if(node.materialIds.length == 0 || node.withoutMaterial == true){
+            node.withoutMaterial = true;
+            node.materialIds[0] = nodeParent.materialIds[0]
+        }
+        else{
+            node.withoutMaterial = false;
+        }
+
+    },
+
     loadObjects(rootNode, listObjects, organizeMaterials){
 
-        let objects = {};
+        let objects = [];
 
         function traverseDFS(node, parentGroup = null, organizeMaterials, nodeParent) {
             if (!node) return;
 
-            const currentGroup = new THREE.Group();
-            currentGroup.name = node.id;
+            let nodeClone = structuredClone(node);
 
-            if (node.type === 'pointlight' || node.type === 'spotlight' || node.type === 'directionallight') {
-                //console.log(`Light with type: ${node.type}`);
-                loadObjects.loadLight(node, currentGroup);
+            if (!traverseDFS.firstGroup) {
+                traverseDFS.firstGroup = new THREE.Group();
+                traverseDFS.firstGroup.name = nodeClone.id;
             }
-            else if (node.id) {
-                //console.log(`ID: ${node.id}`);
-                loadObjects.loadNode(node, currentGroup);
+
+            const currentGroup = parentGroup === null ? traverseDFS.firstGroup : new THREE.Group();
+    
+            currentGroup.name = nodeClone.id;
+
+            if (nodeClone.type === 'pointlight' || nodeClone.type === 'spotlight' || nodeClone.type === 'directionallight') {
+                //console.log(`Light with type: ${node.type}`);
+                loadObjects.loadLight(nodeClone, currentGroup);
+            }
+            else if (nodeClone.id) {
+                if(nodeParent != null){
+                    loadObjects.checkMaterial(nodeClone, nodeParent);
+                }
+                loadObjects.loadNode(nodeClone, currentGroup);
             }
 
             if (parentGroup) {
                 parentGroup.add(currentGroup);
             }
 
-            if(node.type === 'primitive'){
+            if(nodeClone.type === 'primitive'){
                 //console.log(`Primitive with type: ${node.subtype}`)
-                currentGroup.name = "primitive";
-                const representation = node.representations[0];
+                //currentGroup.name = "primitive";
+                const representation = nodeClone.representations[0];
                 loadObjects.createObject(representation, nodeParent, currentGroup, organizeMaterials);
-                // Criar primitiva
                 //return;
             }
 
-            if (node.children && Array.isArray(node.children)) {
-                node.children.forEach(childNode => {traverseDFS(childNode, currentGroup || null, organizeMaterials, node || null);});
+            if (nodeClone.children && Array.isArray(node.children)) {
+                nodeClone.children.forEach(childNode => {traverseDFS(childNode, currentGroup || null, organizeMaterials, nodeClone || null);});
             }
+
+            return traverseDFS.firstGroup;
         }
         
         const rootObject = listObjects[rootNode];
-        traverseDFS(rootObject, null, organizeMaterials, null);
+        const sceneRoot = traverseDFS(rootObject, null, organizeMaterials, null);
+
+        return sceneRoot;
     }
 }

@@ -829,12 +829,14 @@ class MyFileReader  {
 			this.checkMaterialId(materialId, id);
 			obj['materialIds'].push(materialId);
 		}
+		/*
 		else{
 			let materialParent = this.data.findParentById(id);
 			if(materialParent != null){
 				obj['materialIds'].push(materialParent);
 			}
 		}
+			*/
 
 		//Shadows
 		let nodeParent = this.data.findParentById_node(id)

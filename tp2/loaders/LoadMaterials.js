@@ -8,12 +8,11 @@ export const loadMaterials = {
 
         Object.keys(materials).forEach(key => {
             let material = materials[key];
-
             let newMaterial = {
-                color: material.color,
-                specular: material.specular,
+                color: new THREE.Color(material.color[0], material.color[1], material.color[2]),
+                specular: new THREE.Color (material.specular[0], material.specular[1], material.specular[2]),
                 shininess: material.shininess,
-                emissive: material.emissive,
+                emissive: new THREE.Color (material.emissive[0], material.emissive[1], material.emissive[2]),
                 transparent: material.transparent,
                 opacity: material.opacity,
                 wireframe: material.wireframe,
@@ -96,12 +95,12 @@ export const loadMaterials = {
             newMaterial.bumpMap.wrapS = THREE.RepeatWrapping;
             newMaterial.bumpMap.wrapT = THREE.RepeatWrapping;
 
-            repeatX = widthTex / organizeMaterial.texlength_s;
+            let repeatX = widthTex / organizeMaterial.texlength_s;
             if (!repeatX) {
                 repeatX = 1;
             }
     
-            repeatY = heightTex / organizeMaterial.texlength_t;
+            let repeatY = heightTex / organizeMaterial.texlength_t;
             if (!repeatY) {
                 repeatY = 1;
             }
@@ -112,12 +111,12 @@ export const loadMaterials = {
             newMaterial.specularMap.wrapS = THREE.RepeatWrapping;
             newMaterial.specularMap.wrapT = THREE.RepeatWrapping;
 
-            repeatX = widthTex / organizeMaterial.texlength_s;
+            let repeatX = widthTex / organizeMaterial.texlength_s;
             if (!repeatX) {
                 repeatX = 1;
             }
     
-            repeatY = heightTex / organizeMaterial.texlength_t;
+            let repeatY = heightTex / organizeMaterial.texlength_t;
             if (!repeatY) {
                 repeatY = 1;
             }

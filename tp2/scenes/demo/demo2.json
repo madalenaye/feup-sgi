@@ -447,6 +447,9 @@
                         }
                     }
                 ],
+                "materialref": {
+                    "materialId": "floor_app"
+                },
                 "children": {
                     "nodesList": ["leg"]
                 }
@@ -463,6 +466,9 @@
                         }
                     }
                 ],
+                "materialref": {
+                    "materialId": "crime_weapon_app"
+                },
                 "children": {
                     "nodesList": ["leg"]
                 }
@@ -479,6 +485,9 @@
                         }
                     }
                 ],
+                "materialref": {
+                    "materialId": "vase_app"
+                },
                 "children": {
                     "nodesList": ["leg"]
                 }
@@ -495,6 +504,9 @@
                         }
                     }
                 ],
+                "materialref": {
+                    "materialId": "pine_app"
+                },
                 "children": {
                     "nodesList": ["leg"]
                 }
