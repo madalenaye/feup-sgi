@@ -13,7 +13,7 @@ export const loadGloabls = {
         let skybox = data.getSkyBox();
         const textureLoader = new THREE.TextureLoader();
 
-        const texturePaths = [skybox.front, skybox.back, skybox.up, skybox.down, skybox.left, skybox.right];
+        const texturePaths = [skybox.right, skybox.left, skybox.up, skybox.down, skybox.front, skybox.back];
         const materials = [];
 
         texturePaths.forEach((path) => {
