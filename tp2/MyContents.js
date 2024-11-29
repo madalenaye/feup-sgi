@@ -21,7 +21,7 @@ class MyContents {
         this.axis = null
 
         this.reader = new MyFileReader(this.onSceneLoaded.bind(this));
-        this.reader.open("scenes/demo/demo2.json");
+        this.reader.open("scenes/SGI_TP1_T04_G01_v02.json");
     }
 
     /**
@@ -79,7 +79,8 @@ class MyContents {
 
         let textures = loadTextures.loadTextures(data.getTextures());
         let organizeMaterials = loadMaterials.organizeProporties(textures, data.getMaterials());
-        loadObjects.loadObjects(data.getRootId(), data.getNodes(), organizeMaterials);
+        let myScene = loadObjects.loadObjects(data.getRootId(), data.getNodes(), organizeMaterials);
+        this.app.scene.add(myScene);
         
     }
 
