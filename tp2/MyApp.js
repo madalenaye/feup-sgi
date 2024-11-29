@@ -92,21 +92,21 @@ class MyApp  {
         orthoLeft.up = new THREE.Vector3(0,1,0);
         orthoLeft.position.set(-this.frustumSize /4,0,0) 
         orthoLeft.lookAt( new THREE.Vector3(0,0,0) );
-        this.cameras['Left'] = orthoLeft
+        //this.cameras['Left'] = orthoLeft
 
         // create a top view orthographic camera
         const orthoTop = new THREE.OrthographicCamera( left, right, top, bottom, near, far);
         orthoTop.up = new THREE.Vector3(0,0,1);
         orthoTop.position.set(0, this.frustumSize /4, 0) 
         orthoTop.lookAt( new THREE.Vector3(0,0,0) );
-        this.cameras['Top'] = orthoTop
+        //this.cameras['Top'] = orthoTop
 
         // create a front view orthographic camera
         const orthoFront = new THREE.OrthographicCamera( left, right, top, bottom, near, far);
         orthoFront.up = new THREE.Vector3(0,1,0);
         orthoFront.position.set(0,0, this.frustumSize /4) 
         orthoFront.lookAt( new THREE.Vector3(0,0,0) );
-        this.cameras['Front'] = orthoFront
+        //this.cameras['Front'] = orthoFront
     }
 
     /**
@@ -114,6 +114,7 @@ class MyApp  {
      * @param {String} cameraName 
      */
     setActiveCamera(cameraName) {   
+
         this.activeCameraName = cameraName
         this.activeCamera = this.cameras[this.activeCameraName]
     }

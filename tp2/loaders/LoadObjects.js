@@ -334,9 +334,10 @@ export const loadObjects = {
 
             if(nodeClone.type === 'primitive'){
                 //console.log(`Primitive with type: ${node.subtype}`)
-                //currentGroup.name = "primitive";
+                currentGroup.name = "primitive"+ nodeClone.subtype;
                 const representation = nodeClone.representations[0];
                 loadObjects.createObject(representation, nodeParent, currentGroup, organizeMaterials);
+                objects.push(currentGroup);
                 //return;
             }
 
@@ -349,7 +350,9 @@ export const loadObjects = {
         
         const rootObject = listObjects[rootNode];
         const sceneRoot = traverseDFS(rootObject, null, organizeMaterials, null);
+        
+        let result = {scene: sceneRoot, objects: objects};
 
-        return sceneRoot;
+        return result;
     }
 }

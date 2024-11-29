@@ -15,6 +15,7 @@ class MyGuiInterface  {
         this.app = app
         this.datgui =  new GUI();
         this.contents = null
+        this.wireframeEnabled = false;
     }
 
     /**
@@ -29,6 +30,16 @@ class MyGuiInterface  {
      * Initialize the gui interface
      */
     init() {
+
+        this.datgui.add(this, 'wireframeEnabled')
+        .name('Wireframe') 
+        .onChange((value) => {
+            if (value) {
+                this.contents.activeWireframe(); 
+            } else {
+                this.contents.disableWireframe();
+            }
+        });
     }
 }
 

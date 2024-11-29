@@ -19,6 +19,7 @@ class MyContents {
     constructor(app) {
         this.app = app
         this.axis = null
+        this.objects = null
 
         this.reader = new MyFileReader(this.onSceneLoaded.bind(this));
         this.reader.open("scenes/SGI_TP1_T04_G01_v02.json");
@@ -67,6 +68,7 @@ class MyContents {
         });
 
         if (activeCameraId && this.app.cameras[activeCameraId]) {
+            this.app.activeCamera = this.app.cameras[activeCameraId];
             this.app.setActiveCamera(activeCameraId);
         }
 
@@ -79,12 +81,47 @@ class MyContents {
 
         let textures = loadTextures.loadTextures(data.getTextures());
         let organizeMaterials = loadMaterials.organizeProporties(textures, data.getMaterials());
-        let myScene = loadObjects.loadObjects(data.getRootId(), data.getNodes(), organizeMaterials);
-        this.app.scene.add(myScene);
+        let result = loadObjects.loadObjects(data.getRootId(), data.getNodes(), organizeMaterials);
+        this.objects = result.objects;
+        this.app.scene.add(result.scene);
         
     }
 
     update() {
+    }
+
+    activeWireframe(){
+        for (let object of this.objects) {
+            for (let child of object.children) {
+                if (child.material) { 
+                    let materials = child.material;
+                    if (Array.isArray(materials)) {
+                        for (let material of materials) {
+                            material.wireframe = true;
+                        }
+                    } else {
+                        materials.wireframe = true;
+                    }
+                }
+            }
+        }
+    }
+
+    disableWireframe(){
+        for (let object of this.objects) {
+            for (let child of object.children) {
+                if (child.material) { 
+                    let materials = child.material;
+                    if (Array.isArray(materials)) {
+                        for (let material of materials) {
+                            material.wireframe = false;
+                        }
+                    } else {
+                        materials.wireframe = false;
+                    }
+                }
+            }
+        }
     }
 }
 
