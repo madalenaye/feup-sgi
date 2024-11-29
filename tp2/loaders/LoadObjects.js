@@ -306,40 +306,42 @@ export const loadObjects = {
         function traverseDFS(node, parentGroup = null, organizeMaterials, nodeParent) {
             if (!node) return;
 
+            let nodeClone = structuredClone(node);
+
             if (!traverseDFS.firstGroup) {
                 traverseDFS.firstGroup = new THREE.Group();
-                traverseDFS.firstGroup.name = node.id;
+                traverseDFS.firstGroup.name = nodeClone.id;
             }
 
             const currentGroup = parentGroup === null ? traverseDFS.firstGroup : new THREE.Group();
-            currentGroup.name = node.id;
+    
+            currentGroup.name = nodeClone.id;
 
-            if (node.type === 'pointlight' || node.type === 'spotlight' || node.type === 'directionallight') {
+            if (nodeClone.type === 'pointlight' || nodeClone.type === 'spotlight' || nodeClone.type === 'directionallight') {
                 //console.log(`Light with type: ${node.type}`);
-                loadObjects.loadLight(node, currentGroup);
+                loadObjects.loadLight(nodeClone, currentGroup);
             }
-            else if (node.id) {
-                //console.log(`ID: ${node.id}`);
+            else if (nodeClone.id) {
                 if(nodeParent != null){
-                    loadObjects.checkMaterial(node, nodeParent);
+                    loadObjects.checkMaterial(nodeClone, nodeParent);
                 }
-                loadObjects.loadNode(node, currentGroup);
+                loadObjects.loadNode(nodeClone, currentGroup);
             }
 
             if (parentGroup) {
                 parentGroup.add(currentGroup);
             }
 
-            if(node.type === 'primitive'){
+            if(nodeClone.type === 'primitive'){
                 //console.log(`Primitive with type: ${node.subtype}`)
-                currentGroup.name = "primitive";
-                const representation = node.representations[0];
+                //currentGroup.name = "primitive";
+                const representation = nodeClone.representations[0];
                 loadObjects.createObject(representation, nodeParent, currentGroup, organizeMaterials);
                 //return;
             }
 
-            if (node.children && Array.isArray(node.children)) {
-                node.children.forEach(childNode => {traverseDFS(childNode, currentGroup || null, organizeMaterials, node || null);});
+            if (nodeClone.children && Array.isArray(node.children)) {
+                nodeClone.children.forEach(childNode => {traverseDFS(childNode, currentGroup || null, organizeMaterials, nodeClone || null);});
             }
 
             return traverseDFS.firstGroup;
