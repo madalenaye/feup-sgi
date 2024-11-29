@@ -157,7 +157,7 @@ export const loadObjects = {
     createCylinder(parameters, material, castShadows, receiveShadows){
 
         if(material == null || material == undefined){
-            throw new Error("Error in function createBox. Lack of material");
+            throw new Error("Error in function createCylinder. Lack of material");
         }
 
         let texturesValues = [
@@ -172,6 +172,61 @@ export const loadObjects = {
             let newMaterial = loadMaterials.createMaterial(material, value[0], value[1]);
             materials.push(newMaterial);
         });
+
+        let cylinderGeometry = new THREE.CylinderGeometry(
+                                parameters.top, 
+                                parameters.base, 
+                                parameters.height, 
+                                parameters.slices, 
+                                parameters.stacks, 
+                                !parameters.capsclose, 
+                                parameters.thetastart, 
+                                parameters.thetalength);
+
+        let cylinderMesh = new THREE.Mesh(cylinderGeometry, materials);
+
+        cylinderMesh.castShadow = castShadows ?? false;
+        cylinderMesh.receiveShadow = receiveShadows ?? false;
+
+        return cylinderMesh;
+
+    },
+
+    createSphere(parameters, material, castShadows, receiveShadows){
+
+        if(material == null || material == undefined){
+            throw new Error("Error in function createSphere. Lack of material");
+        }
+
+        let newMaterial = loadMaterials.createMaterial(material, 2 * Math.PI * parameters.radius, 2 * Math.PI * parameters.radius);
+
+        let phiLength = parameters.philength;
+        if (phiLength !== 2 * Math.PI) {
+            phiLength = THREE.MathUtils.degToRad(phiLength);
+        }
+
+        let thetaLength = parameters.thetalength;
+        if (thetaLength !== 2 * Math.PI) {
+            thetaLength = THREE.MathUtils.degToRad(thetaLength);
+        }
+
+
+        let sphereGeometry = new THREE.SphereGeometry(
+                            parameters.radius, 
+                            parameters.slices, 
+                            parameters.stacks, 
+                            THREE.MathUtils.degToRad(parameters.phistart), 
+                            phiLength,
+                            THREE.MathUtils.degToRad(parameters.thetastart), 
+                            thetaLength
+                        );
+
+        let sphereMesh = new THREE.Mesh(sphereGeometry, newMaterial);
+
+        sphereMesh.castShadow = castShadows ?? false;
+        sphereMesh.receiveShadow = receiveShadows ?? false;
+
+        return sphereMesh;
     },
 
     createObject(representations, nodeParent, currentGroup, organizeMaterials){
@@ -184,10 +239,26 @@ export const loadObjects = {
             case "box":
                 let box = loadObjects.createBox(representations, organizeMaterials[nodeParent.materialIds[0]], nodeParent.castShadows, nodeParent.receiveShadows);
                 currentGroup.add(box);
+                break;
 
             case "cylinder":
                 let cylinder = loadObjects.createCylinder(representations, organizeMaterials[nodeParent.materialIds[0]], nodeParent.castShadows, nodeParent.receiveShadows);
                 currentGroup.add(cylinder);
+                break;
+
+            case "sphere":
+                let sphere = loadObjects.createSphere(representations, organizeMaterials[nodeParent.materialIds[0]], nodeParent.castShadows, nodeParent.receiveShadows);
+                currentGroup.add(sphere);
+                break;
+
+            case "nurbs":
+                break;
+            
+            case "triangle":
+                break;
+
+            case "polygon":
+                break;
 
         }
 
