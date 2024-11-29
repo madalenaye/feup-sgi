@@ -21,7 +21,7 @@ class MyContents {
         this.axis = null
 
         this.reader = new MyFileReader(this.onSceneLoaded.bind(this));
-        this.reader.open("scenes/demo/demo.json");
+        this.reader.open("scenes/demo/demo2.json");
     }
 
     /**
@@ -58,6 +58,7 @@ class MyContents {
 
     onAfterSceneLoadedAndBeforeRender(data) {
         //this.printYASF(data)
+        
         let camerasList = loadCameras.createCameras(data.cameras);
         let activeCameraId = data.getActiveCameraID(); 
 
@@ -79,6 +80,7 @@ class MyContents {
         let textures = loadTextures.loadTextures(data.getTextures());
         let organizeMaterials = loadMaterials.organizeProporties(textures, data.getMaterials());
         loadObjects.loadObjects(data.getRootId(), data.getNodes(), organizeMaterials);
+        
     }
 
     update() {

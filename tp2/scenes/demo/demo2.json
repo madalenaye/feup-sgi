@@ -505,21 +505,20 @@
                     "materialId": "crime_weapon_app"
                 },
                 "children": {
-                    "nodesList": ["nurbs_leg"]
+                    "nurbs_leg":{
+                    "type": "nurbs",
+                    "degree_u": 1,
+                    "degree_v": 1,
+                    "parts_u": 32,
+                    "parts_v": 32,
+                    "controlpoints": [
+                            {"x": 2.0, "y": 1.0, "z": 3.0},
+                            {"x": -2.0, "y": 3.0, "z": 1.0},
+                            {"x": 4.0, "y": 2.0, "z": 4.0},
+                            {"x": -2.0, "y": -2.0, "z": -2.0}
+                        ]
+                    }  
                 }
-            },
-            "nurbs_leg":{
-                "type": "nurbs",
-                "degree_u": 1,
-                "degree_v": 1,
-                "parts_u": 32,
-                "parts_v": 32,
-                "controlpoints": [
-                        {"x": 2.0, "y": 1.0, "z": 3.0},
-                        {"x": -2.0, "y": 3.0, "z": 1.0},
-                        {"x": 4.0, "y": 2.0, "z": 4.0},
-                        {"x": -2.0, "y": -2.0, "z": -2.0}
-                ]
             },
             "unit_cube": {
                 "type": "node",
@@ -664,14 +663,19 @@
                 }
             },
             "rectangle_prim": {
-                "type": "rectangle",
-                "xy1": {
-                    "x": -0.5,
-                    "y": -0.5
-                },
-                "xy2": {
-                    "x": 0.5,
-                    "y": 0.5
+                "type": "node",
+                "children":{
+                    "rectanguleprim":{
+                        "type": "rectangle",
+                        "xy1": {
+                            "x": -0.5,
+                            "y": -0.5
+                        },
+                        "xy2": {
+                            "x": 0.5,
+                            "y": 0.5
+                        }
+                    }
                 }
             }
         }
