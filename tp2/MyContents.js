@@ -78,7 +78,7 @@ class MyContents {
         this.app.scene.add(globalsStructure.skybox);
 
         let textures = loadTextures.loadTextures(data.getTextures());
-        let organizeMaterials = loadMaterials.organizeProporties(textures, data.getMaterials());
+        let organizeMaterials = loadMaterials.organizeProperties(textures, data.getMaterials());
         let myScene = loadObjects.loadObjects(data.getRootId(), data.getNodes(), organizeMaterials);
         this.app.scene.add(myScene);
         

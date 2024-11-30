@@ -3,7 +3,7 @@ import { loadTextures } from './LoadTextures.js';
 
 export const loadMaterials = {
 
-    organizeProporties(textures, materials){
+    organizeProperties(textures, materials){
         let organizeMaterials = {};
 
         Object.keys(materials).forEach(key => {
