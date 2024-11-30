@@ -36,6 +36,26 @@ class MyGuiInterface  {
      */
     init() {
 
+
+        let cameras = (this.app.cameras);
+        delete cameras.PerspectiveError;
+        this.cameraNames = Object.keys(cameras);
+
+        const cameraFolder = this.datgui.addFolder('Camera');
+
+        // Adiciona o controle "Active Camera" dentro do folder
+        cameraFolder.add(this.app, 'activeCameraName', this.cameraNames)
+            .name('Active Camera')
+            .onChange((cameraName) => {
+                this.app.setActiveCamera(cameraName);
+            });
+        cameraFolder.add(this.app.activeCamera.position, 'x', -50, 50).name("x coord")
+        cameraFolder.add(this.app.activeCamera.position, 'y', -50, 50).name("y coord")
+        cameraFolder.add(this.app.activeCamera.position, 'z', -50, 50).name("z coord")
+        cameraFolder.add(this.contents.axis, "visible", false).name("Axis")
+
+        cameraFolder.open();
+
         this.datgui.add(this, 'wireframeEnabled')
         .name('Wireframe') 
         .onChange((value) => {
@@ -45,18 +65,6 @@ class MyGuiInterface  {
                 this.contents.disableWireframe();
             }
         });
-
-        let cameras = (this.app.cameras);
-        delete cameras.PerspectiveError;
-        this.cameraNames = Object.keys(cameras);
-
-        this.cameraList = this.datgui.add(this.app, 'activeCameraName', this.cameraNames)
-            .name('Active Camera')
-            .onChange((cameraName) => {
-                this.app.setActiveCamera(cameraName);
-            });
-        
-        
         
     }
 }

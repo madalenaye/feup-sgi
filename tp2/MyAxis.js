@@ -53,6 +53,18 @@ class MyAxis extends THREE.Object3D {
         axesHelper.setColors ( new THREE.Color( this.xxColor ),  new THREE.Color( this.yyColor ),  new THREE.Color( this.zzColor ))
         this.add( axesHelper );
     }
+
+    /**
+     * Method to update the visibility of the axes
+     * @method
+     * @param {boolean} visible - Boolean indicating whether the axes should be visible
+     */
+    setVisible(visible) {
+        this.axesHelper.visible = visible;
+        this.xxMesh.visible = visible;
+        this.yyMesh.visible = visible;
+        this.zzMesh.visible = visible;
+    }
 }
 
 MyAxis.prototype.isGroup = true;
