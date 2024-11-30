@@ -1,0 +1,626 @@
+{
+    "yasf": {
+        "globals": {
+            "background": {"r": 0, "g": 0, "b": 0},
+            "ambient": {"r": 1, "g": 1, "b": 1, "intensity": 1},
+            "fog": {
+                "color": {"r": 0.2, "g": 0.2, "b": 0.2},
+                "near": 1.0,
+                "far": 100.0
+            },
+            "skybox": {
+                "size":{"x": 50, "y": 50, "z": 50},
+                "center":{"x": 0, "y": 0, "z": 0},
+                "emissive": {"r": 0.2, "g": 0.2, "b": 0.2},
+                "intensity": 2,
+                "front": "scenes/diner/textures/skybox/front.jpg",
+                "back": "scenes/diner/textures/skybox/back.jpg",
+                "up": "scenes/diner/textures/skybox/up.jpg",
+                "down": "scenes/diner/textures/skybox/down.jpg",
+                "left": "scenes/diner/textures/skybox/left.jpg",
+                "right": "scenes/diner/textures/skybox/right.jpg"
+            }
+        },
+        "cameras": {
+            "initial": "perspective",
+            "perspective": {
+                "type": "perspective",
+                "angle": 60,
+                "near": 0.1,
+                "far": 1000,
+                "location": {"x": 0, "y": 15, "z": 15},
+                "target": {"x": 0, "y": 0, "z": 0}
+            },
+            "left":{
+                "type": "orthogonal",
+                "near": -5,
+                "far": 100,
+                "location": {"x": -5, "y": 0, "z": 0},
+                "target": {"x": 0, "y": 0, "z": 0},
+                "left": -1,
+                "right": 1,
+                "bottom": -1,
+                "top": 1
+            },
+            "right":{
+                "type": "orthogonal",
+                "near": -5,
+                "far": 100,
+                "location": {"x": 5, "y": 0, "z": 0},
+                "target": {"x": 0, "y": 0, "z": 0},
+                "left": -1,
+                "right": 1,
+                "bottom": -1,
+                "top": 1
+            },
+            "top":{
+                "type": "orthogonal",
+                "near": -5,
+                "far": 100,
+                "location": {"x": 0, "y": 5, "z": 0},
+                "target": {"x": 0, "y": 0, "z": 0},
+                "left": -1,
+                "right": 1,
+                "bottom": -1,
+                "top": 1
+            },
+            "front":{
+                "type": "orthogonal",
+                "near": -5,
+                "far": 100,
+                "location": {"x": 0, "y": 0, "z": 5},
+                "target": {"x": 0, "y": 0, "z": 0},
+                "left": -1,
+                "right": 1,
+                "bottom": -1,
+                "top": 1
+            },
+            "back":{
+                "type": "orthogonal",
+                "near": -5,
+                "far": 100,
+                "location": {"x": 0, "y": 0, "z": -5},
+                "target": {"x": 0, "y": 0, "z": 0},
+                "left": -1,
+                "right": 1,
+                "bottom": -1,
+                "top": 1
+            }
+        },
+        "textures": {
+            "floortexture": {
+                "filepath": "scenes/diner/textures/floor.jpg",
+                "isVideo": false
+            },
+            "bricktexture": {
+                "filepath": "scenes/diner/textures/brick.jpg",
+                "isVideo": false
+            },
+            "brickbumptexture": {
+                "filepath": "scenes/diner/textures/brickBump.png",
+                "isVideo": false
+            },
+            "menutexture": {
+                "filepath": "scenes/diner/textures/menu.jpg",
+                "isVideo": false
+            },
+            "kitchentexture": {
+                "filepath": "scenes/diner/textures/kitchen.jpg",
+                "isVideo": false
+            }
+        },
+        "materials": {
+            "floormaterial": {
+                "color": {"r": 1, "g": 1, "b": 1},
+                "specular": {"r": 0.1, "g": 0.1, "b": 0.1},
+                "shininess": 30,
+                "emissive": {"r": 0, "g": 0, "b": 0},
+                "transparent": false,
+                "opacity": 1,
+                "textureref": "floortexture",
+                "texlength_s": 5,
+                "texlength_t": 5
+            },
+            "brickmaterial": {
+                "color": {"r": 1, "g": 1, "b": 1},
+                "specular": {"r": 0.1, "g": 0.1, "b": 0.1},
+                "shininess": 30,
+                "emissive": {"r": 0, "g": 0, "b": 0},
+                "transparent": false,
+                "opacity": 1,
+                "textureref": "bricktexture",
+                "bumpref": "brickbumptexture",
+                "texlength_s": 5,
+                "texlength_t": 5
+            },
+            "whitematerial": {
+                "color": {"r": 1, "g": 1, "b": 1},
+                "specular": {"r": 0.1, "g": 0.1, "b": 0.1},
+                "shininess": 30,
+                "emissive": {"r": 0, "g": 0, "b": 0},
+                "transparent": false,
+                "opacity": 1
+            },
+            "redmaterial": {
+                "color": {"r": 1, "g": 0, "b": 0},
+                "specular": {"r": 0.1, "g": 0.1, "b": 0.1},
+                "shininess": 5,
+                "emissive": {"r": 0, "g": 0, "b": 0},
+                "transparent": false,
+                "opacity": 1
+            },
+            "yellowmaterial": {
+                "color": {"r": 1, "g": 1, "b": 0},
+                "specular": {"r": 0.05, "g": 0.05, "b": 0.05},
+                "shininess": 5,
+                "emissive": {"r": 0, "g": 0, "b": 0},
+                "transparent": false,
+                "opacity": 1
+            },
+            "silvermaterial": {
+                "color": {"r": 0.75, "g": 0.75, "b": 0.75},
+                "specular": {"r": 0.9, "g": 0.9, "b": 0.9},
+                "shininess": 100,
+                "emissive": {"r": 0, "g": 0, "b": 0},
+                "transparent": false,
+                "opacity": 1,
+                "twosided": true
+            },
+            "menumaterial": {
+                "color": {"r": 1, "g": 1, "b": 1},
+                "specular": {"r": 0.1, "g": 0.1, "b": 0.1},
+                "shininess": 30,
+                "emissive": {"r": 0, "g": 0, "b": 0},
+                "transparent": false,
+                "opacity": 1,
+                "textureref": "menutexture",
+                "twosided": true
+            },
+            "kitchenmaterial": {
+                "color": {"r": 1, "g": 1, "b": 1},
+                "specular": {"r": 0.1, "g": 0.1, "b": 0.1},
+                "shininess": 5,
+                "emissive": {"r": 0, "g": 0, "b": 0},
+                "transparent": false,
+                "opacity": 1,
+                "textureref": "kitchentexture",
+                "texlength_s": 1,
+                "texlength_t": 1
+            }
+        },
+        "graph": {
+            "rootid": "scene",
+            "scene": {
+                "type": "node",
+                "children": {
+                    "nodesList": [ "diner", "kitchen" ],
+                    "spotlight": {
+                        "type": "pointlight",
+                        "enabled": true,
+                        "color": {"r": 0.8, "g": 0.8, "b": 0.8},
+                        "intensity": 100,
+                        "position": {"x": 0, "y": 10, "z": 0},
+                        "distance": 50
+                    }
+                }
+            },
+            "diner": {
+                "type": "node",
+                "children": {
+                    "nodesList": [ "room", "tablegroup" ]
+                }
+            },
+            "room": {
+                "type": "node",
+                "children": {
+                    "nodesList": [ "floor", "ceiling", "frontwall", "backwall", "rightwall", "leftwall" ]
+                }
+
+            },
+            "floor": {
+                "type": "node",
+                "receiveshadows": true,
+                "transforms": [
+                    {"type": "rotate", "amount": { "x": -90, "y": 0, "z": 0}}
+                ],
+                "materialref": { "materialId": "floormaterial" },
+                "children": {
+                    "rectanglePrim": {
+                        "type": "rectangle",
+                        "xy1": {"x": -20, "y": -20},
+                        "xy2": {"x": 20, "y": 20}
+                    }
+                }
+            },
+            "ceiling": {
+                "type": "node",
+                "receiveshadows": true,
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 0, "y": 20, "z": 0}},
+                    {"type": "rotate", "amount": { "x": 90, "y": 0, "z": 0}}
+                ],
+                "materialref": { "materialId": "whitematerial" },
+                "children": {
+                    "rectanglePrim": {
+                        "type": "rectangle",
+                        "xy1": {"x": -20, "y": -20},
+                        "xy2": {"x": 20, "y": 20}
+                    }
+                }
+            },
+            "frontwall": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 0, "y": 10, "z": -20}}
+                ],
+                "materialref": { "materialId": "brickmaterial" },
+                "children": {
+                    "nodesList": [ "wall" ]
+                }
+            },
+            "backwall": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 0, "y": 10, "z": 20}},
+                    {"type": "rotate", "amount": { "x": 0, "y": 180, "z": 0}}
+                ],
+                "materialref": { "materialId": "brickmaterial" },
+                "children": {
+                    "nodesList": [ "wall" ]
+                }
+            },
+            "leftwall": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": -20, "y": 10, "z": 0}},
+                    {"type": "rotate", "amount": { "x": 0, "y": 90, "z": 0}}
+                ],
+                "materialref": { "materialId": "redmaterial" },
+                "children": {
+                    "nodesList": [ "wall" ]
+                }
+            },
+            "rightwall": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 20, "y": 10, "z": 0}},
+                    {"type": "rotate", "amount": { "x": 0, "y": -90, "z": 0}}
+                ],
+                "materialref": { "materialId": "redmaterial" },
+                "children": {
+                    "nodesList": [ "wallpartbottom", "wallparttop", "wallpartright", "wallpartleft" ]
+                }
+            },
+            "wall": {
+                "type": "node",
+                "children": {
+                    "rectanglePrim": {
+                        "type": "rectangle",
+                        "xy1": {"x": -20, "y": -10},
+                        "xy2": {"x": 20, "y": 10}
+                    }
+                }
+            },
+            "wallpartbottom": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 0, "y": -7, "z": 0}}
+                ],
+                "children": {
+                    "nodesList": [ "wallparthorizontal"]
+                }
+            },
+            "wallparttop": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 0, "y": 7, "z": 0}}
+                ],
+                "children": {
+                    "nodesList": [ "wallparthorizontal"]
+                }
+            },
+            "wallpartright": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 14, "y": 0, "z": 0}}
+                ],
+                "children": {
+                    "nodesList": [ "wallpartvertical"]
+                }
+            },
+            "wallpartleft": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": -14, "y": 0, "z": 0}}
+                ],
+                "children": {
+                    "nodesList": [ "wallpartvertical"]
+                }
+            },
+            "wallpartvertical": {
+                "type": "node",
+                "children": {
+                    "rectanglePrim": {
+                        "type": "rectangle",
+                        "xy1": {"x": -6, "y": -4},
+                        "xy2": {"x": 6, "y": 4}
+                    }
+                }
+            },
+            "wallparthorizontal": {
+                "type": "node",
+                "children": {
+                    "rectanglePrim": {
+                        "type": "rectangle",
+                        "xy1": {"x": -20, "y": -3},
+                        "xy2": {"x": 20, "y": 3}
+                    }
+                }
+            },
+            "table": {
+                "type": "node",
+                "castshadows": true,
+                "children": {
+                    "nodesList": [ "tabletop", "tableleg" ]                
+                }
+            },
+            "tabletop": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 0, "y": 4.5, "z": 0}}
+                ],
+                "materialref": { "materialId": "redmaterial" },
+                "children": {
+                    "boxPrim": {
+                        "type": "box",
+                        "xyz1": {"x": -3, "y": -0.5, "z": -4},
+                        "xyz2": {"x": 3, "y": 0.5, "z": 4}
+                    }
+                }
+            },
+            "tableleg": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 0, "y": 2.25, "z": 0}}
+                ],
+                "materialref": { "materialId": "silvermaterial" },
+                "children": {
+                    "cylinderPrim": {
+                        "type": "cylinder",
+                        "base": 0.5,
+                        "top": 1,
+                        "height": 4.5,
+                        "slices": 30,
+                        "stacks": 1
+                    }
+                }
+            },
+            "tablegroup": {
+                "type": "node",
+                "children": {
+                    "nodesList": [ "table", "lamp", "menu", "sofaright", "sofaleft" ]
+                }
+            },
+            "lamp": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 0, "y": 14.5, "z": 0}}
+                ],
+                "children": {
+                    "nodesList": [ "lampcord", "lampshade", "lampbulb" ],
+                    "spotlight": {
+                        "type": "spotlight",
+                        "enabled": true,
+                        "color": {"r": 0.96, "g": 0.8, "b": 0.55},
+                        "intensity": 400,
+                        "position": {"x": 0, "y": 1, "z": 0},
+                        "target": {"x": 0, "y": 0, "z": 0},
+                        "distance": 15,
+                        "angle": 30
+                    }
+                }
+            },
+            "lampcord": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 0, "y": 4, "z": 0}}
+                ],
+                "materialref": { "materialId": "silvermaterial" },
+                "children": {
+                    "cylinderPrim": {
+                        "type": "cylinder",
+                        "base": 0.1,
+                        "top": 0.1,
+                        "height": 5,
+                        "slices": 30,
+                        "stacks": 1
+                    }
+                }
+            },
+            "lampshade": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 0, "y": 1.5, "z": 0}}
+                ],
+                "materialref": { "materialId": "silvermaterial" },
+                "children": {
+                    "cylinderPrim": {
+                        "type": "cylinder",
+                        "base": 2,
+                        "top": 0.1,
+                        "height": 3,
+                        "slices": 30,
+                        "stacks": 1
+                    }
+                }
+            },
+            "lampbulb": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 0, "y": 1, "z": 0}}
+                ],
+                "materialref": { "materialId": "yellowmaterial" },
+                "children": {
+                    "spherePrim": {
+                        "type": "sphere",
+                        "radius": 0.5,
+                        "slices": 30,
+                        "stacks": 30
+                    }
+                }
+            },
+            "menu": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 0, "y": 6.5, "z": 0}}
+                ],
+                "materialref": { "materialId": "menumaterial" },
+                "castshadows": true,
+                "receiveshadows": true,
+                "children": {
+                    "nurbsPrim": {
+                        "type": "nurbs",
+                        "degree_u": 3,
+                        "degree_v": 1,
+                        "parts_u": 60,
+                        "parts_v": 1,
+                        "controlpoints": [
+                                {"x": -1.5, "y": -1.5, "z": 0},
+                                {"x": -1.5, "y": 1.5, "z": 0},
+                                {"x": -1, "y": -1.5, "z": 1},
+                                {"x": -1, "y": 1.5, "z": 1},
+                                {"x": 1, "y": -1.5, "z": -1},
+                                {"x": 1, "y": 1.5, "z": -1},
+                                {"x": 1.5, "y": -1.5, "z": 0},
+                                {"x": 1.5, "y": 1.5, "z": 0}
+                        ]
+                    }
+                }
+            },
+            "sofaright": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 3.5, "y": 0, "z": 0}}
+                ],
+                "children": {
+                    "lodsList": [ "sofalod" ]
+                }
+            },
+            "sofaleft": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": -3.5, "y": 0, "z": 0}},
+                    {"type": "rotate", "amount": { "x": 0, "y": 180, "z": 0}}
+                ],
+                "children": {
+                    "lodsList": [ "sofalod" ]
+                }
+            },
+            "sofalod": {
+                "type": "lod",
+                "lodNodes": [{
+                    "nodeId": "sofa",
+                    "mindist": 0
+                },
+                {
+                    "nodeId": "sofa1",
+                    "mindist": 30
+                }]
+            },
+            "sofa": {
+                "type": "node",
+                "materialref": { "materialId": "redmaterial" },
+                "children": {
+                    "nodesList": [ "sofaseat", "sofafeet", "sofaback", "sofaheadrest" ]
+                }
+            },
+            "sofa1": {
+                "type": "node",
+                "materialref": { "materialId": "redmaterial" },
+                "children": {
+                    "nodesList": [ "sofaseat", "sofaback" ]
+                }
+            },
+            "sofaseat": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 0.5, "y": 1.25, "z": 0}}
+                ],
+                "children": {
+                    "boxPrim": {
+                        "type": "box",
+                        "xyz1": {"x": -1.0, "y": -1.25, "z": -4},
+                        "xyz2": {"x": 1.0, "y": 1.25, "z": 4}
+                    }
+                }
+            },
+            "sofafeet": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": -0.5, "y": 1.25, "z": 0}},
+                    {"type": "rotate", "amount": { "x": 90, "y": 0, "z": 0}}
+                ],
+                "children": {
+                    "cylinderPrim": {
+                        "type": "cylinder",
+                        "base": 1.25,
+                        "top": 1.25,
+                        "height": 8,
+                        "capsclose": true,
+                        "slices": 30,
+                        "stacks": 30
+                    }
+                }
+            },
+            "sofaback": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 2.5, "y": 3, "z": 0}},
+                    {"type": "rotate", "amount": { "x": 0, "y": 90, "z": 0}}
+                ],
+                "children": {
+                    "boxPrim": {
+                        "type": "box",
+                        "xyz1": {"x": -4, "y": -3, "z": -1},
+                        "xyz2": {"x": 4, "y": 3, "z": 1}
+                    }
+                }
+            },
+            "sofaheadrest": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 2.5, "y": 6, "z": 0}},
+                    {"type": "rotate", "amount": { "x": 90, "y": 0, "z": 0}}
+                ],
+                "children": {
+                    "cylinderPrim": {
+                        "type": "cylinder",
+                        "base": 1,
+                        "top": 1,
+                        "height": 8,
+                        "capsclose": true,
+                        "slices": 30,
+                        "stacks": 30,
+                        "thetastart": 90,
+                        "thetalength":180
+                    }
+                }
+            },
+            "kitchen": {
+                "type": "node",
+                "transforms": [
+                    {"type": "translate", "amount": { "x": 24, "y": 10, "z": 0}},
+                    {"type": "rotate", "amount": { "x": 0, "y": -90, "z": 0}}
+                ],
+                "materialref": { "materialId": "kitchenmaterial" },
+                "children": {
+                    "rectanglePrim": {
+                        "type": "rectangle",
+                        "xy1": {"x": -18, "y": -12},
+                        "xy2": {"x": 18, "y": 12}
+                    }
+                }
+            }
+        }
+    }
+}

@@ -20,6 +20,8 @@ class YASFstructures{
     
         this.descriptors = [];
 
+        this.lods = [];
+
         this.customAttributeName = "custom"
 
         this.descriptors["globals"] = [
@@ -259,7 +261,7 @@ class YASFstructures{
         ]
 
         this.primaryNodeIds = ["globals", "fog" ,"textures", "materials", "cameras", "graph"]
-        this.primitiveIds = ["cylinder", "rectangle", "triangle", "sphere", "nurbs" , "box", "model3d", "skybox", "lod", "polygon", "ring", "circle"]
+        this.primitiveIds = ["cylinder", "rectangle", "triangle", "sphere", "nurbs" , "box", "model3d", "skybox", "polygon", "ring", "circle"]
         this.lightIds = ["spotlight", "pointlight", "directionallight"]
     }
 
@@ -482,6 +484,33 @@ class YASFstructures{
         }
     
         return null;
+    }
+
+    getLOD(id){
+        let v = this.lods[id];
+        if (v === undefined) return null;
+        return v; 
+    }
+    createEmptyLOD(id){
+        let obj = this.getLOD(id);
+        if (obj !== null && obj !== undefined){
+            throw new Error("inconsistency: a lod with id " + id + " already exists!");
+        }
+        obj = {id: id, children: [], loaded: false, type: "lod"};
+        this.addLOD(obj);
+        return obj;
+    }
+    addLOD(lod){
+        let obj = this.getLOD(lod.id);
+        if (obj !== null && obj !== undefined){
+            throw new Error("inconsistency: a lod with id " + lod.id + " already exists!");
+        }
+        this.lods[lod.id] = lod;
+        this.createCustomAttributeIfNotExists(lod);
+        console.debug("added lod " + JSON.stringify(lod));
+    }
+    getLODs(){
+        return this.lods;
     }
 
 }

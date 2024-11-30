@@ -2,10 +2,11 @@ import * as THREE from 'three';
 import { MyAxis } from './MyAxis.js';
 import { MyFileReader } from './parser/MyFileReader.js';
 import {loadCameras} from './loaders/LoadCameras.js'
-import { loadGloabls } from './loaders/LoadGlobals.js';
+import { loadGlobals } from './loaders/LoadGlobals.js';
 import { loadTextures } from './loaders/LoadTextures.js';
 import { loadMaterials } from './loaders/LoadMaterials.js';
 import {loadObjects} from './loaders/LoadObjects.js';
+
 
 /**
  *  This class contains the contents of out application
@@ -76,7 +77,7 @@ class MyContents {
             this.app.gui.onContentsReady();
         }
 
-        let globalsStructure = loadGloabls.loadGloabls(data);
+        let globalsStructure = loadGlobals.loadGlobals(data);
         this.app.scene.background = globalsStructure.background;
         this.app.scene.add(globalsStructure.ambient);
         this.app.lights["ambient"] = globalsStructure.ambient;
@@ -84,10 +85,15 @@ class MyContents {
         this.app.scene.add(globalsStructure.skybox);
 
         let textures = loadTextures.loadTextures(data.getTextures());
-        let organizeMaterials = loadMaterials.organizeProporties(textures, data.getMaterials());
-        let result = loadObjects.loadObjects(data.getRootId(), data.getNodes(), organizeMaterials);
-        this.objects = result.objects;
-        this.app.scene.add(result.scene);
+        let organizeMaterials = loadMaterials.organizeProperties(textures, data.getMaterials());
+        let rootId = data.getRootId();
+        let rootNode = data.getNode(rootId);
+        let myScene = loadObjects.load(rootNode, organizeMaterials);
+        this.objects = loadObjects.getObjects();
+        console.log(this.objects);
+        //console.log(data.getLODs());
+        //let myScene = loadObjects.loadObjects(data.getRootId(), data.getNodes(), organizeMaterials);
+        this.app.scene.add(myScene);
         
     }
 
@@ -96,33 +102,30 @@ class MyContents {
 
     activeWireframe(){
         for (let object of this.objects) {
-            for (let child of object.children) {
-                if (child.material) { 
-                    let materials = child.material;
-                    if (Array.isArray(materials)) {
-                        for (let material of materials) {
-                            material.wireframe = true;
-                        }
-                    } else {
-                        materials.wireframe = true;
+            if (object.material) { 
+                let materials = object.material;
+                if (Array.isArray(materials)) {
+                    for (let material of materials) {
+                        material.wireframe = true;
                     }
+                } else {
+                    materials.wireframe = true;
                 }
             }
+            
         }
     }
 
     disableWireframe(){
         for (let object of this.objects) {
-            for (let child of object.children) {
-                if (child.material) { 
-                    let materials = child.material;
-                    if (Array.isArray(materials)) {
-                        for (let material of materials) {
-                            material.wireframe = false;
-                        }
-                    } else {
-                        materials.wireframe = false;
+            if (object.material) { 
+                let materials = object.material;
+                if (Array.isArray(materials)) {
+                    for (let material of materials) {
+                        material.wireframe = false;
                     }
+                } else {
+                    materials.wireframe = false;
                 }
             }
         }
