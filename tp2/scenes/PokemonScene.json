@@ -754,9 +754,84 @@
                     "materialId": "tree_crown_m"
                 },
                 "children": {
+                    "nodesList": ["tree_crown1", "tree_crown2", "tree_crown3", "tree_crown4"],
                     "tree_crown_sphere":{
                         "type": "sphere",
                         "radius": 1.0,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "tree_crown1":{
+                "type": "node",
+                "children": {
+                    "tree_crown_sphere":{
+                        "type": "sphere",
+                        "radius": 1.0,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "tree_crown2":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.192,
+                            "y": 0.222,
+                            "z": 0.185
+                        }
+                    }
+                ],
+                "children": {
+                    "tree_crown_sphere":{
+                        "type": "sphere",
+                        "radius": 0.84,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "tree_crown3":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -0.179,
+                            "y": 0.019,
+                            "z": 0.033
+                        }
+                    }
+                ],
+                "children": {
+                    "tree_crown_sphere":{
+                        "type": "sphere",
+                        "radius": 0.83,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "tree_crown4":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -0.209,
+                            "y": 0.070,
+                            "z": -0.210
+                        }
+                    }
+                ],
+                "children": {
+                    "tree_crown_sphere":{
+                        "type": "sphere",
+                        "radius": 0.82,
                         "slices": 32,
                         "stacks": 16
                     }
