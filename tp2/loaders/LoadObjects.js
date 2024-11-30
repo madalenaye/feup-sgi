@@ -175,6 +175,11 @@ export const loadObjects = {
             materials.push(newMaterial);
         });
 
+        let thetaLength = parameters.thetalength;
+        if (thetaLength !== 2 * Math.PI) {
+            thetaLength = THREE.MathUtils.degToRad(thetaLength);
+        }
+
         let cylinderGeometry = new THREE.CylinderGeometry(
                                 parameters.top, 
                                 parameters.base, 
@@ -182,8 +187,8 @@ export const loadObjects = {
                                 parameters.slices, 
                                 parameters.stacks, 
                                 !parameters.capsclose, 
-                                parameters.thetastart, 
-                                parameters.thetalength);
+                                THREE.MathUtils.degToRad(parameters.thetastart), 
+                                thetaLength);
 
         let cylinderMesh = new THREE.Mesh(cylinderGeometry, materials);
 
@@ -211,7 +216,7 @@ export const loadObjects = {
         if (thetaLength !== 2 * Math.PI) {
             thetaLength = THREE.MathUtils.degToRad(thetaLength);
         }
-
+        
 
         let sphereGeometry = new THREE.SphereGeometry(
                             parameters.radius, 
