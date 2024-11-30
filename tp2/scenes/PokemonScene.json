@@ -63,6 +63,38 @@
                     "y": 0,
                     "z": 0
                 }
+            },
+            "left": {
+                "type": "perspective",
+                "angle": 50,
+                "near": 0.1,
+                "far": 1000,
+                "location": {
+                    "x": -40,
+                    "y": 12,
+                    "z": 0
+                },
+                "target": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            },
+            "right": {
+                "type": "perspective",
+                "angle": 50,
+                "near": 0.1,
+                "far": 1000,
+                "location": {
+                    "x": 40,
+                    "y": 12,
+                    "z": 0
+                },
+                "target": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
             }
         },
         "textures": {
