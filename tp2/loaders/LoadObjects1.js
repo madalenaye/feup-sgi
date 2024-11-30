@@ -18,7 +18,7 @@ const dealWithNodes = function(node, materialId=null, materials){
         const lod = new THREE.LOD()
         for (let child of node.children){
             const childGroup = dealWithNodes(child.node, materialId, materials);
-            lod.addLevel(childGroup, child.distance);
+            lod.addLevel(childGroup, child.mindist);
         }
         return lod;
     }
