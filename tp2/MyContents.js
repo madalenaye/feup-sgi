@@ -6,7 +6,7 @@ import { loadGlobals } from './loaders/LoadGlobals.js';
 import { loadTextures } from './loaders/LoadTextures.js';
 import { loadMaterials } from './loaders/LoadMaterials.js';
 import {loadObjects} from './loaders/LoadObjects.js';
-import {loadObjects1} from './loaders/LoadObjects1.js';
+
 
 /**
  *  This class contains the contents of out application
@@ -20,6 +20,7 @@ class MyContents {
     constructor(app) {
         this.app = app
         this.axis = null
+        this.objects = null
 
         this.reader = new MyFileReader(this.onSceneLoaded.bind(this));
         this.reader.open("scenes/SGI_TP1_T04_G01_v02.json");
@@ -34,6 +35,7 @@ class MyContents {
             // create and attach the axis to the scene
             this.axis = new MyAxis(this)
             this.app.scene.add(this.axis)
+            this.axis.visible = false
         }
     }
 
@@ -68,7 +70,11 @@ class MyContents {
         });
 
         if (activeCameraId && this.app.cameras[activeCameraId]) {
+            this.app.activeCamera = this.app.cameras[activeCameraId];
             this.app.setActiveCamera(activeCameraId);
+        }
+        if (this.app.gui) {
+            this.app.gui.onContentsReady();
         }
 
         let globalsStructure = loadGlobals.loadGlobals(data);
@@ -82,7 +88,9 @@ class MyContents {
         let organizeMaterials = loadMaterials.organizeProperties(textures, data.getMaterials());
         let rootId = data.getRootId();
         let rootNode = data.getNode(rootId);
-        let myScene = loadObjects1.load(rootNode, organizeMaterials);
+        let myScene = loadObjects.load(rootNode, organizeMaterials);
+        this.objects = loadObjects.getObjects();
+        console.log(this.objects);
         //console.log(data.getLODs());
         //let myScene = loadObjects.loadObjects(data.getRootId(), data.getNodes(), organizeMaterials);
         this.app.scene.add(myScene);
@@ -90,6 +98,37 @@ class MyContents {
     }
 
     update() {
+    }
+
+    activeWireframe(){
+        for (let object of this.objects) {
+            if (object.material) { 
+                let materials = object.material;
+                if (Array.isArray(materials)) {
+                    for (let material of materials) {
+                        material.wireframe = true;
+                    }
+                } else {
+                    materials.wireframe = true;
+                }
+            }
+            
+        }
+    }
+
+    disableWireframe(){
+        for (let object of this.objects) {
+            if (object.material) { 
+                let materials = object.material;
+                if (Array.isArray(materials)) {
+                    for (let material of materials) {
+                        material.wireframe = false;
+                    }
+                } else {
+                    materials.wireframe = false;
+                }
+            }
+        }
     }
 }
 
