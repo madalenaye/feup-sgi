@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { loadMaterials } from './LoadMaterials.js';
 import {nurbsSurface} from '../utils/NurbsSurface.js'
+import { MyTriangle } from '../utils/MyTriangle.js';
 
 export const loadObjects = {
 
@@ -251,6 +252,39 @@ export const loadObjects = {
 
     },
 
+    createTriangle(parameters, material, castShadows, receiveShadows){
+        if(material == null || material == undefined){
+            throw new Error("Error in function createTriangle. Lack of material");  
+        }
+        
+        let v1 = new THREE.Vector3(parameters.xyz1[0], parameters.xyz1[1], parameters.xyz1[2]);
+        let v2 = new THREE.Vector3(parameters.xyz2[0], parameters.xyz2[1], parameters.xyz2[2]);
+        let v3 = new THREE.Vector3(parameters.xyz3[0], parameters.xyz3[1], parameters.xyz3[2]);
+
+        let a = v1.distanceTo(v2); // V1 - V2
+        let b = v2.distanceTo(v3); // V2 - V3
+        let c = v1.distanceTo(v3); // V1 - V3
+        
+        let cos_ac = (a * a - b * b + c * c) / (2 * a * c)
+		let sin_ac = Math.sqrt(1 - cos_ac * cos_ac)
+
+        let height = c * sin_ac;
+        let base = a;
+
+        let newMaterial = loadMaterials.createMaterial(material, base, height);
+        let triangleGeometry = new MyTriangle(parameters.xyz1[0], parameters.xyz1[1], parameters.xyz1[2],
+                                              parameters.xyz2[0], parameters.xyz2[1], parameters.xyz2[2],                   
+                                              parameters.xyz3[0], parameters.xyz3[1], parameters.xyz3[2])
+
+        let triangleMesh = new THREE.Mesh(triangleGeometry, newMaterial);
+
+        triangleMesh.castShadow = castShadows ?? false;
+        triangleMesh.receiveShadow = receiveShadows ?? false;
+
+        return triangleMesh;
+
+    },
+
     createObject(representations, nodeParent, currentGroup, organizeMaterials){
         switch (representations.subtype){
             case "rectangle":
@@ -279,6 +313,8 @@ export const loadObjects = {
                 break;
             
             case "triangle":
+                let triangle = loadObjects.createTriangle(representations, organizeMaterials[nodeParent.materialIds[0]], nodeParent.castShadows, nodeParent.receiveShadows);
+                currentGroup.add(triangle);
                 break;
 
             case "polygon":
@@ -350,7 +386,7 @@ export const loadObjects = {
         
         const rootObject = listObjects[rootNode];
         const sceneRoot = traverseDFS(rootObject, null, organizeMaterials, null);
-        
+
         let result = {scene: sceneRoot, objects: objects};
 
         return result;
