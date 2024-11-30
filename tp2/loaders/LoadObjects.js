@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { loadMaterials } from './LoadMaterials.js';
 import {nurbsSurface} from '../utils/NurbsSurface.js'
+import { MyTriangle } from '../utils/MyTriangle.js';
 
 export const objects = [];
 export const loadObjects = {
@@ -370,8 +371,8 @@ const createTriangle = function (parameters, material, castShadow, receiveShadow
 
     let triangleMesh = new THREE.Mesh(triangleGeometry, newMaterial);
 
-    triangleMesh.castShadow = castShadows ?? false;
-    triangleMesh.receiveShadow = receiveShadows ?? false;
+    triangleMesh.castShadow = castShadow ?? false;
+    triangleMesh.receiveShadow = receiveShadow ?? false;
 
     return triangleMesh;
 

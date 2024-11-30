@@ -23,7 +23,7 @@ class MyContents {
         this.objects = null
 
         this.reader = new MyFileReader(this.onSceneLoaded.bind(this));
-        this.reader.open("scenes/SGI_TP1_T04_G01_v02.json");
+        this.reader.open("scenes/dressrosacolosseum.json");
     }
 
     /**
