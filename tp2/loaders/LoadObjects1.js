@@ -25,10 +25,7 @@ const dealWithNodes = function(node, materialId=null, materials){
     else if (node.type == "node"){
         let material = null;
         material = node.materialIds.length !== 0 ? materials[node.materialIds[0]] : materialId;
-        console.log(material)
-        if (node.id == "kitchen"){
-            console.log(node)
-        }
+
         for (let key in node.children){
             if (node.children[key].type == 'node'){
                 let child = node.children[key]
@@ -46,17 +43,18 @@ const dealWithNodes = function(node, materialId=null, materials){
                 const child = node.children[key]
                 switch(child.type){
                     case 'pointlight':
-                        //let pointLight = buildPointLight(child)
-                        //group.add(pointLight);
+                        console.log(child)
+                        let pointLight = buildPointLight(child)
+                        group.add(pointLight);
                         break;
                     case 'spotlight':
-                        //let spotLight = buildSpotLight(child)
-                        //group.add(spotLight);
+                        let spotLight = buildSpotLight(child)
+                        group.add(spotLight);
                         break;
                     
                     case 'directionallight':
-                        //let directionalLight = buildDirectionalLight(child)
-                        //group.add(directionalLight);
+                        let directionalLight = buildDirectionalLight(child)
+                        group.add(directionalLight);
                         break;
                     case 'primitive':
                         let primitive = null;
@@ -263,5 +261,51 @@ const createNurb = function(parameters, material){
 const degreesToRadians = (degrees) => degrees * (Math.PI / 180);
 
 const buildPointLight = function(parameters){
+    if (!parameters.enabled) return;
 
+    let light = new THREE.PointLight(parameters.color, parameters.intensity, parameters.distance, parameters.decay);
+    light.castShadow = parameters.castshadow;
+    if (parameters.castshadow) {
+        light.shadow.camera.far = parameters.shadowfar;
+        light.shadow.mapSize.width = parameters.shadowmapsize;
+        light.shadow.mapSize.height = parameters.shadowmapsize;
+    }
+    light.position.set(parameters.position[0], parameters.position[1], parameters.position[2]);
+    return light;
+}
+const buildSpotLight = function(parameters){
+    let light = new THREE.SpotLight(parameters.color, parameters.intensity, parameters.distance, parameters.angle, parameters.penumbra, parameters.decay);
+    light.castShadow = parameters.castshadow;
+
+    if (parameters.castshadow) {
+        light.shadow.camera.far = parameters.shadowfar;
+        light.shadow.mapSize.width = parameters.shadowmapsize;
+        light.shadow.mapSize.height = parameters.shadowmapsize;
+    }
+    light.position.set(parameters.position[0], parameters.position[1], parameters.position[2]);
+    
+    const target = new THREE.Object3D();
+    target.position.set(parameters.target[0], parameters.target[1], parameters.target[2]);
+    light.target = target;
+    
+    return light;
+}
+
+const buildDirectionalLight = function(parameters){
+    let light = new THREE.DirectionalLight(parameters.color, parameters.intensity);
+    light.castShadow = parameters.castshadow;
+    
+    if (parameters.castshadow) {
+        light.shadow.camera.left = parameters.shadowleft;
+        light.shadow.camera.right = parameters.shadowright;
+        light.shadow.camera.bottom = parameters.shadowbottom;
+        light.shadow.camera.top = parameters.shadowtop;
+    }
+    if (parameters.castshadow) {
+        light.shadow.camera.far = parameters.shadowfar;
+        light.shadow.mapSize.width = parameters.shadowmapsize;
+        light.shadow.mapSize.height = parameters.shadowmapsize;
+    }
+    light.position.set(parameters.position[0], parameters.position[1], parameters.position[2]);
+    return light;
 }
