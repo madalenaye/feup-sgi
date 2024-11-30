@@ -183,7 +183,9 @@
                 "emissive": {"r": 0, "g": 0, "b": 0},
                 "transparent": false,
                 "opacity": 1,
-                "textureref": "kitchentexture"
+                "textureref": "kitchentexture",
+                "texlength_s": 1,
+                "texlength_t": 1
             }
         },
         "graph": {
@@ -605,7 +607,7 @@
             "kitchen": {
                 "type": "node",
                 "transforms": [
-                    {"type": "translate", "amount": { "x": 25, "y": 10, "z": 0}},
+                    {"type": "translate", "amount": { "x": 24, "y": 10, "z": 0}},
                     {"type": "rotate", "amount": { "x": 0, "y": -90, "z": 0}}
                 ],
                 "materialref": { "materialId": "kitchenmaterial" },

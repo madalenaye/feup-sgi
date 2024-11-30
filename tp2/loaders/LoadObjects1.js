@@ -17,7 +17,6 @@ const dealWithNodes = function(node, materialId=null, materials){
     if (node.type == "lod"){
         const lod = new THREE.LOD()
         for (let child of node.children){
-            console.log(child)
             const childGroup = dealWithNodes(child.node, materialId, materials);
             lod.addLevel(childGroup, child.distance);
         }
@@ -25,9 +24,11 @@ const dealWithNodes = function(node, materialId=null, materials){
     }
     else if (node.type == "node"){
         let material = null;
-        if (node.materialIds.length !== 0) material = materials[node.materialIds[0]];
-        else if (materialId) material = materialId;
-
+        material = node.materialIds.length !== 0 ? materials[node.materialIds[0]] : materialId;
+        console.log(material)
+        if (node.id == "kitchen"){
+            console.log(node)
+        }
         for (let key in node.children){
             if (node.children[key].type == 'node'){
                 let child = node.children[key]
@@ -37,8 +38,6 @@ const dealWithNodes = function(node, materialId=null, materials){
         
            else if (node.children[key].type == 'lod'){
                 let child = node.children[key]
-                console.log(child)
-                console.log(material)
                 const childGroup = dealWithNodes(child, material, materials);
                 group.add(childGroup);
             }
@@ -88,7 +87,6 @@ const dealWithNodes = function(node, materialId=null, materials){
             }
         }
     }
-    console.log(node.transformations)
     dealWithTransformations(group, node.transformations);
     return group;
 }

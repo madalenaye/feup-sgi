@@ -333,6 +333,7 @@ export const loadObjects = {
                 parentGroup.add(currentGroup);
             }
 
+
             if(nodeClone.type === 'primitive'){
                 //console.log(`Primitive with type: ${node.subtype}`)
                 //currentGroup.name = "primitive";
