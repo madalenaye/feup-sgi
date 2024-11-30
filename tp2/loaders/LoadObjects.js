@@ -317,6 +317,21 @@ export const loadObjects = {
     
             currentGroup.name = nodeClone.id;
 
+            if (nodeClone.type === 'lod') {
+                const lod = new THREE.LOD();
+                lod.name = nodeClone.id;
+        
+                for (const child of nodeClone.children) {
+                    const mesh = traverseDFS(child, null, organizeMaterials, nodeClone); // Recursive traversal for LOD levels
+                    lod.addLevel(mesh, child.mindist); // Add LOD levels
+                }
+        
+                if (parentGroup) {
+                    parentGroup.add(lod);
+                }
+                return lod;
+            }
+            
             if (nodeClone.type === 'pointlight' || nodeClone.type === 'spotlight' || nodeClone.type === 'directionallight') {
                 //console.log(`Light with type: ${node.type}`);
                 loadObjects.loadLight(nodeClone, currentGroup);

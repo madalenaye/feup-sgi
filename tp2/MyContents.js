@@ -79,7 +79,9 @@ class MyContents {
 
         let textures = loadTextures.loadTextures(data.getTextures());
         let organizeMaterials = loadMaterials.organizeProperties(textures, data.getMaterials());
-        let myScene = loadObjects.loadObjects(data.getRootId(), data.getNodes(), organizeMaterials);
+        //let myScene = loadObjects.loadObjects(data.getRootId(), data.getNodes(), organizeMaterials);
+        const allObjects = {...data.getNodes(), ...data.getLODs()};
+        let myScene = loadObjects.loadObjects(data.getRootId(), allObjects, organizeMaterials);
         this.app.scene.add(myScene);
         
     }

@@ -489,14 +489,14 @@ class YASFstructures{
     getLOD(id){
         let v = this.lods[id];
         if (v === undefined) return null;
-        return value; 
+        return v; 
     }
     createEmptyLOD(id){
         let obj = this.getLOD(id);
         if (obj !== null && obj !== undefined){
             throw new Error("inconsistency: a lod with id " + id + " already exists!");
         }
-        obj = {id: id, lodNodes: [], loaded: false, type: "lod"};
+        obj = {id: id, children: [], loaded: false, type: "lod"};
         this.addLOD(obj);
         return obj;
     }
@@ -508,6 +508,9 @@ class YASFstructures{
         this.lods[lod.id] = lod;
         this.createCustomAttributeIfNotExists(lod);
         console.debug("added lod " + JSON.stringify(lod));
+    }
+    getLODs(){
+        return this.lods;
     }
 
 }
