@@ -29,50 +29,62 @@ const dealWithNodes = function(node, materialId=null, materials){
         for (let key in node.children){
             if (node.children[key].type == 'node'){
                 let child = node.children[key]
+                if (node.castshadow) child.castshadow = true;
+                if (node.receiveshadow) child.receiveshadow = true;
                 const childGroup = dealWithNodes(child, material, materials);
                 group.add(childGroup);
             }
         
            else if (node.children[key].type == 'lod'){
                 let child = node.children[key]
+                if (node.castShadows) child.castShadows = true;
+                if (node.receiveShadows) child.receiveShadows = true;
                 const childGroup = dealWithNodes(child, material, materials);
                 group.add(childGroup);
             }
            
            else{
                 const child = node.children[key]
+                let castShadow = node.castShadows;
+                let receiveShadow = node.ReceiveShadows;
+
                 switch(child.type){
                     case 'pointlight':
-                        console.log(child)
-                        let pointLight = buildPointLight(child)
+                        if (node.castshadow) child.castshadow = true;
+                        if (node.receiveshadow) child.receiveshadow = true;
+                        let pointLight = buildPointLight(child);
                         group.add(pointLight);
                         break;
                     case 'spotlight':
-                        let spotLight = buildSpotLight(child)
+                        if (node.castshadow) child.castshadow = true;
+                        if (node.receiveshadow) child.receiveshadow = true;
+                        let spotLight = buildSpotLight(child);
                         group.add(spotLight);
                         break;
                     
                     case 'directionallight':
-                        let directionalLight = buildDirectionalLight(child)
+                        if (node.castshadow) child.castshadow = true;
+                        if (node.receiveshadow) child.receiveshadow = true;
+                        let directionalLight = buildDirectionalLight(child);
                         group.add(directionalLight);
                         break;
                     case 'primitive':
                         let primitive = null;
                         switch(child.subtype){
                             case 'rectangle':
-                                primitive = createRectangle(child.representations[0], material);
+                                primitive = createRectangle(child.representations[0], material, castShadow, receiveShadow);
                                 break;
                             case 'box':
-                                primitive = createBox(child.representations[0], material);
+                                primitive = createBox(child.representations[0], material, castShadow, receiveShadow);
                                 break;
                             case 'cylinder':
-                                primitive = createCylinder(child.representations[0], material);
+                                primitive = createCylinder(child.representations[0], material, castShadow, receiveShadow);
                                 break;
                             case 'sphere':
-                                primitive = createSphere(child.representations[0], material);
+                                primitive = createSphere(child.representations[0], material, castShadow, receiveShadow);
                                 break;
                             case 'nurbs':
-                                primitive = createNurb(child.representations[0], material);
+                                primitive = createNurb(child.representations[0], material, castShadow, receiveShadow);
                                 break;
                             default:
                                 throw new Error('Invalid primitive type ' + child.subtype);
@@ -113,7 +125,7 @@ const dealWithTransformations = function(group, transformations){
     }
 }
 
-const createRectangle = function (parameters, material){
+const createRectangle = function (parameters, material, castShadow, receiveShadow){
     let width =  Math.abs(parameters.xy2[0] - parameters.xy1[0]);
     let height = Math.abs(parameters.xy2[1] - parameters.xy1[1]);
     let newMaterial = null;
@@ -129,11 +141,13 @@ const createRectangle = function (parameters, material){
     rectangleMesh.position.x = (parameters.xy2[0] + parameters.xy1[0])/2.0;
     rectangleMesh.position.y = (parameters.xy2[1] + parameters.xy1[1])/2.0;
 
+    rectangleMesh.castShadow = castShadow;
+    rectangleMesh.receiveShadow = receiveShadow;
 
     return rectangleMesh;
 }
 
-const createBox = function (parameters, material){
+const createBox = function (parameters, material, castShadow, receiveShadow){
 
     if(material == null || material == undefined){
         throw new Error("Error in function createBox. Lack of material");
@@ -167,10 +181,13 @@ const createBox = function (parameters, material){
     boxMesh.position.y = (parameters.xyz2[1] + parameters.xyz1[1]) / 2;
     boxMesh.position.z = (parameters.xyz2[2] + parameters.xyz1[2]) / 2;
 
+    boxMesh.castShadow = castShadow;
+    boxMesh.receiveShadow = receiveShadow;
+
     return boxMesh;
 }
 
-const createCylinder = function(parameters, material){
+const createCylinder = function(parameters, material, castShadow, receiveShadow){
 
     if(material == null || material == undefined){
         throw new Error("Error in function createCylinder. Lack of material");
@@ -201,11 +218,14 @@ const createCylinder = function(parameters, material){
 
     let cylinderMesh = new THREE.Mesh(cylinderGeometry, materials);
 
+    cylinderMesh.castShadow = castShadow;
+    cylinderMesh.receiveShadow = receiveShadow;
+
     return cylinderMesh;
 
 }
 
-const createSphere = function (parameters, material){
+const createSphere = function (parameters, material, castShadow, receiveShadow){
 
     if(material == null || material == undefined){
         throw new Error("Error in function createSphere. Lack of material");
@@ -236,10 +256,13 @@ const createSphere = function (parameters, material){
 
     let sphereMesh = new THREE.Mesh(sphereGeometry, newMaterial);
 
+    sphereMesh.castShadow = castShadow;
+    sphereMesh.receiveShadow = receiveShadow;
+
     return sphereMesh;
 }
 
-const createNurb = function(parameters, material){
+const createNurb = function(parameters, material, castShadow, receiveShadow){
     if(material == null || material == undefined){
         throw new Error("Error in function createNurb. Lack of material");  
     }
@@ -253,7 +276,9 @@ const createNurb = function(parameters, material){
                                                 parameters.parts_v,
                                                 newMaterial)
 
-
+    nurb.castShadow = castShadow;
+    nurb.receiveShadow = receiveShadow;
+    
     return nurb;
 
 }
