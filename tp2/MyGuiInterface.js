@@ -18,6 +18,11 @@ class MyGuiInterface  {
         this.wireframeEnabled = false;
     }
 
+    onContentsReady() {
+        console.info("Contents ready. Initializing GUI.");
+        this.init();
+    }
+
     /**
      * Set the contents object
      * @param {MyContents} contents the contents objects 
@@ -40,6 +45,19 @@ class MyGuiInterface  {
                 this.contents.disableWireframe();
             }
         });
+
+        let cameras = (this.app.cameras);
+        delete cameras.PerspectiveError;
+        this.cameraNames = Object.keys(cameras);
+
+        this.cameraList = this.datgui.add(this.app, 'activeCameraName', this.cameraNames)
+            .name('Active Camera')
+            .onChange((cameraName) => {
+                this.app.setActiveCamera(cameraName);
+            });
+        
+        
+        
     }
 }
 

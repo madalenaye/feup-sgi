@@ -71,6 +71,9 @@ class MyContents {
             this.app.activeCamera = this.app.cameras[activeCameraId];
             this.app.setActiveCamera(activeCameraId);
         }
+        if (this.app.gui) {
+            this.app.gui.onContentsReady();
+        }
 
         let globalsStructure = loadGloabls.loadGloabls(data);
         this.app.scene.background = globalsStructure.background;

@@ -47,7 +47,7 @@ class MyApp  {
         document.body.appendChild(this.stats.dom)
 
         this.initCameras();
-        this.setActiveCamera('Perspective')
+        this.setActiveCamera('PerspectiveError')
 
         // Create a renderer with Antialiasing
         this.renderer = new THREE.WebGLRenderer({antialias:true});
@@ -77,7 +77,7 @@ class MyApp  {
         // Create a basic perspective camera
         const perspective1 = new THREE.PerspectiveCamera( 75, aspect, 0.1, 1000 )
         perspective1.position.set(10,10,3)
-        this.cameras['Perspective'] = perspective1
+        this.cameras['PerspectiveError'] = perspective1
 
         // defines the frustum size for the orthographic cameras
         const left = -this.frustumSize / 2 * aspect
