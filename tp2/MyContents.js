@@ -2,10 +2,11 @@ import * as THREE from 'three';
 import { MyAxis } from './MyAxis.js';
 import { MyFileReader } from './parser/MyFileReader.js';
 import {loadCameras} from './loaders/LoadCameras.js'
-import { loadGloabls } from './loaders/LoadGlobals.js';
+import { loadGlobals } from './loaders/LoadGlobals.js';
 import { loadTextures } from './loaders/LoadTextures.js';
 import { loadMaterials } from './loaders/LoadMaterials.js';
 import {loadObjects} from './loaders/LoadObjects.js';
+import {loadObjects1} from './loaders/LoadObjects1.js';
 
 /**
  *  This class contains the contents of out application
@@ -70,7 +71,7 @@ class MyContents {
             this.app.setActiveCamera(activeCameraId);
         }
 
-        let globalsStructure = loadGloabls.loadGloabls(data);
+        let globalsStructure = loadGlobals.loadGlobals(data);
         this.app.scene.background = globalsStructure.background;
         this.app.scene.add(globalsStructure.ambient);
         this.app.lights["ambient"] = globalsStructure.ambient;
@@ -79,8 +80,11 @@ class MyContents {
 
         let textures = loadTextures.loadTextures(data.getTextures());
         let organizeMaterials = loadMaterials.organizeProperties(textures, data.getMaterials());
-        console.log(data.getLODs());
-        let myScene = loadObjects.loadObjects(data.getRootId(), data.getNodes(), organizeMaterials);
+        let rootId = data.getRootId();
+        let rootNode = data.getNode(rootId);
+        let myScene = loadObjects1.load(rootNode, organizeMaterials);
+        //console.log(data.getLODs());
+        //let myScene = loadObjects.loadObjects(data.getRootId(), data.getNodes(), organizeMaterials);
         this.app.scene.add(myScene);
         
     }

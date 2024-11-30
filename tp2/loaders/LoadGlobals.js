@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 
-export const loadGloabls = {
+export const loadGlobals = {
 
-    loadGloabls(data){
+    loadGlobals(data){
         let lightData = data.getOptions()
         let background = new THREE.Color(lightData.background[0], lightData.background[1], lightData.background[2]);
         let ambient = new THREE.AmbientLight(new THREE.Color(lightData.ambient[0], lightData.ambient[1], lightData.ambient[2]), lightData.ambient[3]);
