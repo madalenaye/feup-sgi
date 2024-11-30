@@ -261,7 +261,7 @@ class YASFstructures{
         ]
 
         this.primaryNodeIds = ["globals", "fog" ,"textures", "materials", "cameras", "graph"]
-        this.primitiveIds = ["cylinder", "rectangle", "triangle", "sphere", "nurbs" , "box", "model3d", "skybox", "lod", "polygon", "ring", "circle"]
+        this.primitiveIds = ["cylinder", "rectangle", "triangle", "sphere", "nurbs" , "box", "model3d", "skybox", "polygon", "ring", "circle"]
         this.lightIds = ["spotlight", "pointlight", "directionallight"]
     }
 
@@ -496,7 +496,7 @@ class YASFstructures{
         if (obj !== null && obj !== undefined){
             throw new Error("inconsistency: a lod with id " + id + " already exists!");
         }
-        obj = {id: id, children: [], loaded: false, type: "lod"};
+        obj = {id: id, lodNodes: [], loaded: false, type: "lod"};
         this.addLOD(obj);
         return obj;
     }

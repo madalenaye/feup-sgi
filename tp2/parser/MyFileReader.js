@@ -805,106 +805,111 @@ class MyFileReader  {
 	 */
 	loadNode(id, nodeElement, graphElem) {
     let nodeType = nodeElement["type"];
-	
-		// get if node previously added (for instance because it was a child ref in other node)
-		let obj = this.data.getNode(id);
-		if (obj == null) {
-			// otherwise add a new node
-			obj = this.data.createEmptyNode(id);			
+		if (nodeType == "lod"){
+			this.loadLodNode(id, nodeElement, graphElem);
 		}
+
+		else {
+			// get if node previously added (for instance because it was a child ref in other node)
+			let obj = this.data.getNode(id);
+			if (obj == null) {
+				// otherwise add a new node
+				obj = this.data.createEmptyNode(id);			
+			}
+			
+			// load transformations
+			let transforms =  nodeElement["transforms"];
+			if (transforms !== null && transforms !== undefined) {
+				this.loadTransforms(obj, transforms);
+			}
 		
-		// load transformations
-		let transforms =  nodeElement["transforms"];
-		if (transforms !== null && transforms !== undefined) {
-			this.loadTransforms(obj, transforms);
-		}
-	
-		// load material refeences
-		let materialsRef = nodeElement["materialref"];
-		if (materialsRef != null) {
-      		if (materialsRef["materialId"] === null || materialsRef["materialId"] === undefined) {
-        		throw new Error("node " + id + " has a materialref but not a materialId");
+			// load material refeences
+			let materialsRef = nodeElement["materialref"];
+			if (materialsRef != null) {
+				if (materialsRef["materialId"] === null || materialsRef["materialId"] === undefined) {
+					throw new Error("node " + id + " has a materialref but not a materialId");
+				}
+				let materialId = this.getString(materialsRef, "materialId");
+				this.checkMaterialId(materialId, id);
+				obj['materialIds'].push(materialId);
 			}
-			let materialId = this.getString(materialsRef, "materialId");
-			this.checkMaterialId(materialId, id);
-			obj['materialIds'].push(materialId);
-		}
-		/*
-		else{
-			let materialParent = this.data.findParentById(id);
-			if(materialParent != null){
-				obj['materialIds'].push(materialParent);
+			/*
+			else{
+				let materialParent = this.data.findParentById(id);
+				if(materialParent != null){
+					obj['materialIds'].push(materialParent);
+				}
 			}
-		}
-			*/
+				*/
 
-		//Shadows
-		let nodeParent = this.data.findParentById_node(id)
+			//Shadows
+			let nodeParent = this.data.findParentById_node(id)
 
-		if(nodeParent != null){
-			
-			let changedCastShadows = true;
-			let changedReceiveShadows = true;
-			
-			if(nodeParent.castShadows == true){
-				changedCastShadows = false;
-			}
-			if(nodeParent.receiveShadows == true){
-				changedReceiveShadows = false;
-			}
+			if(nodeParent != null){
+				
+				let changedCastShadows = true;
+				let changedReceiveShadows = true;
+				
+				if(nodeParent.castShadows == true){
+					changedCastShadows = false;
+				}
+				if(nodeParent.receiveShadows == true){
+					changedReceiveShadows = false;
+				}
 
-			let castShadows = this.getBoolean(nodeElement, "castshadows", false, id);
-			if(changedCastShadows == true){
-				obj.castShadows = castShadows;
-			}
-			else if(changedCastShadows == false){
-				if(castShadows !=null){
-					if(castShadows == true){
-						obj.castShadows = castShadows;
+				let castShadows = this.getBoolean(nodeElement, "castshadows", false, id);
+				if(changedCastShadows == true){
+					obj.castShadows = castShadows;
+				}
+				else if(changedCastShadows == false){
+					if(castShadows !=null){
+						if(castShadows == true){
+							obj.castShadows = castShadows;
+						}
+						else{
+							throw new Error("The parent, " + nodeParent.id + ", of this node, " + id + ", has the 'castShadows' property set to 'true'. It cannot be changed");
+						}
 					}
 					else{
-						throw new Error("The parent, " + nodeParent.id + ", of this node, " + id + ", has the 'castShadows' property set to 'true'. It cannot be changed");
+						obj.castShadows = nodeParent.castShadows;
 					}
 				}
-				else{
-					obj.castShadows = nodeParent.castShadows;
-				}
-			}
 
-			let receiveShadows = this.getBoolean(nodeElement, "receiveshadows", false, id);
-			if(changedReceiveShadows == true){
+				let receiveShadows = this.getBoolean(nodeElement, "receiveshadows", false, id);
+				if(changedReceiveShadows == true){
+					obj.receiveShadows = receiveShadows;
+				}
+				else if(changedReceiveShadows == false){
+					if(receiveShadows != null){
+						if(receiveShadows == true){
+							obj.receiveShadows = receiveShadows;
+						}
+						else{
+							throw new Error("The parent, " + nodeParent.id + ", of this node, " + id + ", has the 'receiveShadows' property set to 'true'. It cannot be changed");
+						}
+					}
+					else{
+						obj.receiveShadows = nodeParent.receiveShadows;
+					}
+				}
+				
+			}
+			else{
+				let castShadows = this.getBoolean(nodeElement, "castshadows", false, id);
+				obj.castShadows = castShadows;
+
+				let receiveShadows = this.getBoolean(nodeElement, "receiveshadows", false, id);
 				obj.receiveShadows = receiveShadows;
 			}
-			else if(changedReceiveShadows == false){
-				if(receiveShadows != null){
-					if(receiveShadows == true){
-						obj.receiveShadows = receiveShadows;
-					}
-					else{
-						throw new Error("The parent, " + nodeParent.id + ", of this node, " + id + ", has the 'receiveShadows' property set to 'true'. It cannot be changed");
-					}
-				}
-				else{
-					obj.receiveShadows = nodeParent.receiveShadows;
-				}
+
+			// load children (primitives or other node references)
+			let children = nodeElement["children"];
+			if (children == null) {
+				throw new Error("in node " + id + ", a children node is required");
 			}
-			
+			this.loadChildren(obj, children, graphElem);
+			obj.loaded = true;
 		}
-		else{
-			let castShadows = this.getBoolean(nodeElement, "castshadows", false, id);
-			obj.castShadows = castShadows;
-
-			let receiveShadows = this.getBoolean(nodeElement, "receiveshadows", false, id);
-			obj.receiveShadows = receiveShadows;
-		}
-
-		// load children (primitives or other node references)
-		let children = nodeElement["children"];
-		if (children == null) {
-			throw new Error("in node " + id + ", a children node is required");
-		}
-		this.loadChildren(obj, children, graphElem);
-		obj.loaded = true;
 	}
 	
 	/**
@@ -945,43 +950,55 @@ class MyFileReader  {
 	 */
 
 	loadChildren(nodeObj, childrenElement, graphElem) {
-		if (Array.isArray(childrenElement["nodesList"])){
-			for (let nodeId of childrenElement["nodesList"]) {
-				let childElement = graphElem[nodeId];
-
-				if (!childElement) {
-					throw new Error(`Node '${nodeId}' not found in 'graph'.`);
-				}
-				
-				const nodeType = childElement["type"];
-
-				if (nodeType == "node") {
-					// add a node ref: if the node does not exist
-					// create an empty one and reference it.
-					let reference = this.data.getNode(nodeId);
-					if (reference === null) {
-					// does not exist, yet. create it!
-					reference = this.data.createEmptyNode(nodeId);
+		for (let key in childrenElement){
+			if (key === "nodesList"){
+				nodeList = childrenElement[key];
+				if (Array.isArray(nodeList)){
+					for (let nodeId of nodeList) {
+						let childElement = graphElem[nodeId];
+						if (!childElement) {
+							throw new Error(`Node '${nodeId}' not found in 'graph'.`);
+						}
+						const nodeType = childElement["type"];
+						if (nodeType == "node") {
+							// add a node ref: if the node does not exist
+							// create an empty one and reference it.
+							let reference = this.data.getNode(nodeId);
+							if (reference === null) {
+								// does not exist, yet. create it!
+								reference = this.data.createEmptyNode(nodeId);
+							}
+							// reference it.
+							this.data.addChildToNode(nodeObj, reference)
+						}
+						else if (this.data.primitiveIds.includes(nodeType)) {
+							let primitiveObj = this.data.createEmptyPrimitive();
+							this.loadPrimitive(childElement, primitiveObj, nodeType);
+							this.data.addChildToNode(nodeObj, primitiveObj);
+						}
+						else {
+							throw new Error("unrecognized child type '" + nodeType + "'.");
+						}
 					}
-					// reference it.
-					this.data.addChildToNode(nodeObj, reference)
-				}
-				else if (this.data.primitiveIds.includes(nodeType)) {
-					let primitiveObj = this.data.createEmptyPrimitive();
-					this.loadPrimitive(childElement, primitiveObj, nodeType);
-					this.data.addChildToNode(nodeObj, primitiveObj);
-				}
-				else {
-					throw new Error("unrecognized child type '" + nodeType + "'.");
 				}
 			}
-		}
-
-		for (let key in childrenElement) {
-			if (key !== "nodesList") {
+			else if (key === "lodsList"){
+				lodsList = childrenElement[key];
+				for (let lod in lodsList){
+					let lodElement = graphElem[lod];
+					if (!lodElement) {
+						throw new Error(`Lod '${lod}' not found in 'graph'.`);
+					}
+					let lodObj = this.data.getLOD(lod);
+					if (lodObj == null) {
+						lodObj = this.data.createEmptyLOD(lod);			
+					}
+					this.data.addChildToNode(nodeObj, lodObj);
+				}
+			}
+			else if (key !== "nodesList" && key !== "lodsList") {
 				const childElement = childrenElement[key];
 				const nodeType = childElement["type"];
-	
 				if (this.data.lightIds.includes(nodeType)) {
 					let lightObj = this.loadLight(key, childElement, nodeType);
 					this.data.addChildToNode(nodeObj, lightObj);
@@ -1043,50 +1060,33 @@ class MyFileReader  {
     return;
 	}
 
-	loadLODs(rootElement){
-
-	}
-	/*
-	loadLOD(lodElement) {
-	
-		// get the id of the LOD
-		let id = this.getString(lodElement, "id");
-
-		// get if LOD previously added (for instance because it was a  ref in other part of the file)
+	loadLodNode(id, nodeElement, graphElem){
+		let id = this.getString(nodeElement, "id");
 		let obj = this.data.getLOD(id);
 		if (obj == null) {
-			// otherwise add a new LOD
 			obj = this.data.createEmptyLOD(id);			
 		}
 
-		// load LOD noderef (children) elements
-		let noderefs = lodElement.getElementsByTagName('noderef');
-		if (noderefs === null || noderefs === undefined) {
-			throw new Error("in LOD " + id + ", a noderef is required");
+		let lodNodes = nodeElement["lodNodes"];
+		if(lodNodes === null || lodNodes === undefined){
+			throw new Error("in LOD " + id + ", a lodNodes is required");
 		}
-		if (noderefs.length == 0) {
-			throw new Error("in LOD " + id + ", at least one noderef is required");
+		if (lodNodes.length == 0) {
+			throw new Error("in LOD " + id + ", at least one lodNodes is required");
 		}
 
-		// for each noderef
-		for (let i=0; i < noderefs.length; i++) {
-			let noderef = noderefs[i]
-			let id = this.getString(noderef, "id")
-			let mindist = this.getFloat(noderef, "mindist")
-
-			// find node by id. if not present create a new one
-			let node = this.data.getNode(id)
-			if (node == null) {
-				// otherwise add a new node
-				node = this.data.createEmptyNode(id);			
+		for (let i = 0; i < lodNodes.length; i++){
+			let lodNode = lodNodes[i];
+			let lodNodeId = this.getString(lodNode, "id");
+			let lodNodeObj = this.data.getNode(lodNodeId);
+			if (lodNodeObj == null) {
+				lodNodeObj = this.data.createEmptyNode(lodNodeId);			
 			}
-			// store the node as child of this LOD
-			obj.children.push({ node: node, mindist: mindist, type: "lodnoderef" })
+			let minDist = this.getFloat(lodNode, "minDist");
+			obj.lodNodes.push({ node: lodNodeObj, minDist: minDist, type: "node" });
 		}
-		// set the LOD as loaded
-		obj.loaded = true;
+		this.obj.loaded = true;
 	}
-	*/
 }
 
 export { MyFileReader };
