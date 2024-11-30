@@ -216,24 +216,31 @@ const createCylinder = function(parameters, material, castShadow, receiveShadow)
         materials.push(newMaterial);
     });
 
-    let cylinderGeometry = new THREE.CylinderGeometry(
-                            parameters.top, 
-                            parameters.base, 
-                            parameters.height, 
-                            parameters.slices, 
-                            parameters.stacks, 
-                            !parameters.capsclose, 
-                            parameters.thetastart, 
-                            parameters.thetalength);
+    let thetaLength = parameters.thetalength;
+    if (thetaLength !== 2 * Math.PI) {
+        thetaLength = THREE.MathUtils.degToRad(thetaLength);
+    }
 
-    let cylinderMesh = new THREE.Mesh(cylinderGeometry, materials);
+        let cylinderGeometry = new THREE.CylinderGeometry(
+                                parameters.top, 
+                                parameters.base, 
+                                parameters.height, 
+                                parameters.slices, 
+                                parameters.stacks, 
+                                !parameters.capsclose, 
+                                THREE.MathUtils.degToRad(parameters.thetastart), 
+                                thetaLength);
 
-    cylinderMesh.castShadow = castShadow;
-    cylinderMesh.receiveShadow = receiveShadow;
+        let cylinderMesh = new THREE.Mesh(cylinderGeometry, materials);
 
-    return cylinderMesh;
+        cylinderMesh.castShadow = castShadow ?? false;
+        cylinderMesh.receiveShadow = receiveShadow ?? false;
+
+        return cylinderMesh;
 
 }
+
+    
 
 const createSphere = function (parameters, material, castShadow, receiveShadow){
 
