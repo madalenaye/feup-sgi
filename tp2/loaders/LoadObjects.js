@@ -1,394 +1,378 @@
 import * as THREE from 'three';
 import { loadMaterials } from './LoadMaterials.js';
 import {nurbsSurface} from '../utils/NurbsSurface.js'
-import { MyTriangle } from '../utils/MyTriangle.js';
 
+export const objects = [];
 export const loadObjects = {
-
-    degreesToRadians(arrayDegrees) {
-        for(let i = 0; i<3; i++){
-            arrayDegrees[i] = (arrayDegrees[i] * Math.PI) / 180;
-        }
-        return arrayDegrees
+    load: function(data, materials){
+        const root = data
+        if (root == null) return
+        let scene = dealWithNodes(root, null, materials)
+        return scene
     },
+    getObjects: function(){
+        return objects;
+    }
+}
 
-    loadNode(node, currentGroup){
-        if(node.transformations.length > 0){
-            node.transformations.forEach(transformation => {
-                if (transformation.type === 'T') {
-                    let parameters = transformation.translate;
-                    currentGroup.position.set(parameters[0], parameters[1], parameters[2]);
-                } else if (transformation.type === 'R') {
-                    let parameters = loadObjects.degreesToRadians(transformation.rotation);
-                    currentGroup.rotation.set(parameters[0], parameters[1], parameters[2]);     
-                } else if (transformation.type === 'S') {
-                    let parameters = transformation.scale;
-                    currentGroup.scale.set(parameters[0], parameters[1], parameters[2]);
+const dealWithNodes = function(node, materialId=null, materials){
+    if (node == null) return
+    const group = new THREE.Group();
+    if (node.type == "lod"){
+        const lod = new THREE.LOD()
+        for (let child of node.children){
+            const childGroup = dealWithNodes(child.node, materialId, materials);
+            lod.addLevel(childGroup, child.mindist);
+        }
+        return lod;
+    }
+    else if (node.type == "node"){
+        let material = null;
+        material = node.materialIds.length !== 0 ? materials[node.materialIds[0]] : materialId;
+
+        for (let key in node.children){
+            if (node.children[key].type == 'node'){
+                let child = node.children[key]
+                if (node.castshadow) child.castshadow = true;
+                if (node.receiveshadow) child.receiveshadow = true;
+                const childGroup = dealWithNodes(child, material, materials);
+                group.add(childGroup);
+            }
+        
+           else if (node.children[key].type == 'lod'){
+                let child = node.children[key]
+                if (node.castShadows) child.castShadows = true;
+                if (node.receiveShadows) child.receiveShadows = true;
+                const childGroup = dealWithNodes(child, material, materials);
+                group.add(childGroup);
+            }
+           
+           else{
+                const child = node.children[key]
+                let castShadow = node.castShadows;
+                let receiveShadow = node.ReceiveShadows;
+
+                switch(child.type){
+                    case 'pointlight':
+                        if (node.castshadow) child.castshadow = true;
+                        if (node.receiveshadow) child.receiveshadow = true;
+                        let pointLight = buildPointLight(child);
+                        group.add(pointLight);
+                        break;
+                    case 'spotlight':
+                        if (node.castshadow) child.castshadow = true;
+                        if (node.receiveshadow) child.receiveshadow = true;
+                        let spotLight = buildSpotLight(child);
+                        group.add(spotLight);
+                        break;
+                    
+                    case 'directionallight':
+                        if (node.castshadow) child.castshadow = true;
+                        if (node.receiveshadow) child.receiveshadow = true;
+                        let directionalLight = buildDirectionalLight(child);
+                        group.add(directionalLight);
+                        break;
+                    case 'primitive':
+                        let primitive = null;
+                        switch(child.subtype){
+                            case 'rectangle':
+                                primitive = createRectangle(child.representations[0], material, castShadow, receiveShadow);
+                                break;
+                            case 'box':
+                                primitive = createBox(child.representations[0], material, castShadow, receiveShadow);
+                                break;
+                            case 'cylinder':
+                                primitive = createCylinder(child.representations[0], material, castShadow, receiveShadow);
+                                break;
+                            case 'sphere':
+                                primitive = createSphere(child.representations[0], material, castShadow, receiveShadow);
+                                break;
+                            case 'nurbs':
+                                primitive = createNurb(child.representations[0], material, castShadow, receiveShadow);
+                                break;
+                            case 'triangle':
+                                primitive = createTriangle(child.representations[0], material, castShadow, receiveShadow);
+                                break;
+                            default:
+                                throw new Error('Invalid primitive type ' + child.subtype);
+                        }
+                        
+                        group.add(primitive);
+                        objects.push(primitive);
+                        break;
+                    default:
+                        throw new Error('Invalid node type');
                 }
-            });
-        }
-        if(node.castShadows == null){
-            currentGroup.castShadows = false;
-        }
-        else{
-            currentGroup.castShadows = node.castShadows;
-        }
-        if(node.receiveShadows == null){
-            currentGroup.receiveShadows = false;
-        }
-        else{
-            currentGroup.receiveShadows = node.receiveShadows;
-        }
-    },
-
-    loadLight(node, currentGroup){
-        function configureLight(light, node) {
-            light.color = new THREE.Color(node.color);
-            light.intensity = node.intensity;
-            light.position.set(node.position[0], node.position[1], node.position[2]);
-            light.castShadow = node.castshadow;
-    
-            if (node.castshadow) {
-                light.shadow.camera.far = node.shadowfar;
-                light.shadow.mapSize.width = node.shadowmapsize;
-                light.shadow.mapSize.height = node.shadowmapsize;
             }
         }
+    }
+    dealWithTransformations(group, node.transformations);
+    return group;
+}
 
-        let light;
-        switch (node.type) {
-            case "pointlight":
-                light = new THREE.PointLight();
-                light.distance = node.distance;
-                light.decay = node.decay;
+const dealWithTransformations = function(group, transformations){
+    for (let key in transformations){
+        const transformation = transformations[key]
+        switch(transformation.type){
+            case 'T':
+                let parameters = transformation.translate;
+                group.translateX(parameters[0]);
+                group.translateY(parameters[1]);
+                group.translateZ(parameters[2]);
                 break;
-
-            case "spotlight":
-                light = new THREE.SpotLight();
-                light.distance = node.distance;
-                light.angle = THREE.MathUtils.degToRad(node.angle);
-                light.decay = node.decay;
-                light.penumbra = node.penumbra;
-
-                const target = new THREE.Object3D();
-                target.position.set(node.target[0], node.target[1], node.target[2]);
-                light.target = target;
+            case 'R':
+                let parameters1 = transformation.rotation;
+                group.rotateX(degreesToRadians(parameters1[0]));
+                group.rotateY(degreesToRadians(parameters1[1]));
+                group.rotateZ(degreesToRadians(parameters1[2]));
                 break;
-
-            case "directionallight":
-                light = new THREE.DirectionalLight();
-                if (node.castshadow) {
-                    light.shadow.camera.left = node.shadowleft;
-                    light.shadow.camera.right = node.shadowright;
-                    light.shadow.camera.bottom = node.shadowbottom;
-                    light.shadow.camera.top = node.shadowtop;
-                }
+            case 'S':
+                let parameters2 = transformation.scale;
+                group.scale.set(parameters2[0], parameters2[1], parameters2[2]);
                 break;
-
-            default:
-                console.warn(`Unknown light type: ${node.type}`);
-                return;
         }
+    }
+}
 
-        configureLight(light, node);
-        currentGroup.add(light);
-    },
+const createRectangle = function (parameters, material, castShadow, receiveShadow){
+    let width =  Math.abs(parameters.xy2[0] - parameters.xy1[0]);
+    let height = Math.abs(parameters.xy2[1] - parameters.xy1[1]);
+    let newMaterial = null;
+    if(material != null && material != undefined){
+        newMaterial = loadMaterials.createMaterial(material, width, height);
+    }
+    else{
+        throw new Error("Error in function createRectangule. Lack of material");
+    }
 
-    createRectangule(parameters, material, castShadows, receiveShadows){
-        let width =  Math.abs(parameters.xy2[0] - parameters.xy1[0]);
-        let height = Math.abs(parameters.xy2[1] - parameters.xy1[1]);
-        let newMaterial = null;
-        if(material != null && material != undefined){
-            newMaterial = loadMaterials.createMaterial(material, width, height);
-        }
-        else{
-            throw new Error("Error in function createRectangule. Lack of material");
-        }
+    let rectangleGeometry = new THREE.PlaneGeometry(width, height, parameters.parts_x, parameters.parts_y);
+    let rectangleMesh = new THREE.Mesh(rectangleGeometry, newMaterial);
+    rectangleMesh.position.x = (parameters.xy2[0] + parameters.xy1[0])/2.0;
+    rectangleMesh.position.y = (parameters.xy2[1] + parameters.xy1[1])/2.0;
 
-        let rectanguleGeometry = new THREE.PlaneGeometry(width, height, parameters.parts_x, parameters.parts_y);
-        let rectanguleMesh = new THREE.Mesh(rectanguleGeometry, newMaterial);
-        rectanguleMesh.position.x = (parameters.xy2[0] + parameters.xy1[0])/2.0;
-        rectanguleMesh.position.y = (parameters.xy2[1] + parameters.xy1[1])/2.0;
+    rectangleMesh.castShadow = castShadow;
+    rectangleMesh.receiveShadow = receiveShadow;
 
-        rectanguleMesh.castShadow = castShadows ?? false;
-        rectanguleMesh.receiveShadow = receiveShadows ?? false;
+    return rectangleMesh;
+}
 
-        return rectanguleMesh;
-    },
+const createBox = function (parameters, material, castShadow, receiveShadow){
 
-    createBox(parameters, material, castShadows, receiveShadows){
+    if(material == null || material == undefined){
+        throw new Error("Error in function createBox. Lack of material");
+    }
 
-        if(material == null || material == undefined){
-            throw new Error("Error in function createBox. Lack of material");
-        }
+    let width = Math.abs(parameters.xyz2[0] - parameters.xyz1[0]);
+    let height = Math.abs(parameters.xyz2[1] - parameters.xyz1[1]);
+    let depth = Math.abs(parameters.xyz2[2] - parameters.xyz1[2]);
 
-        let width = Math.abs(parameters.xyz2[0] - parameters.xyz1[0]);
-        let height = Math.abs(parameters.xyz2[1] - parameters.xyz1[1]);
-        let depth = Math.abs(parameters.xyz2[2] - parameters.xyz1[2]);
+    let materials = [];
 
-        let materials = [];
+    let material1 = loadMaterials.createMaterial(material, depth, height);
+    materials.push(material1);
+    let material2 = loadMaterials.createMaterial(material, depth, height);
+    materials.push(material2);
 
-        let material1 = loadMaterials.createMaterial(material, depth, height);
-        materials.push(material1);
-        let material2 = loadMaterials.createMaterial(material, depth, height);
-        materials.push(material2);
+    let material3 = loadMaterials.createMaterial(material, width, depth);
+    materials.push(material3);
+    let material4 = loadMaterials.createMaterial(material, width, depth);
+    materials.push(material4);
 
-        let material3 = loadMaterials.createMaterial(material, width, depth);
-        materials.push(material3);
-        let material4 = loadMaterials.createMaterial(material, width, depth);
-        materials.push(material4);
+    let material5 = loadMaterials.createMaterial(material, width, height);
+    materials.push(material5);
+    let material6 = loadMaterials.createMaterial(material, width, height);
+    materials.push(material6);
 
-        let material5 = loadMaterials.createMaterial(material, width, height);
-        materials.push(material5);
-        let material6 = loadMaterials.createMaterial(material, width, height);
-        materials.push(material6);
+    let boxGeometry = new THREE.BoxGeometry(width, height, depth);
+    let boxMesh = new THREE.Mesh(boxGeometry, materials);
 
-        let boxGeometry = new THREE.BoxGeometry(width, height, depth);
-        let boxMesh = new THREE.Mesh(boxGeometry, materials);
+    boxMesh.position.x = (parameters.xyz2[0] + parameters.xyz1[0]) / 2;
+    boxMesh.position.y = (parameters.xyz2[1] + parameters.xyz1[1]) / 2;
+    boxMesh.position.z = (parameters.xyz2[2] + parameters.xyz1[2]) / 2;
 
-        boxMesh.position.x = (parameters.xyz2[0] + parameters.xyz1[0]) / 2;
-        boxMesh.position.y = (parameters.xyz2[1] + parameters.xyz1[1]) / 2;
-        boxMesh.position.z = (parameters.xyz2[2] + parameters.xyz1[2]) / 2;
+    boxMesh.castShadow = castShadow;
+    boxMesh.receiveShadow = receiveShadow;
 
-        boxMesh.castShadow = castShadows ?? false;
-        boxMesh.receiveShadow = receiveShadows ?? false;
+    return boxMesh;
+}
 
-        return boxMesh;
-    },
+const createCylinder = function(parameters, material, castShadow, receiveShadow){
 
-    createCylinder(parameters, material, castShadows, receiveShadows){
+    if(material == null || material == undefined){
+        throw new Error("Error in function createCylinder. Lack of material");
+    }
 
-        if(material == null || material == undefined){
-            throw new Error("Error in function createCylinder. Lack of material");
-        }
+    let texturesValues = [
+        [2 * Math.PI * ((parameters.top + parameters.base) / 2), parameters.height],
+        [2 * parameters.top, 2 * parameters.top],
+        [2 * parameters.base, 2 * parameters.base],  
+    ];
 
-        let texturesValues = [
-            [2 * Math.PI * ((parameters.top + parameters.base) / 2), parameters.height],
-            [2 * parameters.top, 2 * parameters.top],
-            [2 * parameters.base, 2 * parameters.base],  
-        ];
+    let materials = []
 
-        let materials = []
+    texturesValues.forEach(value => {
+        let newMaterial = loadMaterials.createMaterial(material, value[0], value[1]);
+        materials.push(newMaterial);
+    });
 
-        texturesValues.forEach(value => {
-            let newMaterial = loadMaterials.createMaterial(material, value[0], value[1]);
-            materials.push(newMaterial);
-        });
-
-        let cylinderGeometry = new THREE.CylinderGeometry(
-                                parameters.top, 
-                                parameters.base, 
-                                parameters.height, 
-                                parameters.slices, 
-                                parameters.stacks, 
-                                !parameters.capsclose, 
-                                parameters.thetastart, 
-                                parameters.thetalength);
-
-        let cylinderMesh = new THREE.Mesh(cylinderGeometry, materials);
-
-        cylinderMesh.castShadow = castShadows ?? false;
-        cylinderMesh.receiveShadow = receiveShadows ?? false;
-
-        return cylinderMesh;
-
-    },
-
-    createSphere(parameters, material, castShadows, receiveShadows){
-
-        if(material == null || material == undefined){
-            throw new Error("Error in function createSphere. Lack of material");
-        }
-
-        let newMaterial = loadMaterials.createMaterial(material, 2 * Math.PI * parameters.radius, 2 * Math.PI * parameters.radius);
-
-        let phiLength = parameters.philength;
-        if (phiLength !== 2 * Math.PI) {
-            phiLength = THREE.MathUtils.degToRad(phiLength);
-        }
-
-        let thetaLength = parameters.thetalength;
-        if (thetaLength !== 2 * Math.PI) {
-            thetaLength = THREE.MathUtils.degToRad(thetaLength);
-        }
-
-
-        let sphereGeometry = new THREE.SphereGeometry(
-                            parameters.radius, 
+    let cylinderGeometry = new THREE.CylinderGeometry(
+                            parameters.top, 
+                            parameters.base, 
+                            parameters.height, 
                             parameters.slices, 
                             parameters.stacks, 
-                            THREE.MathUtils.degToRad(parameters.phistart), 
-                            phiLength,
-                            THREE.MathUtils.degToRad(parameters.thetastart), 
-                            thetaLength
-                        );
+                            !parameters.capsclose, 
+                            parameters.thetastart, 
+                            parameters.thetalength);
 
-        let sphereMesh = new THREE.Mesh(sphereGeometry, newMaterial);
+    let cylinderMesh = new THREE.Mesh(cylinderGeometry, materials);
 
-        sphereMesh.castShadow = castShadows ?? false;
-        sphereMesh.receiveShadow = receiveShadows ?? false;
+    cylinderMesh.castShadow = castShadow;
+    cylinderMesh.receiveShadow = receiveShadow;
 
-        return sphereMesh;
-    },
+    return cylinderMesh;
 
-    createNurb(parameters, material, castShadows, receiveShadows){
-        if(material == null || material == undefined){
-            throw new Error("Error in function createNurb. Lack of material");  
-        }
+}
 
-        let newMaterial = loadMaterials.createMaterial(material, 1, 1);
+const createSphere = function (parameters, material, castShadow, receiveShadow){
 
-        let nurb = nurbsSurface.createNurbsSurfaces(parameters.controlpoints, 
-                                                    parameters.degree_u,
-                                                    parameters.degree_v,
-                                                    parameters.parts_u,
-                                                    parameters.parts_v,
-                                                    newMaterial)
-
-        nurb.castShadow = castShadows ?? false;
-        nurb.receiveShadow = receiveShadows ?? false;
-
-        return nurb;
-
-    },
-
-    createTriangle(parameters, material, castShadows, receiveShadows){
-        if(material == null || material == undefined){
-            throw new Error("Error in function createTriangle. Lack of material");  
-        }
-        
-        let v1 = new THREE.Vector3(parameters.xyz1[0], parameters.xyz1[1], parameters.xyz1[2]);
-        let v2 = new THREE.Vector3(parameters.xyz2[0], parameters.xyz2[1], parameters.xyz2[2]);
-        let v3 = new THREE.Vector3(parameters.xyz3[0], parameters.xyz3[1], parameters.xyz3[2]);
-
-        let a = v1.distanceTo(v2); // V1 - V2
-        let b = v2.distanceTo(v3); // V2 - V3
-        let c = v1.distanceTo(v3); // V1 - V3
-        
-        let cos_ac = (a * a - b * b + c * c) / (2 * a * c)
-		let sin_ac = Math.sqrt(1 - cos_ac * cos_ac)
-
-        let height = c * sin_ac;
-        let base = a;
-
-        let newMaterial = loadMaterials.createMaterial(material, base, height);
-        let triangleGeometry = new MyTriangle(parameters.xyz1[0], parameters.xyz1[1], parameters.xyz1[2],
-                                              parameters.xyz2[0], parameters.xyz2[1], parameters.xyz2[2],                   
-                                              parameters.xyz3[0], parameters.xyz3[1], parameters.xyz3[2])
-
-        let triangleMesh = new THREE.Mesh(triangleGeometry, newMaterial);
-
-        triangleMesh.castShadow = castShadows ?? false;
-        triangleMesh.receiveShadow = receiveShadows ?? false;
-
-        return triangleMesh;
-
-    },
-
-    createObject(representations, nodeParent, currentGroup, organizeMaterials){
-        switch (representations.subtype){
-            case "rectangle":
-                let retangule = loadObjects.createRectangule(representations, organizeMaterials[nodeParent.materialIds[0]], nodeParent.castShadows, nodeParent.receiveShadows);
-                currentGroup.add(retangule);
-                break;
-            
-            case "box":
-                let box = loadObjects.createBox(representations, organizeMaterials[nodeParent.materialIds[0]], nodeParent.castShadows, nodeParent.receiveShadows);
-                currentGroup.add(box);
-                break;
-
-            case "cylinder":
-                let cylinder = loadObjects.createCylinder(representations, organizeMaterials[nodeParent.materialIds[0]], nodeParent.castShadows, nodeParent.receiveShadows);
-                currentGroup.add(cylinder);
-                break;
-
-            case "sphere":
-                let sphere = loadObjects.createSphere(representations, organizeMaterials[nodeParent.materialIds[0]], nodeParent.castShadows, nodeParent.receiveShadows);
-                currentGroup.add(sphere);
-                break;
-
-            case "nurbs":
-                let nurb = loadObjects.createNurb(representations, organizeMaterials[nodeParent.materialIds[0]], nodeParent.castShadows, nodeParent.receiveShadows);
-                currentGroup.add(nurb);
-                break;
-            
-            case "triangle":
-                let triangle = loadObjects.createTriangle(representations, organizeMaterials[nodeParent.materialIds[0]], nodeParent.castShadows, nodeParent.receiveShadows);
-                currentGroup.add(triangle);
-                break;
-
-            case "polygon":
-                break;
-
-        }
-
-    },
-
-    checkMaterial(node, nodeParent){
-        if(node.materialIds.length == 0 || node.withoutMaterial == true){
-            node.withoutMaterial = true;
-            node.materialIds[0] = nodeParent.materialIds[0]
-        }
-        else{
-            node.withoutMaterial = false;
-        }
-
-    },
-
-    loadObjects(rootNode, listObjects, organizeMaterials){
-
-        let objects = [];
-
-        function traverseDFS(node, parentGroup = null, organizeMaterials, nodeParent) {
-            if (!node) return;
-
-            let nodeClone = structuredClone(node);
-
-            if (!traverseDFS.firstGroup) {
-                traverseDFS.firstGroup = new THREE.Group();
-                traverseDFS.firstGroup.name = nodeClone.id;
-            }
-
-            const currentGroup = parentGroup === null ? traverseDFS.firstGroup : new THREE.Group();
-    
-            currentGroup.name = nodeClone.id;
-
-            if (nodeClone.type === 'pointlight' || nodeClone.type === 'spotlight' || nodeClone.type === 'directionallight') {
-                //console.log(`Light with type: ${node.type}`);
-                loadObjects.loadLight(nodeClone, currentGroup);
-            }
-            else if (nodeClone.id) {
-                if(nodeParent != null){
-                    loadObjects.checkMaterial(nodeClone, nodeParent);
-                }
-                loadObjects.loadNode(nodeClone, currentGroup);
-            }
-
-            if (parentGroup) {
-                parentGroup.add(currentGroup);
-            }
-
-            if(nodeClone.type === 'primitive'){
-                //console.log(`Primitive with type: ${node.subtype}`)
-                currentGroup.name = "primitive"+ nodeClone.subtype;
-                const representation = nodeClone.representations[0];
-                loadObjects.createObject(representation, nodeParent, currentGroup, organizeMaterials);
-                objects.push(currentGroup);
-                //return;
-            }
-
-            if (nodeClone.children && Array.isArray(node.children)) {
-                nodeClone.children.forEach(childNode => {traverseDFS(childNode, currentGroup || null, organizeMaterials, nodeClone || null);});
-            }
-
-            return traverseDFS.firstGroup;
-        }
-        
-        const rootObject = listObjects[rootNode];
-        const sceneRoot = traverseDFS(rootObject, null, organizeMaterials, null);
-
-        let result = {scene: sceneRoot, objects: objects};
-
-        return result;
+    if(material == null || material == undefined){
+        throw new Error("Error in function createSphere. Lack of material");
     }
+
+    let newMaterial = loadMaterials.createMaterial(material, 2 * Math.PI * parameters.radius, 2 * Math.PI * parameters.radius);
+
+    let phiLength = parameters.philength;
+    if (phiLength !== 2 * Math.PI) {
+        phiLength = THREE.MathUtils.degToRad(phiLength);
+    }
+
+    let thetaLength = parameters.thetalength;
+    if (thetaLength !== 2 * Math.PI) {
+        thetaLength = THREE.MathUtils.degToRad(thetaLength);
+    }
+
+
+    let sphereGeometry = new THREE.SphereGeometry(
+                        parameters.radius, 
+                        parameters.slices, 
+                        parameters.stacks, 
+                        THREE.MathUtils.degToRad(parameters.phistart), 
+                        phiLength,
+                        THREE.MathUtils.degToRad(parameters.thetastart), 
+                        thetaLength
+                    );
+
+    let sphereMesh = new THREE.Mesh(sphereGeometry, newMaterial);
+
+    sphereMesh.castShadow = castShadow;
+    sphereMesh.receiveShadow = receiveShadow;
+
+    return sphereMesh;
+}
+
+const createNurb = function(parameters, material, castShadow, receiveShadow){
+    if(material == null || material == undefined){
+        throw new Error("Error in function createNurb. Lack of material");  
+    }
+
+    let newMaterial = loadMaterials.createMaterial(material, 1, 1);
+
+    let nurb = nurbsSurface.createNurbsSurfaces(parameters.controlpoints, 
+                                                parameters.degree_u,
+                                                parameters.degree_v,
+                                                parameters.parts_u,
+                                                parameters.parts_v,
+                                                newMaterial)
+
+    nurb.castShadow = castShadow;
+    nurb.receiveShadow = receiveShadow;
+    
+    return nurb;
+
+}
+
+const degreesToRadians = (degrees) => degrees * (Math.PI / 180);
+
+const buildPointLight = function(parameters){
+    if (!parameters.enabled) return;
+
+    let light = new THREE.PointLight(parameters.color, parameters.intensity, parameters.distance, parameters.decay);
+    light.castShadow = parameters.castshadow;
+    if (parameters.castshadow) {
+        light.shadow.camera.far = parameters.shadowfar;
+        light.shadow.mapSize.width = parameters.shadowmapsize;
+        light.shadow.mapSize.height = parameters.shadowmapsize;
+    }
+    light.position.set(parameters.position[0], parameters.position[1], parameters.position[2]);
+    return light;
+}
+const buildSpotLight = function(parameters){
+    let light = new THREE.SpotLight(parameters.color, parameters.intensity, parameters.distance, parameters.angle, parameters.penumbra, parameters.decay);
+    light.castShadow = parameters.castshadow;
+
+    if (parameters.castshadow) {
+        light.shadow.camera.far = parameters.shadowfar;
+        light.shadow.mapSize.width = parameters.shadowmapsize;
+        light.shadow.mapSize.height = parameters.shadowmapsize;
+    }
+    light.position.set(parameters.position[0], parameters.position[1], parameters.position[2]);
+    
+    const target = new THREE.Object3D();
+    target.position.set(parameters.target[0], parameters.target[1], parameters.target[2]);
+    light.target = target;
+    
+    return light;
+}
+
+const buildDirectionalLight = function(parameters){
+    let light = new THREE.DirectionalLight(parameters.color, parameters.intensity);
+    light.castShadow = parameters.castshadow;
+    
+    if (parameters.castshadow) {
+        light.shadow.camera.left = parameters.shadowleft;
+        light.shadow.camera.right = parameters.shadowright;
+        light.shadow.camera.bottom = parameters.shadowbottom;
+        light.shadow.camera.top = parameters.shadowtop;
+    }
+    if (parameters.castshadow) {
+        light.shadow.camera.far = parameters.shadowfar;
+        light.shadow.mapSize.width = parameters.shadowmapsize;
+        light.shadow.mapSize.height = parameters.shadowmapsize;
+    }
+    light.position.set(parameters.position[0], parameters.position[1], parameters.position[2]);
+    return light;
+}
+
+const createTriangle = function (parameters, material, castShadow, receiveShadow){
+    if(material == null || material == undefined){
+        throw new Error("Error in function createTriangle. Lack of material");  
+    }
+    
+    let v1 = new THREE.Vector3(parameters.xyz1[0], parameters.xyz1[1], parameters.xyz1[2]);
+    let v2 = new THREE.Vector3(parameters.xyz2[0], parameters.xyz2[1], parameters.xyz2[2]);
+    let v3 = new THREE.Vector3(parameters.xyz3[0], parameters.xyz3[1], parameters.xyz3[2]);
+
+    let a = v1.distanceTo(v2); // V1 - V2
+    let b = v2.distanceTo(v3); // V2 - V3
+    let c = v1.distanceTo(v3); // V1 - V3
+    
+    let cos_ac = (a * a - b * b + c * c) / (2 * a * c)
+    let sin_ac = Math.sqrt(1 - cos_ac * cos_ac)
+
+    let height = c * sin_ac;
+    let base = a;
+
+    let newMaterial = loadMaterials.createMaterial(material, base, height);
+    let triangleGeometry = new MyTriangle(parameters.xyz1[0], parameters.xyz1[1], parameters.xyz1[2],
+                                          parameters.xyz2[0], parameters.xyz2[1], parameters.xyz2[2],                   
+                                          parameters.xyz3[0], parameters.xyz3[1], parameters.xyz3[2])
+
+    let triangleMesh = new THREE.Mesh(triangleGeometry, newMaterial);
+
+    triangleMesh.castShadow = castShadows ?? false;
+    triangleMesh.receiveShadow = receiveShadows ?? false;
+
+    return triangleMesh;
+
 }
