@@ -30,6 +30,7 @@ class MyContents {
         this.app = app
         this.axis = null
         this.objects = null
+        this.lights = null;
 
         this.reader = new MyFileReader(this.onSceneLoaded.bind(this));
         this.reader.open("scenes/PokemonScene.json");
@@ -106,6 +107,7 @@ class MyContents {
         this.app.scene.fog = globalsStructure.fog
         this.app.scene.add(globalsStructure.skybox);
 
+
         let textures = loadTextures.loadTextures(data.getTextures());
         let organizeMaterials = loadMaterials.organizeProperties(textures, data.getMaterials());
         let rootId = data.getRootId();
@@ -113,6 +115,7 @@ class MyContents {
         let myScene = loadObjects.load(rootNode, organizeMaterials);
         this.objects = loadObjects.getObjects();
 
+        this.lights = loadObjects.getLights();
         this.app.scene.add(myScene);
         
     }
@@ -158,6 +161,17 @@ class MyContents {
                     materials.wireframe = false;
                 }
             }
+        }
+    }
+
+    turnOnLights(){
+        for (let i of this.lights){
+            i.visible = true
+        } 
+    }
+    turnOffLights(){
+        for (let i of this.lights){
+            i.visible = false
         }
     }
 }

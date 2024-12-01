@@ -9,6 +9,7 @@ import {nurbsSurface} from '../utils/NurbsSurface.js'
 import { MyTriangle } from '../utils/MyTriangle.js';
 
 export const objects = [];
+export const lights = [];
 export const loadObjects = {
 
     /**
@@ -32,7 +33,17 @@ export const loadObjects = {
      */    
     getObjects: function(){
         return objects;
+    },
+
+    /**
+     * Retrieves the array of loaded lights.
+     * @method 
+     * @returns {Array} - An array of lights that have been loaded by the `load` method.
+     */   
+    getLights: function(){
+        return lights;
     }
+
 }
 
 /**
@@ -86,12 +97,14 @@ const dealWithNodes = function(node, materialId=null, materials){
                         if (node.receiveshadow) child.receiveshadow = true;
                         let pointLight = buildPointLight(child);
                         group.add(pointLight);
+                        lights.push(pointLight);
                         break;
                     case 'spotlight':
                         if (node.castshadow) child.castshadow = true;
                         if (node.receiveshadow) child.receiveshadow = true;
                         let spotLight = buildSpotLight(child);
                         group.add(spotLight);
+                        lights.push(spotLight);
                         break;
                     
                     case 'directionallight':
@@ -99,6 +112,7 @@ const dealWithNodes = function(node, materialId=null, materials){
                         if (node.receiveshadow) child.receiveshadow = true;
                         let directionalLight = buildDirectionalLight(child);
                         group.add(directionalLight);
+                        lights.push(directionalLight);
                         break;
                     case 'primitive':
                         let primitive = null;
@@ -410,6 +424,7 @@ const buildPointLight = function(parameters){
  * @returns {THREE.SpotLight} - A `THREE.SpotLight` object configured with the specified properties.
  */
 const buildSpotLight = function(parameters){
+    if (!parameters.enabled) return;
     let color = new THREE.Color(parameters.color[0], parameters.color[1], parameters.color[2]);
     let light = new THREE.SpotLight(color, parameters.intensity, parameters.distance, parameters.angle, parameters.penumbra, parameters.decay);
     light.castShadow = parameters.castshadow;
@@ -434,6 +449,7 @@ const buildSpotLight = function(parameters){
  * @returns {THREE.DirectionalLight} - A `THREE.DirectionalLight` object configured with the specified properties.
  */
 const buildDirectionalLight = function(parameters){
+    if (!parameters.enabled) return;
     let color = new THREE.Color(parameters.color[0], parameters.color[1], parameters.color[2]);
     let light = new THREE.DirectionalLight(color, parameters.intensity);
     light.castShadow = parameters.castshadow;

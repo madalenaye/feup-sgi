@@ -1,11 +1,11 @@
 # SGI 2024/2025 - TP2
 
-## Group: T0xG0y
+## Group: T06G02
 
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| John Doe         | 201901010 | ...                |
-| Jane Doe         | 201901011 | ...                |
+| Madalena Ye         | 202108795 | up202108795@edu.fe.up.pt                |
+| Manuel Serrano         | 202402793 | up202402793@edu.fe.up.pt                |
 
 ----
 ## Project information
