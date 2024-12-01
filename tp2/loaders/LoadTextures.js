@@ -11,12 +11,15 @@ export const loadTextures = {
             if (texture.isVideo) {
 
                 const video = document.createElement('video');
-                video.src = texture.filepath; 
-                video.loop = true; 
+                video.src = texture.filepath;
+                video.autoplay = true;
+                video.loop = true;
+                video.muted = true;
+                video.load();
                 video.play();
-                
-                const videoTexture = new THREE.VideoTexture(video);
-                texturestextures[key] = videoTexture;
+                console.log(video)
+                let videoTexture = new THREE.VideoTexture(video);
+                textures[key] = videoTexture;
             }
             else{
                 let textureImage = textureLoader.load(texture.filepath)
