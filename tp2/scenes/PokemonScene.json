@@ -214,8 +214,8 @@
                     "b": 0.133
                 },
                 "textureref": "floor_t",
-                "texlength_s": 8.0,
-                "texlength_t": 8.0,
+                "texlength_s": 1.0,
+                "texlength_t": 1.0,
                 "shininess": 3,
                 "transparent": false,
                 "opacity": 1.0,

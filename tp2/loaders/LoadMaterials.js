@@ -72,15 +72,17 @@ export const loadMaterials = {
         if(organizeMaterial.loadTexture != null){
             newMaterial.map.wrapS = THREE.RepeatWrapping;
             newMaterial.map.wrapT = THREE.RepeatWrapping;
-            let repeatX = widthTex / organizeMaterial.texlength_s;
-            if (!repeatX) {
-                repeatX = 1;
+
+            let repeatX = 1;
+            let repeatY = 1;
+            if (organizeMaterial.texlength_s != 1){
+                repeatX = widthTex / organizeMaterial.texlength_s;
+            }
+            
+            if (organizeMaterial.texlength_t != 1){
+                repeatY = heightTex / organizeMaterial.texlength_t;
             }
 
-            let repeatY = heightTex / organizeMaterial.texlength_t;
-            if (!repeatY) {
-                repeatY = 1;
-            }
             newMaterial.map.repeat.set(repeatX, repeatY);
             newMaterial.map.needsUpdate = true;
 
@@ -95,14 +97,14 @@ export const loadMaterials = {
             newMaterial.bumpMap.wrapS = THREE.RepeatWrapping;
             newMaterial.bumpMap.wrapT = THREE.RepeatWrapping;
 
-            let repeatX = widthTex / organizeMaterial.texlength_s;
-            if (!repeatX) {
-                repeatX = 1;
+            let repeatX = 1;
+            let repeatY = 1;
+            if (organizeMaterial.texlength_s != 1){
+                repeatX = widthTex / organizeMaterial.texlength_s;
             }
-    
-            let repeatY = heightTex / organizeMaterial.texlength_t;
-            if (!repeatY) {
-                repeatY = 1;
+            
+            if (organizeMaterial.texlength_t != 1){
+                repeatY = heightTex / organizeMaterial.texlength_t;
             }
             newMaterial.bumpMap.repeat.set(repeatX, repeatY);
         }
@@ -111,14 +113,14 @@ export const loadMaterials = {
             newMaterial.specularMap.wrapS = THREE.RepeatWrapping;
             newMaterial.specularMap.wrapT = THREE.RepeatWrapping;
 
-            let repeatX = widthTex / organizeMaterial.texlength_s;
-            if (!repeatX) {
-                repeatX = 1;
+            let repeatX = 1;
+            let repeatY = 1;
+            if (organizeMaterial.texlength_s != 1){
+                repeatX = widthTex / organizeMaterial.texlength_s;
             }
-    
-            let repeatY = heightTex / organizeMaterial.texlength_t;
-            if (!repeatY) {
-                repeatY = 1;
+            
+            if (organizeMaterial.texlength_t != 1){
+                repeatY = heightTex / organizeMaterial.texlength_t;
             }
             newMaterial.specularMap.repeat.set(repeatX, repeatY);
         }

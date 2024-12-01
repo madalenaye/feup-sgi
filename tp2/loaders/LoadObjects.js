@@ -398,8 +398,6 @@ const createPolygon = function (parameters, material, castShadow, receiveShadow)
     const color_c = new THREE.Color(parameters.color_c[0], parameters.color_c[1], parameters.color_c[2]);
     const color_p = new THREE.Color(parameters.color_p[0], parameters.color_p[1], parameters.color_p[2]);
 
-    console.log(color_c);
-    console.log(color_p);
     const radius = parameters.radius;
     let step = radius / stacks  
     let vertices = [];
