@@ -1,7 +1,18 @@
+/**
+ * @file LoadTextures.js
+ * @desc Module for loading textures and generating mipmaps for a THREE.js environment.
+ */
+
 import * as THREE from 'three';
 
 export const loadTextures = {
 
+    /**
+     * Loads textures defined in the json data and returns them as a dictionary of textures.
+     * @method
+     * @param {Object} data - Object containing texture definitions 
+     * @returns {Object} - A dictionary where each key maps to its corresponding THREE.js texture. 
+     */ 
     loadTextures(data){
         let textures = {};
 
@@ -48,8 +59,8 @@ export const loadTextures = {
      * @param {*} parentTexture the texture to which the mipmap is added
      * @param {*} level the level of the mipmap
      * @param {*} path the path for the mipmap image
-    // * @param {*} size if size not null inscribe the value in the mipmap. null by default
-    // * @param {*} color a color to be used for demo
+     * @param {*} size if size not null inscribe the value in the mipmap. null by default
+     * @param {*} color a color to be used for demo
      */
     loadMipmap(parentTexture, level, path)
     {

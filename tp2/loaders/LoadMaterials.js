@@ -1,8 +1,21 @@
+/**
+ * @file LoadMaterials.js
+ * @desc Module for organizing material properties and creating materials in a THREE.js environment.
+ * It supports texture loading, bump maps, specular maps, and mipmap management for custom materials.
+ */
+
 import * as THREE from 'three';
 import { loadTextures } from './LoadTextures.js';
 
 export const loadMaterials = {
 
+    /**
+     * Organizes the material properties by converting them into THREE.js material-compatible formats.
+     * @method
+     * @param {Object} textures - Object containing loaded textures where the key is the texture reference.
+     * @param {Object} materials -  Object containing the material definitions with texture references and other properties.
+     * @returns {Object} - An object where each key corresponds to a material with organized properties, including textures and mipmaps.
+     */
     organizeProperties(textures, materials){
         let organizeMaterials = {};
 
@@ -53,6 +66,14 @@ export const loadMaterials = {
         return organizeMaterials;
     },
 
+    /**
+     * Creates a THREE.js material using the properties organized in `organizeProperties`.
+     * @method
+     * @param {Object} organizeMaterial - An object containing the properties for the material
+     * @param {Number} widthTex - The width of the texture used to calculate repeat settings
+     * @param {Number} heightTex - The height of the texture used to calculate repeat settings.
+     * @returns {THREE.Material} - The created THREE.js material.
+     */
     createMaterial(organizeMaterial, widthTex, heightTex){
         
         let newMaterial = new THREE.MeshPhongMaterial({
