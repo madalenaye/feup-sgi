@@ -146,6 +146,14 @@
             "cloud_t":{
                 "filepath": "scenes/textures/cloud.png",
                 "isVideo": false
+            },
+            "charmander_t":{
+                "filepath": "scenes/textures/charmander.png",
+                "isVideo": false
+            },
+            "pikachu_t":{
+                "filepath": "scenes/textures/pikachu.png",
+                "isVideo": false
             }
         },
         "materials": {
@@ -276,7 +284,7 @@
                 },
                 "shininess": 10,
                 "transparent": true,
-                "opacity": 0.7,
+                "opacity": 0.9,
                 "twosided": false,
                 "textureref": "cloud_t",
                 "texlength_s": 1.0,
@@ -519,6 +527,54 @@
                 "texlength_t": 1,
                 "shininess": 5.0,
                 "transparent": false,
+                "opacity": 1.0,
+                "twosided": true
+            },
+            "charmander_m":{
+                "color": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0
+                },
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "specular": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "textureref": "charmander_t",
+                "texlength_s": 1,
+                "texlength_t": 1,
+                "shininess": 5.0,
+                "transparent": true,
+                "opacity": 1.0,
+                "twosided": true
+            },
+            "pikachu_m":{
+                "color": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0
+                },
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "specular": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "textureref": "pikachu_t",
+                "texlength_s": 1,
+                "texlength_t": 1,
+                "shininess": 5.0,
+                "transparent": true,
                 "opacity": 1.0,
                 "twosided": true
             }
@@ -884,7 +940,7 @@
                     "materialId": "floor_m"
                 },
                 "children": {
-                    "nodesList": ["fireplace", "tree_1", "tree_2", "cloud_1", "cloud_2", "cloud_3", "puddle_water1", "tree_leaf"],
+                    "nodesList": ["fireplace", "tree_1", "tree_2", "cloud_1", "cloud_2", "cloud_3", "puddle_water1", "tree_leaf", "pokemon"],
                     "green_cylinder":{
                         "type": "cylinder",
                         "base": 3.98,
@@ -2113,6 +2169,94 @@
                     }
                 }
                 
+            },
+            "pokemon":{
+                "type": "node",
+                "transforms":[
+                    {
+                        "type": "translate",
+                        "amount":{
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "children":{
+                    "nodesList": ["charmander", "pikachu"]
+                }
+            },
+            "charmander":{
+                "type": "node",
+                "transforms":[
+                    {
+                        "type": "translate",
+                        "amount":{
+                            "x": 0.0,
+                            "y": -0.5,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "charmander_m"
+                },
+                "children":{
+                    "nodesList": ["pokemon_body"]
+                }
+            },
+            "pikachu":{
+                "type": "node",
+                "transforms":[
+                    {
+                        "type": "translate",
+                        "amount":{
+                            "x": -2.0,
+                            "y": -0.5,
+                            "z": -0.7
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "pikachu_m"
+                },
+                "children":{
+                    "nodesList": ["pokemon_body"]
+                }
+            },
+            "pokemon_body":{
+                "type": "node",
+                "transforms":[
+                    {
+                        "type": "translate",
+                        "amount":{
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 180.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "children":{
+                    "pokemon_rectangle":{
+                        "type": "rectangle",
+                        "xy1": {
+                            "x": 0.6,
+                            "y": 0.6
+                        },
+                        "xy2": {
+                            "x": -0.6,
+                            "y": -0.6
+                        }
+                    }
+                }
             }
         }
     }
