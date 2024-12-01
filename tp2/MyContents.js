@@ -112,8 +112,7 @@ class MyContents {
         let rootNode = data.getNode(rootId);
         let myScene = loadObjects.load(rootNode, organizeMaterials);
         this.objects = loadObjects.getObjects();
-        //console.log(data.getLODs());
-        //let myScene = loadObjects.loadObjects(data.getRootId(), data.getNodes(), organizeMaterials);
+
         this.app.scene.add(myScene);
         
     }
