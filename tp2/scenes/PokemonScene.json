@@ -14,12 +14,13 @@
             },
             "fog": {
                 "color": {
-                    "r": 0.1,
-                    "g": 0.1,
-                    "b": 0.1
+                    "r": 0.7,
+                    "g": 0.7,
+                    "b": 0.7,
+                    "a": 0.8
                 },
                 "near": 1.0,
-                "far": 800.0
+                "far": 300.0
             },
             "skybox": {
                 "size": {
@@ -109,6 +110,10 @@
             "fruit_t":{
                 "filepath": "scenes/textures/orange.jpg",
                 "isVideo": false
+            },
+            "water_t": {
+                "filepath": "scenes/textures/water.mp4",
+                "isVideo": true
             }
         },
         "materials": {
@@ -384,6 +389,33 @@
                 "transparent": false,
                 "opacity": 1.0,
                 "twosided": true
+            },
+            "water_m": {
+                "color": {
+                    "r": 1,
+                    "g": 1,
+                    "b": 1,
+                    "a": 1.0
+                },
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.0
+                },
+                "specular": {
+                    "r": 0,
+                    "g": 0,
+                    "b": 0,
+                    "a": 0
+                },
+                "shininess": 1,
+                "transparent": false,
+                "opacity": 1.0,
+                "textureref": "water_t",
+                "texlength_s": 1,
+                "texlength_t": 1,
+                "twosided": false
             }
         },
         "graph": {
@@ -391,7 +423,7 @@
             "scene": {
                 "type": "node",
                 "children": {
-                    "nodesList": ["upper_sphere", "lower_sphere"],
+                    "nodesList": ["upper_sphere", "lower_sphere", "water_floor"],
                     "point_light": {
                         "type": "pointlight",
                         "enabled": true,
@@ -400,7 +432,7 @@
                             "g": 1.0,
                             "b": 1.0
                         },
-                        "intensity": 10.0,
+                        "intensity": 1.0,
                         "distance": 0.0,
                         "decay": 2.0,
                         "castshadow": false,
@@ -408,6 +440,43 @@
                             "x": 0.0,
                             "y": 20.0,
                             "z": 0.0
+                        }
+                    }
+                }
+            },
+            "water_floor" : {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": -90.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "water_m"
+                },
+                "children":{
+                    "floor_rectangle":{
+                        "type": "rectangle",
+                        "xy1": {
+                            "x": -50,
+                            "y": -50
+                        },
+                        "xy2": {
+                            "x": 50,
+                            "y": 50
                         }
                     }
                 }
