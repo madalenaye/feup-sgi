@@ -25,6 +25,7 @@ class MyGuiInterface  {
         this.datgui =  new GUI();
         this.contents = null
         this.wireframeEnabled = false;
+        this.lightsEnabled = true;
     }
 
     onContentsReady() {
@@ -75,7 +76,12 @@ class MyGuiInterface  {
                 this.contents.disableWireframe();
             }
         });
-        
+
+        this.datgui.add(this, 'lightsEnabled').name('Lights').onChange( (value) =>{
+            if (value){this.contents.turnOnLights();}
+            else {this.contents.turnOffLights();}
+        })
+
     }
 }
 

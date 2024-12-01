@@ -526,6 +526,9 @@ class YASFstructures{
     getLODs(){
         return this.lods;
     }
+    getLights(){
+        return this.lights;
+    }
 
 }
 export { YASFstructures };
