@@ -1,17 +1,32 @@
-import * as THREE from 'three';
 /**
- * MyTriangle
- * @constructor
- * @param x1 - x coordinate vertex 1
- * @param y1 - y coordinate vertex 1
- * @param x2 - x coordinate vertex 2
- * @param y2 - y coordinate vertex 2
- * @param x3 - x coordinate vertex 3
- * @param y3 - y coordinate vertex 3
- * @param afs - afs texture coordinate
- * @param aft - aft texture coordinate
+ * @file MyTriangle.js
+ * @class MyTriangle
+ * @extends THREE.BufferGeometry
+ * @desc This class aims to represent a Triangle. 
  */
+
+
+import * as THREE from 'three';
+
+/**
+ * @class
+ * @classdesc Represents a 3D triangle with computed normals and UV mapping, extending THREE.BufferGeometry.
+ */
+
 class MyTriangle extends THREE.BufferGeometry {
+
+	/**
+	 * MyTriangle
+	 * @constructor
+	 * @param x1 - x coordinate vertex 1
+	 * @param y1 - y coordinate vertex 1
+	 * @param x2 - x coordinate vertex 2
+	 * @param y2 - y coordinate vertex 2
+	 * @param x3 - x coordinate vertex 3
+	 * @param y3 - y coordinate vertex 3
+	 * @param afs - afs texture coordinate
+	 * @param aft - aft texture coordinate
+	 */
 	constructor(x1, y1, z1, x2, y2, z2, x3, y3, z3, afs = 1, aft = 1) {
 		super();
 		
@@ -20,6 +35,12 @@ class MyTriangle extends THREE.BufferGeometry {
 		this.p3 = new THREE.Vector3(x3, y3, z3)
         this.initBuffers();
 	}
+
+	/**
+     * Initializes the triangle geometry by computing normals, vertices, and UV coordinates,
+	 * and setting the necessary attributes for the BufferGeometry.
+     * @method
+     */
 
 	initBuffers() {
 

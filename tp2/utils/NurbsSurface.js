@@ -11,9 +11,6 @@ export const nurbsSurface = {
     /**
      * Method to create a NURBS surface mesh positioned in 3D space.
      * @method
-     * @param {number} positionX - The position of the surface along the x-axis.
-     * @param {number} positionY - The position of the surface along the y-axis.
-     * @param {number} positionZ - The position of the surface along the z-axis.
      * @param {Array<Array<THREE.Vector3>>} controlPoints - 2D array of control points that define the surface.
      * @param {number} orderU - The order of the surface in the U direction.
      * @param {number} orderV - The order of the surface in the V direction.
