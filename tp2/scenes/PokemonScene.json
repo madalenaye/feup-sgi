@@ -10,7 +10,7 @@
                 "r": 1.0,
                 "g": 1.0,
                 "b": 1.0,
-                "intensity": 0.6
+                "intensity": 0.8
             },
             "fog": {
                 "color": {
@@ -290,14 +290,14 @@
                     "b": 0.0
                 },
                 "emissive": {
-                    "r": 1.0,
+                    "r": 0.0,
                     "g": 0.0,
                     "b": 0.0
                 },
                 "specular": {
-                    "r": 255.0,
-                    "g": 255.0,
-                    "b": 255.0
+                    "r": 0.7,
+                    "g": 0.7,
+                    "b": 0.7
                 },
                 "shininess": 10,
                 "transparent": true,
@@ -622,29 +622,46 @@
                     {
                         "type": "translate",
                         "amount": {
-                            "x": 0.0,
+                            "x": -2.0,
                             "y": -3.0,
                             "z": 0.0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 20.0,
+                            "y": 0.0,
+                            "z": 20.0
                         }
                     }
                 ],
                 "children": {
                     "fire_light":{
-                        "type":"pointlight",
+                        "type":"spotlight",
                         "enabled": true,
                         "color":{
                             "r":0.886,
                             "g":0.345,
                             "b":0.133
                         },
-                        "intensity": 10,
-                        "distance":100,
-                        "decay":1,
-                        "position":{
-                            "x":0,
-                            "y":3,
-                            "z":0
+                        "intensity": 100,
+                        "distance": 100.0,
+                        "angle": 30.0,
+                        "penumbra": 0.0,
+                        "decay": 2.0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
                         },
+                        "target": {
+                            "x": 0.0,
+                            "y": 5.0,
+                            "z": 0.0
+                        },
+                        "shadowfar": 10,
+                        "shadowmapsize": 2048,
                         "castshadow":true
                     },
                     "nodesList": ["lamp"]
