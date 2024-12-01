@@ -1,3 +1,8 @@
+/**
+ * @file LoadObjects.js
+ * @desc Complete
+ */
+
 import * as THREE from 'three';
 import { loadMaterials } from './LoadMaterials.js';
 import {nurbsSurface} from '../utils/NurbsSurface.js'
@@ -5,17 +10,39 @@ import { MyTriangle } from '../utils/MyTriangle.js';
 
 export const objects = [];
 export const loadObjects = {
+
+    /**
+     * Loads a scene by processing nodes and applying materials to create a Three.js group of objects
+     * @method 
+     * @param {Object} data - The data containing the information about the nodes and objects to be loaded.
+     * @param {Object} materials - The materials to be applied to the objects.  
+     * @returns {THREE.Group} - A Three.js Group containing the loaded objects in the scene.
+     */
     load: function(data, materials){
         const root = data
         if (root == null) return
         let scene = dealWithNodes(root, null, materials)
         return scene
     },
+
+    /**
+     * Retrieves the array of loaded objects.
+     * @method 
+     * @returns {Array} - An array of objects that have been loaded by the `load` method.
+     */    
     getObjects: function(){
         return objects;
     }
 }
 
+/**
+ * Recursively processes nodes and their children to create a Three.js group of objects.
+ * @method 
+ * @param {Object} node - The node object that defines the structure of the scene or object. It contains information about children, type, material, transformations, and other properties.
+ * @param {string|null} materialId - The ID of the material to be applied to the node. Defaults to `null` if not specified.
+ * @param {Object} materials - An object containing material definitions. It is used to apply specific materials to the nodes.
+ * @returns {THREE.Group} - A Three.js group containing the objects created for the node and its children
+ */ 
 const dealWithNodes = function(node, materialId=null, materials){
     if (node == null) return
     const group = new THREE.Group();
@@ -114,6 +141,12 @@ const dealWithNodes = function(node, materialId=null, materials){
     return group;
 }
 
+/**
+ * Applies a series of transformations (translation, rotation, and scaling) to a Three.js group.
+ * @method 
+ * @param {THREE.Group} group - The Three.js group to which transformations will be applied.
+ * @param {Object} transformations - An object containing an array of transformation objects.
+ */ 
 const dealWithTransformations = function(group, transformations){
     for (let key in transformations){
         const transformation = transformations[key]
@@ -138,6 +171,15 @@ const dealWithTransformations = function(group, transformations){
     }
 }
 
+/**
+ * Creates a rectangle mesh in 3D space with the specified dimensions, material, and shadow properties.
+ * @method 
+ * @param {Object} parameters - An object containing the rectangle's properties.
+ * @param {THREE.Material} material - The material to apply to the rectangle mesh.
+ * @param {boolean} castShadow - Whether the rectangle should cast shadows in the scene.
+ * @param {boolean} receiveShadow - Whether the rectangle should receive shadows in the scene.
+ * @returns {THREE.Mesh} - A new `THREE.Mesh` object representing the rectangle with the specified properties.
+ */ 
 const createRectangle = function (parameters, material, castShadow, receiveShadow){
     let width =  Math.abs(parameters.xy2[0] - parameters.xy1[0]);
     let height = Math.abs(parameters.xy2[1] - parameters.xy1[1]);
@@ -160,6 +202,15 @@ const createRectangle = function (parameters, material, castShadow, receiveShado
     return rectangleMesh;
 }
 
+/**
+ * Creates a box mesh in 3D space with the specified dimensions, material, and shadow properties.
+ * @method 
+ * @param {Object} parameters - An object containing the box's properties.
+ * @param {THREE.Material} material - The material to apply to the box mesh.
+ * @param {boolean} castShadow - Whether the box should cast shadows in the scene.
+ * @param {boolean} receiveShadow - Whether the box should receive shadows in the scene.
+ * @returns {THREE.Mesh} - A new `THREE.Mesh` object representing the box with the specified properties.
+ */ 
 const createBox = function (parameters, material, castShadow, receiveShadow){
 
     if(material == null || material == undefined){
@@ -200,6 +251,15 @@ const createBox = function (parameters, material, castShadow, receiveShadow){
     return boxMesh;
 }
 
+/**
+ * Creates a cylinder mesh in 3D space with the specified dimensions, material, and shadow properties.
+ * @method 
+ * @param {Object} parameters - An object containing the cylinder's properties.
+ * @param {THREE.Material} material - The material to apply to the cylinder mesh.
+ * @param {boolean} castShadow - Whether the cylinder should cast shadows in the scene.
+ * @param {boolean} receiveShadow - Whether the cylinder should receive shadows in the scene.
+ * @returns {THREE.Mesh} - A new `THREE.Mesh` object representing the cylinder with the specified properties.
+ */
 const createCylinder = function(parameters, material, castShadow, receiveShadow){
 
     if(material == null || material == undefined){
@@ -243,8 +303,15 @@ const createCylinder = function(parameters, material, castShadow, receiveShadow)
 
 }
 
-    
-
+/**
+ * Creates a sphere mesh in 3D space with the specified dimensions, material, and shadow properties.
+ * @method 
+ * @param {Object} parameters - An object containing the sphere's properties.
+ * @param {THREE.Material} material - The material to apply to the sphere mesh.
+ * @param {boolean} castShadow - Whether the sphere should cast shadows in the scene.
+ * @param {boolean} receiveShadow - Whether the sphere should receive shadows in the scene.
+ * @returns {THREE.Mesh} - A new `THREE.Mesh` object representing the sphere with the specified properties.
+ */
 const createSphere = function (parameters, material, castShadow, receiveShadow){
 
     if(material == null || material == undefined){
@@ -282,6 +349,15 @@ const createSphere = function (parameters, material, castShadow, receiveShadow){
     return sphereMesh;
 }
 
+/**
+ * Creates a nurb surface mesh in 3D space with the specified dimensions, material, and shadow properties.
+ * @method 
+ * @param {Object} parameters - An object containing the nurb's properties.
+ * @param {THREE.Material} material - The material to apply to the nurb mesh.
+ * @param {boolean} castShadow - Whether the nurb should cast shadows in the scene.
+ * @param {boolean} receiveShadow - Whether the nurb should receive shadows in the scene.
+ * @returns {THREE.Mesh} - A new `THREE.Mesh` object representing the nurb with the specified properties.
+ */
 const createNurb = function(parameters, material, castShadow, receiveShadow){
     if(material == null || material == undefined){
         throw new Error("Error in function createNurb. Lack of material");  
@@ -305,6 +381,13 @@ const createNurb = function(parameters, material, castShadow, receiveShadow){
 
 const degreesToRadians = (degrees) => degrees * (Math.PI / 180);
 
+
+/**
+ * Creates and returns a `THREE.PointLight` based on the provided parameters.
+ * @method 
+ * @param {Object} parameters - An object containing properties to configure the point light.
+ * @returns {THREE.PointLight | undefined} - A `THREE.PointLight` object configured with the specified properties, or `undefined` if the light is disabled.
+ */
 const buildPointLight = function(parameters){
     if (!parameters.enabled) return;
 
@@ -319,6 +402,13 @@ const buildPointLight = function(parameters){
     light.position.set(parameters.position[0], parameters.position[1], parameters.position[2]);
     return light;
 }
+
+/**
+ * Creates and returns a `THREE.SpotLight` based on the provided parameters.
+ * @method 
+ * @param {Object} parameters - An object containing properties to configure the spot light.
+ * @returns {THREE.SpotLight} - A `THREE.SpotLight` object configured with the specified properties.
+ */
 const buildSpotLight = function(parameters){
     let color = new THREE.Color(parameters.color[0], parameters.color[1], parameters.color[2]);
     let light = new THREE.SpotLight(color, parameters.intensity, parameters.distance, parameters.angle, parameters.penumbra, parameters.decay);
@@ -337,6 +427,12 @@ const buildSpotLight = function(parameters){
     return light;
 }
 
+/**
+ * Creates and returns a `THREE.DirectionalLight` based on the provided parameters.
+ * @method 
+ * @param {Object} parameters - An object containing properties to configure the directional light.
+ * @returns {THREE.DirectionalLight} - A `THREE.DirectionalLight` object configured with the specified properties.
+ */
 const buildDirectionalLight = function(parameters){
     let color = new THREE.Color(parameters.color[0], parameters.color[1], parameters.color[2]);
     let light = new THREE.DirectionalLight(color, parameters.intensity);
@@ -356,6 +452,15 @@ const buildDirectionalLight = function(parameters){
     return light;
 }
 
+/**
+ * Creates a triangle mesh in 3D space based on the specified parameters, material, and shadow properties.
+ * @method 
+ * @param {Object} parameters - An object containing the vertices of the triangle.
+ * @param {THREE.Material} material - The material to apply to the triangle mesh.
+ * @param {boolean} castShadow - Whether the triangle should cast shadows in the scene.
+ * @param {boolean} receiveShadow - Whether the triangle should receive shadows in the scene.
+ * @returns {THREE.Mesh} - A new `THREE.Mesh` object representing the triangle with the specified properties, including shadow properties.
+ */
 const createTriangle = function (parameters, material, castShadow, receiveShadow){
     if(material == null || material == undefined){
         throw new Error("Error in function createTriangle. Lack of material");  
@@ -389,6 +494,16 @@ const createTriangle = function (parameters, material, castShadow, receiveShadow
 
 }
 
+/**
+ * Creates a polygonal mesh in 3D space based on the specified parameters, material, and shadow properties.
+ * The function generates a polygonal shape with customizable slices and stacks, color gradients, and shadow configurations.
+ * @method 
+ * @param {Object} parameters - An object containing the properties of the polygon.
+ * @param {THREE.Material} material - The material to apply to the polygon mesh.
+ * @param {boolean} castShadow - Whether the polygon should cast shadows in the scene.
+ * @param {boolean} receiveShadow - Whether the polygon should receive shadows in the scene.
+ * @returns {THREE.Mesh} - A new `THREE.Mesh` object representing the polygon with the specified properties, including shadow settings.
+ */
 const createPolygon = function (parameters, material, castShadow, receiveShadow){
     if(material == null || material == undefined){
         throw new Error("Error in function createPolygon. Lack of material");  
