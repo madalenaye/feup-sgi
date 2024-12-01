@@ -94,6 +94,9 @@ const dealWithNodes = function(node, materialId=null, materials){
                             case 'triangle':
                                 primitive = createTriangle(child.representations[0], material, castShadow, receiveShadow);
                                 break;
+                            case 'polygon':
+                                primitive = createPolygon(child.representations[0], material, castShadow, receiveShadow);
+                                break;
                             default:
                                 throw new Error('Invalid primitive type ' + child.subtype);
                         }
@@ -383,4 +386,54 @@ const createTriangle = function (parameters, material, castShadow, receiveShadow
 
     return triangleMesh;
 
+}
+
+const createPolygon = function (parameters, material, castShadow, receiveShadow){
+    if(material == null || material == undefined){
+        throw new Error("Error in function createPolygon. Lack of material");  
+    }
+    const slices = parameters.slices;
+    const stacks = parameters.stacks;
+
+    const color_c = new THREE.Color(parameters.color_c[0], parameters.color_c[1], parameters.color_c[2]);
+    const color_p = new THREE.Color(parameters.color_p[0], parameters.color_p[1], parameters.color_p[2]);
+
+    const radius = parameters.radius;
+    let step = radius / stacks  
+    let vertices = [];
+    let colors = [];
+    let angle = 2 * Math.PI / slices;
+
+    let geometry = new THREE.BufferGeometry();
+    
+    for (let s = 0; s <= stacks; s++){
+        for (let i = 0; i < slices; i++){
+            const points = [
+                [Math.cos(i * angle) * (step * s), Math.sin(i * angle) * (step * s), 0],
+                [Math.cos((i + 1) * angle) * (step * s), Math.sin((i + 1) * angle) * (step * s), 0],
+                [Math.cos((i+1) * angle) * (step * (s + 1)), Math.sin((i+1) * angle) * (step * (s + 1)), 0],
+                [Math.cos(i * angle) * (step * (s + 1)), Math.sin(i * angle) * (step * (s + 1)), 0]
+            ];
+            const colors_v = [
+                new THREE.Color().lerpColors(color_c, color_p, s * step).toArray(),
+                new THREE.Color().lerpColors(color_c, color_p, (s+1) * step).toArray(),
+            ];
+            vertices.push(...points[0], ...points[3], ...points[2]);
+            colors.push(...colors_v[0], ...colors_v[1], ...colors_v[1]);
+            if (s !== 0){
+                vertices.push(...points[0], ...points[1], ...points[2]);
+                colors.push(...colors_v[0], ...colors_v[0], ...colors_v[1]);
+            }
+        }
+    }
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    geometry.computeVertexNormals();
+    
+    const newMaterial = new THREE.MeshPhongMaterial({vertexColors: true, side: THREE.DoubleSide});
+    let mesh = new THREE.Mesh(geometry, newMaterial);
+    
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    return mesh;  
 }
