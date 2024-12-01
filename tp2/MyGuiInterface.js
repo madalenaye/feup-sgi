@@ -1,14 +1,23 @@
+/**
+ * @file MyGuiInterface.js
+ * @class MyGuiInterface
+ * @desc This class manages and customizes the graphical user interface (GUI) for the application.
+ */
+
 import { GUI } from "three/addons/libs/lil-gui.module.min.js";
 import { MyApp } from './MyApp.js';
 import { MyContents } from './MyContents.js';
 
 /**
-    This class customizes the gui interface for the app
-*/
+ * @class
+ * @classdesc This class customizes the gui interface for the app
+ */
+
 class MyGuiInterface  {
 
     /**
-     * 
+     * Constructs a GUI interface for the application, enabling user interaction with the scene.
+     * @constructor
      * @param {MyApp} app The application object 
      */
     constructor(app) {
@@ -25,6 +34,7 @@ class MyGuiInterface  {
 
     /**
      * Set the contents object
+     * @method
      * @param {MyContents} contents the contents objects 
      */
     setContents(contents) {
@@ -33,6 +43,7 @@ class MyGuiInterface  {
 
     /**
      * Initialize the gui interface
+     * @method
      */
     init() {
 
@@ -43,7 +54,6 @@ class MyGuiInterface  {
 
         const cameraFolder = this.datgui.addFolder('Camera');
 
-        // Adiciona o controle "Active Camera" dentro do folder
         cameraFolder.add(this.app, 'activeCameraName', this.cameraNames)
             .name('Active Camera')
             .onChange((cameraName) => {
