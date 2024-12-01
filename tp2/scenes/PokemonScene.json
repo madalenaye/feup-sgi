@@ -120,12 +120,20 @@
                 "isVideo": false
             },
             "fruit_t":{
-                "filepath": "scenes/textures/orange.jpg",
+                "filepath": "scenes/textures/fruit.jpg",
                 "isVideo": false
             },
             "water_t": {
                 "filepath": "scenes/textures/water.mp4",
                 "isVideo": true
+            },
+            "tree_t": {
+                "filepath": "scenes/textures/tree.png",
+                "isVideo": false
+            },
+            "tree_bump": {
+                "filepath": "scenes/textures/tree_bump.png",
+                "isVideo": false
             }
         },
         "materials": {
@@ -378,22 +386,26 @@
                 "shininess": 10,
                 "transparent": false,
                 "opacity": 1.0,
-                "twosided": true
+                "twosided": true,
+                "textureref": "tree_t",
+                "texlength_s": 1.0,
+                "texlength_t": 1.0,
+                "bumpref": "tree_bump"
             },
             "fruit_m":{
                 "color": {
-                    "r": 0.941,
-                    "g": 0.659,
-                    "b": 0.133
+                    "r": 0.749,
+                    "g": 0.051,
+                    "b": 0.051
                 },
                 "emissive": {
-                    "r": 0.2,
-                    "g": 0.2,
+                    "r": 0.0,
+                    "g": 0.0,
                     "b": 0.0
                 },
                 "specular": {
-                    "r": 0.953,
-                    "g": 0.576,
+                    "r": 0.0,
+                    "g": 0.0,
                     "b": 0.0
                 },
                 "textureref": "fruit_t",
@@ -801,7 +813,7 @@
                     }
                 ],
                 "children": {
-                    "nodesList": ["tree"]
+                    "lodsList": ["tree_lod"]
                 }
             },
             "tree_2":{
@@ -817,9 +829,132 @@
                     }
                 ],
                 "children": {
-                    "nodesList": ["tree"]
+                    "lodsList": ["tree_lod"]
                 }
             },
+            "tree_lod":{
+                "type": "lod",
+                "lodNodes": [
+                    {"nodeId" : "tree_", "mindist": 0},
+                    {"nodeId" : "tree", "mindist": 30}
+                ]
+            },
+            "tree_":{
+                "type": "node",
+                "children": {
+                    "nodesList": ["tree_trunk", "complex_crown", "fruit_c1", "fruit_c2", "fruit_c3", "fruit_c4"]
+                }
+            },
+            "complex_crown":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": -1.3,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "tree_crown_m"
+                },
+                "children": {
+                    "tree_crown_sphere_1":{
+                        "type": "sphere",
+                        "radius": 0.9,
+                        "slices": 32,
+                        "stacks": 16
+                    },
+                    "nodesList": ["complex_crown2"]
+                }
+            },
+            "complex_crown2": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0,
+                            "y": -0.8,
+                            "z": 0
+                        }
+                    }
+                ],
+                "children": {
+                    "tree_crown_sphere_2":{
+                        "type": "sphere",
+                        "radius": 0.7,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "fruit_c1":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.3,
+                            "y": -2.7,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "children": {
+                    "nodesList": ["fruit"]
+                }
+            },
+            "fruit_c2":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": -1.0,
+                            "z": -0.9
+                        }
+                    }
+                ],
+                "children": {
+                    "nodesList": ["fruit"]
+                }
+            },
+            "fruit_c3":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -0.70,
+                            "y": -2.0,
+                            "z": -0.3
+                        }
+                    }
+                ],
+                "children": {
+                    "nodesList": ["fruit"]
+                }
+            },
+            "fruit_c4":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0,
+                            "y": -1.4,
+                            "z": 0.9
+                        }
+                    }
+                ],
+                "children": {
+                    "nodesList": ["fruit"]
+                }
+            },           
             "tree":{
                 "type": "node",
                 "children":{
