@@ -21,6 +21,7 @@ This scene represents an open Poké Ball floating above the ocean. Within it:
 	•	A reflective water plane as the surrounding ocean, enhancing realism.
 	•	Pokémon characters scattered around the environment, bringing the scene to life.
   - [scene](/tp2/scenes/PokemonScene.json)
+  - [screenshots](/tp2/screenshots)
 ----
 ## Screenshots
 1. Main scene, with spotlight pointed to the lake and pokémons
