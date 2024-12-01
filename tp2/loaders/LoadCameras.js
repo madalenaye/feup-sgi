@@ -1,7 +1,19 @@
+/**
+ * @file LoadCameras.js
+ * @desc Utility module for loading and creating cameras in a 3D scene.
+ * Provides functionality to create and configure multiple camera types
+ */
+
 import * as THREE from 'three';
 
 export const loadCameras = {
 
+    /**
+     * Creates and configures a list of cameras based on the provided data.
+     * @method
+     * @param {Object} data - JSON object containing camera configurations.
+     * @returns {Array<THREE.Camera>} - Array of configured THREE.js cameras.
+     */    
     createCameras(data){
 
         let cameras = [];
