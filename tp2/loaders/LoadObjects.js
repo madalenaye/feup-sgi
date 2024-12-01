@@ -51,7 +51,7 @@ const dealWithNodes = function(node, materialId=null, materials){
            else{
                 const child = node.children[key]
                 let castShadow = node.castShadows;
-                let receiveShadow = node.ReceiveShadows;
+                let receiveShadow = node.receiveShadows;
 
                 switch(child.type){
                     case 'pointlight':
