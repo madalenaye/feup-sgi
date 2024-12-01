@@ -24,7 +24,8 @@ export const loadMaterials = {
                 loadTexture: null,
                 loadBump: null,
                 loadSpecular: null,
-                hasMipMap:false
+                hasMipMap:false,
+                mipmaps: null
             };
 
             if(material.textureref != null){
@@ -40,9 +41,10 @@ export const loadMaterials = {
             if(material.specularref != null){
                 newMaterial.loadSpecular = textures[material.specularref].clone();
             }
-
-            if(textures[material.textureref]?.mipmap?.[0]){
+            
+            if(textures[material.textureref]?.mipmaps?.[0]){
                 newMaterial.hasMipMap = true;
+                newMaterial.mipmaps = textures[material.textureref].mipmaps;
             }
 
             organizeMaterials[key] = newMaterial;
@@ -87,8 +89,8 @@ export const loadMaterials = {
             newMaterial.map.needsUpdate = true;
 
             if(organizeMaterial.hasMipMap == true){
-                for (let i = 0; i <= 7; i++) {
-                    loadTextures.loadMipmap(newMaterial.map, i, newMaterial.mipmaps[i]);
+                for (let i = 0; i <= organizeMaterial.mipmaps.length -1 ; i++) {
+                    loadTextures.loadMipmap(newMaterial.map, i, organizeMaterial.mipmaps[i]);
                 }
             }
         }

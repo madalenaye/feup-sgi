@@ -100,7 +100,11 @@
         },
         "textures": {
             "floor_t": {
-                "filepath": "scenes/textures/grass.png",
+                "filepath": "scenes/textures/grass_622.png",
+                "mipmap0": "scenes/textures/grass_622.png",
+                "mipmap1": "scenes/textures/grass_311.png",
+                "mipmap2": "scenes/textures/grass_155.png",
+                "mipmap3": "scenes/textures/grass_77.png",
                 "isVideo": false
             },
             "floor_bump_t": {

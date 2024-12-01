@@ -17,7 +17,6 @@ export const loadTextures = {
                 video.muted = true;
                 video.load();
                 video.play();
-                console.log(video)
                 let videoTexture = new THREE.VideoTexture(video);
                 textures[key] = videoTexture;
             }
@@ -28,8 +27,11 @@ export const loadTextures = {
 
             if(texture.mipmap0 != "null"){
                 textures[key].generateMipmaps = false;
-
-                for (let i = 0; i <= 7; i++){
+                const nonNullMipmaps = Object.keys(texture)
+                .filter(key => key.startsWith('mipmap') && texture[key] !== 'null')
+                .length;
+                
+                for (let i = 0; i <= nonNullMipmaps - 1; i++){
                     const mipmap =texture[(`mipmap${i}`)];
                     textures[key].mipmaps[i] = mipmap;
                 }
