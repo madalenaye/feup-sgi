@@ -10,7 +10,7 @@
                 "r": 1.0,
                 "g": 1.0,
                 "b": 1.0,
-                "intensity": 0.8
+                "intensity": 0.9
             },
             "fog": {
                 "color": {
@@ -549,7 +549,7 @@
                 "textureref": "charmander_t",
                 "texlength_s": 1,
                 "texlength_t": 1,
-                "shininess": 5.0,
+                "shininess": 10.0,
                 "transparent": true,
                 "opacity": 1.0,
                 "twosided": true
