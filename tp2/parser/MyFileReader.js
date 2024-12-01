@@ -148,6 +148,7 @@ class MyFileReader  {
 	 * @param {*} element the xml element
 	 * @param {String} attributeName the attribute name
 	 * @param {Boolean} required if the attribte is required or not
+	 * @param {String} yasfAttribute the json attribute to check
 	 * @returns {THREE.Color} the color encoded in a THREE.Color object
 	 */
 	getRGBA(element, attributeName, required, yasfAttribute) {
@@ -182,6 +183,14 @@ class MyFileReader  {
 		return this.getVectorN(value, ["r", "g", "b"], yasfAttribute, attributeName);
 	}
 
+	/**
+	 * extracts the color (rgba) and Intensity from an element for a particular attribute
+	 * @param {*} element the xml element
+	 * @param {String} attributeName the attribute name
+	 * @param {Boolean} required if the attribte is required or not
+	 * @param {String} yasfAttribute the json attribute to check
+	 * @returns {THREE.Color} the color encoded in a THREE.Color object
+	 */
 	getRGBI(element, attributeName, required, yasfAttribute){
 		if (required == undefined) required = true;
 		
@@ -271,6 +280,7 @@ class MyFileReader  {
 	 * @param {*} element the xml element
 	 * @param {*} attributeName the attribute name 
 	 * @param {*} required if the attribte is required or not
+	 * @param {String} yasfAttribute the json attribute to check
 	 * @returns {THREE.vector3} the vector3 encoded in a THREE.Vector3 object
 	 */
 	getVector3(element, attributeName, required, yasfAttribute) {
@@ -659,6 +669,12 @@ class MyFileReader  {
 		this.data.setSkyBox(this.loadJsonItem({ key: "skybox", elem: skybox, descriptor: this.data.descriptors["skybox"], extras: [["type", "skybox"]]}))
 	}
 
+	/**
+	 * Validates the consistency of mipmap levels in the provided texture objects.
+	 * @method
+	 * @param {Object} textures - An object containing texture definitions, where each key 
+ 	 * represents a texture name and each value is an object with potential mipmap levels 
+	 */
 	validateMipmaps(textures){
 		Object.entries(textures).forEach(([key, texture]) => {
 			const mipmapsDefined = [];
@@ -713,7 +729,6 @@ class MyFileReader  {
 	 * @param {*} rootElement 
 	 */
 	loadCameras(rootElement) {
-		//TODO: Verificar se os identificadores estão vazios.
 		let camerasElem = rootElement["cameras"];
 		if (!camerasElem) {
 			throw new Error("Element 'cameras' is missing in the JSON data and it is mandatory to have.");
@@ -766,6 +781,12 @@ class MyFileReader  {
 		} 
 	}
 
+	/**
+	 * Validates if the given material ID exists in the 'materials' section of the data.
+	 * @method
+	 * @param {String} materialId - The ID of the material to validate.
+	 * @param {String} nodeId - The ID of the JSON node being analyzed, used for error reporting.
+	 */
 	checkMaterialId(materialId, nodeId){
 		let result = this.data.getMaterial(materialId);
 		if(result == null){
@@ -1030,6 +1051,13 @@ class MyFileReader  {
 		return obj;
 	}
 
+	/**
+	 * Verifies if the number of control points provided is correct for a NURBS surface, 
+ 	 * given the degrees in the U and V directions.
+	 * @param {Integer} degree_u - The degree of the NURBS surface in the U direction. 
+	 * @param {Integer} degree_v - The degree of the NURBS surface in the V direction.
+	 * @param {Integer} lengthControlPoints - The total number of control points provided.
+	 */
 	checkControlPoints(degree_u, degree_v, lengthControlPoints){
 		let correctPoints = (degree_u+1)*(degree_v+1)
 
@@ -1062,6 +1090,11 @@ class MyFileReader  {
     return;
 	}
 
+	/**
+	 * Loads a Level of Detail (LOD) node by its identifier and populates it with LOD children nodes.
+	 * @param {String} id - The identifier of the LOD node to be loaded.
+	 * @param {Object} nodeElement - The JSON element containing the LOD node data.  
+	 */
 	loadLodNode(id, nodeElement){
 		let obj = this.data.getLOD(id);
 		if (obj == null) {

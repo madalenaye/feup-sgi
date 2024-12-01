@@ -1,4 +1,18 @@
+/**
+ * @file YASFstructures.js
+ * @class YASFstructures
+ * @desc This file defines the YASFstructures class, which manages the core data structures 
+ *       for handling a 3D scene graph, including lights, materials, textures, cameras, and nodes.
+ */
 
+
+/**
+ * @class
+ * @classdesc The YASFstructures class encapsulates the data and logic required to define and manage
+ *            a 3D scene graph. It supports operations for adding and retrieving components such as
+ *            cameras, materials, textures, lights, and geometric primitives, as well as defining their
+ *            attributes.
+ */
 
 class YASFstructures{
 
