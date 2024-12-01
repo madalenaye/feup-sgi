@@ -1,7 +1,24 @@
+/**
+ * @file LoadGlobals.js
+ * @desc Utility module for loading and configuring global scene settings in a THREE.js environment.  
+ * This includes background color, ambient light, fog settings, and a skybox.
+ */
+
 import * as THREE from 'three';
 
 export const loadGlobals = {
 
+    /**
+     * Configures and initializes global settings for a THREE.js scene.  
+     * This method loads and sets up background color, ambient lighting, fog properties, and a skybox from the provided data.
+     * @method
+     * @param {Object} data - An object containing global scene configuration 
+     * @returns {Object} - An object containing the following scene elements:
+     * - `background` {THREE.Color} - Background color for the scene.
+     * - `ambient` {THREE.AmbientLight} - Ambient light for the scene.
+     * - `fog` {THREE.Fog} - Fog configuration for the scene.
+     * - `skybox` {THREE.Mesh} - A skybox mesh composed of six textures.
+     */ 
     loadGlobals(data){
         let lightData = data.getOptions()
         let background = new THREE.Color(lightData.background[0], lightData.background[1], lightData.background[2]);
