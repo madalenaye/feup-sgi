@@ -669,7 +669,7 @@ class MyFileReader  {
 			}
 	
 			if (mipmapsDefined.length > 0) {
-				for (let i = 0; i <= 7; i++) {
+				for (let i = 0; i <= mipmapsDefined.length-1; i++) {
 					if (!(`mipmap${i}` in texture)) {
 						throw new Error(
 							`Inconsistency in texture '${key}': 'mipmap${i}' is missing, but other mipmaps are defined (${mipmapsDefined.join(", ")}).`

@@ -33,7 +33,8 @@ export const loadMaterials = {
             }
 
             if(material.bumpref != null){
-                newMaterial.loadBump = textures[material.bumpref].clone();
+                let loadedBump = textures[material.bumpref];
+                newMaterial.loadBump = loadedBump.clone();
             }
 
             if(material.specularref != null){
@@ -47,7 +48,6 @@ export const loadMaterials = {
             organizeMaterials[key] = newMaterial;
             
         });
-
         return organizeMaterials;
     },
 
@@ -104,7 +104,9 @@ export const loadMaterials = {
             if (!repeatY) {
                 repeatY = 1;
             }
+            
             newMaterial.bumpMap.repeat.set(repeatX, repeatY);
+            newMaterial.bumpMap.needsUpdate = true;
         }
 
         if(organizeMaterial.loadSpecular != null){
@@ -121,6 +123,7 @@ export const loadMaterials = {
                 repeatY = 1;
             }
             newMaterial.specularMap.repeat.set(repeatX, repeatY);
+            newMaterial.specularMap.needsUpdate = true;
         }
         return newMaterial;
 

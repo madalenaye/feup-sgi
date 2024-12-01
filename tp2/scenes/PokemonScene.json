@@ -102,8 +102,16 @@
                 "filepath": "scenes/textures/grass.png",
                 "isVideo": false
             },
+            "floor_bump_t": {
+                "filepath": "scenes/textures/grass_bump.png",
+                "isVideo": false
+            },
             "trunk_t": {
                 "filepath": "scenes/textures/trunk.jpg",
+                "isVideo": false
+            },
+            "trunk_bump_t": {
+                "filepath": "scenes/textures/trunk_bump.jpg",
                 "isVideo": false
             },
             "fruit_t":{
@@ -338,7 +346,9 @@
                 "shininess": 0,
                 "transparent": false,
                 "opacity": 1.0,
-                "twosided": true
+                "twosided": true,
+                "bumpref": "trunk_bump_t",
+                "bumpscale": 10
             },
             "tree_crown_m":{
                 "color": {
@@ -400,13 +410,13 @@
                             "g": 1.0,
                             "b": 1.0
                         },
-                        "intensity": 10.0,
+                        "intensity": 10,
                         "distance": 0.0,
                         "decay": 2.0,
                         "castshadow": false,
                         "position": {
                             "x": 0.0,
-                            "y": 20.0,
+                            "y": 17,
                             "z": 0.0
                         }
                     }
