@@ -240,9 +240,9 @@
             },
             "cloud_m" : {
                 "color": {
-                    "r": 1.0,
-                    "g": 1.0,
-                    "b": 1.0
+                    "r": 0.8,
+                    "g": 0.8,
+                    "b": 0.8
                 },
                 "emissive": {
                     "r": 0.1,
@@ -250,12 +250,12 @@
                     "b": 0.1
                 },
                 "specular": {
-                    "r": 0.0,
-                    "g": 0.0,
-                    "b": 0.0
+                    "r": 0,
+                    "g": 0,
+                    "b": 0
                 },
-                "shininess": 10,
-                "transparent": true,
+                "shininess": 1,
+                "transparent": false,
                 "opacity": 0.9,
                 "twosided": true
 
@@ -713,7 +713,7 @@
                     "materialId": "floor_m"
                 },
                 "children": {
-                    "nodesList": ["fireplace", "tree_1", "tree_2", "cloud_1", "cloud_2"],
+                    "nodesList": ["fireplace", "tree_1", "tree_2", "cloud_1", "cloud_2", "cloud_3"],
                     "green_cylinder":{
                         "type": "cylinder",
                         "base": 3.98,
@@ -1046,9 +1046,9 @@
                     {
                         "type": "translate",
                         "amount": {
-                            "x": -1.3,
-                            "y": -5.0,
-                            "z": 0.0
+                            "x": 1.2,
+                            "y": -4.0,
+                            "z": -0.5
                         }
                     }
                 ],
@@ -1285,247 +1285,39 @@
                             "y": -5.3,
                             "z": 0.0
                         }
+                    },
+                    {
+                        "type": "scale",
+                        "amount": {
+                            "x": 1.2,
+                            "y": 1,
+                            "z": 1
+                        }
                     }
                 ],
                 "materialref": {
                     "materialId": "cloud_m"
                 },
                 "children": {
-                    "nodesList": ["main2_sphere", "sphere2_2", "sphere2_3", "sphere2_4", "sphere2_5", "sphere2_6", "sphere2_7"]
+                    "nodesList": ["main_sphere", "sphere_2", "sphere_3", "sphere_4", "sphere_5", "sphere_6", "sphere_7"]
                 }
             },
-            "main2_sphere":{
-                "type": "node",
-                "transforms": [
-                    {
-                        "type": "rotate",
-                        "amount": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": -30.0
-                        }
-                    },
-                    {
-                        "type": "scale",
-                        "amount": {
-                            "x": 0.95,
-                            "y": 1,
-                            "z": 1
-                        }
-                    }
-                ],
-                "materialref": {
-                    "materialId": "cloud_m"
-                },
-                "children":{
-                    "main2_sphere_geometry":{
-                        "type": "sphere",
-                        "radius": 0.68,
-                        "slices": 32,
-                        "stacks": 16
-                    }
-                }
-            },
-            "sphere2_1":{
+            "cloud_3": {
                 "type": "node",
                 "transforms": [
                     {
                         "type": "translate",
                         "amount": {
-                            "x": -0.68,
-                            "y": -0.05,
-                            "z": 0.2
-                        }
-                    },
-                    {
-                        "type": "rotate",
-                        "amount": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": -45.0
-                        }
-                    }
-                ],
-                "materialref": {
-                    "materialId": "cloud_m"
-                },
-                "children":{
-                    "sphere2_1_geometry":{
-                        "type": "sphere",
-                        "radius": 0.5,
-                        "slices": 32,
-                        "stacks": 16
-                    }
-                }
-            },
-            "sphere2_2": {
-                "type" : "node",
-                "transforms": [
-                    {
-                        "type": "translate",
-                        "amount": {
-                            "x": -0.2,
-                            "y": -0.1,
-                            "z": 0.55
-                        }
-                    },
-                    {
-                        "type": "rotate",
-                        "amount": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": 30.0
-                        }
-                    }
-                ],
-                "materialref": {
-                    "materialId": "cloud_m"
-                },
-                "children":{
-                    "sphere2_2_geometry":{
-                        "type": "sphere",
-                        "radius": 0.4,
-                        "slices": 32,
-                        "stacks": 16
-                    }
-                }
-            },
-            "sphere2_3":{
-                "type": "node",
-                "transforms": [
-                    {
-                        "type": "translate",
-                        "amount": {
-                            "x": 0.7,
-                            "y": 0.0,
-                            "z": 0.0
-                        }
-                    },
-                    {
-                        "type": "rotate",
-                        "amount": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": 45.0
-                        }
-                    },
-                    {
-                        "type": "scale",
-                        "amount": {
-                            "x": 1.2,
-                            "y": 1.0,
+                            "x": -2.0,
+                            "y": -5.3,
                             "z": 1.0
                         }
-                    }
-                ],
-                "materialref": {
-                    "materialId": "cloud_m"
-                },
-                "children":{
-                    "sphere2_3_geometry":{
-                        "type": "sphere",
-                        "radius": 0.4,
-                        "slices": 32,
-                        "stacks": 16
-                    }
-                }
-            },
-            "sphere2_4":{
-                "type": "node",
-                "transforms": [
-                    {
-                        "type": "translate",
-                        "amount": {
-                            "x": -1.03,
-                            "y": 0.2,
-                            "z": 0.1
-                        }
-                    }
-                ],
-                "materialref": {
-                    "materialId": "cloud_m"
-                },
-                "children":{
-                    "sphere2_4_geometry":{
-                        "type": "sphere",
-                        "radius": 0.28,
-                        "slices": 32,
-                        "stacks": 16
-                    }
-                }
-            },
-            "sphere2_5":{
-                "type": "node",
-                "transforms": [
-                    {
-                        "type": "translate",
-                        "amount": {
-                            "x": -0.7,
-                            "y": 0.2,
-                            "z": 0.1
-                        }
-                    }
-                ],
-                "materialref": {
-                    "materialId": "cloud_m"
-                },
-                "children":{
-                    "sphere2_5_geometry":{
-                        "type": "sphere",
-                        "radius": 0.28,
-                        "slices": 32,
-                        "stacks": 16
-                    }
-                }
-            },
-            "sphere2_6": {
-                "type" : "node",
-                "transforms": [
-                    {
-                        "type": "translate",
-                        "amount": {
-                            "x": -0.7,
-                            "y": -0.06,
-                            "z": 0.45
-                        }
-                    }
-                ],
-                "materialref": {
-                    "materialId": "cloud_m"
-                },
-                "children":{
-                    "sphere2_6_geometry":{
-                        "type": "sphere",
-                        "radius": 0.28,
-                        "slices": 32,
-                        "stacks": 16
-                    }
-                }
-            },
-            "sphere2_7":{
-                "type": "node",
-                "transforms": [
-                    {
-                        "type": "translate",
-                        "amount": {
-                            "x": -1.1,
-                            "y": -0.1,
-                            "z": 0.15
-                        }
-                    },
-                    {
-                        "type": "rotate",
-                        "amount": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": 45.0
-                        }
                     },
                     {
                         "type": "scale",
                         "amount": {
-                            "x": 1.2,
-                            "y": 1,
+                            "x": 1.5,
+                            "y": 1.4,
                             "z": 1
                         }
                     }
@@ -1533,13 +1325,8 @@
                 "materialref": {
                     "materialId": "cloud_m"
                 },
-                "children":{
-                    "sphere2_7_geometry":{
-                        "type": "sphere",
-                        "radius": 0.25,
-                        "slices": 32,
-                        "stacks": 16
-                    }
+                "children": {
+                    "nodesList": ["main_sphere", "sphere_2", "sphere_3", "sphere_4", "sphere_5", "sphere_6", "sphere_7"]
                 }
             }
         }
