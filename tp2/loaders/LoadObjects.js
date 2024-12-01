@@ -333,8 +333,8 @@ const createSphere = function (parameters, material, castShadow, receiveShadow){
 
     let sphereGeometry = new THREE.SphereGeometry(
                         parameters.radius, 
-                        parameters.slices, 
-                        parameters.stacks, 
+                        parameters.slices ?? 32, 
+                        parameters.stacks ?? 16, 
                         THREE.MathUtils.degToRad(parameters.phistart), 
                         phiLength,
                         THREE.MathUtils.degToRad(parameters.thetastart), 
