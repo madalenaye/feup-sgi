@@ -805,7 +805,8 @@
                     "materialId": "trunk_m"
                 },
                 "children": {
-                    "nodesList": ["trunk_2", "trunk_3", "fire_1", "fire_2", "fire_3", "fire_4"]
+                    "nodesList": ["trunk_2", "trunk_3", "fire_1", "fire_3"],
+                    "lodsList": ["fire_lod", "fire_lod2"]
                 }
             },
             "trunk_2":{
@@ -924,6 +925,20 @@
                     "nodesList": ["fire"]
                 }
             },
+            "fire_lod":{
+                "type": "lod",
+                "lodNodes": [
+                    {"nodeId" : "fire_2", "mindist": 0},
+                    {"nodeId" : "fire_2_less", "mindist": 15}
+                ]
+            },
+            "fire_lod2":{
+                "type": "lod",
+                "lodNodes": [
+                    {"nodeId" : "fire_4", "mindist": 0},
+                    {"nodeId" : "fire_4_less", "mindist": 15}
+                ]
+            },
             "fire_2" :{
                 "type": "node",
                 "transforms": [
@@ -954,6 +969,41 @@
                 ],
                 "materialref": {
                     "materialId": "burning_m"
+                },
+                "children": {
+                    "nodesList": ["fire"]
+                }
+            },
+            "fire_2_less":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 1.0,
+                            "y": 1.45,
+                            "z": 1.05
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 180.0,
+                            "y": 0.0,
+                            "z": 50.0
+                        }
+                    },
+                    {
+                        "type": "scale",
+                        "amount": {
+                            "x": 0.5,
+                            "y": 1,
+                            "z": 0.5
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "fire_m"
                 },
                 "children": {
                     "nodesList": ["fire"]
@@ -1029,6 +1079,41 @@
                     "nodesList": ["fire"]
                 }
             },
+            "fire_4_less": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 1,
+                            "y": 1.2,
+                            "z": 0.7
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 180.0,
+                            "y": 0.0,
+                            "z": 50.0
+                        }
+                    },
+                    {
+                        "type": "scale",
+                        "amount": {
+                            "x": 0.4,
+                            "y": 0.45,
+                            "z": 0.4
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "inside_fire_m"
+                },
+                "children": {
+                    "nodesList": ["fire"]
+                }
+            },
             "fire":{
                 "type": "node",
 
@@ -1089,7 +1174,7 @@
                 "type": "lod",
                 "lodNodes": [
                     {"nodeId" : "tree_", "mindist": 0},
-                    {"nodeId" : "tree", "mindist": 30}
+                    {"nodeId" : "tree", "mindist": 20}
                 ]
             },
             "tree_":{
