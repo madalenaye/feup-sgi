@@ -308,7 +308,8 @@ const degreesToRadians = (degrees) => degrees * (Math.PI / 180);
 const buildPointLight = function(parameters){
     if (!parameters.enabled) return;
 
-    let light = new THREE.PointLight(parameters.color, parameters.intensity, parameters.distance, parameters.decay);
+    let color = new THREE.Color(parameters.color[0], parameters.color[1], parameters.color[2]);
+    let light = new THREE.PointLight(color, parameters.intensity, parameters.distance, parameters.decay);
     light.castShadow = parameters.castshadow;
     if (parameters.castshadow) {
         light.shadow.camera.far = parameters.shadowfar;
@@ -319,7 +320,8 @@ const buildPointLight = function(parameters){
     return light;
 }
 const buildSpotLight = function(parameters){
-    let light = new THREE.SpotLight(parameters.color, parameters.intensity, parameters.distance, parameters.angle, parameters.penumbra, parameters.decay);
+    let color = new THREE.Color(parameters.color[0], parameters.color[1], parameters.color[2]);
+    let light = new THREE.SpotLight(color, parameters.intensity, parameters.distance, parameters.angle, parameters.penumbra, parameters.decay);
     light.castShadow = parameters.castshadow;
 
     if (parameters.castshadow) {
@@ -332,14 +334,13 @@ const buildSpotLight = function(parameters){
     const target = new THREE.Object3D();
     target.position.set(parameters.target[0], parameters.target[1], parameters.target[2]);
     light.target = target;
-    
     return light;
 }
 
 const buildDirectionalLight = function(parameters){
-    let light = new THREE.DirectionalLight(parameters.color, parameters.intensity);
+    let color = new THREE.Color(parameters.color[0], parameters.color[1], parameters.color[2]);
+    let light = new THREE.DirectionalLight(color, parameters.intensity);
     light.castShadow = parameters.castshadow;
-    
     if (parameters.castshadow) {
         light.shadow.camera.left = parameters.shadowleft;
         light.shadow.camera.right = parameters.shadowright;
