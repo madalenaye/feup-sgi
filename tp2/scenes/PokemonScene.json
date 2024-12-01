@@ -55,8 +55,40 @@
                 "far": 1000,
                 "location": {
                     "x": 0,
+                    "y": 15,
+                    "z": 20
+                },
+                "target": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            },
+            "left": {
+                "type": "perspective",
+                "angle": 50,
+                "near": 0.1,
+                "far": 1000,
+                "location": {
+                    "x": -40,
                     "y": 12,
-                    "z": 15
+                    "z": 0
+                },
+                "target": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            },
+            "right": {
+                "type": "perspective",
+                "angle": 50,
+                "near": 0.1,
+                "far": 1000,
+                "location": {
+                    "x": 40,
+                    "y": 12,
+                    "z": 0
                 },
                 "target": {
                     "x": 0,
@@ -82,19 +114,19 @@
         "materials": {
             "upper_sphere_m": {
                 "color": {
-                    "r": 200.0,
-                    "g": 47.0,
-                    "b": 35.0
+                    "r": 0.902,
+                    "g": 0.024,
+                    "b": 0.024
                 },
                 "emissive": {
-                    "r": 34.0,
-                    "g": 34.0,
-                    "b": 34.0
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
                 },
                 "specular": {
-                    "r": 255.0,
-                    "g": 255.0,
-                    "b": 255.0
+                    "r": 0.1,
+                    "g": 0.1,
+                    "b": 0.1
                 },
                 "shininess": 10,
                 "transparent": false,
@@ -113,9 +145,9 @@
                     "b": 0.0
                 },
                 "specular": {
-                    "r": 255.0,
-                    "g": 255.0,
-                    "b": 255.0
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0
                 },
                 "shininess": 15,
                 "transparent": false,
@@ -125,19 +157,19 @@
             },
             "cylinder_button_m":{
                 "color": {
-                    "r": 234.0,
-                    "g": 225.0,
-                    "b": 225.0
+                    "r": 0.918,
+                    "g": 0.882,
+                    "b": 0.882
                 },
                 "emissive": {
-                    "r": 85.0,
-                    "g": 85.0,
-                    "b": 85.0
+                    "r": 0.333,
+                    "g": 0.333,
+                    "b": 0.333
                 },
                 "specular": {
-                    "r": 255.0,
-                    "g": 255.0,
-                    "b": 255.0
+                    "r": 0.1,
+                    "g": 0.1,
+                    "b": 0.1
                 },
                 "shininess": 40,
                 "transparent": true,
@@ -146,19 +178,19 @@
             },
             "lower_sphere_m":{
                 "color": {
-                    "r": 224.0,
-                    "g": 232.0,
-                    "b": 227.0
+                    "r": 0.878,
+                    "g": 0.91,
+                    "b": 0.89
                 },
                 "emissive": {
-                    "r": 189.0,
-                    "g": 184.0,
-                    "b": 184.0
+                    "r": 0,
+                    "g": 0,
+                    "b": 0
                 },
                 "specular": {
-                    "r": 255.0,
-                    "g": 255.0,
-                    "b": 255.0
+                    "r": 0.1,
+                    "g": 0.1,
+                    "b": 0.1
                 },
                 "shininess": 10,
                 "transparent": false,
@@ -167,23 +199,23 @@
             },
             "floor_m":{
                 "color": {
-                    "r": 255.0,
-                    "g": 255.0,
-                    "b": 255.0
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0
                 },
                 "emissive": {
                     "r": 0.0,
-                    "g": 17.0,
+                    "g": 0.067,
                     "b": 0.0
                 },
                 "specular": {
-                    "r": 34.0,
-                    "g": 34.0,
-                    "b": 34.0
+                    "r": 0.133,
+                    "g": 0.133,
+                    "b": 0.133
                 },
                 "textureref": "floor_t",
-                "texlength_s": 1.0,
-                "texlength_t": 1.0,
+                "texlength_s": 8.0,
+                "texlength_t": 8.0,
                 "shininess": 3,
                 "transparent": false,
                 "opacity": 1.0,
@@ -196,14 +228,14 @@
                     "b": 1.0
                 },
                 "emissive": {
-                    "r": 1.0,
-                    "g": 1.0,
-                    "b": 1.0
+                    "r": 0.1,
+                    "g": 0.1,
+                    "b": 0.1
                 },
                 "specular": {
-                    "r": 255.0,
-                    "g": 255.0,
-                    "b": 255.0
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
                 },
                 "shininess": 10,
                 "transparent": true,
@@ -286,43 +318,43 @@
             },
             "trunk_m": {
                 "color": {
-                    "r": 0.5,
-                    "g": 0.25,
-                    "b": 0.0
+                    "r": 0.322,
+                    "g": 0.243,
+                    "b": 0.243
                 },
                 "emissive": {
-                    "r": 0.5,
-                    "g": 0.25,
+                    "r": 0.0,
+                    "g": 0.0,
                     "b": 0.0
                 },
                 "specular": {
-                    "r": 255.0,
-                    "g": 255.0,
-                    "b": 255.0
+                    "r": 0.51,
+                    "g": 0.506,
+                    "b": 0.506
                 },
                 "textureref": "trunk_t",
                 "texlength_s": 1.0,
                 "texlength_t": 1.0,
-                "shininess": 15,
+                "shininess": 0,
                 "transparent": false,
                 "opacity": 1.0,
                 "twosided": true
             },
             "tree_crown_m":{
                 "color": {
-                    "r": 34.0,
-                    "g": 139.0,
-                    "b": 34.0
+                    "r": 0.094, 
+                    "g": 0.278,
+                    "b": 0.094
                 },
                 "emissive": {
                     "r": 0.0,
-                    "g": 51.0,
+                    "g": 0.2,
                     "b": 0.0
                 },
                 "specular": {
-                    "r": 85.0,
-                    "g": 85.0,
-                    "b": 85.0
+                    "r": 0.333,
+                    "g": 0.333,
+                    "b": 0.333
                 },
                 "shininess": 10,
                 "transparent": false,
@@ -331,24 +363,24 @@
             },
             "fruit_m":{
                 "color": {
-                    "r": 255.0,
-                    "g": 255.0,
-                    "b": 255.0
+                    "r": 0.941,
+                    "g": 0.659,
+                    "b": 0.133
                 },
                 "emissive": {
-                    "r": 51.0,
-                    "g": 51.0,
+                    "r": 0.2,
+                    "g": 0.2,
                     "b": 0.0
                 },
                 "specular": {
-                    "r": 243.0,
-                    "g": 147.0,
-                    "b": 8.0
+                    "r": 0.953,
+                    "g": 0.576,
+                    "b": 0.0
                 },
                 "textureref": "fruit_t",
-                "texlength_s": 1.0,
-                "texlength_t": 1.0,
-                "shininess": 10,
+                "texlength_s": 0.8,
+                "texlength_t": 0.8,
+                "shininess": 10.0,
                 "transparent": false,
                 "opacity": 1.0,
                 "twosided": true
@@ -359,23 +391,16 @@
             "scene": {
                 "type": "node",
                 "children": {
-                    "upper_sphere": {
-                        "type": "noderef",
-                        "nodeId": "upper_sphere"
-                    },
-                    "lower_sphere":{
-                        "type": "noderef",
-                        "nodeId": "lower_sphere"
-                    },
+                    "nodesList": ["upper_sphere", "lower_sphere"],
                     "point_light": {
                         "type": "pointlight",
                         "enabled": true,
                         "color": {
-                            "r": 255.0,
-                            "g": 255.0,
-                            "b": 255.0
+                            "r": 1.0,
+                            "g": 1.0,
+                            "b": 1.0
                         },
-                        "intensity": 500.0,
+                        "intensity": 10.0,
                         "distance": 0.0,
                         "decay": 2.0,
                         "castshadow": false,
@@ -403,19 +428,115 @@
                     "materialId": "upper_sphere_m"
                 },
                 "children": {
-                    "base_cylinder": {
-                        "type": "noderef",
-                        "nodeId": "base_cylinder"
-                    },
+                    "nodesList": ["base_cylinder"],
                     "black_sphere":{
                         "type": "sphere",
                         "radius": 4.0,
                         "slices": 32,
                         "stacks": 16,
                         "thetastart": 0.0,
-                        "thetalength": 360.0,
+                        "thetalength": 90.0,
                         "phistart": 0.0,
-                        "philength": 90.0
+                        "philength": 360.0
+                    }
+                }
+            },
+            "base_cylinder": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": -0.25,
+                            "z": 0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "base_cylinder_m"
+                },
+                "children": {
+                    "nodesList": ["front_circle"],
+                    "black_cylinder":{
+                        "type": "cylinder",
+                        "base": 3.8,
+                        "top": 3.8,
+                        "height": 0.5,
+                        "slices": 32,
+                        "stacks": 1,
+                        "capsclose": true
+                    }
+                }
+            },
+            "front_circle": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": -0.5,
+                            "z": 3.8
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 90.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "base_cylinder_m"
+                },
+                "children": {
+                    "nodesList": ["cylinder_button"],
+                    "black_circle": {
+                        "type": "cylinder",
+                        "base": 0.7,
+                        "top": 0.7,
+                        "height": 0.001,
+                        "slices": 32,
+                        "stacks": 1,
+                        "capsclose": true
+                    }
+                }
+            },
+            "cylinder_button": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.08,
+                            "z": 0.05
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "cylinder_button_m"
+                },
+                "children": {
+                    "white_cylinder":{
+                        "type": "cylinder",
+                        "base": 0.4,
+                        "top": 0.4,
+                        "height": 0.08,
+                        "slices": 32,
+                        "stacks": 1,
+                        "capsclose": true
                     }
                 }
             },
@@ -423,18 +544,18 @@
                 "type": "node",
                 "transforms": [
                     {
-                        "type": "rotate",
-                        "amount": {
-                            "x": 180.0,
-                            "y": 0.0,
-                            "z": 0.0
-                        }
-                    },
-                    {
                         "type": "translate",
                         "amount": {
                             "x": 0.0,
                             "y": 4.0,
+                            "z": 0.0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 180.0,
+                            "y": 0.0,
                             "z": 0.0
                         }
                     }
@@ -443,23 +564,53 @@
                     "materialId": "lower_sphere_m"
                 },
                 "children": {
-                    "floor": {
-                        "type": "noderef",
-                        "nodeId": "floor"
-                    },
-                    "semi_circle":{
-                        "type": "noderef",
-                        "nodeId": "semi_circle"
-                    },
+                    "nodesList": ["semi_circle", "floor"],
                     "white_sphere":{
                         "type": "sphere",
                         "radius": 4.0,
                         "slices": 32,
                         "stacks": 16,
                         "thetastart": 0.0,
-                        "thetalength": 360.0,
+                        "thetalength": 90.0,
                         "phistart": 0.0,
-                        "philength": 90.0
+                        "philength": 360.0
+                    }
+                }
+            },
+            "semi_circle":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": -4.0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 90.0,
+                            "y": 90.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "base_cylinder_m"
+                },
+                "children": {
+                    "black_semi_circle":{
+                        "type": "cylinder",
+                        "base": 0.7,
+                        "top": 0.7,
+                        "height": 0.001,
+                        "slices": 32,
+                        "stacks": 1,
+                        "capsclose": true,
+                        "thetastart": 0,
+                        "thetalength": 180
                     }
                 }
             },
@@ -479,35 +630,16 @@
                     "materialId": "floor_m"
                 },
                 "children": {
+                    "nodesList": ["fireplace", "tree_1", "tree_2", "cloud_1", "cloud_2"],
                     "green_cylinder":{
                         "type": "cylinder",
                         "base": 3.98,
                         "top": 3.80,
                         "height": 0.1,
                         "slices": 32,
-                        "stacks": 1
-                    },
-                    "fireplace":{
-                        "type": "noderef",
-                        "nodeId": "fireplace"
-                    },
-                    "tree_1":{
-                        "type": "noderef",
-                        "nodeId": "tree_1"
-                    },
-                    "tree_2":{
-                        "type": "noderef",
-                        "nodeId": "tree_2"
-                    },
-                    "cloud_1":{
-                        "type": "noderef",
-                        "nodeId": "cloud_1"
-                    },
-                    "cloud_2":{
-                        "type": "noderef",
-                        "nodeId": "cloud_2"
+                        "stacks": 1,
+                        "capsclose": true
                     }
-
                 }
             },
             "fireplace":{
@@ -516,38 +648,15 @@
                     {
                         "type": "translate",
                         "amount": {
-                            "x": 1.0,
-                            "y": 4.1,
+                            "x": 0.6,
+                            "y": -0.2,
                             "z": 0.0
                         }
-                    }
-                ],
-                "materialref": {
-                    "materialId": "trunk_m"
-                },
-                "children": {
-                    "trunk_1": {
-                        "type": "cylinder",
-                        "base": 0.15,
-                        "top": 0.15,
-                        "height": 1,
-                        "slices": 10,
-                        "stacks": 1
                     },
-                   
-                    "trunk_2":{
-                        "type": "noderef",
-                        "nodeId": "trunk_2"
-                    }
-                }
-            },
-            "trunk_2":{
-                "type": "node",
-                "transforms": [
                     {
-                        "type": "translate",
-                        "amount": {
-                            "x": 0.7,
+                        "type": "rotate",
+                        "amount":{
+                            "x": 90,
                             "y": 0.0,
                             "z": 0.0
                         }
@@ -557,13 +666,42 @@
                     "materialId": "trunk_m"
                 },
                 "children": {
-                    "cylinder_2": {
+                    "nodesList": ["trunk_2"],
+                    "trunk_1": {
                         "type": "cylinder",
                         "base": 0.15,
                         "top": 0.15,
                         "height": 1,
                         "slices": 10,
-                        "stacks": 1
+                        "stacks": 1,
+                        "capsclose": true
+                    }
+                }
+            },
+            "trunk_2":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -1.3,
+                            "y": -0.1,
+                            "z": 0.12
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "trunk_m"
+                },
+                "children": {
+                    "cylinder_2": {
+                        "type": "cylinder",
+                        "base": 0.3,
+                        "top": 0.3,
+                        "height": 1.5,
+                        "slices": 32,
+                        "stacks": 1,
+                        "capsclose": true
                     }
                 }
             },
@@ -580,10 +718,7 @@
                     }
                 ],
                 "children": {
-                    "tree": {
-                        "type": "noderef",
-                        "nodeId": "tree"
-                    }
+                    "nodesList": ["tree"]
                 }
             },
             "tree_2":{
@@ -599,39 +734,13 @@
                     }
                 ],
                 "children": {
-                    "tree": {
-                        "type": "noderef",
-                        "nodeId": "tree"
-                    }
+                    "nodesList": ["tree"]
                 }
             },
             "tree":{
                 "type": "node",
                 "children":{
-                    "tree_trunk":{
-                        "type": "noderef",
-                        "nodeId": "tree_trunk"
-                    },
-                    "tree_crown":{
-                        "type": "noderef",
-                        "nodeId": "tree_crown"
-                    },
-                    "fruit1":{
-                        "type": "noderef",
-                        "nodeId": "fruit1"
-                    },
-                    "fruit2":{
-                        "type": "noderef",
-                        "nodeId": "fruit2"
-                    },
-                    "fruit3":{
-                        "type": "noderef",
-                        "nodeId": "fruit3"
-                    },
-                    "fruit4":{
-                        "type": "noderef",
-                        "nodeId": "fruit4"
-                    }
+                    "nodesList": ["tree_trunk", "tree_crown", "fruit1", "fruit2", "fruit3", "fruit4"]
                 }
             },
             "tree_trunk":{
@@ -656,7 +765,8 @@
                         "top": 0.3,
                         "height": 1.5,
                         "slices": 32,
-                        "stacks": 1
+                        "stacks": 1,
+                        "capsclose": true
                     }
                 }
             },
@@ -676,9 +786,84 @@
                     "materialId": "tree_crown_m"
                 },
                 "children": {
+                    "nodesList": ["tree_crown1", "tree_crown2", "tree_crown3", "tree_crown4"],
                     "tree_crown_sphere":{
                         "type": "sphere",
                         "radius": 1.0,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "tree_crown1":{
+                "type": "node",
+                "children": {
+                    "tree_crown_sphere":{
+                        "type": "sphere",
+                        "radius": 1.0,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "tree_crown2":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.192,
+                            "y": 0.222,
+                            "z": 0.185
+                        }
+                    }
+                ],
+                "children": {
+                    "tree_crown_sphere":{
+                        "type": "sphere",
+                        "radius": 0.84,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "tree_crown3":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -0.179,
+                            "y": 0.019,
+                            "z": 0.033
+                        }
+                    }
+                ],
+                "children": {
+                    "tree_crown_sphere":{
+                        "type": "sphere",
+                        "radius": 0.83,
+                        "slices": 32,
+                        "stacks": 16
+                    }
+                }
+            },
+            "tree_crown4":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -0.209,
+                            "y": 0.070,
+                            "z": -0.210
+                        }
+                    }
+                ],
+                "children": {
+                    "tree_crown_sphere":{
+                        "type": "sphere",
+                        "radius": 0.82,
                         "slices": 32,
                         "stacks": 16
                     }
@@ -697,10 +882,7 @@
                     }
                 ],
                 "children": {
-                    "fruit": {
-                        "type": "noderef",
-                        "nodeId": "fruit"
-                    }
+                    "nodesList": ["fruit"]
                 }
             },
             "fruit2":{
@@ -716,10 +898,7 @@
                     }
                 ],
                 "children": {
-                    "fruit": {
-                        "type": "noderef",
-                        "nodeId": "fruit"
-                    }
+                    "nodesList": ["fruit"]
                 }
             },
             "fruit3":{
@@ -735,10 +914,7 @@
                     }
                 ],
                 "children": {
-                    "fruit": {
-                        "type": "noderef",
-                        "nodeId": "fruit"
-                    }
+                    "nodesList": ["fruit"]
                 }
             },
             "fruit4":{
@@ -754,10 +930,7 @@
                     }
                 ],
                 "children": {
-                    "fruit": {
-                        "type": "noderef",
-                        "nodeId": "fruit"
-                    }
+                    "nodesList": ["fruit"]
                 }
             },
             "fruit":{
@@ -790,9 +963,9 @@
                     {
                         "type": "translate",
                         "amount": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": 7.0
+                            "x": -1.3,
+                            "y": -5.0,
+                            "z": 0.0
                         }
                     }
                 ],
@@ -800,53 +973,26 @@
                     "materialId": "cloud_m"
                 },
                 "children": {
-                    "main_sphere":{
-                        "type": "noderef",
-                        "nodeId": "main_sphere"
-                    },
-                    "sphere_2":{
-                        "type": "noderef",
-                        "nodeId": "sphere_2"
-                    },
-                    "sphere_3":{
-                        "type": "noderef",
-                        "nodeId": "sphere_3"
-                    },
-                    "sphere_4":{
-                        "type": "noderef",
-                        "nodeId": "sphere_4"
-                    },
-                    "sphere_5":{
-                        "type": "noderef",
-                        "nodeId": "sphere_5"
-                    },
-                    "sphere_6":{
-                        "type": "noderef",
-                        "nodeId": "sphere_6"
-                    },
-                    "sphere_7":{
-                        "type": "noderef",
-                        "nodeId": "sphere_7"
-                    }
+                    "nodesList":["main_sphere", "sphere_2", "sphere_3", "sphere_4", "sphere_5", "sphere_6", "sphere_7" ]
                 }
             },
             "main_sphere":{
                 "type": "node",
                 "transforms": [
                     {
-                        "type": "scale",
-                        "amount": {
-                            "x": 0.95,
-                            "y": 1,
-                            "z": 1
-                        }
-                    },
-                    {
                         "type": "rotate",
                         "amount": {
                             "x": 0.0,
                             "y": 0.0,
                             "z": -30.0
+                        }
+                    },
+                    {
+                        "type": "scale",
+                        "amount": {
+                            "x": 0.95,
+                            "y": 1,
+                            "z": 1
                         }
                     }
                 ],
@@ -862,55 +1008,23 @@
                     }
                 }
             },
-            "sphere_1":{
-                "type": "node",
-                "transforms": [
-                    {
-                        "type": "rotate",
-                        "amount": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": -45.0
-                        }
-                    },
-                    {
-                        "type": "translate",
-                        "amount": {
-                            "x": -0.68,
-                            "y": -0.05,
-                            "z": 0.2
-                        }
-                    }
-                ],
-                "materialref": {
-                    "materialId": "cloud_m"
-                },
-                "children":{
-                    "sphere_1_geometry":{
-                        "type": "sphere",
-                        "radius": 0.5,
-                        "slices": 32,
-                        "stacks": 16
-                    }
-                }
-            },
             "sphere_2": {
                 "type" : "node",
                 "transforms": [
-                    {
-                        "type": "rotate",
-                        "amount": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": 30.0
-                        }
-                    },
                     {
                         "type": "translate",
                         "amount": {
                             "x": -0.2,
                             "y": -0.1,
                             "z": 0.55
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 30.0
                         }
                     }
                 ],
@@ -930,11 +1044,11 @@
                 "type": "node",
                 "transforms": [
                     {
-                        "type": "scale",
+                        "type": "translate",
                         "amount": {
-                            "x": 1.2,
-                            "y": 1.0,
-                            "z": 1.0
+                            "x": 0.7,
+                            "y": 0.0,
+                            "z": 0.0
                         }
                     },
                     {
@@ -946,11 +1060,11 @@
                         }
                     },
                     {
-                        "type": "translate",
+                        "type": "scale",
                         "amount": {
-                            "x": 0.7,
-                            "y": 0.0,
-                            "z": 0.0
+                            "x": 1.2,
+                            "y": 1.0,
+                            "z": 1.0
                         }
                     }
                 ],
@@ -996,7 +1110,7 @@
                     {
                         "type": "translate",
                         "amount": {
-                            "x": -1.03,
+                            "x": -0.7,
                             "y": 0.2,
                             "z": 0.1
                         }
@@ -1020,7 +1134,7 @@
                     {
                         "type": "translate",
                         "amount": {
-                            "x": -1,
+                            "x": -0.7,
                             "y": -0.06,
                             "z": 0.45
                         }
@@ -1042,11 +1156,11 @@
                 "type": "node",
                 "transforms": [
                     {
-                        "type": "scale",
+                        "type": "translate",
                         "amount": {
-                            "x": 1.2,
-                            "y": 1,
-                            "z": 1
+                            "x": -1.1,
+                            "y": -0.1,
+                            "z": 0.15
                         }
                     },
                     {
@@ -1058,11 +1172,11 @@
                         }
                     },
                     {
-                        "type": "translate",
+                        "type": "scale",
                         "amount": {
-                            "x": -1.2,
-                            "y": -0.1,
-                            "z": 0.15
+                            "x": 1.2,
+                            "y": 1,
+                            "z": 1
                         }
                     }
                 ],
@@ -1084,9 +1198,9 @@
                     {
                         "type": "translate",
                         "amount": {
-                            "x": -3,
-                            "y": 0.0,
-                            "z": 7.0
+                            "x": 3,
+                            "y": -5.3,
+                            "z": 0.0
                         }
                     }
                 ],
@@ -1094,53 +1208,26 @@
                     "materialId": "cloud_m"
                 },
                 "children": {
-                    "main2_sphere":{
-                        "type": "noderef",
-                        "nodeId": "main2_sphere"
-                    },
-                    "sphere_2":{
-                        "type": "noderef",
-                        "nodeId": "sphere2_2"
-                    },
-                    "sphere_3":{
-                        "type": "noderef",
-                        "nodeId": "sphere2_3"
-                    },
-                    "sphere_4":{
-                        "type": "noderef",
-                        "nodeId": "sphere2_4"
-                    },
-                    "sphere_5":{
-                        "type": "noderef",
-                        "nodeId": "sphere2_5"
-                    },
-                    "sphere_6":{
-                        "type": "noderef",
-                        "nodeId": "sphere2_6"
-                    },
-                    "sphere_7":{
-                        "type": "noderef",
-                        "nodeId": "sphere2_7"
-                    }
+                    "nodesList": ["main2_sphere", "sphere2_2", "sphere2_3", "sphere2_4", "sphere2_5", "sphere2_6", "sphere2_7"]
                 }
             },
             "main2_sphere":{
                 "type": "node",
                 "transforms": [
                     {
-                        "type": "scale",
-                        "amount": {
-                            "x": 0.95,
-                            "y": 1,
-                            "z": 1
-                        }
-                    },
-                    {
                         "type": "rotate",
                         "amount": {
                             "x": 0.0,
                             "y": 0.0,
                             "z": -30.0
+                        }
+                    },
+                    {
+                        "type": "scale",
+                        "amount": {
+                            "x": 0.95,
+                            "y": 1,
+                            "z": 1
                         }
                     }
                 ],
@@ -1160,19 +1247,19 @@
                 "type": "node",
                 "transforms": [
                     {
-                        "type": "rotate",
-                        "amount": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": -45.0
-                        }
-                    },
-                    {
                         "type": "translate",
                         "amount": {
                             "x": -0.68,
                             "y": -0.05,
                             "z": 0.2
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": -45.0
                         }
                     }
                 ],
@@ -1192,19 +1279,19 @@
                 "type" : "node",
                 "transforms": [
                     {
-                        "type": "rotate",
-                        "amount": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": 30.0
-                        }
-                    },
-                    {
                         "type": "translate",
                         "amount": {
                             "x": -0.2,
                             "y": -0.1,
                             "z": 0.55
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 30.0
                         }
                     }
                 ],
@@ -1224,11 +1311,11 @@
                 "type": "node",
                 "transforms": [
                     {
-                        "type": "scale",
+                        "type": "translate",
                         "amount": {
-                            "x": 1.2,
-                            "y": 1.0,
-                            "z": 1.0
+                            "x": 0.7,
+                            "y": 0.0,
+                            "z": 0.0
                         }
                     },
                     {
@@ -1240,11 +1327,11 @@
                         }
                     },
                     {
-                        "type": "translate",
+                        "type": "scale",
                         "amount": {
-                            "x": 0.7,
-                            "y": 0.0,
-                            "z": 0.0
+                            "x": 1.2,
+                            "y": 1.0,
+                            "z": 1.0
                         }
                     }
                 ],
@@ -1290,7 +1377,7 @@
                     {
                         "type": "translate",
                         "amount": {
-                            "x": -1.03,
+                            "x": -0.7,
                             "y": 0.2,
                             "z": 0.1
                         }
@@ -1314,7 +1401,7 @@
                     {
                         "type": "translate",
                         "amount": {
-                            "x": -1,
+                            "x": -0.7,
                             "y": -0.06,
                             "z": 0.45
                         }
@@ -1336,11 +1423,11 @@
                 "type": "node",
                 "transforms": [
                     {
-                        "type": "scale",
+                        "type": "translate",
                         "amount": {
-                            "x": 1.2,
-                            "y": 1,
-                            "z": 1
+                            "x": -1.1,
+                            "y": -0.1,
+                            "z": 0.15
                         }
                     },
                     {
@@ -1352,11 +1439,11 @@
                         }
                     },
                     {
-                        "type": "translate",
+                        "type": "scale",
                         "amount": {
-                            "x": -1.2,
-                            "y": -0.1,
-                            "z": 0.15
+                            "x": 1.2,
+                            "y": 1,
+                            "z": 1
                         }
                     }
                 ],
@@ -1370,130 +1457,6 @@
                         "slices": 32,
                         "stacks": 16
                     }
-                }
-            },
-            "semi_circle":{
-                "type": "node",
-                "transforms": [
-                    {
-                        "type": "translate",
-                        "amount": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": -4.0
-                        }
-                    }
-                ],
-                "materialref": {
-                    "materialId": "base_cylinder_m"
-                },
-                "children": {
-                    "black_semi_circle":{
-                        "type": "ring",
-                        "inner": 0.0,
-                        "outer": 0.7,
-                        "thetasegments": 32,
-                        "phisegments": 1,
-                        "thetastart": 0.0,
-                        "thetalength": 180.0
-                    }
-                }
-            },
-            "base_cylinder": {
-                "type": "node",
-                "transforms": [
-                    {
-                        "type": "translate",
-                        "amount": {
-                            "x": 0.0,
-                            "y": -0.25,
-                            "z": 0
-                        }
-                    }
-                ],
-                "materialref": {
-                    "materialId": "base_cylinder_m"
-                },
-                "children": {
-                    "front_circle": {
-                        "type": "noderef",
-                        "nodeId": "front_circle"
-                    },
-                    "black_cylinder":{
-                        "type": "cylinder",
-                        "base": 3.8,
-                        "top": 3.8,
-                        "height": 0.5,
-                        "slices": 32,
-                        "stacks": 1
-                    }
-                }
-            },
-            "front_circle": {
-                "type": "node",
-                "transforms": [
-                    {
-                        "type": "translate",
-                        "amount": {
-                            "x": 0.0,
-                            "y": -0.5,
-                            "z": 3.8
-                        }
-                    }
-                ],
-                "materialref": {
-                    "materialId": "base_cylinder_m"
-                },
-                "children": {
-                    "cylinder_button": {
-                        "type": "noderef",
-                        "nodeId": "cylinder_button"
-                    },
-                    "black_circle": {
-                        "type": "circle",
-                        "radius": 0.7,
-                        "segments": 32
-                    }
-                }
-            },
-            "cylinder_button": {
-                "type": "node",
-                "transforms": [
-                    {
-                        "type": "rotate",
-                        "amount": {
-                            "x": 90.0,
-                            "y": 0.0,
-                            "z": 0.0
-                        }
-                    },
-                    {
-                        "type": "translate",
-                        "amount": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": 0.05
-                        }
-                    }
-                ],
-                "materialref": {
-                    "materialId": "cylinder_button_m"
-                },
-                "children": {
-                    "white_cylinder":{
-                        "type": "cylinder",
-                        "base": 0.4,
-                        "top": 0.4,
-                        "height": 0.08,
-                        "slices": 32,
-                        "stacks": 1
-                    }
-                }
-            },
-            "lod1":{
-                "type": "lod",
-                "lodNodes": {
-                    
                 }
             }
         }
