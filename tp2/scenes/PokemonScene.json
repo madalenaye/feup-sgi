@@ -10,7 +10,7 @@
                 "r": 1.0,
                 "g": 1.0,
                 "b": 1.0,
-                "intensity": 2.0
+                "intensity": 0.8
             },
             "fog": {
                 "color": {
@@ -142,6 +142,10 @@
             "tree_leaf_t":{
                 "filepath": "scenes/textures/tree_leaf.jpg",
                 "isVideo": false
+            },
+            "cloud_t":{
+                "filepath": "scenes/textures/cloud.png",
+                "isVideo": false
             }
         },
         "materials": {
@@ -261,19 +265,22 @@
                     "b": 0.8
                 },
                 "emissive": {
-                    "r": 0.1,
-                    "g": 0.1,
-                    "b": 0.1
+                    "r": 0.6,
+                    "g": 0.6,
+                    "b": 0.6
                 },
                 "specular": {
-                    "r": 0,
-                    "g": 0,
-                    "b": 0
+                    "r": 1,
+                    "g": 1,
+                    "b": 1
                 },
-                "shininess": 1,
-                "transparent": false,
-                "opacity": 0.9,
-                "twosided": true
+                "shininess": 10,
+                "transparent": true,
+                "opacity": 0.7,
+                "twosided": false,
+                "textureref": "cloud_t",
+                "texlength_s": 1.0,
+                "texlength_t": 1.0
 
             },
             "fire_m": {
@@ -283,14 +290,14 @@
                     "b": 0.0
                 },
                 "emissive": {
-                    "r": 1.0,
+                    "r": 0.0,
                     "g": 0.0,
                     "b": 0.0
                 },
                 "specular": {
-                    "r": 255.0,
-                    "g": 255.0,
-                    "b": 255.0
+                    "r": 0.7,
+                    "g": 0.7,
+                    "b": 0.7
                 },
                 "shininess": 10,
                 "transparent": true,
@@ -434,7 +441,7 @@
                 "shininess": 10,
                 "transparent": false,
                 "opacity": 1.0,
-                "twosided": true,
+                "twosided": false,
                 "textureref": "tree_t",
                 "texlength_s": 1.0,
                 "texlength_t": 1.0,
@@ -462,7 +469,7 @@
                 "shininess": 10.0,
                 "transparent": false,
                 "opacity": 1.0,
-                "twosided": true
+                "twosided": false
             },
             "water_m": {
                 "color": {
@@ -525,6 +532,7 @@
                     "point_light": {
                         "type": "pointlight",
                         "enabled": true,
+                        "castshadow": true,
                         "color": {
                             "r": 1.0,
                             "g": 1.0,
@@ -533,7 +541,6 @@
                         "intensity": 10,
                         "distance": 0.0,
                         "decay": 2.0,
-                        "castshadow": false,
                         "position": {
                             "x": 0.0,
                             "y": 17,
@@ -581,6 +588,7 @@
             },
             "upper_sphere": {
                 "type": "node",
+                
                 "transforms": [
                     {
                         "type": "translate",
@@ -595,7 +603,7 @@
                     "materialId": "upper_sphere_m"
                 },
                 "children": {
-                    "nodesList": ["base_cylinder"],
+                    "nodesList": ["base_cylinder", "light_source"],
                     "black_sphere":{
                         "type": "sphere",
                         "radius": 4.0,
@@ -605,6 +613,84 @@
                         "thetalength": 90.0,
                         "phistart": 0.0,
                         "philength": 360.0
+                    }
+                }
+            },
+            "light_source":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -2.0,
+                            "y": -3.0,
+                            "z": 0.0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 20.0,
+                            "y": 0.0,
+                            "z": 20.0
+                        }
+                    }
+                ],
+                "children": {
+                    "fire_light":{
+                        "type":"spotlight",
+                        "enabled": true,
+                        "color":{
+                            "r":0.886,
+                            "g":0.345,
+                            "b":0.133
+                        },
+                        "intensity": 100,
+                        "distance": 100.0,
+                        "angle": 30.0,
+                        "penumbra": 0.0,
+                        "decay": 2.0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "target": {
+                            "x": 0.0,
+                            "y": 5.0,
+                            "z": 0.0
+                        },
+                        "shadowfar": 10,
+                        "shadowmapsize": 2048,
+                        "castshadow":true
+                    },
+                    "nodesList": ["lamp"]
+                }
+            },
+            "lamp":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "wood_m"
+                },
+                "children": {
+                    "cylinder_light":{
+                        "type": "cylinder",
+                        "base": 0.2,
+                        "top": 0.2,
+                        "height": 0.4,
+                        "slices": 32,
+                        "stacks": 1,
+                        "capsclose": true
                     }
                 }
             },
@@ -783,6 +869,7 @@
             },
             "floor":{
                 "type": "node",
+                "receiveshadows": true,
                 "transforms": [
                     {
                         "type": "translate",
@@ -811,6 +898,8 @@
             },
             "fireplace":{
                 "type": "node",
+                "receiveshadows": true,
+                "castshadows": true,
                 "transforms": [
                     {
                         "type": "translate",
@@ -1329,6 +1418,7 @@
             },
             "tree_trunk":{
                 "type": "node",
+                "castshadows": true,
                 "transforms": [
                     {
                         "type": "translate",
@@ -1892,6 +1982,7 @@
             },
             "tree_leaf":{
                 "type": "node",
+                "castshadows": true,
                 "transforms":[
                     {
                         "type": "translate",
