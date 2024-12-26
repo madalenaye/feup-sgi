@@ -1,0 +1,691 @@
+{
+    "yasf": {
+        "globals": {
+            "background": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0
+            },
+            "ambient": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "intensity": 2.0
+            },
+            "fog": {
+                "color": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "near": 1.0,
+                "far": 800.0
+            },
+            "skybox": {
+                "size": {
+                    "x": 100.0,
+                    "y": 100.0,
+                    "z": 100.0
+                },
+                "center":{
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "intensity":100.0,
+                "front": "scenes/skybox/front.png",
+                "back": "scenes/skybox/back.png",
+                "up": "scenes/skybox/top.png",
+                "down": "scenes/skybox/bottom.png",
+                "left": "scenes/skybox/left.png",
+                "right": "scenes/skybox/right.png"
+            }
+        },
+        "textures": {
+            "left_wall_tex": {
+                "filepath": "scenes/demo/textures/scratchedWall.jpg",
+                "isVideo": false
+            },
+            "right_wall_tex": {
+                "filepath": "scenes/demo/textures/bloodyWall.jpg",
+                "isVideo": false
+            },
+            "floor_tex": {
+                "filepath": "scenes/demo/textures/test1.jpg",
+                "isVideo": false
+            },
+            "table_tex": {
+                "filepath": "scenes/demo/textures/table.png",
+                "isVideo": false,
+                "mipmap0": "0",
+                "mipmap1": "1",
+                "mipmap2": "2",
+                "mipmap3": "3",
+                "mipmap4": "4",
+                "mipmap5": "5",
+                "mipmap6": "6",
+                "mipmap7": "7"
+            },
+            "crime_weapon_tex": {
+                "filepath": "scenes/demo/textures/bloodyPrints.jpg",
+                "isVideo": false
+            },
+            "tape_tex": {
+                "filepath": "scenes/demo/textures/pTape.jpg",
+                "isVideo": false
+            },
+            "tape_support_tex": {
+                "filepath": "scenes/demo/textures/lamp.png",
+                "isVideo": false
+            },
+            "pine_tex": {
+                "filepath": "scenes/demo/textures/pine.png",
+                "isVideo": false
+            },
+            "vase_tex": {
+                "filepath": "scenes/demo/textures/vase.png",
+                "isVideo": false
+            }
+        },
+        "materials": {
+            "table_app": {
+                "color": {
+                    "r": 0.8,
+                    "g": 0.8,
+                    "b": 0.8
+                },
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "specular": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "shininess": 10,
+                "transparent": false,
+                "opacity": 1.0,
+                "textureref": "table_tex",
+                "texlength_s": 1,
+                "texlength_t": 1
+            },
+            "left_wall_app": {
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "color": {
+                    "r": 0.8,
+                    "g": 0.8,
+                    "b": 0.8
+                },
+                "specular": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "shininess": 0.0,
+                "transparent": false,
+                "opacity": 1.0,
+                "textureref": "left_wall_tex",
+                "texlength_s": 15,
+                "texlength_t": 8,
+                "twosided": true
+            },
+            "right_wall_app": {
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "color": {
+                    "r": 0.8,
+                    "g": 0.8,
+                    "b": 0.8
+                },
+                "specular": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "shininess": 0.0,
+                "transparent": false,
+                "opacity": 1.0,
+                "textureref": "right_wall_tex",
+                "texlength_s": 15,
+                "texlength_t": 8,
+                "twosided": true
+            },
+            "floor_app": {
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "color": {
+                    "r": 0.8,
+                    "g": 0.8,
+                    "b": 0.8
+                },
+                "specular": {
+                    "r": 0,
+                    "g": 0,
+                    "b": 0
+                },
+                "shininess": 0.0,
+                "transparent": false,
+                "opacity": 1.0,
+                "textureref": "floor_tex",
+                "texlength_s": 15,
+                "texlength_t": 15,
+                "twosided": true
+            },
+            "crime_weapon_app": {
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "color": {
+                    "r": 0.8,
+                    "g": 0.8,
+                    "b": 0.8
+                },
+                "specular": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "shininess": 0.0,
+                "transparent": false,
+                "opacity": 1.0,
+                "textureref": "crime_weapon_tex",
+                "texlength_s": 1,
+                "texlength_t": 1
+            },
+            "tape_app": {
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "color": {
+                    "r": 0.8,
+                    "g": 0.8,
+                    "b": 0.8
+                },
+                "specular": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "shininess": 0.0,
+                "transparent": false,
+                "opacity": 1.0,
+                "textureref": "tape_tex",
+                "texlength_s": 1,
+                "texlength_t": 0.4,
+                "twosided": true
+            },
+            "tape_support_app": {
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "color": {
+                    "r": 0.8,
+                    "g": 0.8,
+                    "b": 0.8
+                },
+                "specular": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "shininess": 0.0,
+                "transparent": false,
+                "opacity": 1.0,
+                "textureref": "tape_support_tex",
+                "texlength_s": 1,
+                "texlength_t": 1
+            },
+            "pine_app": {
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "color": {
+                    "r": 0.8,
+                    "g": 0.8,
+                    "b": 0.8
+                },
+                "specular": {
+                    "r": 0,
+                    "g": 0,
+                    "b": 0
+                },
+                "shininess": 0.0,
+                "transparent": false,
+                "opacity": 1.0,
+                "textureref": "pine_tex",
+                "texlength_s": 1,
+                "texlength_t": 1,
+                "wireframe": true
+            },
+            "vase_app": {
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "color": {
+                    "r": 0.8,
+                    "g": 0.8,
+                    "b": 0.8
+                },
+                "specular": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "shininess": 0.0,
+                "transparent": false,
+                "opacity": 1.0,
+                "textureref": "vase_tex",
+                "texlength_s": 1,
+                "texlength_t": 1,
+                "shading": true
+            }
+        },
+        "cameras": {
+            "initial": "cam1",
+            "cam1": {
+                "type": "perspective",
+                "angle": 75,
+                "near": 0.1,
+                "far": 1000,
+                "location": {
+                    "x": 0,
+                    "y": 12,
+                    "z": 15
+                },
+                "target": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            },
+            "cam2": {
+                "type": "orthogonal",
+                "near": 0.1,
+                "far": 1000,
+                "location": {
+                    "x": 0,
+                    "y": 15,
+                    "z": 15
+                },
+                "target": {
+                    "x": 0,
+                    "y": 15,
+                    "z": 0
+                },
+                "left": -5,
+                "right": 5,
+                "bottom": -5,
+                "top": 5
+            }
+        },
+        "graph": {
+            "rootid": "scene",
+            "scene": {
+                "type": "node",
+                "children": {
+                    "nodesList": ["table"],
+                    "pointlight": {
+                        "type": "pointlight",
+                        "enabled": true,
+                        "color": {
+                            "r": 0.5,
+                            "g": 0.6,
+                            "b": 0.8
+                        },
+                        "intensity": 1.0,
+                        "distance": 1000,
+                        "decay": 2.0,
+                        "castshadow": false,
+                        "position": {
+                            "x": 33.75,
+                            "y": 37.3,
+                            "z": 33.75
+                        }
+                    }
+                }
+            },
+            "table": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 7.5,
+                            "y": 0.0,
+                            "z": 10
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 89.5,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    {
+                        "type": "scale",
+                        "amount": {
+                            "x": 4.5,
+                            "y": 2.5,
+                            "z": 3.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "table_app"
+                },
+                
+                "children": {
+                    "nodesList": ["table_top", "leg1", "leg2", "leg3", "leg4"]
+                },
+                "castshadows":false,
+                "receiveshadows": false
+            },
+            "table_top": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.48,
+                            "z": 0
+                        }
+                    },
+                    {
+                        "type": "scale",
+                        "amount": {
+                            "x": 1.0,
+                            "y": 0.08,
+                            "z": 1.0
+                        }
+                    }
+                ],
+                "children": {
+                    "nodesList": ["unit_cube"]
+                },
+                "castshadows": true,
+                "receiveshadows":true
+            },
+            "leg1": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.45,
+                            "y": 0.0,
+                            "z": 0.42
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "floor_app"
+                },
+                "children": {
+                    "nodesList": ["leg"]
+                }
+            },
+            "leg2": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.45,
+                            "y": 0.0,
+                            "z": -0.42
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "crime_weapon_app"
+                },
+                "children": {
+                    "nodesList": ["leg"]
+                }
+            },
+            "leg3": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -0.45,
+                            "y": 0.0,
+                            "z": 0.42
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "vase_app"
+                },
+                "children": {
+                    "nodesList": ["leg"]
+                }
+            },
+            "leg4": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -0.45,
+                            "y": 0.0,
+                            "z": -0.42
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "pine_app"
+                },
+                "children": {
+                    "nodesList": ["leg"]
+                }
+            },
+            "leg": {
+                "type": "node",
+                "materialref": {
+                    "materialId": "crime_weapon_app"
+                },
+                "children": {
+                    "nodesList": ["nurbs_leg"]
+                }
+            },
+            "nurbs_leg":{
+                "type": "nurbs",
+                "degree_u": 1,
+                "degree_v": 1,
+                "parts_u": 32,
+                "parts_v": 32,
+                "controlpoints": [
+                        {"x": 2.0, "y": 1.0, "z": 3.0},
+                        {"x": -2.0, "y": 3.0, "z": 1.0},
+                        {"x": 4.0, "y": 2.0, "z": 4.0},
+                        {"x": -2.0, "y": -2.0, "z": -2.0}
+                ]
+            },
+            "unit_cube": {
+                "type": "node",
+                "children": {
+                    "nodesList": ["rectangle1", "rectangle2", "rectangle3", "rectangle4", "rectangle5", "rectangle6"]
+                }
+            },
+            "rectangle1": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0,
+                            "y": 0,
+                            "z": -0.5
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0,
+                            "y": 180,
+                            "z": 0
+                        }
+                    }
+                ],
+                "children": {
+                    "nodesList": ["rectangle_prim"]
+                }
+            },
+            "rectangle2": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0,
+                            "y": 0,
+                            "z": 0.5
+                        }
+                    }
+                ],
+                "children": {
+                    "nodesList": ["rectangle_prim"]
+                }
+            },
+            "rectangle3": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0,
+                            "y": -0.5,
+                            "z": 0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 90,
+                            "y": 0,
+                            "z": 0
+                        }
+                    }
+                ],
+                "children": {
+                    "nodesList": ["rectangle_prim"]
+                }
+            },
+            "rectangle4": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0,
+                            "y": 0.5,
+                            "z": 0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": -90,
+                            "y": 0,
+                            "z": 0
+                        }
+                    }
+                ],
+                "children": {
+                    "nodesList": ["rectangle_prim"]
+                }
+            },
+            "rectangle5": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -0.5,
+                            "y": 0,
+                            "z": 0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0,
+                            "y": -90,
+                            "z": 0
+                        }
+                    }
+                ],
+                "children": {
+                    "nodesList": ["rectangle_prim"]
+                }
+            },
+            "rectangle6": {
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.5,
+                            "y": 0,
+                            "z": 0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0,
+                            "y": 90,
+                            "z": 0
+                        }
+                    }
+                ],
+                "children": {
+                    "nodesList": ["rectangle_prim"]
+                }
+            },
+            "rectangle_prim": {
+                "type": "rectangle",
+                "xy1": {
+                    "x": -0.5,
+                    "y": -0.5
+                },
+                "xy2": {
+                    "x": 0.5,
+                    "y": 0.5
+                }
+            }
+        }
+    }
+}
