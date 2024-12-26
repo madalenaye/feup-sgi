@@ -1,13 +1,22 @@
+/**
+ * @file MyAxis.js
+ * @class MyAxis
+ * @desc This class provides a 3D axis representation, useful for orienting and visualizing directional axes in the scene.
+ */
+
 import * as THREE from 'three';
 import { MyApp } from './MyApp.js';
 
 /**
- * This class contains a 3D axis representation
+ * @class
+ * @classdesc This class contains a 3D axis representation
  */
+
 class MyAxis extends THREE.Object3D {
 
     /**
-     * 
+     * Constructs a 3D axis object with customizable parameters for visualizing orientation in the scene. 
+     * @constructor
      * @param {MyApp} app the application object
      * @param {number} size the size of each axis 
      * @param {number} baseRadius the base radius of each axis
@@ -52,6 +61,18 @@ class MyAxis extends THREE.Object3D {
         const axesHelper = new THREE.AxesHelper( 5 );
         axesHelper.setColors ( new THREE.Color( this.xxColor ),  new THREE.Color( this.yyColor ),  new THREE.Color( this.zzColor ))
         this.add( axesHelper );
+    }
+
+    /**
+     * Method to update the visibility of the axes
+     * @method
+     * @param {boolean} visible - Boolean indicating whether the axes should be visible
+     */
+    setVisible(visible) {
+        this.axesHelper.visible = visible;
+        this.xxMesh.visible = visible;
+        this.yyMesh.visible = visible;
+        this.zzMesh.visible = visible;
     }
 }
 

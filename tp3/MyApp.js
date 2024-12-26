@@ -1,3 +1,9 @@
+/**
+ * @file MyApp.js
+ * @class MyApp
+ * @desc This class initializes and manages the main application, setting up the 3D scene, controls, user interface.
+ */
+
 
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -6,11 +12,14 @@ import { MyGuiInterface } from './MyGuiInterface.js';
 import Stats from 'three/addons/libs/stats.module.js'
 
 /**
- * This class contains the application object
+ * @class
+ * @classdesc This class contains the application object
  */
+
 class MyApp  {
     /**
      * the constructor
+     * @constructor
      */
     constructor() {
         this.scene = null
@@ -23,6 +32,9 @@ class MyApp  {
         this.cameras = []
         this.frustumSize = 20
 
+        this.objects = [];
+        this.lights = [];
+
         // other attributes
         this.renderer = null
         this.controls = null
@@ -32,6 +44,7 @@ class MyApp  {
     }
     /**
      * initializes the application
+     * @method
      */
     init() {
                 
@@ -44,7 +57,7 @@ class MyApp  {
         document.body.appendChild(this.stats.dom)
 
         this.initCameras();
-        this.setActiveCamera('Perspective')
+        this.setActiveCamera('PerspectiveError')
 
         // Create a renderer with Antialiasing
         this.renderer = new THREE.WebGLRenderer({antialias:true});
@@ -59,18 +72,23 @@ class MyApp  {
 
         // manage window resizes
         window.addEventListener('resize', this.onResize.bind(this), false );
+
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
     }
 
-    /**
+     /**
      * initializes all the cameras
+     * @method
      */
-    initCameras() {
+     initCameras() {
         const aspect = window.innerWidth / window.innerHeight;
 
         // Create a basic perspective camera
         const perspective1 = new THREE.PerspectiveCamera( 75, aspect, 0.1, 1000 )
         perspective1.position.set(10,10,3)
-        this.cameras['Perspective'] = perspective1
+        this.cameras['PerspectiveError'] = perspective1
 
         // defines the frustum size for the orthographic cameras
         const left = -this.frustumSize / 2 * aspect
@@ -85,28 +103,30 @@ class MyApp  {
         orthoLeft.up = new THREE.Vector3(0,1,0);
         orthoLeft.position.set(-this.frustumSize /4,0,0) 
         orthoLeft.lookAt( new THREE.Vector3(0,0,0) );
-        this.cameras['Left'] = orthoLeft
+        //this.cameras['Left'] = orthoLeft
 
         // create a top view orthographic camera
         const orthoTop = new THREE.OrthographicCamera( left, right, top, bottom, near, far);
         orthoTop.up = new THREE.Vector3(0,0,1);
         orthoTop.position.set(0, this.frustumSize /4, 0) 
         orthoTop.lookAt( new THREE.Vector3(0,0,0) );
-        this.cameras['Top'] = orthoTop
+        //this.cameras['Top'] = orthoTop
 
         // create a front view orthographic camera
         const orthoFront = new THREE.OrthographicCamera( left, right, top, bottom, near, far);
         orthoFront.up = new THREE.Vector3(0,1,0);
         orthoFront.position.set(0,0, this.frustumSize /4) 
         orthoFront.lookAt( new THREE.Vector3(0,0,0) );
-        this.cameras['Front'] = orthoFront
+        //this.cameras['Front'] = orthoFront
     }
 
     /**
      * sets the active camera by name
+     * @method
      * @param {String} cameraName 
      */
     setActiveCamera(cameraName) {   
+
         this.activeCameraName = cameraName
         this.activeCamera = this.cameras[this.activeCameraName]
     }
@@ -116,6 +136,7 @@ class MyApp  {
      * this function is called in the render loop
      * when the active camera name changes
      * it updates the active camera and the controls
+     * @method
      */
     updateCameraIfRequired() {
 
@@ -144,6 +165,7 @@ class MyApp  {
 
     /**
      * the window resize handler
+     * @method
      */
     onResize() {
         if (this.activeCamera !== undefined && this.activeCamera !== null) {
@@ -153,7 +175,7 @@ class MyApp  {
         }
     }
     /**
-     * 
+     * @method
      * @param {MyContents} contents the contents object 
      */
     setContents(contents) {
@@ -161,6 +183,7 @@ class MyApp  {
     }
 
     /**
+     * @method
      * @param {MyGuiInterface} contents the gui interface object
      */
     setGui(gui) {   
@@ -168,8 +191,9 @@ class MyApp  {
     }
 
     /**
-    * the main render function. Called in a requestAnimationFrame loop
-    */
+     * the main render function. Called in a requestAnimationFrame loop
+     * @method
+     */
     render () {
         this.stats.begin()
         this.updateCameraIfRequired()
