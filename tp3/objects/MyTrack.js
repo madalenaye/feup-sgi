@@ -6,10 +6,13 @@ class MyTrack extends THREE.Object3D {
         super();
         this.width = parameters.width;
         this.controlpoints = parameters.controlpoints;
+        this.segments = parameters.segments;
 
         let vectorPoints = parameters.controlpoints.map(point => new THREE.Vector3(point.x, point.y, point.z));
         let path = new THREE.CatmullRomCurve3(vectorPoints);
+
         this.adjustedControlPoints = vectorPoints;
+        this.rotatedControlPoints = this.rotatePathZ(path);
 
         let lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000});
         let trackGeometry = new THREE.TubeGeometry(path, parameters.segments, parameters.width, 3 , parameters.closed);
@@ -33,6 +36,14 @@ class MyTrack extends THREE.Object3D {
 
         this.add(this.curve);
        
+    }
+
+    rotatePathZ(path) {
+        const rotationMatrix = new THREE.Matrix4().makeRotationZ(Math.PI);
+    
+        const rotatedPoints = path.points.map(point => point.clone().applyMatrix4(rotationMatrix));
+    
+        return new THREE.CatmullRomCurve3(rotatedPoints, path.closed);
     }
 
 }
