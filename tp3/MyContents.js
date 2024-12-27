@@ -33,7 +33,7 @@ class MyContents {
         this.lights = null;
 
         this.reader = new MyFileReader(this.onSceneLoaded.bind(this));
-        this.reader.open("scenes/PokemonScene.json");
+        this.reader.open("scenes/GameScene.json");
     }
 
     /**

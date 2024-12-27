@@ -66,7 +66,8 @@ class MyGuiInterface  {
         cameraFolder.add(this.contents.axis, "visible", false).name("Axis")
 
         cameraFolder.open();
-
+        
+        /*
         this.datgui.add(this, 'wireframeEnabled')
         .name('Wireframe') 
         .onChange((value) => {
@@ -76,11 +77,12 @@ class MyGuiInterface  {
                 this.contents.disableWireframe();
             }
         });
-
+        
         this.datgui.add(this, 'lightsEnabled').name('Lights').onChange( (value) =>{
             if (value){this.contents.turnOnLights();}
             else {this.contents.turnOffLights();}
         })
+            */
 
     }
 }

@@ -219,6 +219,14 @@ class YASFstructures{
             {name: "controlpoints", type: "list", listOf: "controlpoint"},
         ]
 
+        this.descriptors["track"] = [
+            {name: "type", type: "string"},
+            {name: "segments", type: "integer"},
+            {name: "width", type: "float"},
+            {name: "closed", type: "boolean", required: false, default: true},
+            {name: "controlpoints", type: "list", listOf: "controlpoint"}
+        ]
+
         this.descriptors["controlpoint"] = [
             {name: "x", type: "float"},
             {name: "y", type: "float"},
@@ -275,7 +283,7 @@ class YASFstructures{
         ]
 
         this.primaryNodeIds = ["globals", "fog" ,"textures", "materials", "cameras", "graph"]
-        this.primitiveIds = ["cylinder", "rectangle", "triangle", "sphere", "nurbs" , "box", "model3d", "skybox", "polygon", "ring", "circle"]
+        this.primitiveIds = ["cylinder", "rectangle", "triangle", "sphere", "nurbs" , "box", "model3d", "skybox", "polygon", "ring", "circle", "track"]
         this.lightIds = ["spotlight", "pointlight", "directionallight"]
     }
 

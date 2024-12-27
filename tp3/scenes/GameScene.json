@@ -1,0 +1,195 @@
+{
+    "yasf": {
+        "globals":{
+            "background": {
+                "r": 0.796,
+                "g": 0.714,
+                "b": 0.533
+            },
+            "ambient": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "intensity": 0.9
+            },
+            "fog": {
+                "color": {
+                    "r": 0.7,
+                    "g": 0.7,
+                    "b": 0.7,
+                    "a": 0.8
+                },
+                "near": 1.0,
+                "far": 300.0
+            },
+            "skybox": {
+                "size": {
+                    "x": 100.0,
+                    "y": 100.0,
+                    "z": 100.0
+                },
+                "center":{
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "intensity": 1.0,
+                "front": "scenes/skybox/front.png",
+                "back": "scenes/skybox/back.png",
+                "up": "scenes/skybox/top.png",
+                "down": "scenes/skybox/bottom.png",
+                "left": "scenes/skybox/left.png",
+                "right": "scenes/skybox/right.png"
+            }
+        },
+        "cameras": {
+            "initial": "cam1",
+            "cam1": {
+                "type": "perspective",
+                "angle": 75,
+                "near": 0.1,
+                "far": 1000,
+                "location": {
+                    "x": 0,
+                    "y": 15,
+                    "z": 20
+                },
+                "target": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            }
+        },
+        "textures": {
+            "rainbow_t": {
+                "filepath": "scenes/textures/rainbow.jpg",
+                "isVideo": false
+            }
+        },
+        "materials": {
+            "rainbow_m": {
+                "color": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0
+                },
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "specular": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0
+                },
+                "shininess": 15,
+                "transparent": false,
+                "opacity": 1.0,
+                "twosided": true,
+                "textureref":"rainbow_t"
+
+            }
+        },
+        "graph": {
+            "rootid": "scene",
+            "scene": {
+                "type": "node",
+                "children": {
+                    "nodesList": ["track_1"],
+                    "point_light": {
+                        "type": "pointlight",
+                        "enabled": true,
+                        "castshadow": true,
+                        "color": {
+                            "r": 1.0,
+                            "g": 1.0,
+                            "b": 1.0
+                        },
+                        "intensity": 10,
+                        "distance": 0.0,
+                        "decay": 2.0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 17,
+                            "z": 0.0
+                        }
+                    }
+                }
+            },
+            "track_1":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "rainbow_m"
+                },
+                "children": {
+                    "track_1_prim": {
+                        "type": "track",
+                        "segments": 200,
+                        "width": 5.0,
+                        "closed": true,
+                        "controlpoints": [
+                            {
+                                "x": -30.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            {
+                                "x": -20.0,
+                                "y": 0.0,
+                                "z": 30.0
+                            },
+                            {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 30.0
+                            },
+                            {
+                                "x": 10.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            {
+                                "x": 30.0,
+                                "y": 0.0,
+                                "z": -30.0
+                            },
+                            {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": -30.0
+                            },
+                            {
+                                "x": -30.0,
+                                "y": 0.0,
+                                "z": -30.0
+                            },
+                            {
+                                "x": -30.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            }
+                        ]
+                    }
+                }
+
+            }
+        }
+    }
+}
