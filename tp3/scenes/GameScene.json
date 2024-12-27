@@ -10,7 +10,7 @@
                 "r": 1.0,
                 "g": 1.0,
                 "b": 1.0,
-                "intensity": 0.9
+                "intensity": 1
             },
             "fog": {
                 "color": {
@@ -68,7 +68,7 @@
         },
         "textures": {
             "rainbow_t": {
-                "filepath": "scenes/textures/rainbow.jpg",
+                "filepath": "scenes/textures/rainbow.png",
                 "isVideo": false
             }
         },
