@@ -8,6 +8,7 @@ import { loadMaterials } from './LoadMaterials.js';
 import {nurbsSurface} from '../utils/NurbsSurface.js'
 import { MyTriangle } from '../utils/MyTriangle.js';
 import { MyTrack } from '../objects/MyTrack.js';
+import { MyObstacle } from '../objects/MyObstacle.js';
 
 export const objects = [];
 export const lights = [];
@@ -140,7 +141,10 @@ const dealWithNodes = function(node, materialId=null, materials){
                                 primitive = createPolygon(child.representations[0], material, castShadow, receiveShadow);
                                 break;
                             case 'track':
-                                primitive = createTrack(child.representations[0], material, castShadow, receiveShadow)
+                                primitive = createTrack(child.representations[0], material, castShadow, receiveShadow);
+                                break;
+                            case 'obstacle':
+                                primitive = createObstacle(child.representations[0], material, castShadow, receiveShadow);
                                 break;
                             default:
                                 throw new Error('Invalid primitive type ' + child.subtype);
@@ -406,6 +410,17 @@ const createTrack = function(parameters, material, castShadow, receiveShadow){
     let track = new MyTrack(parameters, newMaterial, castShadow, receiveShadow)
 
     return track;
+}
+
+const createObstacle = function(parameters, material, castShadow, receiveShadow){
+    if(material == null || material == undefined){
+        throw new Error("Error in function createObstacle. Lack of material");  
+    }
+
+    let newMaterial = loadMaterials.createMaterial(material, 1, 1);
+    let obstacle = new MyObstacle(parameters, newMaterial, castShadow, receiveShadow);
+
+    return obstacle;
 }
 
 const degreesToRadians = (degrees) => degrees * (Math.PI / 180);

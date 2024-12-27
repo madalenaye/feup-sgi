@@ -95,6 +95,27 @@
                 "twosided": true,
                 "textureref":"rainbow_t"
 
+            },
+            "rocket_m": {
+                "color": {
+                    "r": 0.11,
+                    "g": 0.11,
+                    "b": 0.11
+                },
+                "emissive": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
+                },
+                "specular": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0
+                },
+                "shininess": 80,
+                "transparent": false,
+                "opacity": 1.0
+
             }
         },
         "graph": {
@@ -139,6 +160,7 @@
                     "materialId": "rainbow_m"
                 },
                 "children": {
+                    "nodesList": ["obstacle_1"],
                     "track_1_prim": {
                         "type": "track",
                         "segments": 200,
@@ -194,6 +216,39 @@
                     }
                 }
 
+            },
+            "obstacle_1":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -8.0,
+                            "y": 5.0,
+                            "z": 15.0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": -90.0,
+                            "y": 0.0,
+                            "z": 200.0
+                        }
+                    }
+
+                ],
+                "materialref": {
+                    "materialId": "rocket_m"
+                },
+                "children": {
+                    "obstacle_1_prim": {
+                        "type": "obstacle",
+                        "radius": 1.0,
+                        "height": 2.0,
+                        "penalty": 5
+                    }
+                }
             }
         }
     }
