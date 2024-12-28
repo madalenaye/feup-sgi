@@ -235,10 +235,22 @@ class YASFstructures{
             {name: "controlpoints", type: "list", listOf: "controlpoint"}
         ]
 
+        this.descriptors["route"] = [
+            {name: "type", type:"string"},
+            {name: "controlpoints_time", type: "list", listOf: "controlpoint_time"}
+        ]
+
         this.descriptors["controlpoint"] = [
             {name: "x", type: "float"},
             {name: "y", type: "float"},
             {name: "z", type: "float"}
+        ]
+
+        this.descriptors["controlpoint_time"] = [
+            {name: "x", type: "float"},
+            {name: "y", type: "float"},
+            {name: "z", type: "float"},
+            {name: "time", type: "integer"}            
         ]
 
         // -------------------
@@ -291,7 +303,7 @@ class YASFstructures{
         ]
 
         this.primaryNodeIds = ["globals", "fog" ,"textures", "materials", "cameras", "graph"]
-        this.primitiveIds = ["cylinder", "rectangle", "triangle", "sphere", "nurbs" , "box", "model3d", "skybox", "polygon", "ring", "circle", "track", "obstacle"]
+        this.primitiveIds = ["cylinder", "rectangle", "triangle", "sphere", "nurbs" , "box", "model3d", "skybox", "polygon", "ring", "circle", "track", "obstacle", "route"]
         this.lightIds = ["spotlight", "pointlight", "directionallight"]
     }
 

@@ -9,6 +9,7 @@ import {nurbsSurface} from '../utils/NurbsSurface.js'
 import { MyTriangle } from '../utils/MyTriangle.js';
 import { MyTrack } from '../objects/MyTrack.js';
 import { MyObstacle } from '../objects/MyObstacle.js';
+import { MyRoute } from '../objects/MyRoute.js';
 
 export const objects = [];
 export const lights = [];
@@ -145,6 +146,9 @@ const dealWithNodes = function(node, materialId=null, materials){
                                 break;
                             case 'obstacle':
                                 primitive = createObstacle(child.representations[0], material, castShadow, receiveShadow);
+                                break;
+                            case "route":
+                                primitive = createRoute(child.representations[0], material, castShadow, receiveShadow);
                                 break;
                             default:
                                 throw new Error('Invalid primitive type ' + child.subtype);
@@ -421,6 +425,17 @@ const createObstacle = function(parameters, material, castShadow, receiveShadow)
     let obstacle = new MyObstacle(parameters, newMaterial, castShadow, receiveShadow);
 
     return obstacle;
+}
+
+const createRoute = function(parameters, material, castShadow, receiveShadow){
+    if(material == null || material == undefined){
+        throw new Error("Error in function createRoute. Lack of material");  
+    }
+
+    let newMaterial = loadMaterials.createMaterial(material, 1, 1);
+    let route = new MyRoute(parameters, newMaterial, castShadow, receiveShadow);
+
+    return route;
 }
 
 const degreesToRadians = (degrees) => degrees * (Math.PI / 180);

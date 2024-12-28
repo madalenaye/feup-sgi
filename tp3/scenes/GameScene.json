@@ -160,7 +160,7 @@
                     "materialId": "rainbow_m"
                 },
                 "children": {
-                    "nodesList": ["obstacle_1", "obstacle_2", "obstacle_3", "obstacle_4", "obstacle_5"],
+                    "nodesList": ["obstacle_1", "obstacle_2", "obstacle_3", "obstacle_4", "obstacle_5", "route_level1"],
                     "track_1_prim": {
                         "type": "track",
                         "segments": 200,
@@ -381,6 +381,81 @@
                         "penalty": 9
                     }
                 }
+            },
+            "route_level1":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "children": {
+                    "route_level1_prim": {
+                        "type": "route",
+                        "controlpoints_time": [
+                            {
+                                "x": -30.0,
+                                "y": 0.0,
+                                "z": 0.0,
+                                "time": 0
+                            },
+                            {
+                                "x": -20.0,
+                                "y": 0.0,
+                                "z": 30.0,
+                                "time": 10
+                            },
+                            {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 30.0,
+                                "time": 20
+                            },
+                            {
+                                "x": 10.0,
+                                "y": 0.0,
+                                "z": 0.0,
+                                "time": 30
+                            },
+                            {
+                                "x": 30.0,
+                                "y": 0.0,
+                                "z": -10.0,
+                                "time": 40
+                            },
+                            {
+                                "x": 30.0,
+                                "y": 0.0,
+                                "z": -30.0,
+                                "time": 50
+                            },
+                            {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": -30.0,
+                                "time": 60
+                            },
+                            {
+                                "x": -30.0,
+                                "y": 0.0,
+                                "z": -30.0,
+                                "time": 70
+                            },
+                            {
+                                "x": -30.0,
+                                "y": 0.0,
+                                "z": 0.0,
+                                "time": 80
+                            }
+                        ]
+                    }
+                }
+
             }
         }
     }
