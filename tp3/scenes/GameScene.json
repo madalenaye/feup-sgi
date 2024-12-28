@@ -2,9 +2,9 @@
     "yasf": {
         "globals":{
             "background": {
-                "r": 0.0,
-                "g": 0.008,
-                "b": 0.071
+                "r": 0.392,
+                "g": 0.839,
+                "b": 0.949
             },
             "ambient": {
                 "r": 1.0,
@@ -38,13 +38,13 @@
                     "g": 0.0,
                     "b": 0.0
                 },
-                "intensity": 1,
-                "front": "scenes/skybox/starry.jpg",
-                "back": "scenes/skybox/starry.jpg",
-                "up": "scenes/skybox/starry.jpg",
-                "down": "scenes/skybox/starry.jpg",
-                "left": "scenes/skybox/starry.jpg",
-                "right": "scenes/skybox/starry.jpg"
+                "intensity": 1.0,
+                "front": "scenes/skybox/front.png",
+                "back": "scenes/skybox/back.png",
+                "up": "scenes/skybox/top.png",
+                "down": "scenes/skybox/bottom.png",
+                "left": "scenes/skybox/left.png",
+                "right": "scenes/skybox/right.png"
             }
         },
         "cameras": {
