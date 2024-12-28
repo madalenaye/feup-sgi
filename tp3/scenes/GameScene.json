@@ -160,7 +160,7 @@
                     "materialId": "rainbow_m"
                 },
                 "children": {
-                    "nodesList": ["obstacle_1"],
+                    "nodesList": ["obstacle_1", "obstacle_2", "obstacle_3", "obstacle_4", "obstacle_5"],
                     "track_1_prim": {
                         "type": "track",
                         "segments": 200,
@@ -217,14 +217,14 @@
                 }
 
             },
-            "obstacle_1":{
+            "obstacle_2":{
                 "type": "node",
                 "transforms": [
                     {
                         "type": "translate",
                         "amount": {
                             "x": -8.0,
-                            "y": 5.0,
+                            "y": 6.0,
                             "z": 15.0
                         }
                     },
@@ -246,7 +246,139 @@
                         "type": "obstacle",
                         "radius": 1.0,
                         "height": 2.0,
+                        "penalty": 6
+                    }
+                }
+            },
+            "obstacle_1":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 21.0,
+                            "y": 5.0,
+                            "z": 25.0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": -90.0,
+                            "y": 0.0,
+                            "z": -40.0
+                        }
+                    }
+
+                ],
+                "materialref": {
+                    "materialId": "rocket_m"
+                },
+                "children": {
+                    "obstacle_2_prim": {
+                        "type": "obstacle",
+                        "radius": 1.0,
+                        "height": 2.0,
                         "penalty": 5
+                    }
+                }
+            },
+            "obstacle_3":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -29.0,
+                            "y": 7.0,
+                            "z": -25.0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": -90.0,
+                            "y": 0.0,
+                            "z": -200.0
+                        }
+                    }
+
+                ],
+                "materialref": {
+                    "materialId": "rocket_m"
+                },
+                "children": {
+                    "obstacle_3_prim": {
+                        "type": "obstacle",
+                        "radius": 1.0,
+                        "height": 2.0,
+                        "penalty": 7
+                    }
+                }
+            },
+            "obstacle_4":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 34.0,
+                            "y": 8.0,
+                            "z": -25.0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": -90.0,
+                            "y": 0.0,
+                            "z": 20.0
+                        }
+                    }
+
+                ],
+                "materialref": {
+                    "materialId": "rocket_m"
+                },
+                "children": {
+                    "obstacle_4_prim": {
+                        "type": "obstacle",
+                        "radius": 1.0,
+                        "height": 2.0,
+                        "penalty": 8
+                    }
+                }
+            },
+            "obstacle_5":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 28.0,
+                            "y": 9.0,
+                            "z": -12.0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": -90.0,
+                            "y": 0.0,
+                            "z": -3.0
+                        }
+                    }
+
+                ],
+                "materialref": {
+                    "materialId": "rocket_m"
+                },
+                "children": {
+                    "obstacle_4_prim": {
+                        "type": "obstacle",
+                        "radius": 1.0,
+                        "height": 2.0,
+                        "penalty": 9
                     }
                 }
             }
