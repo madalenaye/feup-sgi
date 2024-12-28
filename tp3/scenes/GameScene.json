@@ -160,7 +160,7 @@
                     "materialId": "rainbow_m"
                 },
                 "children": {
-                    "nodesList": ["obstacle_1", "obstacle_2", "obstacle_3", "obstacle_4", "obstacle_5", "route_level1"],
+                    "nodesList": ["obstacle_1", "obstacle_2", "obstacle_3", "obstacle_4", "obstacle_5", "route_level1", "route_level2", "route_level3"],
                     "track_1_prim": {
                         "type": "track",
                         "segments": 200,
@@ -456,7 +456,158 @@
                     }
                 }
 
+            },
+            "route_level2":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "children": {
+                    "route_level2_prim": {
+                        "type": "route",
+                        "controlpoints_time": [
+                            {
+                                "x": -30.0,
+                                "y": 0.0,
+                                "z": 0.0,
+                                "time": 0
+                            },
+                            {
+                                "x": -20.0,
+                                "y": 0.0,
+                                "z": 30.0,
+                                "time": 5
+                            },
+                            {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 30.0,
+                                "time": 10
+                            },
+                            {
+                                "x": 10.0,
+                                "y": 0.0,
+                                "z": 0.0,
+                                "time": 15
+                            },
+                            {
+                                "x": 30.0,
+                                "y": 0.0,
+                                "z": -10.0,
+                                "time": 20
+                            },
+                            {
+                                "x": 30.0,
+                                "y": 0.0,
+                                "z": -30.0,
+                                "time": 25
+                            },
+                            {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": -30.0,
+                                "time": 30
+                            },
+                            {
+                                "x": -30.0,
+                                "y": 0.0,
+                                "z": -30.0,
+                                "time": 35
+                            },
+                            {
+                                "x": -30.0,
+                                "y": 0.0,
+                                "z": 0.0,
+                                "time": 40
+                            }
+                        ]
+                    }
+                }
+
+            },
+            "route_level3":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "children": {
+                    "route_level3_prim": {
+                        "type": "route",
+                        "controlpoints_time": [
+                            {
+                                "x": -30.0,
+                                "y": 0.0,
+                                "z": 0.0,
+                                "time": 0
+                            },
+                            {
+                                "x": -20.0,
+                                "y": 0.0,
+                                "z": 30.0,
+                                "time": 2
+                            },
+                            {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 30.0,
+                                "time": 4
+                            },
+                            {
+                                "x": 10.0,
+                                "y": 0.0,
+                                "z": 0.0,
+                                "time": 6
+                            },
+                            {
+                                "x": 30.0,
+                                "y": 0.0,
+                                "z": -10.0,
+                                "time": 8
+                            },
+                            {
+                                "x": 30.0,
+                                "y": 0.0,
+                                "z": -30.0,
+                                "time": 10
+                            },
+                            {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": -30.0,
+                                "time": 12
+                            },
+                            {
+                                "x": -30.0,
+                                "y": 0.0,
+                                "z": -30.0,
+                                "time": 14
+                            },
+                            {
+                                "x": -30.0,
+                                "y": 0.0,
+                                "z": 0.0,
+                                "time": 16
+                            }
+                        ]
+                    }
+                }
+
             }
+            
         }
     }
 }
