@@ -200,6 +200,14 @@ class YASFstructures{
             {name: "distance", type: "float", required: false, default: 0.0}, // The distance at which to display this level of detail. Default 0.0.  
         ]
 
+        this.descriptors["obstacle"] = [
+            {name: "type", type: "string"},
+            {name: "radius", type: "float"},
+            {name: "height", type: "float"},
+            {name: "penalty", type: "integer"},
+            {name: "distance", type: "float", required: false, default: 0.0}, // The distance at which to display this level of detail. Default 0.0.
+        ]
+
         // to be used in final classes of TP2 or in TP3
         this.descriptors["model3d"] = [
             {name: "type", type: "string"},
@@ -227,10 +235,22 @@ class YASFstructures{
             {name: "controlpoints", type: "list", listOf: "controlpoint"}
         ]
 
+        this.descriptors["route"] = [
+            {name: "type", type:"string"},
+            {name: "controlpoints_time", type: "list", listOf: "controlpoint_time"}
+        ]
+
         this.descriptors["controlpoint"] = [
             {name: "x", type: "float"},
             {name: "y", type: "float"},
             {name: "z", type: "float"}
+        ]
+
+        this.descriptors["controlpoint_time"] = [
+            {name: "x", type: "float"},
+            {name: "y", type: "float"},
+            {name: "z", type: "float"},
+            {name: "time", type: "integer"}            
         ]
 
         // -------------------
@@ -283,7 +303,7 @@ class YASFstructures{
         ]
 
         this.primaryNodeIds = ["globals", "fog" ,"textures", "materials", "cameras", "graph"]
-        this.primitiveIds = ["cylinder", "rectangle", "triangle", "sphere", "nurbs" , "box", "model3d", "skybox", "polygon", "ring", "circle", "track"]
+        this.primitiveIds = ["cylinder", "rectangle", "triangle", "sphere", "nurbs" , "box", "model3d", "skybox", "polygon", "ring", "circle", "track", "obstacle", "route"]
         this.lightIds = ["spotlight", "pointlight", "directionallight"]
     }
 
