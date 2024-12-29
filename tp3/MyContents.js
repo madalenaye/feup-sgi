@@ -126,7 +126,7 @@ class MyContents {
 
         this.material = new THREE.MeshStandardMaterial({ map: this.texture, roughness: 1, side: THREE.DoubleSide });
 
-        this.balloon = new MyBalloon(4, 7, this.material, 0xB868AB);
+        this.balloon = new MyBalloon(4, this.material, 0x550b3d);
         this.app.scene.add(this.balloon);
         this.balloon.position.set(-47, 15, 25);
         
