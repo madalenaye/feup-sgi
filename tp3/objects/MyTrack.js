@@ -13,6 +13,7 @@ class MyTrack extends THREE.Object3D {
 
         this.adjustedControlPoints = vectorPoints;
         this.rotatedControlPoints = this.rotatePathZ(path);
+        this.sampledPoints = this.pointsOnTheCurve();
 
         let lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000});
         let trackGeometry = new THREE.TubeGeometry(path, parameters.segments, parameters.width, 3 , parameters.closed);
@@ -44,6 +45,46 @@ class MyTrack extends THREE.Object3D {
         const rotatedPoints = path.points.map(point => point.clone().applyMatrix4(rotationMatrix));
     
         return new THREE.CatmullRomCurve3(rotatedPoints, path.closed);
+    }
+
+    pointsOnTheCurve(){
+        const sampledPoints = [];
+        for (let i = 0; i <= this.segments; i++) {
+          sampledPoints.push(this.rotatedControlPoints.getPointAt(i / this.segments));
+        }
+  
+        return sampledPoints;
+    }
+
+    isObjectInsideTrack(object) {
+
+        const position = new THREE.Vector3();
+        object.getWorldPosition(position);
+        position.y = 0;
+        console.log("My position: ")
+        console.log(position);
+        
+        const curveSamplePoints = this.pointsOnTheCurve();
+  
+        curveSamplePoints.sort(function (pointA, pointB) {
+          return position.distanceTo(pointA) - position.distanceTo(pointB);
+        });
+  
+        let closestPoint1 = curveSamplePoints[0];
+        let closestPoint2 = curveSamplePoints[1];
+        if (closestPoint1.equals(closestPoint2)) {
+            closestPoint2 = curveSamplePoints[2];
+        }
+  
+        const direction = new THREE.Vector3().subVectors(closestPoint2, closestPoint1);
+        const vectorToClosestPoint1 = new THREE.Vector3().subVectors(closestPoint1, position);
+        const projection = vectorToClosestPoint1.dot(direction);
+        const projectionVector = direction.clone().multiplyScalar(projection / direction.lengthSq());
+        const projectedPoint = new THREE.Vector3().subVectors(closestPoint1, projectionVector);
+        const distance = projectedPoint.distanceTo(position);
+        console.log(distance);
+  
+        return distance <= this.width;
     }
 
 }
