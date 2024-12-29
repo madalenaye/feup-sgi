@@ -106,7 +106,7 @@ class MyContents {
         this.app.scene.add(globalsStructure.ambient);
         this.app.lights["ambient"] = globalsStructure.ambient;
         this.app.scene.fog = globalsStructure.fog
-        //this.app.scene.add(globalsStructure.skybox);
+        this.app.scene.add(globalsStructure.skybox);
 
 
         let textures = loadTextures.loadTextures(data.getTextures());
@@ -117,10 +117,18 @@ class MyContents {
         this.objects = loadObjects.getObjects();
 
         this.lights = loadObjects.getLights();
-        //this.app.scene.add(myScene);
+        this.app.scene.add(myScene);
 
-        this.balloon = new MyBalloon(0.4, 2, new THREE.MeshBasicMaterial({color: 0x825E4F}), true, true);
+        this.texture = new THREE.TextureLoader().load('./scenes/textures/balloon_1.png');
+        this.texture.wrapS = THREE.RepeatWrapping;
+        this.texture.wrapT = THREE.RepeatWrapping;
+        this.texture.repeat.set(1, 1);
+
+        this.material = new THREE.MeshStandardMaterial({ map: this.texture, roughness: 1, side: THREE.DoubleSide });
+
+        this.balloon = new MyBalloon(4, 7, this.material, 0xB868AB);
         this.app.scene.add(this.balloon);
+        this.balloon.position.set(-47, 15, 25);
         
     }
 

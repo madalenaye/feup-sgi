@@ -2,16 +2,14 @@ import * as THREE from 'three';
 
 class MyBalloon extends THREE.Object3D {
 
-    constructor() {
+    constructor(radius, height, material, baseColor) {
         super();
-        this.radius = 4;
-        this.height = 7;
-        this.texture = new THREE.TextureLoader().load('./scenes/textures/balloon_1.png');
-        this.texture.wrapS = THREE.RepeatWrapping;
-        this.texture.wrapT = THREE.RepeatWrapping;
-        this.texture.repeat.set(1, 1);
-
-        this.material = new THREE.MeshStandardMaterial({ map: this.texture, roughness: 1, side: THREE.DoubleSide });
+        this.radius = radius;
+        this.basketRadius = radius/3;
+        this.height = height;
+        this.material = material;
+        this.baseColor = baseColor;
+        
         this.buildBalloon();
     }
     buildBalloon() {
@@ -37,10 +35,10 @@ class MyBalloon extends THREE.Object3D {
             curveSegments: 16
         };
         this.arcShape = new THREE.Shape();
-        this.arcShape.absarc(0, 0, this.radius/4, 0, Math.PI * 2, 0, false);
+        this.arcShape.absarc(0, 0, this.basketRadius, 0, Math.PI * 2, 0, false);
         
         this.holePath = new THREE.Path();
-        this.holePath.absarc(0, 0, this.radius/4 - 0.2, 0, Math.PI * 2, true);
+        this.holePath.absarc(0, 0, this.basketRadius - 0.2, 0, Math.PI * 2, true);
         this.arcShape.holes.push(this.holePath);
         
         this.basketGeometry = new THREE.ExtrudeGeometry(this.arcShape, extrudeSettings);
@@ -52,7 +50,7 @@ class MyBalloon extends THREE.Object3D {
         this.basketGroup.add(this.basket);
 
         // Basket base
-        this.basketBaseGeometry = new THREE.CylinderGeometry(this.radius/4, this.radius/4, 0.04, 32);
+        this.basketBaseGeometry = new THREE.CylinderGeometry(this.basketRadius, this.basketRadius, 0.04, 32);
         this.basketBase = new THREE.Mesh(this.basketBaseGeometry, this.basketMaterial);
         this.basketBase.position.set(0, -0.02, 0);
         this.basketGroup.add(this.basketBase);
@@ -67,18 +65,17 @@ class MyBalloon extends THREE.Object3D {
 
         for (let i = 0; i < numStrings; i++){
             const angle = i * angleStep;
-            const x = Math.cos(angle) * (this.radius/4 - 0.2);
-            const z = Math.sin(angle) * (this.radius/4 - 0.2);
+            const x = Math.cos(angle) * (this.basketRadius - 0.2);
+            const z = Math.sin(angle) * (this.basketRadius - 0.2);
 
             const stringGeometry = new THREE.CylinderGeometry(stringRadius, stringRadius, stringHeight, 32);
             const string = new THREE.Mesh(stringGeometry, this.basketMaterial);
-            string.position.set(x, extrudeSettings.depth + stringHeight/2 - 0.03, z);
+            string.position.set(x, extrudeSettings.depth + stringHeight/2 - 0.15, z);
             
         
-            // Modify the target position to simulate slight inclination
-            const lookAtPos = new THREE.Vector3(0, 2.1, 0);
+            const lookAtPos = new THREE.Vector3(0, 1.9, 0);
 
-            string.lookAt(lookAtPos); // Make the string slightly inclined towards the balloon's base
+            string.lookAt(lookAtPos);
 
             this.stringGroup.add(string);
         }
@@ -91,9 +88,11 @@ class MyBalloon extends THREE.Object3D {
         this.groupBalloon.add(this.balloon);
 
         this.balloonBaseGeometry = new THREE.CylinderGeometry(this.radius * 0.81, this.radius/3, 1.5, 32, 32, true);
-        this.balloonBaseMaterial = new THREE.MeshStandardMaterial({ color: 0x456A94, roughness: 1 });
+        this.balloonBaseMaterial = new THREE.MeshStandardMaterial({ color: this.baseColor, roughness: 1 });
         this.balloonBase = new THREE.Mesh(this.balloonBaseGeometry, this.balloonBaseMaterial);
         this.balloonBase.position.set(0, this.height/2, 0);
+       
+       
         this.groupBalloon.add(this.balloonBase);
         this.groupBalloon.add(this.basketGroup);
         this.add(this.groupBalloon);
