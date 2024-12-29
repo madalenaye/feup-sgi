@@ -9,19 +9,24 @@ class MyBalloon extends THREE.Object3D {
         this.radius = 5;
         this.height = 10;
 
+        this.material = material;
+
+        this.groupBalloon = new THREE.Group();
+
+        this.buildBasket();
+        this.add(this.groupBalloon);
+    }
+    buildBasket() {
+        
+        // Texture
         this.basketTexture = new THREE.TextureLoader().load('./scenes/textures/basket.png');
         this.basketTexture.wrapS = THREE.RepeatWrapping;
         this.basketTexture.wrapT = THREE.RepeatWrapping;
         this.basketTexture.repeat.set(1, 1);
 
+        // Material
         this.basketMaterial = new THREE.MeshStandardMaterial({ map: this.basketTexture, roughness: 1, side: THREE.DoubleSide });
-        this.material = material;
-
-        this.groupBalloon = new THREE.Group();
-
-
-        // Balloon basket
-
+        
         const extrudeSettings = {
             depth: 1.5,
             amount : 2,
@@ -29,7 +34,6 @@ class MyBalloon extends THREE.Object3D {
             bevelEnabled: false,
             curveSegments: 16
         };
-        
         this.arcShape = new THREE.Shape();
         this.arcShape.absarc(0, 0, this.radius/4, 0, Math.PI * 2, 0, false);
         
@@ -51,8 +55,9 @@ class MyBalloon extends THREE.Object3D {
         this.basketBase.position.set(0, -0.02, 0);
         this.basketGroup.add(this.basketBase);
 
+        // Basket
+
         this.groupBalloon.add(this.basketGroup);
-        this.add(this.groupBalloon);
     }
 }
 export { MyBalloon };
