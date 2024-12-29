@@ -12,6 +12,7 @@ import { loadGlobals } from './loaders/LoadGlobals.js';
 import { loadTextures } from './loaders/LoadTextures.js';
 import { loadMaterials } from './loaders/LoadMaterials.js';
 import {loadObjects} from './loaders/LoadObjects.js';
+import { MyBalloon } from './objects/MyBalloon.js';
 
 
 /**
@@ -105,7 +106,7 @@ class MyContents {
         this.app.scene.add(globalsStructure.ambient);
         this.app.lights["ambient"] = globalsStructure.ambient;
         this.app.scene.fog = globalsStructure.fog
-        this.app.scene.add(globalsStructure.skybox);
+        //this.app.scene.add(globalsStructure.skybox);
 
 
         let textures = loadTextures.loadTextures(data.getTextures());
@@ -116,7 +117,10 @@ class MyContents {
         this.objects = loadObjects.getObjects();
 
         this.lights = loadObjects.getLights();
-        this.app.scene.add(myScene);
+        //this.app.scene.add(myScene);
+
+        this.balloon = new MyBalloon(0.4, 2, new THREE.MeshBasicMaterial({color: 0x825E4F}), true, true);
+        this.app.scene.add(this.balloon);
         
     }
 
