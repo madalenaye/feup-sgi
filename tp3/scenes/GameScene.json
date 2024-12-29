@@ -82,6 +82,14 @@
             "soil_t": {
                 "filepath": "scenes/textures/soil.jpg",
                 "isVideo": false
+            },
+            "tar_t":{
+                "filepath": "scenes/textures/tar.jpg",
+                "isVideo": false
+            },
+            "aluminium_t":{
+                "filepath": "scenes/textures/aluminium.jpg",
+                "isVideo": false
             }
         },
         "materials": {
@@ -178,6 +186,54 @@
                 "transparent": false,
                 "opacity": 1.0,
                 "twosided": true
+            },
+            "tar_m":{
+                "color": {
+                    "r": 0.3,
+                    "g": 0.3,
+                    "b": 0.3
+                },
+                "emissive": {
+                    "r": 0.05,
+                    "g": 0.05,
+                    "b": 0.05
+                },
+                "specular": {
+                    "r": 0.4,
+                    "g": 0.4,
+                    "b": 0.4
+                },
+                "textureref": "tar_t",
+                "texlength_s": 1.0,
+                "texlength_t": 1.0,
+                "shininess": 15.0,
+                "transparent": false,
+                "opacity": 1.0,
+                "twosided": true
+            },
+            "aluminium_m":{
+                "color": {
+                    "r": 0.8,
+                    "g": 0.8,
+                    "b": 0.8
+                },
+                "emissive": {
+                    "r": 0.05,
+                    "g": 0.05,
+                    "b": 0.05
+                },
+                "specular": {
+                    "r": 0.9,
+                    "g": 0.9,
+                    "b": 0.9
+                },
+                "textureref": "aluminium_t",
+                "texlength_s": 1.0,
+                "texlength_t": 1.0,
+                "shininess": 50,
+                "transparent": false,
+                "opacity": 1.0,
+                "twosided": true
             }
 
         },
@@ -186,7 +242,7 @@
             "scene": {
                 "type": "node",
                 "children": {
-                    "nodesList": ["floor", "bottom_floor", "right_soil", "left_soil", "front_soil", "back_soil", "track_1"],
+                    "nodesList": ["floor", "bottom_floor", "right_soil", "left_soil", "front_soil", "back_soil", "track_1", "park_1", "park_2", "park_3", "park_4"],
                     "point_light": {
                         "type": "pointlight",
                         "enabled": true,
@@ -234,12 +290,12 @@
                     "floor_prim":{
                         "type": "rectangle",
                         "xy1": {
-                            "x": -40,
-                            "y": -40
+                            "x": -50,
+                            "y": -50
                         },
                         "xy2": {
-                            "x": 40,
-                            "y": 40
+                            "x": 50,
+                            "y": 50
                         }
                     }
                 }
@@ -271,12 +327,12 @@
                     "floor_prim":{
                         "type": "rectangle",
                         "xy1": {
-                            "x": -40,
-                            "y": -40
+                            "x": -50,
+                            "y": -50
                         },
                         "xy2": {
-                            "x": 40,
-                            "y": 40
+                            "x": 50,
+                            "y": 50
                         }
                     }
                 }
@@ -287,7 +343,7 @@
                     {
                         "type": "translate",
                         "amount":{
-                            "x": 40,
+                            "x": 50,
                             "y": -17.7,
                             "z": 0.0
                         }
@@ -309,11 +365,11 @@
                         "type": "rectangle",
                         "xy1": {
                             "x": -20,
-                            "y": -40
+                            "y": -50
                         },
                         "xy2": {
                             "x": 20,
-                            "y": 40
+                            "y": 50
                         }
                     }
                 }
@@ -324,7 +380,7 @@
                     {
                         "type": "translate",
                         "amount":{
-                            "x": -40,
+                            "x": -50,
                             "y": -17.7,
                             "z": 0.0
                         }
@@ -346,11 +402,11 @@
                         "type": "rectangle",
                         "xy1": {
                             "x": -20,
-                            "y": -40
+                            "y": -50
                         },
                         "xy2": {
                             "x": 20,
-                            "y": 40
+                            "y": 50
                         }
                     }
                 }
@@ -363,7 +419,7 @@
                         "amount":{
                             "x": 0.0,
                             "y": -17.7,
-                            "z": 40.0
+                            "z": 50.0
                         }
                     },
                     {
@@ -383,11 +439,11 @@
                         "type": "rectangle",
                         "xy1": {
                             "x": -20,
-                            "y": -40
+                            "y": -50
                         },
                         "xy2": {
                             "x": 20,
-                            "y": 40
+                            "y": 50
                         }
                     }
                 }
@@ -400,7 +456,7 @@
                         "amount":{
                             "x": 0.0,
                             "y": -17.7,
-                            "z": -40.0
+                            "z": -50.0
                         }
                     },
                     {
@@ -420,11 +476,11 @@
                         "type": "rectangle",
                         "xy1": {
                             "x": -20,
-                            "y": -40
+                            "y": -50
                         },
                         "xy2": {
                             "x": 20,
-                            "y": 40
+                            "y": 50
                         }
                     }
                 }
@@ -890,8 +946,186 @@
                     }
                 }
 
+            },
+            "park_1":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -47.0,
+                            "y": 0.0,
+                            "z": 5.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "aluminium_m"
+                },
+                "children": {
+                    "nodesList": ["base_cylinder", "plataform"]
+                }
+            },
+            "park_2":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -47.0,
+                            "y": 0.0,
+                            "z": 25.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "aluminium_m"
+                },
+                "children": {
+                    "nodesList": ["base_cylinder", "plataform"]
+                }
+            },
+            "park_3":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -38.0,
+                            "y": 0.0,
+                            "z": 47.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "aluminium_m"
+                },
+                "children": {
+                    "nodesList": ["base_cylinder", "plataform_2"]
+                }
+            },
+            "park_4":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -18.0,
+                            "y": 0.0,
+                            "z": 47.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "aluminium_m"
+                },
+                "children": {
+                    "nodesList": ["base_cylinder", "plataform_2"]
+                }
+            },
+            "base_cylinder":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 6.5,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "children": {
+                    "base_cylinder_prim": {
+                        "type": "cylinder",
+                        "base": 1,
+                        "top": 1,
+                        "height": 8,
+                        "slices": 32,
+                        "stacks": 1,
+                        "capsclose": true
+
+                    }
+                }
+            },
+            "plataform":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 10.5,
+                            "z": 0.0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 90.0,
+                            "y": 0.0,
+                            "z": 90.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "tar_m"
+                },
+                "children": {
+                    "plataform_prim": {
+                        "type": "box",
+                        "xyz1": {
+                            "x": -5,
+                            "y": -5,
+                            "z": -0.05
+                        },
+                        "xyz2": {
+                            "x": 5,
+                            "y": 5,
+                            "z": 0.05
+                        }
+                    }
+                }
+            },
+            "plataform_2":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 10.5,
+                            "z": 0.0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 90.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "tar_m"
+                },
+                "children": {
+                    "plataform_prim": {
+                        "type": "box",
+                        "xyz1": {
+                            "x": -5,
+                            "y": -5,
+                            "z": -0.05
+                        },
+                        "xyz2": {
+                            "x": 5,
+                            "y": 5,
+                            "z": 0.05
+                        }
+                    }
+                }
             }
-            
         }
     }
 }
