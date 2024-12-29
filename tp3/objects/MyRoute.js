@@ -43,10 +43,35 @@ class MyRoute extends THREE.Object3D {
 
     setupAnimation(object){
 
-        const flatControlPoints = this.rotatedControlPoints.flatMap(vector => [vector.x, vector.y, vector.z]);
-        const positionKF = new THREE.VectorKeyframeTrack('.position', this.times, flatControlPoints, THREE.InterpolateSmooth);
-
-        const positionClip = new THREE.AnimationClip('positionAnimation', this.times[this.times.length - 1], [positionKF]);
+        const positionKeyframes = [];
+        const quaternionKeyframes = [];
+    
+        for (let i = 0; i < this.rotatedControlPoints.length; i++) {
+            const point = this.rotatedControlPoints[i];
+            positionKeyframes.push(point.x, point.y, point.z);
+    
+            const nextIndex = i === this.rotatedControlPoints.length - 1 ? i : i + 1;
+            const currentPoint = this.rotatedControlPoints[i];
+            const nextPoint = this.rotatedControlPoints[nextIndex];
+    
+            const direction = new THREE.Vector3()
+                .subVectors(nextPoint, currentPoint)
+                .normalize();
+    
+            const quaternion = new THREE.Quaternion().setFromUnitVectors(
+                new THREE.Vector3(0, 0, 1), 
+                direction 
+            );
+    
+            quaternionKeyframes.push(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
+        }
+    
+        const positionKF = new THREE.VectorKeyframeTrack('.position', this.times, positionKeyframes, THREE.InterpolateSmooth);
+    
+        const quaternionKF = new THREE.QuaternionKeyframeTrack('.quaternion', this.times, quaternionKeyframes, THREE.InterpolateSmooth);
+    
+        const positionClip = new THREE.AnimationClip('positionAndRotationAnimation', this.times[this.times.length - 1], [positionKF, quaternionKF]);
+    
         this.mixer = new THREE.AnimationMixer(object);
         this.positionAction = this.mixer.clipAction(positionClip);
     }
@@ -61,6 +86,18 @@ class MyRoute extends THREE.Object3D {
     stop() {
         if (this.mixer) {
             this.positionAction.stop();
+            this.mixerPause = true;
+        }
+    }
+
+    resume(){
+        if(this.mixer){
+            this.mixerPause = false;
+        }
+    }
+
+    pause(){
+        if(this.mixer){
             this.mixerPause = true;
         }
     }
