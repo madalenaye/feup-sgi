@@ -2,24 +2,24 @@
     "yasf": {
         "globals":{
             "background": {
-                "r": 0.796,
-                "g": 0.714,
-                "b": 0.533
+                "r": 0.392,
+                "g": 0.839,
+                "b": 0.949
             },
             "ambient": {
                 "r": 1.0,
                 "g": 1.0,
                 "b": 1.0,
-                "intensity": 0.9
+                "intensity": 1
             },
             "fog": {
                 "color": {
                     "r": 0.7,
                     "g": 0.7,
                     "b": 0.7,
-                    "a": 0.8
+                    "a": 0.5
                 },
-                "near": 1.0,
+                "near": 150.0,
                 "far": 300.0
             },
             "skybox": {
@@ -68,7 +68,7 @@
         },
         "textures": {
             "rainbow_t": {
-                "filepath": "scenes/textures/rainbow.jpg",
+                "filepath": "scenes/textures/rainbow.png",
                 "isVideo": false
             },
             "floor_t": {

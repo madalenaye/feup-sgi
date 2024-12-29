@@ -12,6 +12,7 @@ import { loadGlobals } from './loaders/LoadGlobals.js';
 import { loadTextures } from './loaders/LoadTextures.js';
 import { loadMaterials } from './loaders/LoadMaterials.js';
 import {loadObjects} from './loaders/LoadObjects.js';
+import { MyBalloon } from './objects/MyBalloon.js';
 
 
 /**
@@ -117,6 +118,17 @@ class MyContents {
 
         this.lights = loadObjects.getLights();
         this.app.scene.add(myScene);
+
+        this.texture = new THREE.TextureLoader().load('./scenes/textures/balloon_1.png');
+        this.texture.wrapS = THREE.RepeatWrapping;
+        this.texture.wrapT = THREE.RepeatWrapping;
+        this.texture.repeat.set(1, 1);
+
+        this.material = new THREE.MeshStandardMaterial({ map: this.texture, roughness: 1, side: THREE.DoubleSide });
+
+        this.balloon = new MyBalloon(4, this.material, 0x550b3d);
+        this.app.scene.add(this.balloon);
+        this.balloon.position.set(-47, 15, 25);
         
     }
 
