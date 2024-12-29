@@ -2,11 +2,11 @@ import * as THREE from 'three';
 
 class MyBalloon extends THREE.Object3D {
 
-    constructor(radius, height, material, castShadow, receiveShadow) {
+    constructor() {
         super();
         this.radius = 4;
         this.height = 7;
-        this.texture = new THREE.TextureLoader().load('./scenes/textures/pink_balloon.jpg');
+        this.texture = new THREE.TextureLoader().load('./scenes/textures/balloon_1.png');
         this.texture.wrapS = THREE.RepeatWrapping;
         this.texture.wrapT = THREE.RepeatWrapping;
         this.texture.repeat.set(1, 1);
@@ -79,20 +79,19 @@ class MyBalloon extends THREE.Object3D {
         this.basketGroup.add(this.stringGroup);
 
         /* Balloon */
-        this.balloonGeometry = new THREE.SphereGeometry(this.radius, 32, 32);
+        this.balloonGeometry = new THREE.SphereGeometry(this.radius, 32, 32, 0, Math.PI * 2, 0, Math.PI * 0.7);
         this.balloon = new THREE.Mesh(this.balloonGeometry, this.material);
-        this.balloon.scale.set(1, 1.2, 1);
-        this.balloon.position.set(0, this.height + 0.5, 0);
+        this.balloon.position.set(0, this.height - 0.4, 0);
         this.groupBalloon.add(this.balloon);
 
-        this.balloonBaseGeometry = new THREE.CylinderGeometry(this.radius * 0.78, this.radius/5, 2, 32);
-        this.balloonBase = new THREE.Mesh(this.balloonBaseGeometry, this.material);
+        this.balloonBaseGeometry = new THREE.CylinderGeometry(this.radius * 0.81, this.radius/3, 1.5, 32, 32, true);
+        this.balloonBaseMaterial = new THREE.MeshStandardMaterial({ color: 0x000000, roughness: 1 });
+        this.balloonBase = new THREE.Mesh(this.balloonBaseGeometry, this.balloonBaseMaterial);
         this.balloonBase.position.set(0, this.height/2, 0);
         this.groupBalloon.add(this.balloonBase);
         this.groupBalloon.add(this.basketGroup);
         this.add(this.groupBalloon);
 
-        
     }
 }
 export { MyBalloon };
