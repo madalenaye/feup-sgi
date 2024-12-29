@@ -4,7 +4,6 @@ class MyRoute extends THREE.Object3D {
 
     constructor(parameters, material, castShadow, receiveShadow) {
         super();
-
         let vectorPoints = parameters.controlpoints_time.map(point => new THREE.Vector3(point.x, point.y, point.z));
         let path = new THREE.CatmullRomCurve3(vectorPoints);
 
@@ -24,6 +23,15 @@ class MyRoute extends THREE.Object3D {
         this.curve.castShadow = castShadow ?? false;
         this.curve.receiveShadow = receiveShadow ?? false;
 
+        this.mixer = null;
+        this.positionAction = null;
+        this.mixerTime = 0;
+        this.mixerPause = false;
+    
+        this.enableAnimationRotation = true;
+        this.enableAnimationPosition = true;
+        this.clock = new THREE.Clock();
+
         this.add(this.curve);
     }
 
@@ -31,6 +39,70 @@ class MyRoute extends THREE.Object3D {
         const rotationMatrix = new THREE.Matrix4().makeRotationZ(Math.PI);
       
         return points.map(point => point.clone().applyMatrix4(rotationMatrix));
+    }
+
+    setupAnimation(object){
+
+        const flatControlPoints = this.rotatedControlPoints.flatMap(vector => [vector.x, vector.y, vector.z]);
+        const positionKF = new THREE.VectorKeyframeTrack('.position', this.times, flatControlPoints, THREE.InterpolateSmooth);
+
+        const positionClip = new THREE.AnimationClip('positionAnimation', this.times[this.times.length - 1], [positionKF]);
+        this.mixer = new THREE.AnimationMixer(object);
+        this.positionAction = this.mixer.clipAction(positionClip);
+    }
+
+    play() {
+        if (this.mixer) {
+            this.positionAction.play();
+            this.mixerPause = false;
+        }
+    }
+
+    stop() {
+        if (this.mixer) {
+            this.positionAction.stop();
+            this.mixerPause = true;
+        }
+    }
+
+    setMixerTime() {
+        this.mixer.setTime(this.mixerTime);
+    }
+
+    checkAnimationStateIsPause() {
+        if (this.mixerPause)
+            this.mixer.timeScale = 0;
+        else
+            this.mixer.timeScale = 1;
+    }
+
+    checkTracksEnabled() {
+
+        const actions = this.mixer._actions;
+        for (let i = 0; i < actions.length; i++) {
+            const track = actions[i]._clip.tracks[0];
+
+            if (track.name === '.quaternion' && this.enableAnimationRotation === false) {
+                actions[i].stop();
+            }
+            else if (track.name === '.position' && this.enableAnimationPosition === false) {
+                actions[i].stop();
+            }
+            else {
+                if (!actions[i].isRunning())
+                    actions[i].play();
+            }
+        }
+    }
+
+    update() {
+
+        const delta = this.clock.getDelta()
+        this.mixer.update(delta)
+
+        this.checkAnimationStateIsPause()
+        this.checkTracksEnabled()
+
     }
 
 }

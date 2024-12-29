@@ -13,6 +13,7 @@ import { MyRoute } from '../objects/MyRoute.js';
 
 export const objects = [];
 export const lights = [];
+export const routes = {};
 export const loadObjects = {
 
     /**
@@ -45,6 +46,10 @@ export const loadObjects = {
      */   
     getLights: function(){
         return lights;
+    },
+
+    getRoutes: function(){
+        return routes;
     }
 
 }
@@ -148,7 +153,7 @@ const dealWithNodes = function(node, materialId=null, materials){
                                 primitive = createObstacle(child.representations[0], material, castShadow, receiveShadow);
                                 break;
                             case "route":
-                                primitive = createRoute(child.representations[0], material, castShadow, receiveShadow);
+                                primitive = createRoute(child.representations[0], node.id, material, castShadow, receiveShadow);
                                 break;
                             default:
                                 throw new Error('Invalid primitive type ' + child.subtype);
@@ -427,13 +432,14 @@ const createObstacle = function(parameters, material, castShadow, receiveShadow)
     return obstacle;
 }
 
-const createRoute = function(parameters, material, castShadow, receiveShadow){
+const createRoute = function(parameters, routeID, material, castShadow, receiveShadow){
     if(material == null || material == undefined){
         throw new Error("Error in function createRoute. Lack of material");  
     }
 
     let newMaterial = loadMaterials.createMaterial(material, 1, 1);
     let route = new MyRoute(parameters, newMaterial, castShadow, receiveShadow);
+    routes[routeID] = route;
 
     return route;
 }
