@@ -4,9 +4,10 @@ class MyObstacle extends THREE.Object3D {
 
     constructor(parameters, material, castShadow, receiveShadow) {
         super();
-        this.height = parameters.height;
-        this.radius = parameters.radius;
-        this.penalty = parameters.penalty;
+        this.height = 2.0;
+        this.radius = 1.0;
+        this.penalty = 9.0;
+        this.obstacleBB = null;
 
         this.rocket = new THREE.Group();
 
@@ -89,11 +90,14 @@ class MyObstacle extends THREE.Object3D {
         this.rocket.castShadow = castShadow ?? false;
         this.rocket.receiveShadow = receiveShadow ?? false;
 
+        this.add(this.rocket);
+    }
+
+    createBoundingVolume(){
+        this.matrixWorldNeedsUpdate = true;
+        this.updateMatrixWorld(true);
         this.obstacleBB = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
         this.obstacleBB.setFromObject(this.rocket, true);
-
-        this.add(this.rocket);
-       
     }
 
     getBoundingVolume(){

@@ -28,6 +28,7 @@ export const loadObjects = {
         const root = data
         if (root == null) return
         let scene = dealWithNodes(root, null, materials)
+        scene.updateMatrixWorld(true);
         return scene
     },
 
@@ -66,6 +67,7 @@ export const loadObjects = {
 const dealWithNodes = function(node, materialId=null, materials){
     if (node == null) return
     const group = new THREE.Group();
+    group.name = node.id;
     if (node.type == "lod"){
         const lod = new THREE.LOD()
         for (let child of node.children){
@@ -425,7 +427,7 @@ const createTrack = function(parameters, material, castShadow, receiveShadow){
     return track;
 }
 
-const createObstacle = function(parameters, material, castShadow, receiveShadow){
+const createObstacle = function(parameters, material, castShadow, receiveShadow, group){
     if(material == null || material == undefined){
         throw new Error("Error in function createObstacle. Lack of material");  
     }

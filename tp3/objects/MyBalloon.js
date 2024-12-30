@@ -11,7 +11,7 @@ class MyBalloon extends THREE.Object3D {
         this.basketRadius = radius/3;
         this.material = material;
         this.baseColor = baseColor;
-        this.isColliding = false;
+        this.isCollidingMap = new Map();
         
         this.buildBalloon();
     }
@@ -127,27 +127,31 @@ class MyBalloon extends THREE.Object3D {
 
     updateBoundingBox_Balloon(){
         if(this.groupBalloon){
-          this.balloonBB.setFromObject(this.groupBalloon);
+          this.balloonBB.setFromObject(this.groupBalloon, true);
         }
     }
-
-    checkCollision(object){
+    
+    checkCollision(object) {
         const objectBB = object.getBoundingVolume()
         if (this.balloonBB && objectBB) {
           const isIntersecting = this.balloonBB.intersectsBox(objectBB);
     
-          if (isIntersecting && !this.isColliding) {
-            this.isColliding = true;
-            return true;
+          const objectID = object.uuid || object.id;
+    
+          const wasColliding = this.isCollidingMap.get(objectID) || false;
+    
+          if (isIntersecting && !wasColliding) {
+            this.isCollidingMap.set(objectID, true);
+            return true; 
           }
     
           if (!isIntersecting) {
-            this.isColliding = false; 
+            this.isCollidingMap.set(objectID, false);
           }
           return false;
-    
         }
+    
         return false;
-    }
+      }
 }
 export { MyBalloon };
