@@ -13,6 +13,7 @@ import { loadTextures } from './loaders/LoadTextures.js';
 import { loadMaterials } from './loaders/LoadMaterials.js';
 import {loadObjects} from './loaders/LoadObjects.js';
 import { MyBalloon } from './objects/MyBalloon.js';
+import { MyPowerUp } from './objects/MyPowerUp.js';
 
 
 /**
@@ -124,12 +125,21 @@ class MyContents {
         this.texture.wrapT = THREE.RepeatWrapping;
         this.texture.repeat.set(1, 1);
 
-        this.material = new THREE.MeshStandardMaterial({ map: this.texture, roughness: 1, side: THREE.DoubleSide });
+        this.balloonMaterial = new THREE.MeshStandardMaterial({ map: this.texture, roughness: 1, metalness: 0.5, transparent:true, opacity:0.8, side: THREE.DoubleSide });
 
-        this.balloon = new MyBalloon(4, this.material, 0x550b3d);
+        this.balloon = new MyBalloon(4, this.balloonMaterial, 0x550b3d);
         this.app.scene.add(this.balloon);
         this.balloon.position.set(-47, 15, 25);
         
+        this.powerupTex = new THREE.TextureLoader().load('./scenes/textures/powerup.png');
+        this.powerupTex.wrapS = THREE.RepeatWrapping;
+        this.powerupTex.wrapT = THREE.RepeatWrapping;
+        this.powerupTex.repeat.set(1, 1);
+        this.powerupMaterial = new THREE.MeshStandardMaterial({ map: this.powerupTex, roughness: 1, side: THREE.DoubleSide });
+        this.powerup = new MyPowerUp({width: 2}, this.powerupMaterial, true, true);
+        this.powerup.position.set(0, 5, 25);
+        this.app.scene.add(this.powerup);
+  
     }
 
     update() {
