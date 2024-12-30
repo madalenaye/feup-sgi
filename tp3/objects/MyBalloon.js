@@ -11,6 +11,7 @@ class MyBalloon extends THREE.Object3D {
         this.basketRadius = radius/3;
         this.material = material;
         this.baseColor = baseColor;
+        this.isColliding = false;
         
         this.buildBalloon();
     }
@@ -117,8 +118,35 @@ class MyBalloon extends THREE.Object3D {
 
         this.groupBalloon.add(this.basketGroup);
 
+        this.balloonBB = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+        this.balloonBB.setFromObject(this.groupBalloon, true);
+
         this.add(this.groupBalloon);
 
     }
+
+    updateBoundingBox_Balloon(){
+        if(this.groupBalloon){
+          this.balloonBB.setFromObject(this.groupBalloon);
+        }
+    }
+
+    checkCollision(object){
+        if (this.balloonBB && object) {
+          const isIntersecting = this.balloonBB.intersectsBox(object);
+    
+          if (isIntersecting && !this.isColliding) {
+            this.isColliding = true;
+            return true;
+          }
+    
+          if (!isIntersecting) {
+            this.isColliding = false; 
+          }
+          return false;
+    
+        }
+        return false;
+      }
 }
 export { MyBalloon };
