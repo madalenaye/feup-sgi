@@ -506,6 +506,7 @@
                         "type": "track",
                         "segments": 200,
                         "width": 5.0,
+                        "penalty": 4.0,
                         "closed": true,
                         "controlpoints": [
                             {

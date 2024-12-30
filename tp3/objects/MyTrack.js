@@ -7,6 +7,7 @@ class MyTrack extends THREE.Object3D {
         this.width = parameters.width;
         this.controlpoints = parameters.controlpoints;
         this.segments = parameters.segments;
+        this.penalty = parameters.penalty;
 
         let vectorPoints = parameters.controlpoints.map(point => new THREE.Vector3(point.x, point.y, point.z));
         let path = new THREE.CatmullRomCurve3(vectorPoints);
@@ -61,8 +62,6 @@ class MyTrack extends THREE.Object3D {
         const position = new THREE.Vector3();
         object.getWorldPosition(position);
         position.y = 0;
-        console.log("My position: ")
-        console.log(position);
         
         const curveSamplePoints = this.pointsOnTheCurve();
   
@@ -82,7 +81,6 @@ class MyTrack extends THREE.Object3D {
         const projectionVector = direction.clone().multiplyScalar(projection / direction.lengthSq());
         const projectedPoint = new THREE.Vector3().subVectors(closestPoint1, projectionVector);
         const distance = projectedPoint.distanceTo(position);
-        console.log(distance);
   
         return distance <= this.width;
     }

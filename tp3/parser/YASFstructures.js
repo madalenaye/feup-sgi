@@ -231,6 +231,7 @@ class YASFstructures{
             {name: "type", type: "string"},
             {name: "segments", type: "integer"},
             {name: "width", type: "float"},
+            {name: "penalty", type: "integer"},
             {name: "closed", type: "boolean", required: false, default: true},
             {name: "controlpoints", type: "list", listOf: "controlpoint"}
         ]
