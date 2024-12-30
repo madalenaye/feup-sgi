@@ -10,6 +10,7 @@ import { MyTriangle } from '../utils/MyTriangle.js';
 import { MyTrack } from '../objects/MyTrack.js';
 import { MyObstacle } from '../objects/MyObstacle.js';
 import { MyRoute } from '../objects/MyRoute.js';
+import { MyPowerUp } from '../objects/MyPowerUp.js';
 
 export const objects = [];
 export const lights = [];
@@ -154,6 +155,9 @@ const dealWithNodes = function(node, materialId=null, materials){
                                 break;
                             case "route":
                                 primitive = createRoute(child.representations[0], node.id, material, castShadow, receiveShadow);
+                                break;
+                            case 'powerup':
+                                primitive = createPowerup(child.representations[0], material, castShadow, receiveShadow);
                                 break;
                             default:
                                 throw new Error('Invalid primitive type ' + child.subtype);
@@ -431,7 +435,16 @@ const createObstacle = function(parameters, material, castShadow, receiveShadow)
 
     return obstacle;
 }
+const createPowerup = function(parameters, material, castShadow, receiveShadow){
+    if(material == null || material == undefined){
+        throw new Error("Error in function createPowerup. Lack of material");  
+    }
 
+    let newMaterial = loadMaterials.createMaterial(material, 1, 1);
+    let powerup = new MyPowerUp(parameters, newMaterial, castShadow, receiveShadow);
+
+    return powerup;
+}
 const createRoute = function(parameters, routeID, material, castShadow, receiveShadow){
     if(material == null || material == undefined){
         throw new Error("Error in function createRoute. Lack of material");  
