@@ -132,8 +132,9 @@ class MyBalloon extends THREE.Object3D {
     }
 
     checkCollision(object){
-        if (this.balloonBB && object) {
-          const isIntersecting = this.balloonBB.intersectsBox(object);
+        const objectBB = object.getBoundingVolume()
+        if (this.balloonBB && objectBB) {
+          const isIntersecting = this.balloonBB.intersectsBox(objectBB);
     
           if (isIntersecting && !this.isColliding) {
             this.isColliding = true;
@@ -147,6 +148,6 @@ class MyBalloon extends THREE.Object3D {
     
         }
         return false;
-      }
+    }
 }
 export { MyBalloon };

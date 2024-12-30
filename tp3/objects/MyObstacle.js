@@ -89,8 +89,15 @@ class MyObstacle extends THREE.Object3D {
         this.rocket.castShadow = castShadow ?? false;
         this.rocket.receiveShadow = receiveShadow ?? false;
 
+        this.obstacleBB = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+        this.obstacleBB.setFromObject(this.rocket, true);
+
         this.add(this.rocket);
        
+    }
+
+    getBoundingVolume(){
+        return this.obstacleBB;
     }
 
 }
