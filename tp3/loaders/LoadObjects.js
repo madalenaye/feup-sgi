@@ -15,6 +15,8 @@ import { MyPowerUp } from '../objects/MyPowerUp.js';
 export const objects = [];
 export const lights = [];
 export const routes = {};
+export const obstacles = {};
+export const powerups = {};
 export const loadObjects = {
 
     /**
@@ -29,6 +31,8 @@ export const loadObjects = {
         if (root == null) return
         let scene = dealWithNodes(root, null, materials)
         scene.updateMatrixWorld(true);
+        this.createBoundingVolumes(obstacles);
+        this.createBoundingVolumes(powerups);
         return scene
     },
 
@@ -52,6 +56,23 @@ export const loadObjects = {
 
     getRoutes: function(){
         return routes;
+    },
+
+    getObstacles: function(){
+        return obstacles;
+    },
+
+    getPowerups: function(){
+        return powerups;
+    },
+
+    createBoundingVolumes: function (objects){
+        if(objects){
+            for (const key in objects) {
+                    const object = objects[key];
+                    object.createBoundingVolume();
+            }
+        }
     }
 
 }
@@ -153,13 +174,13 @@ const dealWithNodes = function(node, materialId=null, materials){
                                 primitive = createTrack(child.representations[0], material, castShadow, receiveShadow);
                                 break;
                             case 'obstacle':
-                                primitive = createObstacle(child.representations[0], material, castShadow, receiveShadow);
+                                primitive = createObstacle(child.representations[0], node.id, material, castShadow, receiveShadow);
                                 break;
                             case "route":
                                 primitive = createRoute(child.representations[0], node.id, material, castShadow, receiveShadow);
                                 break;
                             case 'powerup':
-                                primitive = createPowerup(child.representations[0], material, castShadow, receiveShadow);
+                                primitive = createPowerup(child.representations[0], node.id, material, castShadow, receiveShadow);
                                 break;
                             default:
                                 throw new Error('Invalid primitive type ' + child.subtype);
@@ -427,23 +448,25 @@ const createTrack = function(parameters, material, castShadow, receiveShadow){
     return track;
 }
 
-const createObstacle = function(parameters, material, castShadow, receiveShadow, group){
+const createObstacle = function(parameters, obstacleID, material, castShadow, receiveShadow, group){
     if(material == null || material == undefined){
         throw new Error("Error in function createObstacle. Lack of material");  
     }
 
     let newMaterial = loadMaterials.createMaterial(material, 1, 1);
     let obstacle = new MyObstacle(parameters, newMaterial, castShadow, receiveShadow);
+    obstacles[obstacleID] = obstacle;
 
     return obstacle;
 }
-const createPowerup = function(parameters, material, castShadow, receiveShadow){
+const createPowerup = function(parameters, powerupID, material, castShadow, receiveShadow){
     if(material == null || material == undefined){
         throw new Error("Error in function createPowerup. Lack of material");  
     }
 
     let newMaterial = loadMaterials.createMaterial(material, 1, 1);
     let powerup = new MyPowerUp(parameters, newMaterial, castShadow, receiveShadow);
+    powerups[powerupID] = powerup;
 
     return powerup;
 }
