@@ -13,7 +13,6 @@ import { loadTextures } from './loaders/LoadTextures.js';
 import { loadMaterials } from './loaders/LoadMaterials.js';
 import {loadObjects} from './loaders/LoadObjects.js';
 import { MyBalloon } from './objects/MyBalloon.js';
-import { MyPowerUp } from './objects/MyPowerUp.js';
 
 
 /**
@@ -23,6 +22,21 @@ import { MyPowerUp } from './objects/MyPowerUp.js';
 
 class MyContents {
 
+    // todo
+    layers = {
+        NONE: 0,
+        MENU: 1,
+        USER_BALLOON: 2,
+        ENEMY_BALLOON: 3,   
+    }
+    // todo
+    state = {
+        GAME: 0,
+        MENU: 1,
+        GAME_OVER: 2,
+        USER_BALLOON: 3,
+        ENEMY_BALLOON: 4
+    }
     /**
        constructs the object
        @constructor
@@ -140,46 +154,6 @@ class MyContents {
     update() {
     }
 
-    /**
-     * Enables wireframe mode for all objects in the scene by setting the `wireframe` property
-     * of their materials to `true`.
-     * @method
-     */
-    activeWireframe(){
-        for (let object of this.objects) {
-            if (object.material) { 
-                let materials = object.material;
-                if (Array.isArray(materials)) {
-                    for (let material of materials) {
-                        material.wireframe = true;
-                    }
-                } else {
-                    materials.wireframe = true;
-                }
-            }
-            
-        }
-    }
-
-    /**
-     * Disables wireframe mode for all objects in the scene by setting the `wireframe` property
-     * of their materials to `false`.
-     * @method
-     */
-    disableWireframe(){
-        for (let object of this.objects) {
-            if (object.material) { 
-                let materials = object.material;
-                if (Array.isArray(materials)) {
-                    for (let material of materials) {
-                        material.wireframe = false;
-                    }
-                } else {
-                    materials.wireframe = false;
-                }
-            }
-        }
-    }
 
     turnOnLights(){
         for (let i of this.lights){
@@ -192,36 +166,38 @@ class MyContents {
         }
     }
 
+    /**
+     * Initializes the balloons
+     * @method
+     */
     initBalloons(){
-        this.texture = this.textureLoader.load('./scenes/textures/balloon_1.png');
-        this.balloonMaterial = new THREE.MeshStandardMaterial({ map: this.texture, roughness: 1, metalness: 0.5, transparent:true, opacity:0.8, side: THREE.DoubleSide });
-        this.balloon1 = new MyBalloon(4, this.balloonMaterial, 0x550b3d);
-        this.app.scene.add(this.balloon1);
-        this.balloon1.position.set(-47, 15, 5);
-
-        this.texture1 = this.textureLoader.load('./scenes/textures/balloon_2.png');
-        this.balloonMaterial1 = new THREE.MeshStandardMaterial({ map: this.texture1, roughness: 1, metalness: 0.5, transparent:true, opacity:0.8, side: THREE.DoubleSide });
-        this.balloon2 = new MyBalloon(4, this.balloonMaterial1, 0x37505A, 2);
-        this.app.scene.add(this.balloon2);
-        this.balloon2.position.set(-47, 15, 17);
-
-        this.texture2 = this.textureLoader.load('./scenes/textures/balloon_3.png');
-        this.balloonMaterial2 = new THREE.MeshStandardMaterial({ map: this.texture2, roughness: 1, metalness: 0.5, transparent:true, opacity:0.8, side: THREE.DoubleSide });
-        this.balloon3 = new MyBalloon(4, this.balloonMaterial2, 0x4F5D4A, 1);
-        this.app.scene.add(this.balloon3);
-        this.balloon3.position.set(-47, 15, 29);
-
-        this.balloon4 = new MyBalloon(4, this.balloonMaterial, 0x550b3d);
-        this.app.scene.add(this.balloon4);
-        this.balloon4.position.set(-28, 15, 47);
-
-        this.balloon5 = new MyBalloon(4, this.balloonMaterial1, 0x37505A, 2);
-        this.app.scene.add(this.balloon5);
-        this.balloon5.position.set(-16, 15, 47);
-
-        this.balloon6 = new MyBalloon(4, this.balloonMaterial2, 0x4F5D4A, 1);
-        this.app.scene.add(this.balloon6);
-        this.balloon6.position.set(-4, 15, 47);
+        const balloonConfigs = [
+            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-47, 15, 5] },
+            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-47, 15, 17], type: 2 },
+            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-47, 15, 29], type: 1 },
+            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-28, 15, 47] },
+            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-16, 15, 47], type: 2 },
+            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-4, 15, 47], type: 1 },
+        ];
+        
+        this.balloons = [];
+        
+        balloonConfigs.forEach((config, index) => {
+            const texture = this.textureLoader.load(config.texturePath);
+            const material = new THREE.MeshStandardMaterial({
+                map: texture,
+                roughness: 1,
+                metalness: 0.5,
+                transparent: true,
+                opacity: 0.8,
+                side: THREE.DoubleSide,
+            });
+            const balloon = new MyBalloon(4, material, config.color, config.type || 0);
+            balloon.position.set(...config.position);
+            this.app.scene.add(balloon);
+            this.balloons[index] = balloon;
+        });
+        
     }
 }
 
