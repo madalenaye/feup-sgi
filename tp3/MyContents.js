@@ -229,35 +229,32 @@ class MyContents {
         console.log(intersects[0]);
         if (intersects.length > 0) {  
             const obj = intersects[0].object;
-            if (obj.parent.name.split("_")[0] === "player" || obj.parent.name.split("_")[0] === "enemy") {
-                const object = obj.parent;
-                switch (this.currentState) {
-                    case this.state.USER_BALLOON:
-                        console.log("User balloon state");
-                        this.userSelectionBalloon(object);
-                        break;
-                    case this.state.ENEMY_BALLOON:
-                        this.enemySelectionBalloon(object);
-                        break;
-                    default:
-                        break;
-                }
+            switch (this.currentState) {
+                case this.state.USER_BALLOON:
+                    console.log("User balloon state");
+                    this.userSelectionBalloon(obj);
+                    break;
+                case this.state.ENEMY_BALLOON:
+                    this.enemySelectionBalloon(obj);
+                    break;
+                default:
+                    break;
             }
         }
     }
     userSelectionBalloon(obj) {
-        switch (obj.name.split("_")[0]) {
+        switch (obj.parent.name.split("_")[0]) {
             case "player":
-                this.playerBalloon = obj;
+                this.playerBalloon = obj.parent;
                 this.previousPlayerBalloon = this.playerBalloon;
                 console.log("Player balloon selected: " + this.playerBalloon.name);
                 break;
         }
     }
     enemySelectionBalloon(obj) {
-        switch (obj.name.split("_")[0]) {
+        switch (obj.parent.name.split("_")[0]) {
             case "enemy":
-                this.enemyBalloon = obj;
+                this.enemyBalloon = obj.parent;
                 this.previousEnemyBalloon = this.enemyBalloon;
                 console.log("Enemy balloon selected: " + this.enemyBalloon.name);
                 break;
