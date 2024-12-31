@@ -68,7 +68,7 @@ class MyRoute extends THREE.Object3D {
     
         const positionKF = new THREE.VectorKeyframeTrack('.position', this.times, positionKeyframes, THREE.InterpolateSmooth);
     
-        const quaternionKF = new THREE.QuaternionKeyframeTrack('.quaternion', this.times, quaternionKeyframes, THREE.InterpolateSmooth);
+        const quaternionKF = new THREE.QuaternionKeyframeTrack('.quaternion', this.times, quaternionKeyframes);
     
         const positionClip = new THREE.AnimationClip('positionAndRotationAnimation', this.times[this.times.length - 1], [positionKF, quaternionKF]);
     

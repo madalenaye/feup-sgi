@@ -136,7 +136,7 @@ class MyBalloon extends THREE.Object3D {
 
     }
 
-    updateBoundingBox_Balloon(){
+    updateBoundingBoxBalloon(){
         if(this.groupBalloon){
           this.balloonBB.setFromObject(this.groupBalloon, true);
           this.balloonBB_box.setFromObject(this.basketGroup, true);
@@ -178,6 +178,26 @@ class MyBalloon extends THREE.Object3D {
         }
     
         return false;
+    }
+
+    checkCollisionObstacles(obstacles){
+        for (const key in obstacles){
+            const obstacle = obstacles[key];
+            let value = this.checkCollision(obstacle);
+            if(value){
+                //TODO: obstacle logic
+            }
+        }
+    }
+
+    checkCollisionPowerups(powerups){
+        for (const key in powerups){
+            const powerup = powerups[key];
+            let value = this.checkCollision(powerup);
+            if(value){
+                //TODO: powerup logic
+            }
+        }        
     }
 }
 export { MyBalloon };
