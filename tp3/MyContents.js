@@ -33,6 +33,8 @@ class MyContents {
         this.axis = null
         this.objects = null
         this.lights = null;
+        this.balloons = {}
+        this.textureLoader = new THREE.TextureLoader();
 
         this.reader = new MyFileReader(this.onSceneLoaded.bind(this));
         this.reader.open("scenes/GameScene.json");
@@ -51,25 +53,18 @@ class MyContents {
             this.axis.visible = false
         }
 
-        this.texture = new THREE.TextureLoader().load('./scenes/textures/balloon_1.png');
-        this.texture.wrapS = THREE.RepeatWrapping;
-        this.texture.wrapT = THREE.RepeatWrapping;
-        this.texture.repeat.set(1, 1);
+        // init balloons
+        this.initBalloons()
 
-        this.balloonMaterial = new THREE.MeshStandardMaterial({ map: this.texture, roughness: 1, metalness: 0.5, transparent:true, opacity:0.8, side: THREE.DoubleSide });
-
-        this.balloon = new MyBalloon(4, this.balloonMaterial, 0x550b3d);
-        this.app.scene.add(this.balloon);
-        this.balloon.position.set(-47, 15, 5);
         
-        this.powerupTex = new THREE.TextureLoader().load('./scenes/textures/powerup.png');
-        this.powerupTex.wrapS = THREE.RepeatWrapping;
-        this.powerupTex.wrapT = THREE.RepeatWrapping;
-        this.powerupTex.repeat.set(1, 1);
-        this.powerupMaterial = new THREE.MeshStandardMaterial({ map: this.powerupTex, roughness: 1, side: THREE.DoubleSide });
-        this.powerup = new MyPowerUp({width: 2}, this.powerupMaterial, true, true);
-        this.powerup.position.set(0, 5, 25);
-        this.app.scene.add(this.powerup);
+        // this.powerupTex = new THREE.TextureLoader().load('./scenes/textures/powerup.png');
+        // this.powerupTex.wrapS = THREE.RepeatWrapping;
+        // this.powerupTex.wrapT = THREE.RepeatWrapping;
+        // this.powerupTex.repeat.set(1, 1);
+        // this.powerupMaterial = new THREE.MeshStandardMaterial({ map: this.powerupTex, roughness: 1, side: THREE.DoubleSide });
+        // this.powerup = new MyPowerUp({width: 2}, this.powerupMaterial, true, true);
+        // this.powerup.position.set(0, 5, 25);
+        // this.app.scene.add(this.powerup);
     }
 
     /**
@@ -195,6 +190,38 @@ class MyContents {
         for (let i of this.lights){
             i.visible = false
         }
+    }
+
+    initBalloons(){
+        this.texture = this.textureLoader.load('./scenes/textures/balloon_1.png');
+        this.balloonMaterial = new THREE.MeshStandardMaterial({ map: this.texture, roughness: 1, metalness: 0.5, transparent:true, opacity:0.8, side: THREE.DoubleSide });
+        this.balloon1 = new MyBalloon(4, this.balloonMaterial, 0x550b3d);
+        this.app.scene.add(this.balloon1);
+        this.balloon1.position.set(-47, 15, 5);
+
+        this.texture1 = this.textureLoader.load('./scenes/textures/balloon_2.png');
+        this.balloonMaterial1 = new THREE.MeshStandardMaterial({ map: this.texture1, roughness: 1, metalness: 0.5, transparent:true, opacity:0.8, side: THREE.DoubleSide });
+        this.balloon2 = new MyBalloon(4, this.balloonMaterial1, 0x37505A, 2);
+        this.app.scene.add(this.balloon2);
+        this.balloon2.position.set(-47, 15, 17);
+
+        this.texture2 = this.textureLoader.load('./scenes/textures/balloon_3.png');
+        this.balloonMaterial2 = new THREE.MeshStandardMaterial({ map: this.texture2, roughness: 1, metalness: 0.5, transparent:true, opacity:0.8, side: THREE.DoubleSide });
+        this.balloon3 = new MyBalloon(4, this.balloonMaterial2, 0x4F5D4A, 1);
+        this.app.scene.add(this.balloon3);
+        this.balloon3.position.set(-47, 15, 29);
+
+        this.balloon4 = new MyBalloon(4, this.balloonMaterial, 0x550b3d);
+        this.app.scene.add(this.balloon4);
+        this.balloon4.position.set(-28, 15, 47);
+
+        this.balloon5 = new MyBalloon(4, this.balloonMaterial1, 0x37505A, 2);
+        this.app.scene.add(this.balloon5);
+        this.balloon5.position.set(-16, 15, 47);
+
+        this.balloon6 = new MyBalloon(4, this.balloonMaterial2, 0x4F5D4A, 1);
+        this.app.scene.add(this.balloon6);
+        this.balloon6.position.set(-4, 15, 47);
     }
 }
 
