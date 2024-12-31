@@ -52,8 +52,29 @@ class MyContents {
 
         this.reader = new MyFileReader(this.onSceneLoaded.bind(this));
         this.reader.open("scenes/GameScene.json");
-    }
 
+        // Picking
+        this.raycaster = new THREE.Raycaster();
+        this.raycaster.near = 0.1;
+        this.raycaster.far = 20;
+
+        this.pointer = new THREE.Vector2();
+        this.intersected = null;
+        this.pickingColor = "0x00ff00"
+
+        this.selectedLayer = this.layers.NONE;
+        //document.addEventListener('pointermove', this.onPointerMove.bind(this));
+        document.addEventListener('pointerdown', this.onPointerDown.bind(this));
+
+        this.playerBalloon = null;
+        this.enemyBalloon = null;
+        this.previousPlayerBalloon = null;
+        this.previousEnemyBalloon = null;
+
+        // provisório
+        this.currentState = this.state.USER_BALLOON;
+
+    }
     /**
      * initializes the contents
      * @method
@@ -138,7 +159,6 @@ class MyContents {
         this.app.scene.fog = globalsStructure.fog
         this.app.scene.add(globalsStructure.skybox);
 
-
         let textures = loadTextures.loadTextures(data.getTextures());
         let organizeMaterials = loadMaterials.organizeProperties(textures, data.getMaterials());
         let rootId = data.getRootId();
@@ -172,12 +192,12 @@ class MyContents {
      */
     initBalloons(){
         const balloonConfigs = [
-            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-47, 15, 5] },
-            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-47, 15, 17], type: 2 },
-            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-47, 15, 29], type: 1 },
-            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-28, 15, 47] },
-            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-16, 15, 47], type: 2 },
-            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-4, 15, 47], type: 1 },
+            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-47, 15, 5], type: 0, name: "player_balloon1" },
+            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-47, 15, 17], type: 2, name: "player_balloon2" },
+            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-47, 15, 29], type: 1, name: "player_balloon3" },
+            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-28, 15, 47], type: 0, name: "enemy_balloon1" },
+            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-16, 15, 47], type: 2, name: "enemy_balloon2" },
+            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-4, 15, 47], type: 1, name: "enemy_balloon3" },
         ];
         
         this.balloons = [];
@@ -192,12 +212,52 @@ class MyContents {
                 opacity: 0.8,
                 side: THREE.DoubleSide,
             });
-            const balloon = new MyBalloon(4, material, config.color, config.type || 0);
+            const balloon = new MyBalloon(4, material, config.color, config.type || 0, config.name);
             balloon.position.set(...config.position);
             this.app.scene.add(balloon);
             this.balloons[index] = balloon;
         });
         
+    }
+    onPointerDown(event) {
+        this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+        this.pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
+        console.log("Position x: " + this.pointer.x + " y: " + this.pointer.y);
+        this.raycaster.setFromCamera(this.pointer, this.app.activeCamera);
+        var intersects = this.raycaster.intersectObjects(this.app.scene.children);
+
+        if (intersects.length > 0) {  
+            const obj = intersects[0].object;
+            switch (this.currentState) {
+                case this.state.USER_BALLOON:
+                    console.log("User balloon state");
+                    this.userSelectionBalloon(obj);
+                    break;
+                case this.state.ENEMY_BALLOON:
+                    this.enemySelectionBalloon(obj);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    userSelectionBalloon(obj) {
+        switch (obj.name.split("_")[0]) {
+            case "player":
+                this.playerBalloon = obj;
+                this.previousPlayerBalloon = this.playerBalloon;
+                console.log("Player balloon selected: " + this.playerBalloon.name);
+                break;
+        }
+    }
+    enemySelectionBalloon(obj) {
+        switch (obj.name.split("_")[0]) {
+            case "enemy":
+                this.enemyBalloon = obj;
+                this.previousEnemyBalloon = this.enemyBalloon;
+                console.log("Enemy balloon selected: " + this.enemyBalloon.name);
+                break;
+        }
     }
 }
 

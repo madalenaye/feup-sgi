@@ -4,7 +4,7 @@ import { LineMaterial } from "three/addons/lines/LineMaterial.js";
 
 class MyBalloon extends THREE.Object3D {
 
-    constructor(radius, material, baseColor, type) {
+    constructor(radius, material, baseColor, type, name) {
         super();
         this.radius = radius;
         this.basketRadius = radius/3;
@@ -12,6 +12,7 @@ class MyBalloon extends THREE.Object3D {
         this.baseColor = baseColor;
         this.isCollidingMap = new Map();
         this.type = type;
+        this.name = name;
         
         this.buildBalloon();
     }
@@ -51,7 +52,7 @@ class MyBalloon extends THREE.Object3D {
             this.balloon.scale.set(0.6, 1,0.6)
             this.balloonBaseEdges.scale.set(0.5, 0.5,0.5)
         }
-        
+
         this.groupBalloon.add(this.balloon);
         // Basket
 
