@@ -87,6 +87,10 @@
                 "filepath": "scenes/textures/tar.jpg",
                 "isVideo": false
             },
+            "tarbot_t":{
+                "filepath": "scenes/textures/tarBot.png",
+                "isVideo": false
+            },
             "aluminium_t":{
                 "filepath": "scenes/textures/aluminium.jpg",
                 "isVideo": false
@@ -211,6 +215,30 @@
                 "opacity": 1.0,
                 "twosided": true
             },
+            "tarbot_m":{
+                "color": {
+                    "r": 0.3,
+                    "g": 0.3,
+                    "b": 0.3
+                },
+                "emissive": {
+                    "r": 0.05,
+                    "g": 0.05,
+                    "b": 0.05
+                },
+                "specular": {
+                    "r": 0.4,
+                    "g": 0.4,
+                    "b": 0.4
+                },
+                "textureref": "tarbot_t",
+                "texlength_s": 1.0,
+                "texlength_t": 1.0,
+                "shininess": 15.0,
+                "transparent": false,
+                "opacity": 1.0,
+                "twosided": true
+            },
             "aluminium_m":{
                 "color": {
                     "r": 0.8,
@@ -242,7 +270,7 @@
             "scene": {
                 "type": "node",
                 "children": {
-                    "nodesList": ["floor", "bottom_floor", "right_soil", "left_soil", "front_soil", "back_soil", "track_1", "park_1", "park_2", "park_3", "park_4"],
+                    "nodesList": ["floor", "bottom_floor", "right_soil", "left_soil", "front_soil", "back_soil", "track_1", "park_1", "park_2", "park_3", "park_4", "park_5", "park_6"],
                     "point_light": {
                         "type": "pointlight",
                         "enabled": true,
@@ -964,7 +992,7 @@
                     "materialId": "aluminium_m"
                 },
                 "children": {
-                    "nodesList": ["base_cylinder", "plataform"]
+                    "nodesList": ["base_cylinder", "platform"]
                 }
             },
             "park_2":{
@@ -975,7 +1003,7 @@
                         "amount": {
                             "x": -47.0,
                             "y": 0.0,
-                            "z": 25.0
+                            "z": 17.0
                         }
                     }
                 ],
@@ -983,7 +1011,7 @@
                     "materialId": "aluminium_m"
                 },
                 "children": {
-                    "nodesList": ["base_cylinder", "plataform"]
+                    "nodesList": ["base_cylinder", "platform"]
                 }
             },
             "park_3":{
@@ -992,9 +1020,9 @@
                     {
                         "type": "translate",
                         "amount": {
-                            "x": -38.0,
+                            "x": -47.0,
                             "y": 0.0,
-                            "z": 47.0
+                            "z": 29.0
                         }
                     }
                 ],
@@ -1002,7 +1030,7 @@
                     "materialId": "aluminium_m"
                 },
                 "children": {
-                    "nodesList": ["base_cylinder", "plataform_2"]
+                    "nodesList": ["base_cylinder", "platform"]
                 }
             },
             "park_4":{
@@ -1011,7 +1039,7 @@
                     {
                         "type": "translate",
                         "amount": {
-                            "x": -18.0,
+                            "x": -28.0,
                             "y": 0.0,
                             "z": 47.0
                         }
@@ -1021,7 +1049,45 @@
                     "materialId": "aluminium_m"
                 },
                 "children": {
-                    "nodesList": ["base_cylinder", "plataform_2"]
+                    "nodesList": ["base_cylinder", "platform_2"]
+                }
+            },
+            "park_5":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -16.0,
+                            "y": 0.0,
+                            "z": 47.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "aluminium_m"
+                },
+                "children": {
+                    "nodesList": ["base_cylinder", "platform_2"]
+                }
+            },
+            "park_6":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -4.0,
+                            "y": 0.0,
+                            "z": 47.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "aluminium_m"
+                },
+                "children": {
+                    "nodesList": ["base_cylinder", "platform_2"]
                 }
             },
             "base_cylinder":{
@@ -1031,7 +1097,7 @@
                         "type": "translate",
                         "amount": {
                             "x": 0.0,
-                            "y": 6.5,
+                            "y": 6.4,
                             "z": 0.0
                         }
                     }
@@ -1049,7 +1115,7 @@
                     }
                 }
             },
-            "plataform":{
+            "platform":{
                 "type": "node",
                 "transforms": [
                     {
@@ -1073,7 +1139,7 @@
                     "materialId": "tar_m"
                 },
                 "children": {
-                    "plataform_prim": {
+                    "platform_prim": {
                         "type": "box",
                         "xyz1": {
                             "x": -5,
@@ -1088,7 +1154,7 @@
                     }
                 }
             },
-            "plataform_2":{
+            "platform_2":{
                 "type": "node",
                 "transforms": [
                     {
@@ -1109,10 +1175,10 @@
                     }
                 ],
                 "materialref": {
-                    "materialId": "tar_m"
+                    "materialId": "tarbot_m"
                 },
                 "children": {
-                    "plataform_prim": {
+                    "platform_prim": {
                         "type": "box",
                         "xyz1": {
                             "x": -5,
