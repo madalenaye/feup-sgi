@@ -118,17 +118,42 @@ class MyBalloon extends THREE.Object3D {
 
         this.groupBalloon.add(this.basketGroup);
 
+        this.add(this.groupBalloon);
+
+    }
+
+    createBoundingVolume(){
+        this.matrixWorldNeedsUpdate = true;
+        this.updateMatrixWorld(true);
         this.balloonBB = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
         this.balloonBB.setFromObject(this.groupBalloon, true);
 
-        this.add(this.groupBalloon);
+        this.balloonBB_box = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+        this.balloonBB_box.setFromObject(this.basketGroup, true);
+
+        this.balloonBB_sphere = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+        this.balloonBB_sphere.setFromObject(this.balloon, true);
 
     }
 
     updateBoundingBox_Balloon(){
         if(this.groupBalloon){
           this.balloonBB.setFromObject(this.groupBalloon, true);
+          this.balloonBB_box.setFromObject(this.basketGroup, true);
+          this.balloonBB_sphere.setFromObject(this.balloon, true);
         }
+    }
+
+    exhaustiveTest(objectBB){
+        if (this.balloonBB_box.intersectsBox(objectBB)) {
+            return true;
+        }
+    
+        if (this.balloonBB_sphere.intersectsBox(objectBB)) {
+            return true;
+        }
+
+        return false;
     }
     
     checkCollision(object) {
@@ -141,8 +166,9 @@ class MyBalloon extends THREE.Object3D {
           const wasColliding = this.isCollidingMap.get(objectID) || false;
     
           if (isIntersecting && !wasColliding) {
-            this.isCollidingMap.set(objectID, true);
-            return true; 
+            const detailedCollision = this.exhaustiveTest(objectBB);
+            this.isCollidingMap.set(objectID, detailedCollision);
+            return detailedCollision; 
           }
     
           if (!isIntersecting) {
@@ -152,6 +178,6 @@ class MyBalloon extends THREE.Object3D {
         }
     
         return false;
-      }
+    }
 }
 export { MyBalloon };
