@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { LineSegments2 } from "three/addons/lines/LineSegments2.js";
 import { LineMaterial } from "three/addons/lines/LineMaterial.js";
-import { WireframeGeometry2 } from "three/addons/lines/WireframeGeometry2.js";
 
 class MyBalloon extends THREE.Object3D {
 
@@ -24,26 +23,18 @@ class MyBalloon extends THREE.Object3D {
         // Base
         const balloonBaseHeight = this.radius * 0.4;
         const balloonBaseRadius = this.radius * 0.75;
-        this.balloonBaseGeometry = new THREE.CylinderGeometry(balloonBaseRadius, this.basketRadius, balloonBaseHeight, 32, 3, true);
-        this.balloonBaseMaterial = new THREE.MeshStandardMaterial({ color: this.baseColor, roughness: 1 });
+        this.balloonBaseGeometry = new THREE.CylinderGeometry(balloonBaseRadius, this.basketRadius, balloonBaseHeight, 32, 16, true);
         
-        const wireframeGeometry = new WireframeGeometry2(this.balloonBaseGeometry);
+        const edgesGeometry = new THREE.EdgesGeometry(this.balloonBaseGeometry);
 
-        const wireframeMaterial = new LineMaterial({
-            color: this.baseColor, 
-            linewidth: 0.3,
-            dashed: false
+        const edgesMaterial = new THREE.LineBasicMaterial({
+            color: this.baseColor,
         });
-        
-        this.balloonBaseWireframe = new LineSegments2(wireframeGeometry, wireframeMaterial);
      
-        this.balloonBaseWireframe.computeLineDistances();
-        wireframeMaterial.resolution.set(window.innerWidth, window.innerHeight);
-        
-        this.groupBalloon.add(this.balloonBaseWireframe);
-        
-        this.groupBalloon.add(this.balloonBase);
-        
+        this.balloonBaseEdges = new THREE.LineSegments(edgesGeometry, edgesMaterial);
+        this.balloonBaseEdges.computeLineDistances();
+        this.groupBalloon.add(this.balloonBaseEdges);
+    
         
         // Balloon
         this.balloonGeometry = new THREE.SphereGeometry(this.radius, 32, 32, 0, Math.PI * 2, 0, Math.PI * 0.8);
