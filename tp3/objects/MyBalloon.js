@@ -1,6 +1,4 @@
 import * as THREE from 'three';
-import { LineSegments2 } from "three/addons/lines/LineSegments2.js";
-import { LineMaterial } from "three/addons/lines/LineMaterial.js";
 
 class MyBalloon extends THREE.Object3D {
 
@@ -19,6 +17,7 @@ class MyBalloon extends THREE.Object3D {
     buildBalloon() {
 
         this.groupBalloon = new THREE.Group();
+        this.groupBalloon.name = this.name;
 
         /* Balloon */
 
@@ -84,14 +83,13 @@ class MyBalloon extends THREE.Object3D {
         this.basket.rotation.set(Math.PI/2, 0, 0);
         this.basket.position.set(0, -balloonBaseHeight, 0);
 
-        this.basketGroup = new THREE.Group();
-        this.basketGroup.add(this.basket);
+        this.groupBalloon.add(this.basket);
 
         // Basket base  
         this.basketBaseGeometry = new THREE.CylinderGeometry(this.basketRadius, this.basketRadius, 0.04, 32);
         this.basketBase = new THREE.Mesh(this.basketBaseGeometry, this.basketMaterial);
         this.basketBase.position.set(0, -balloonBaseHeight - extrudeSettings.depth - 0.02, 0);
-        this.basketGroup.add(this.basketBase);
+        this.groupBalloon.add(this.basketBase);
 
         // Strings
         const numStrings = 5;
@@ -117,10 +115,7 @@ class MyBalloon extends THREE.Object3D {
 
             this.stringGroup.add(string);
         }
-        this.basketGroup.add(this.stringGroup);
-
-        this.groupBalloon.add(this.basketGroup);
-
+        this.groupBalloon.add(this.stringGroup);
         this.add(this.groupBalloon);
 
     }

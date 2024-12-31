@@ -56,7 +56,7 @@ class MyContents {
         // Picking
         this.raycaster = new THREE.Raycaster();
         this.raycaster.near = 0.1;
-        this.raycaster.far = 20;
+        this.raycaster.far = 40;
 
         this.pointer = new THREE.Vector2();
         this.intersected = null;
@@ -225,19 +225,23 @@ class MyContents {
         console.log("Position x: " + this.pointer.x + " y: " + this.pointer.y);
         this.raycaster.setFromCamera(this.pointer, this.app.activeCamera);
         var intersects = this.raycaster.intersectObjects(this.app.scene.children);
-
+        console.log("Intersects: " + intersects.length);
+        console.log(intersects[0]);
         if (intersects.length > 0) {  
             const obj = intersects[0].object;
-            switch (this.currentState) {
-                case this.state.USER_BALLOON:
-                    console.log("User balloon state");
-                    this.userSelectionBalloon(obj);
-                    break;
-                case this.state.ENEMY_BALLOON:
-                    this.enemySelectionBalloon(obj);
-                    break;
-                default:
-                    break;
+            if (obj.parent.name.split("_")[0] === "player" || obj.parent.name.split("_")[0] === "enemy") {
+                const object = obj.parent;
+                switch (this.currentState) {
+                    case this.state.USER_BALLOON:
+                        console.log("User balloon state");
+                        this.userSelectionBalloon(object);
+                        break;
+                    case this.state.ENEMY_BALLOON:
+                        this.enemySelectionBalloon(object);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
