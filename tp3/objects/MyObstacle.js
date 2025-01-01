@@ -4,9 +4,9 @@ class MyObstacle extends THREE.Object3D {
 
     constructor(parameters, material, castShadow, receiveShadow) {
         super();
-        this.height = 2.0;
-        this.radius = 1.0;
-        this.penalty = 9.0;
+        this.height = parameters.height;
+        this.radius = parameters.radius;
+        this.penalty = parameters.penalty;
         this.obstacleBB = null;
 
         this.rocket = new THREE.Group();
