@@ -13,7 +13,6 @@ import { loadTextures } from './loaders/LoadTextures.js';
 import { loadMaterials } from './loaders/LoadMaterials.js';
 import {loadObjects} from './loaders/LoadObjects.js';
 import { MyBalloon } from './objects/MyBalloon.js';
-import { MyPowerUp } from './objects/MyPowerUp.js';
 
 
 /**
@@ -23,6 +22,21 @@ import { MyPowerUp } from './objects/MyPowerUp.js';
 
 class MyContents {
 
+    // todo
+    layers = {
+        NONE: 0,
+        MENU: 1,
+        USER_BALLOON: 2,
+        ENEMY_BALLOON: 3,   
+    }
+    // todo
+    state = {
+        GAME: 0,
+        MENU: 1,
+        GAME_OVER: 2,
+        USER_BALLOON: 3,
+        ENEMY_BALLOON: 4
+    }
     /**
        constructs the object
        @constructor
@@ -33,11 +47,34 @@ class MyContents {
         this.axis = null
         this.objects = null
         this.lights = null;
+        this.balloons = {}
+        this.textureLoader = new THREE.TextureLoader();
 
         this.reader = new MyFileReader(this.onSceneLoaded.bind(this));
         this.reader.open("scenes/GameScene.json");
-    }
 
+        // Picking
+        this.raycaster = new THREE.Raycaster();
+        this.raycaster.near = 0.1;
+        this.raycaster.far = 40;
+
+        this.pointer = new THREE.Vector2();
+        this.intersected = null;
+        this.pickingColor = "0x00ff00"
+
+        this.selectedLayer = this.layers.NONE;
+        document.addEventListener('pointermove', this.onPointerMove.bind(this));
+        document.addEventListener('pointerdown', this.onPointerDown.bind(this));
+
+        this.playerBalloon = null;
+        this.enemyBalloon = null;
+        this.previousPlayerBalloon = null;
+        this.previousEnemyBalloon = null;
+
+        // provisório
+        this.currentState = this.state.USER_BALLOON;
+
+    }
     /**
      * initializes the contents
      * @method
@@ -50,6 +87,19 @@ class MyContents {
             this.app.scene.add(this.axis)
             this.axis.visible = false
         }
+
+        // init balloons
+        this.initBalloons()
+
+        
+        // this.powerupTex = new THREE.TextureLoader().load('./scenes/textures/powerup.png');
+        // this.powerupTex.wrapS = THREE.RepeatWrapping;
+        // this.powerupTex.wrapT = THREE.RepeatWrapping;
+        // this.powerupTex.repeat.set(1, 1);
+        // this.powerupMaterial = new THREE.MeshStandardMaterial({ map: this.powerupTex, roughness: 1, side: THREE.DoubleSide });
+        // this.powerup = new MyPowerUp({width: 2}, this.powerupMaterial, true, true);
+        // this.powerup.position.set(0, 5, 25);
+        // this.app.scene.add(this.powerup);
     }
 
     /**
@@ -109,7 +159,6 @@ class MyContents {
         this.app.scene.fog = globalsStructure.fog
         this.app.scene.add(globalsStructure.skybox);
 
-
         let textures = loadTextures.loadTextures(data.getTextures());
         let organizeMaterials = loadMaterials.organizeProperties(textures, data.getMaterials());
         let rootId = data.getRootId();
@@ -119,72 +168,12 @@ class MyContents {
 
         this.lights = loadObjects.getLights();
         this.app.scene.add(myScene);
-
-        this.texture = new THREE.TextureLoader().load('./scenes/textures/balloon_1.png');
-        this.texture.wrapS = THREE.RepeatWrapping;
-        this.texture.wrapT = THREE.RepeatWrapping;
-        this.texture.repeat.set(1, 1);
-
-        this.balloonMaterial = new THREE.MeshStandardMaterial({ map: this.texture, roughness: 1, metalness: 0.5, transparent:true, opacity:0.8, side: THREE.DoubleSide });
-
-        this.balloon = new MyBalloon(4, this.balloonMaterial, 0x550b3d);
-        this.app.scene.add(this.balloon);
-        this.balloon.position.set(-47, 15, 25);
-        
-        this.powerupTex = new THREE.TextureLoader().load('./scenes/textures/powerup.png');
-        this.powerupTex.wrapS = THREE.RepeatWrapping;
-        this.powerupTex.wrapT = THREE.RepeatWrapping;
-        this.powerupTex.repeat.set(1, 1);
-        this.powerupMaterial = new THREE.MeshStandardMaterial({ map: this.powerupTex, roughness: 1, side: THREE.DoubleSide });
-        this.powerup = new MyPowerUp({width: 2}, this.powerupMaterial, true, true);
-        this.powerup.position.set(0, 5, 25);
-        this.app.scene.add(this.powerup);
   
     }
 
     update() {
     }
 
-    /**
-     * Enables wireframe mode for all objects in the scene by setting the `wireframe` property
-     * of their materials to `true`.
-     * @method
-     */
-    activeWireframe(){
-        for (let object of this.objects) {
-            if (object.material) { 
-                let materials = object.material;
-                if (Array.isArray(materials)) {
-                    for (let material of materials) {
-                        material.wireframe = true;
-                    }
-                } else {
-                    materials.wireframe = true;
-                }
-            }
-            
-        }
-    }
-
-    /**
-     * Disables wireframe mode for all objects in the scene by setting the `wireframe` property
-     * of their materials to `false`.
-     * @method
-     */
-    disableWireframe(){
-        for (let object of this.objects) {
-            if (object.material) { 
-                let materials = object.material;
-                if (Array.isArray(materials)) {
-                    for (let material of materials) {
-                        material.wireframe = false;
-                    }
-                } else {
-                    materials.wireframe = false;
-                }
-            }
-        }
-    }
 
     turnOnLights(){
         for (let i of this.lights){
@@ -194,6 +183,148 @@ class MyContents {
     turnOffLights(){
         for (let i of this.lights){
             i.visible = false
+        }
+    }
+
+    /**
+     * Initializes the balloons
+     * @method
+     */
+    initBalloons(){
+        const balloonConfigs = [
+            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-47, 15, 5], type: 0, name: "player_balloon1" },
+            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-47, 15, 17], type: 2, name: "player_balloon2" },
+            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-47, 15, 29], type: 1, name: "player_balloon3" },
+            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-28, 15, 47], type: 0, name: "enemy_balloon1" },
+            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-16, 15, 47], type: 2, name: "enemy_balloon2" },
+            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-4, 15, 47], type: 1, name: "enemy_balloon3" },
+        ];
+        
+        this.balloons = [];
+        
+        balloonConfigs.forEach((config, index) => {
+            const texture = this.textureLoader.load(config.texturePath);
+            const material = new THREE.MeshStandardMaterial({
+                map: texture,
+                roughness: 1,
+                metalness: 0.5,
+                transparent: true,
+                opacity: 0.8,
+                side: THREE.DoubleSide,
+            });
+            const balloon = new MyBalloon(4, material, config.color, config.type || 0, config.name);
+            balloon.position.set(...config.position);
+            this.app.scene.add(balloon);
+            this.balloons[index] = balloon;
+        });
+        
+    }
+    onPointerDown(event) {
+        this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+        this.pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+        this.raycaster.setFromCamera(this.pointer, this.app.activeCamera);
+        var intersects = this.raycaster.intersectObjects(this.app.scene.children);
+      
+        if (intersects.length > 0) {  
+            const obj = intersects[0].object;
+            switch (this.currentState) {
+                case this.state.USER_BALLOON:
+                    this.userSelectionBalloon(obj);
+                    break;
+                case this.state.ENEMY_BALLOON:
+                    this.enemySelectionBalloon(obj);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    userSelectionBalloon(obj) {
+        switch (obj.parent.parent.name.split("_")[0]) {
+            case "player":
+                this.playerBalloon = obj.parent.parent;
+                this.playerBalloon.selected();
+                this.previousPlayerBalloon = this.playerBalloon;
+                console.log("Player balloon selected: " + this.playerBalloon.name);
+                break;
+        }
+    }
+    enemySelectionBalloon(obj) {
+        switch (obj.parent.parent.name.split("_")[0]) {
+            case "enemy":
+                this.enemyBalloon = obj.parent.parent;
+                this.previousEnemyBalloon = this.enemyBalloon;
+                console.log("Enemy balloon selected: " + this.enemyBalloon.name);
+                break;
+        }
+    }
+
+    onPointerMove(event) {
+        this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+        this.pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+        this.raycaster.setFromCamera(this.pointer, this.app.activeCamera);
+        var intersects = this.raycaster.intersectObjects(this.app.scene.children);
+
+        if (intersects.length > 0){
+            const obj = intersects[0].object;
+            switch (this.currentState) {
+                case this.state.USER_BALLOON:
+                    this.userHoverBalloon(obj);
+                    break;
+                case this.state.ENEMY_BALLOON:
+                    this.enemyHoverBalloon(obj);
+                    break;
+                default:
+            }
+        }
+        else{
+            if (this.lastObj){
+                switch (this.currentState) {
+                    case this.state.USER_BALLOON:
+                        this.userHoverBalloon(this.lastObj, false);
+                        break;
+                    case this.state.ENEMY_BALLOON:
+                        this.enemyHoverBalloon(this.lastObj, false);
+                        break;
+                    default:
+                }
+            }
+        }
+    }
+    userHoverBalloon(obj, hovering = true){
+        if (hovering){
+            if (this.lastObj != obj.parent.parent){
+                if (this.lastObj){
+                    this.lastObj.scale.set(1, 1, 1);
+                }
+                this.lastObj = obj.parent.parent;
+                if (this.lastObj.name.split("_")[0] == "player"){
+                    this.lastObj.scale.set(1.2, 1.2, 1.2);
+                }
+            }
+        }
+        else{
+            this.lastObj.scale.set(1, 1, 1);
+            this.lastObj = null;
+        }
+    }
+    enemyHoverBalloon(obj, hovering = true){
+        if (hovering){
+            if (this.lastObj != obj.parent.parent){
+                if (this.lastObj){
+                    this.lastObj.scale.set(1, 1, 1);
+                }
+                this.lastObj = obj.parent.parent;
+                if (this.lastObj.name.split("_")[0] == "enemy"){
+                    this.lastObj.scale.set(1.2, 1.2, 1.2);
+                }
+            }
+        }
+        else{
+            this.lastObj.scale.set(1, 1, 1);
+            this.lastObj = null;
         }
     }
 }
