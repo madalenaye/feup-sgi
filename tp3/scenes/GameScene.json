@@ -242,7 +242,7 @@
             "scene": {
                 "type": "node",
                 "children": {
-                    "nodesList": ["floor", "bottom_floor", "right_soil", "left_soil", "front_soil", "back_soil", "track_1", "park_1", "park_2", "park_3", "park_4"],
+                    "nodesList": ["floor", "bottom_floor", "right_soil", "left_soil", "front_soil", "back_soil", "track_1", "park_1", "park_2", "park_3", "park_4", "outdoor"],
                     "point_light": {
                         "type": "pointlight",
                         "enabled": true,
@@ -1124,6 +1124,37 @@
                             "y": 5,
                             "z": 0.05
                         }
+                    }
+                }
+            },
+            "outdoor":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 35.0,
+                            "y": 9.9,
+                            "z": 43.0
+                        }
+                    },
+                    {
+                        "type": "rotate",
+                        "amount": {
+                            "x": 0.0,
+                            "y": 45.0,
+                            "z": 0.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "aluminium_m"
+                },
+                "children": {
+                    "outdoor_prim": {
+                        "type": "outdoor",
+                        "width": 15.0,
+                        "height": 15.0
                     }
                 }
             }
