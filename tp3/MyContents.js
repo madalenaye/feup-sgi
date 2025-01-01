@@ -63,7 +63,7 @@ class MyContents {
         this.pickingColor = "0x00ff00"
 
         this.selectedLayer = this.layers.NONE;
-        //document.addEventListener('pointermove', this.onPointerMove.bind(this));
+        document.addEventListener('pointermove', this.onPointerMove.bind(this));
         document.addEventListener('pointerdown', this.onPointerDown.bind(this));
 
         this.playerBalloon = null;
@@ -222,16 +222,14 @@ class MyContents {
     onPointerDown(event) {
         this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
-        console.log("Position x: " + this.pointer.x + " y: " + this.pointer.y);
+
         this.raycaster.setFromCamera(this.pointer, this.app.activeCamera);
         var intersects = this.raycaster.intersectObjects(this.app.scene.children);
-        console.log("Intersects: " + intersects.length);
-        console.log(intersects[0]);
+      
         if (intersects.length > 0) {  
             const obj = intersects[0].object;
             switch (this.currentState) {
                 case this.state.USER_BALLOON:
-                    console.log("User balloon state");
                     this.userSelectionBalloon(obj);
                     break;
                 case this.state.ENEMY_BALLOON:
@@ -258,6 +256,74 @@ class MyContents {
                 this.previousEnemyBalloon = this.enemyBalloon;
                 console.log("Enemy balloon selected: " + this.enemyBalloon.name);
                 break;
+        }
+    }
+
+    onPointerMove(event) {
+        this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+        this.pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+        this.raycaster.setFromCamera(this.pointer, this.app.activeCamera);
+        var intersects = this.raycaster.intersectObjects(this.app.scene.children);
+
+        if (intersects.length > 0){
+            const obj = intersects[0].object;
+            switch (this.currentState) {
+                case this.state.USER_BALLOON:
+                    this.userHoverBalloon(obj);
+                    break;
+                case this.state.ENEMY_BALLOON:
+                    this.enemyHoverBalloon(obj);
+                    break;
+                default:
+            }
+        }
+        else{
+            if (this.lastObj){
+                switch (this.currentState) {
+                    case this.state.USER_BALLOON:
+                        this.userHoverBalloon(this.lastObj, false);
+                        break;
+                    case this.state.ENEMY_BALLOON:
+                        this.enemyHoverBalloon(this.lastObj, false);
+                        break;
+                    default:
+                }
+            }
+        }
+    }
+    userHoverBalloon(obj, hovering = true){
+        if (hovering){
+            if (this.lastObj != obj.parent){
+                if (this.lastObj){
+                    this.lastObj.scale.set(1, 1, 1);
+                }
+                this.lastObj = obj.parent;
+                if (this.lastObj.name.split("_")[0] == "player"){
+                    this.lastObj.scale.set(1.2, 1.2, 1.2);
+                }
+            }
+        }
+        else{
+            this.lastObj.scale.set(1, 1, 1);
+            this.lastObj = null;
+        }
+    }
+    enemyHoverBalloon(obj, hovering = true){
+        if (hovering){
+            if (this.lastObj != obj.parent){
+                if (this.lastObj){
+                    this.lastObj.scale.set(1, 1, 1);
+                }
+                this.lastObj = obj.parent;
+                if (this.lastObj.name.split("_")[0] == "enemy"){
+                    this.lastObj.scale.set(1.2, 1.2, 1.2);
+                }
+            }
+        }
+        else{
+            this.lastObj.scale.set(1, 1, 1);
+            this.lastObj = null;
         }
     }
 }
