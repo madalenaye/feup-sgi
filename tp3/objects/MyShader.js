@@ -2,16 +2,12 @@ import * as THREE from 'three';
 
 /** Represents a plane with nrDivs divisions along both axis, with center at (0,0) */
 class MyShader {
-	constructor(app, name, description = "no description provided", vert_url, frag_url, uniformValues = null) {
+	constructor(vert_url, frag_url, uniformValues = null) {
 		
-        this.app = app;
-        this.name = name
-        this.description = description
         this.vert_url = vert_url;
         this.frag_url = frag_url;
         this.uniformValues = uniformValues
         this.material = null
-        this.ready = false
         this.read(vert_url, true)
         this.read(frag_url, false)
     }

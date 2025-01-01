@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-
+import { MyShader } from './MyShader.js';
 class MyObstacle extends THREE.Object3D {
 
     constructor(parameters, material, castShadow, receiveShadow) {
@@ -8,6 +8,7 @@ class MyObstacle extends THREE.Object3D {
         this.radius = parameters.radius;
         this.penalty = parameters.penalty;
         this.obstacleBB = null;
+        this.shader = this.shader;
 
         this.rocket = new THREE.Group();
 
@@ -89,7 +90,14 @@ class MyObstacle extends THREE.Object3D {
 
         this.rocket.castShadow = castShadow ?? false;
         this.rocket.receiveShadow = receiveShadow ?? false;
-
+        const vertexShader = 'shaders/obstacle.vert';
+        const fragmentShader = 'shaders/obstacle.frag';
+        this.shader = new MyShader( vertexShader, fragmentShader, {
+            time: { type: 'float', value: 0.0 },         // Tracks time for animation
+            amplitude: { type: 'float', value: 0.2 },   // Adjust pulsation intensity
+        });
+        
+        this.waitForShaders();
         this.add(this.rocket);
     }
 
@@ -104,6 +112,28 @@ class MyObstacle extends THREE.Object3D {
         return this.obstacleBB;
     }
 
+    waitForShaders() {
+        if (!this.shader.ready) {
+            setTimeout(this.waitForShaders.bind(this), 100);
+            return;
+        }
+        this.rocket.traverse(child => {
+            if (child.isMesh) {
+                child.material = this.shader.material;
+            }
+        });
+        this.animatePulsation();
+    }
+    animatePulsation() {
+        const clock = new THREE.Clock();
+        console.log("animatePulsation");
+        const update = () => {
+            const elapsedTime = clock.getElapsedTime();
+            this.shader.updateUniformsValue('time', elapsedTime);
+            requestAnimationFrame(update);
+        };
+        update();
+    }
 }
 
 export { MyObstacle };
