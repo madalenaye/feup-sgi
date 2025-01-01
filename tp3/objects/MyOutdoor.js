@@ -31,14 +31,14 @@ class MyOutdoor extends THREE.Object3D {
 
         let frameMaterial = new THREE.MeshStandardMaterial({color: 0x3d85a2, metalness: 0.5, roughness: 0.5});
         this.groupRightFrame = new THREE.Group();
-        this.groupRightFrame.position.set(parameters.width/20,parameters.height/2 - 5, -0.33);
+        this.groupRightFrame.position.set(parameters.width/20 - 0.1,parameters.height/2 - 5, -0.33);
         let rightFrameGeo = new THREE.BoxGeometry(parameters.width/20, 10, 0.0);
         let rightFrameMesh = new THREE.Mesh(rightFrameGeo, frameMaterial);
         this.groupRightFrame.add(rightFrameMesh);
         this.groupOutdoor.add(this.groupRightFrame);
 
         this.groupLeftFrame = new THREE.Group();
-        this.groupLeftFrame.position.set(parameters.width - parameters.width/20,parameters.height/2 - 5, -0.33);
+        this.groupLeftFrame.position.set((parameters.width - parameters.width/20) + 0.1, parameters.height/2 - 5, -0.33);
         let leftFrameGeo = new THREE.BoxGeometry(parameters.width/20, 10, 0.0);
         let leftFrameMesh = new THREE.Mesh(leftFrameGeo, frameMaterial);
         this.groupLeftFrame.add(leftFrameMesh);
@@ -46,16 +46,16 @@ class MyOutdoor extends THREE.Object3D {
 
         this.groupTopFrame = new THREE.Group();
         this.groupTopFrame.rotation.set(0, 0, Math.PI/2);
-        this.groupTopFrame.position.set((parameters.width - parameters.width/20)/2, parameters.width/2 - (parameters.width/20)/2, -0.33);
-        let topFrameGeo = new THREE.BoxGeometry(parameters.width/20, parameters.width, 0.0);
+        this.groupTopFrame.position.set((parameters.width - parameters.width/20)/2 + 0.5, parameters.height/2 - (parameters.width/20)/2, -0.33);
+        let topFrameGeo = new THREE.BoxGeometry(parameters.width/20, parameters.width-1, 0.0);
         let topFrameMesh = new THREE.Mesh(topFrameGeo, frameMaterial);
         this.groupTopFrame.add(topFrameMesh);
         this.groupOutdoor.add(this.groupTopFrame);
 
         this.groupBottomFrame = new THREE.Group();
         this.groupBottomFrame.rotation.set(0, 0, Math.PI/2);
-        this.groupBottomFrame.position.set((parameters.width - parameters.width/20)/2, -2.12, -0.33);
-        let bottomFrameGeo = new THREE.BoxGeometry(parameters.width/20, parameters.width, 0.0);
+        this.groupBottomFrame.position.set((parameters.width - parameters.width/20)/2 + 0.5, -1.98, -0.33);
+        let bottomFrameGeo = new THREE.BoxGeometry(parameters.width/20, parameters.width-1, 0.0);
         let bottomFrameMesh = new THREE.Mesh(bottomFrameGeo, frameMaterial);
         this.groupBottomFrame.add(bottomFrameMesh);
         this.groupOutdoor.add(this.groupBottomFrame);
@@ -65,7 +65,50 @@ class MyOutdoor extends THREE.Object3D {
         this.groupOutdoor.receiveShadow = receiveShadow ?? false;
 
         this.add(this.groupOutdoor);
+        this.createAllElements();
+    }
 
+    createElapsedTime(text, charWidth, charHeight){
+        let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
+        textMesh.position.set(19.5,5.7,-0.33);
+        textMesh.rotation.set(0,0,Math.PI);
+        this.add(textMesh);
+    }
+
+    createLapsCompleted(text, charWidth, charHeight){
+        let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
+        textMesh.position.set(19.5, 4.2, -0.33);
+        textMesh.rotation.set(0,0,Math.PI);
+        this.add(textMesh);
+    }
+
+    createAirLayer(text, charWidth, charHeight){
+        let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
+        textMesh.position.set(19.5, 2.7, -0.33);
+        textMesh.rotation.set(0,0,Math.PI);
+        this.add(textMesh);
+    }
+
+    createVouchers(text, charWidth, charHeight){
+        let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
+        textMesh.position.set(19.5, 1.2, -0.33);
+        textMesh.rotation.set(0,0,Math.PI);
+        this.add(textMesh);
+    }
+
+    createGameStatus(text, charWidth, charHeight){
+        let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
+        textMesh.position.set(19.5, -0.3, -0.33);
+        textMesh.rotation.set(0,0,Math.PI);
+        this.add(textMesh);        
+    }
+
+    createAllElements(){
+        this.createElapsedTime("Elapsed Time:", 0.7, 0.7);
+        this.createLapsCompleted("Laps Completed:", 0.7, 0.7);
+        this.createAirLayer("Air layer:", 0.7, 0.7);
+        this.createVouchers("Vouchers:", 0.7, 0.7);
+        this.createGameStatus("Game Status:", 0.7, 0.7);
     }
 
 }
