@@ -1,56 +1,58 @@
 import * as THREE from 'three';
-import { LineSegments2 } from "three/addons/lines/LineSegments2.js";
-import { LineMaterial } from "three/addons/lines/LineMaterial.js";
-import { WireframeGeometry2 } from "three/addons/lines/WireframeGeometry2.js";
 
 class MyBalloon extends THREE.Object3D {
 
-    constructor(radius, material, baseColor) {
+    constructor(radius, material, baseColor, type, name) {
         super();
         this.radius = radius;
         this.basketRadius = radius/3;
         this.material = material;
         this.baseColor = baseColor;
         this.isCollidingMap = new Map();
+        this.type = type;
+        this.name = name;
+        this.isSelected = false;
         
+        this.groupBalloon = new THREE.Group();
+        this.groupBalloon.name = this.name;
         this.buildBalloon();
     }
     buildBalloon() {
-
-        this.groupBalloon = new THREE.Group();
 
         /* Balloon */
 
         // Base
         const balloonBaseHeight = this.radius * 0.4;
         const balloonBaseRadius = this.radius * 0.75;
-        this.balloonBaseGeometry = new THREE.CylinderGeometry(balloonBaseRadius, this.basketRadius, balloonBaseHeight, 32, 3, true);
-        this.balloonBaseMaterial = new THREE.MeshStandardMaterial({ color: this.baseColor, roughness: 1 });
+        this.balloonBaseGeometry = new THREE.CylinderGeometry(balloonBaseRadius, this.basketRadius, balloonBaseHeight, 32, 16, true);
         
-        const wireframeGeometry = new WireframeGeometry2(this.balloonBaseGeometry);
+        const edgesGeometry = new THREE.EdgesGeometry(this.balloonBaseGeometry);
 
-        const wireframeMaterial = new LineMaterial({
-            color: this.baseColor, 
-            linewidth: 0.3,
-            dashed: false
+        const edgesMaterial = new THREE.LineBasicMaterial({
+            color: this.baseColor,
         });
-        
-        this.balloonBaseWireframe = new LineSegments2(wireframeGeometry, wireframeMaterial);
      
-        this.balloonBaseWireframe.computeLineDistances();
-        wireframeMaterial.resolution.set(window.innerWidth, window.innerHeight);
-        
-        this.groupBalloon.add(this.balloonBaseWireframe);
-        
-        this.groupBalloon.add(this.balloonBase);
-        
+        this.balloonBaseEdges = new THREE.LineSegments(edgesGeometry, edgesMaterial);
+        this.balloonBaseEdges.computeLineDistances();
+        this.groupBalloon.add(this.balloonBaseEdges);
+    
         
         // Balloon
         this.balloonGeometry = new THREE.SphereGeometry(this.radius, 32, 32, 0, Math.PI * 2, 0, Math.PI * 0.8);
         this.balloon = new THREE.Mesh(this.balloonGeometry, this.material);
         this.balloon.position.set(0, balloonBaseRadius + 0.35, 0);
-        this.groupBalloon.add(this.balloon);
 
+        if (this.type === 1){
+            this.balloon.scale.set(1.15, 1.4, 1.15);
+            this.balloon.position.set(0, (balloonBaseRadius + 0.35) * 1.5, 0);
+        }
+        
+        if (this.type === 2){
+            this.balloon.scale.set(0.6, 1,0.6)
+            this.balloonBaseEdges.scale.set(0.5, 0.5,0.5)
+        }
+
+        this.groupBalloon.add(this.balloon);
         // Basket
 
         // Texture
@@ -81,14 +83,13 @@ class MyBalloon extends THREE.Object3D {
         this.basket.rotation.set(Math.PI/2, 0, 0);
         this.basket.position.set(0, -balloonBaseHeight, 0);
 
-        this.basketGroup = new THREE.Group();
-        this.basketGroup.add(this.basket);
+        this.groupBalloon.add(this.basket);
 
         // Basket base  
         this.basketBaseGeometry = new THREE.CylinderGeometry(this.basketRadius, this.basketRadius, 0.04, 32);
         this.basketBase = new THREE.Mesh(this.basketBaseGeometry, this.basketMaterial);
         this.basketBase.position.set(0, -balloonBaseHeight - extrudeSettings.depth - 0.02, 0);
-        this.basketGroup.add(this.basketBase);
+        this.groupBalloon.add(this.basketBase);
 
         // Strings
         const numStrings = 5;
@@ -114,10 +115,8 @@ class MyBalloon extends THREE.Object3D {
 
             this.stringGroup.add(string);
         }
-        this.basketGroup.add(this.stringGroup);
-
-        this.groupBalloon.add(this.basketGroup);
-
+        this.groupBalloon.add(this.stringGroup);
+        this.groupBalloon.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI/4);
         this.add(this.groupBalloon);
 
     }
@@ -209,6 +208,9 @@ class MyBalloon extends THREE.Object3D {
         if(value){
             //TODO: logic of collision with autonomous balloon
         }
+    }
+    selected(){
+        this.isSelected = true;
     }
 }
 export { MyBalloon };
