@@ -1,10 +1,12 @@
 import * as THREE from 'three';
+import {MySprite} from '../utils/MySprite.js'
 
 class MyOutdoor extends THREE.Object3D {
     constructor(parameters, material, castShadow, receiveShadow) {
         super();
 
         this.groupOutdoor = new THREE.Group();
+        this.sprite = MySprite.loadSpritesheet();
 
         this.groupCylinder1 = new THREE.Group();
         let cylinder1Geo = new THREE.CylinderGeometry(0.5, 0.5, parameters.height);
@@ -22,7 +24,7 @@ class MyOutdoor extends THREE.Object3D {
         this.groupScreen = new THREE.Group();
         this.groupScreen.position.set(parameters.width/2 , parameters.height/2 - 5, 0);
         let boxGeo = new THREE.BoxGeometry(parameters.width - 1, 10, 0.5);
-        let boxMaterial = new THREE.MeshStandardMaterial({color: 0xd3effa, metalness: 0.5, roughness: 0.5});
+        let boxMaterial = new THREE.MeshStandardMaterial({color: 0x000000, metalness: 0.5, roughness: 0.5});
         let boxMesh = new THREE.Mesh(boxGeo, boxMaterial);
         this.groupScreen.add(boxMesh);
         this.groupOutdoor.add(this.groupScreen);
