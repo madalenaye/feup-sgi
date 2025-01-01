@@ -241,18 +241,19 @@ class MyContents {
         }
     }
     userSelectionBalloon(obj) {
-        switch (obj.parent.name.split("_")[0]) {
+        switch (obj.parent.parent.name.split("_")[0]) {
             case "player":
-                this.playerBalloon = obj.parent;
+                this.playerBalloon = obj.parent.parent;
+                this.playerBalloon.selected();
                 this.previousPlayerBalloon = this.playerBalloon;
                 console.log("Player balloon selected: " + this.playerBalloon.name);
                 break;
         }
     }
     enemySelectionBalloon(obj) {
-        switch (obj.parent.name.split("_")[0]) {
+        switch (obj.parent.parent.name.split("_")[0]) {
             case "enemy":
-                this.enemyBalloon = obj.parent;
+                this.enemyBalloon = obj.parent.parent;
                 this.previousEnemyBalloon = this.enemyBalloon;
                 console.log("Enemy balloon selected: " + this.enemyBalloon.name);
                 break;
@@ -294,11 +295,11 @@ class MyContents {
     }
     userHoverBalloon(obj, hovering = true){
         if (hovering){
-            if (this.lastObj != obj.parent){
+            if (this.lastObj != obj.parent.parent){
                 if (this.lastObj){
                     this.lastObj.scale.set(1, 1, 1);
                 }
-                this.lastObj = obj.parent;
+                this.lastObj = obj.parent.parent;
                 if (this.lastObj.name.split("_")[0] == "player"){
                     this.lastObj.scale.set(1.2, 1.2, 1.2);
                 }
@@ -311,11 +312,11 @@ class MyContents {
     }
     enemyHoverBalloon(obj, hovering = true){
         if (hovering){
-            if (this.lastObj != obj.parent){
+            if (this.lastObj != obj.parent.parent){
                 if (this.lastObj){
                     this.lastObj.scale.set(1, 1, 1);
                 }
-                this.lastObj = obj.parent;
+                this.lastObj = obj.parent.parent;
                 if (this.lastObj.name.split("_")[0] == "enemy"){
                     this.lastObj.scale.set(1.2, 1.2, 1.2);
                 }

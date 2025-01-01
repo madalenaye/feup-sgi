@@ -11,13 +11,13 @@ class MyBalloon extends THREE.Object3D {
         this.isCollidingMap = new Map();
         this.type = type;
         this.name = name;
+        this.isSelected = false;
         
+        this.groupBalloon = new THREE.Group();
+        this.groupBalloon.name = this.name;
         this.buildBalloon();
     }
     buildBalloon() {
-
-        this.groupBalloon = new THREE.Group();
-        this.groupBalloon.name = this.name;
 
         /* Balloon */
 
@@ -116,6 +116,7 @@ class MyBalloon extends THREE.Object3D {
             this.stringGroup.add(string);
         }
         this.groupBalloon.add(this.stringGroup);
+        this.groupBalloon.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI/4);
         this.add(this.groupBalloon);
 
     }
@@ -176,6 +177,9 @@ class MyBalloon extends THREE.Object3D {
         }
     
         return false;
+    }
+    selected(){
+        this.isSelected = true;
     }
 }
 export { MyBalloon };
