@@ -136,6 +136,10 @@ class MyBalloon extends THREE.Object3D {
 
     }
 
+    getBoundingVolume(){
+        return this.balloonBB;
+    }
+
     updateBoundingBoxBalloon(){
         if(this.groupBalloon){
           this.balloonBB.setFromObject(this.groupBalloon, true);
@@ -198,6 +202,13 @@ class MyBalloon extends THREE.Object3D {
                 //TODO: powerup logic
             }
         }        
+    }
+
+    checkCollisionBalloon(balloon){
+        let value = this.checkCollision(balloon);
+        if(value){
+            //TODO: logic of collision with autonomous balloon
+        }
     }
 }
 export { MyBalloon };
