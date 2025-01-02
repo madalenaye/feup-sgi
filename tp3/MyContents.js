@@ -105,7 +105,10 @@ class MyContents {
         this.powerup.position.set(0, 5, 25);
         this.app.scene.add(this.powerup);
 
-        
+        // apagar depois
+        this.testBalloon = this.balloons[3].clone();
+        this.testBalloon.position.set(0, 8, 0);
+        this.app.scene.add(this.testBalloon);
     }
 
     /**
@@ -179,25 +182,28 @@ class MyContents {
 
     update() {
         // provisório
-        // add new fireworks every 5% of the calls
-        if(Math.floor(Math.random() * 20) + 1 === 1) {
-            const firework = new MyFirework(this.app, this.balloons[0].position)
-            this.fireworks.push(firework)
-            console.log("firework added")
-        }
+  
+        // if(Math.floor(Math.random() * 20) + 1 === 1) {
+        //     const firework = new MyFirework(this.app, this.balloons[0].position)
+        //     this.fireworks.push(firework)
+        //     console.log("firework added")
+        // }
 
-        // for each fireworks 
-        for( let i = 0; i < this.fireworks.length; i++ ) {
-            // is firework finished?
-            if (this.fireworks[i].done) {
-                // remove firework 
-                this.fireworks.splice(i,1) 
-                console.log("firework removed")
-                continue 
-            }
-            // otherwise update  firework
-            this.fireworks[i].update()
-        }
+        // // for each fireworks 
+        // for( let i = 0; i < this.fireworks.length; i++ ) {
+        //     // is firework finished?
+        //     if (this.fireworks[i].done) {
+        //         // remove firework 
+        //         this.fireworks.splice(i,1) 
+        //         console.log("firework removed")
+        //         continue 
+        //     }
+        //     // otherwise update  firework
+        //     this.fireworks[i].update()
+        // }
+
+        if (this.app.keys.includes("w")) this.testBalloon.position.y += 0.1;
+        if (this.app.keys.includes("s")) this.testBalloon.position.y -= 0.1;
     }
 
 
@@ -232,10 +238,7 @@ class MyContents {
             const texture = this.textureLoader.load(config.texturePath);
             const material = new THREE.MeshStandardMaterial({
                 map: texture,
-                roughness: 1,
-                metalness: 0.5,
-                transparent: true,
-                opacity: 0.8,
+                transparent: false,
                 side: THREE.DoubleSide,
             });
             const balloon = new MyBalloon(4, material, config.color, config.type || 0, config.name);
