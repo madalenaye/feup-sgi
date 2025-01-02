@@ -39,62 +39,21 @@ class MyObstacle extends THREE.Object3D {
         this.groupSphere = new THREE.Group();
         let sphereGeometry = new THREE.SphereGeometry(this.radius, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2)
         let sphereMesh = new THREE.Mesh(sphereGeometry, material);
-        sphereMesh.position.set(0, this.height/2, 0);
+        sphereMesh.position.set(0, this.height/2 - 0.05, 0);
         this.groupSphere.add(sphereMesh);
 
         this.rocket.add(this.groupSphere);
-
-        //Eye1
-        this.groupEye1 = new THREE.Group();
-        let eye1Geometry = new THREE.SphereGeometry(this.radius/6, 32, 16);
-        let eyeMaterial = new THREE.MeshPhysicalMaterial({color: 0xf9f4f4, 
-                                                          emissive: 0x101010, 
-                                                          emissiveIntensity: 0.1, 
-                                                          metalness: 0.0, 
-                                                          roughness: 0.1,
-                                                          clearcoat: 1.0, 
-                                                          clearcoatRoughness: 0.05, 
-                                                          wireframe: false})
-        let eyeMesh1 = new THREE.Mesh(eye1Geometry, eyeMaterial);
-        this.groupEye1.add(eyeMesh1);
-        
-
-        this.groupIris1 = new THREE.Group();
-        let iris1Geometry = new THREE.SphereGeometry(this.radius/10, 32, 16)
-        let irisMaterial = new THREE.MeshStandardMaterial({color: 0x101010, 
-                                                           roughness: 0.5,  
-                                                           metalness: 0.6,
-                                                           emissive: 0x000000});
-        let iris1Mesh = new THREE.Mesh(iris1Geometry, irisMaterial);
-        iris1Mesh.position.set(0, 0.08,0);
-        this.groupIris1.add(iris1Mesh);
-        this.groupEye1.add(this.groupIris1);
-
-        this.groupEye1.position.set(-this.radius/2.3, (this.height/2 + this.radius) - 0.1, this.radius/4);
-        this.rocket.add(this.groupEye1);
-
-        //Eye2
-        this.groupEye2 = new THREE.Group();
-        let eyeMesh2 = new THREE.Mesh(eye1Geometry, eyeMaterial);
-        this.groupEye2.add(eyeMesh2);
-
-        this.groupIris2 = new THREE.Group();
-        let iris2Mesh = new THREE.Mesh(iris1Geometry, irisMaterial);
-        iris2Mesh.position.set(0, 0.08,0);
-        this.groupIris2.add(iris2Mesh);
-        this.groupEye2.add(this.groupIris2);
-
-        this.groupEye2.position.set(this.radius/2.3, (this.height/2 + this.radius) - 0.1, this.radius/4);
-        this.rocket.add(this.groupEye2);
-
 
         this.rocket.castShadow = castShadow ?? false;
         this.rocket.receiveShadow = receiveShadow ?? false;
         const vertexShader = 'shaders/obstacle.vert';
         const fragmentShader = 'shaders/obstacle.frag';
+        const baseTexture = new THREE.TextureLoader().load('scenes/textures/bullet.jpg');
         this.shader = new MyShader( vertexShader, fragmentShader, {
-            time: { type: 'float', value: 0.0 },         // Tracks time for animation
-            amplitude: { type: 'float', value: 0.2 },   // Adjust pulsation intensity
+            time: { type: 'float', value: 0.1 },         
+            amplitude: { type: 'float', value: 0.05 },  
+            frequency: { type: 'float', value: 7 },
+            baseTexture: { type: 'sampler2D', value: baseTexture }, 
         });
         
         this.waitForShaders();

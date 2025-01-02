@@ -1,15 +1,21 @@
 uniform float time;
-uniform float amplitude; 
+uniform float amplitude;
+uniform float frequency;
 
-varying vec2 vUv;
+varying vec3 vNormal;       
+varying vec3 vPosition;      
+varying vec2 vUv;            
 
 void main() {
-    vUv = uv;
 
-    float scale = 1.0 + amplitude * sin(time);
+    float scale = 1.0 + sin(time * frequency) * amplitude;
 
 
-    vec3 scaledPosition = position * scale;
+    vec3 transformedPosition = position * scale;
 
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(scaledPosition, 1.0);
+    vNormal = normalMatrix * normal;      
+    vPosition = (modelViewMatrix * vec4(transformedPosition, 1.0)).xyz;
+    vUv = uv;                      
+
+    gl_Position = projectionMatrix * vec4(vPosition, 1.0);
 }

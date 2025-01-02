@@ -9,7 +9,15 @@ class MyPowerUp extends THREE.Object3D {
             this.powerup = new THREE.Mesh(this.powerup, material);
             this.powerup.rotation.set(Math.PI/4, 0, Math.PI/4);
           
+            const vertexShader = 'shaders/obstacle.vert';
+            const fragmentShader = 'shaders/obstacle.frag';
+            this.shader = new MyShader( vertexShader, fragmentShader, {
+                time: { type: 'float', value: 0.0 },         // Tracks time for animation
+                amplitude: { type: 'float', value: 0.2 },   // Adjust pulsation intensity
+            });
+            
             this.add(this.powerup);
+            this.waitForShaders();
 
     }
 
@@ -22,6 +30,25 @@ class MyPowerUp extends THREE.Object3D {
 
     getBoundingVolume(){
         return this.powerupBB;
+    }
+
+    waitForShaders() {
+        if (!this.shader.ready) {
+            setTimeout(this.waitForShaders.bind(this), 100);
+            return;
+        }
+        this.powerup.material = this.shader.material;
+        this.animatePulsation();
+    }
+    animatePulsation() {
+        const clock = new THREE.Clock();
+        console.log("animatePulsation");
+        const update = () => {
+            const elapsedTime = clock.getElapsedTime();
+            this.shader.updateUniformsValue('time', elapsedTime);
+            requestAnimationFrame(update);
+        };
+        update();
     }
 }
 export { MyPowerUp };
