@@ -68,47 +68,115 @@ class MyOutdoor extends THREE.Object3D {
         this.createAllElements();
     }
 
-    createElapsedTime(text, charWidth, charHeight){
+    createElapsedTime(text, charWidth = 0.7, charHeight = 0.7){
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(19.5,5.7,-0.33);
         textMesh.rotation.set(0,0,Math.PI);
         this.add(textMesh);
     }
 
-    createLapsCompleted(text, charWidth, charHeight){
+    createLapsCompleted(text, charWidth = 0.7, charHeight = 0.7){
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(19.5, 4.2, -0.33);
         textMesh.rotation.set(0,0,Math.PI);
         this.add(textMesh);
     }
 
-    createAirLayer(text, charWidth, charHeight){
+    createAirLayer(text, charWidth = 0.7, charHeight = 0.7){
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(19.5, 2.7, -0.33);
         textMesh.rotation.set(0,0,Math.PI);
         this.add(textMesh);
     }
 
-    createVouchers(text, charWidth, charHeight){
+    createVouchers(text, charWidth = 0.7, charHeight = 0.7){
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(19.5, 1.2, -0.33);
         textMesh.rotation.set(0,0,Math.PI);
         this.add(textMesh);
     }
 
-    createGameStatus(text, charWidth, charHeight){
+    createGameStatus(text, charWidth = 0.7, charHeight = 0.7){
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(19.5, -0.3, -0.33);
         textMesh.rotation.set(0,0,Math.PI);
         this.add(textMesh);        
     }
 
+    createGameStatusRunning(text, charWidth = 0.7, charHeight = 0.7){
+        this.status = text;
+        let textMesh = MySprite.createTextFromSpritesheet(this.status, charWidth, charHeight, this.sprite);
+        textMesh.position.set(11.0, -0.3, -0.33);
+        textMesh.rotation.set(0,0,Math.PI);
+        this.gameStatusTextMesh = textMesh;
+        this.add(textMesh);
+
+    }
+
+    setTotalLaps(laps, charWidth = 0.7, charHeight = 0.7){
+        this.totalLaps = laps;
+        const text = `/${this.totalLaps}`;
+        let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
+        textMesh.position.set(8.0, 4.2, -0.33);
+        textMesh.rotation.set(0,0,Math.PI);
+        this.add(textMesh);
+    }
+
+    setCurrentLap(currentLap, charWidth = 0.7, charHeight = 0.7){
+        this.currentLap = currentLap;
+        let text = `${this.currentLap}`
+        let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
+        textMesh.position.set(8.8, 4.2, -0.33);
+        textMesh.rotation.set(0,0,Math.PI);
+        this.add(textMesh);
+    }
+
+    setAirLayer(airLayer, charWidth = 0.7, charHeight = 0.7){
+        this.airLayer = airLayer;
+        if (this.airLayerTextMesh) {
+            this.remove(this.airLayerTextMesh);
+        }
+        let textMesh = MySprite.createTextFromSpritesheet(this.airLayer, charWidth, charHeight, this.sprite);
+        textMesh.position.set(12.5, 2.7, -0.33);
+        textMesh.rotation.set(0,0,Math.PI);
+        this.airLayerTextMesh = textMesh;
+        this.add(textMesh);
+    }
+
+    setVouchers(vouchers, charWidth = 0.7, charHeight = 0.7){
+        this.vouchers = vouchers
+        let text = `${this.vouchers}`
+        let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
+        textMesh.position.set(13.0, 1.2, -0.33);
+        textMesh.rotation.set(0,0,Math.PI);
+        this.add(textMesh);
+
+    }
+
+    setGameStatus(charWidth = 0.7, charHeight = 0.7){
+        this.status = this.status === "Running" ? "Paused" : "Running";
+
+        if (this.gameStatusTextMesh) {
+            this.remove(this.gameStatusTextMesh);
+        }
+    
+        this.gameStatusTextMesh = MySprite.createTextFromSpritesheet(this.status, charWidth, charHeight, this.sprite);
+        this.gameStatusTextMesh.position.set(11.0, -0.3, -0.33);
+        this.gameStatusTextMesh.rotation.set(0, 0, Math.PI);
+    
+        this.add(this.gameStatusTextMesh);
+    }
+
     createAllElements(){
-        this.createElapsedTime("Elapsed Time:", 0.7, 0.7);
-        this.createLapsCompleted("Laps Completed:", 0.7, 0.7);
-        this.createAirLayer("Air layer:", 0.7, 0.7);
-        this.createVouchers("Vouchers:", 0.7, 0.7);
-        this.createGameStatus("Game Status:", 0.7, 0.7);
+        this.createElapsedTime("Elapsed Time:");
+        this.createLapsCompleted("Laps Completed:");
+        this.createAirLayer("Air layer:");
+        this.createVouchers("Vouchers:");
+        this.createGameStatus("Game Status:");
+        this.createGameStatusRunning("Running");
+        this.setTotalLaps("?");
+        this.setCurrentLap(0);
+        this.setAirLayer("none");
     }
 
 }
