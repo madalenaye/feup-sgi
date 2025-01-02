@@ -362,15 +362,19 @@ class MyContents {
     windLayers(y) {
         if (7 < y && y < 12) {
             console.log("north");
+            this.testBalloon.position.z += 0.1;
         }
         if (12 <= y && y < 17) {
             console.log("south");
+            this.testBalloon.position.z -= 0.1;
         }
         if (17 <= y && y < 22) {
             console.log("east");
+            this.testBalloon.position.x += 0.1;
         }
         if (22 <= y && y <= 27) {
             console.log("west");
+            this.testBalloon.position.x -= 0.1;
         }
     }
     
