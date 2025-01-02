@@ -7,6 +7,10 @@ class MyOutdoor extends THREE.Object3D {
 
         this.groupOutdoor = new THREE.Group();
         this.sprite = MySprite.loadSpritesheet();
+        this.elapsedTime = 0;
+        this.isPlaying = false;
+        this.lastTime = null;
+        this.timeTextMesh = null;
 
         this.groupCylinder1 = new THREE.Group();
         let cylinder1Geo = new THREE.CylinderGeometry(0.5, 0.5, parameters.height);
@@ -113,6 +117,16 @@ class MyOutdoor extends THREE.Object3D {
 
     }
 
+    setElapsedTime(text, charWidth = 0.7, charHeight = 0.7){
+        if (this.timeTextMesh) {
+            this.remove(this.timeTextMesh);
+        }
+        this.timeTextMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
+        this.timeTextMesh.position.set(10.3, 5.7, -0.33);
+        this.timeTextMesh.rotation.set(0, 0, Math.PI);
+        this.add(this.timeTextMesh);
+    }
+
     setTotalLaps(laps, charWidth = 0.7, charHeight = 0.7){
         this.totalLaps = laps;
         const text = `/${this.totalLaps}`;
@@ -167,6 +181,44 @@ class MyOutdoor extends THREE.Object3D {
         this.add(this.gameStatusTextMesh);
     }
 
+    play(){
+        if (!this.isPlaying) {
+            this.isPlaying = true;
+            this.lastTime = performance.now();
+        }
+    }
+
+    pause(){
+        if (this.isPlaying) {
+            this.isPlaying = false;
+            const now = performance.now();
+            this.elapsedTime += (now - this.lastTime) / 1000;
+            this.lastTime = null;
+        }
+    }
+
+    resume(){
+        if (!this.isPlaying) {
+            this.isPlaying = true;
+            this.lastTime = performance.now();
+        }
+    }
+
+    update() {
+        if (this.isPlaying) {
+            const now = performance.now();
+            const delta = (now - this.lastTime) / 1000;
+            this.elapsedTime += delta;
+            this.lastTime = now;
+
+            const minutes = Math.floor(this.elapsedTime / 60);
+            const seconds = Math.floor(this.elapsedTime % 60);
+            const timeText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            this.setElapsedTime(timeText);
+        }
+    }
+
     createAllElements(){
         this.createElapsedTime("Elapsed Time:");
         this.createLapsCompleted("Laps Completed:");
@@ -174,9 +226,11 @@ class MyOutdoor extends THREE.Object3D {
         this.createVouchers("Vouchers:");
         this.createGameStatus("Game Status:");
         this.createGameStatusRunning("Running");
+        this.setElapsedTime("00:00");
         this.setTotalLaps("?");
         this.setCurrentLap(0);
         this.setAirLayer("none");
+        this.setVouchers(0);
     }
 
 }
