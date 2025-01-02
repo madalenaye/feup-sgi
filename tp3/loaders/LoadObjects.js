@@ -458,6 +458,7 @@ const createObstacle = function(parameters, obstacleID, material, castShadow, re
     }
 
     let newMaterial = loadMaterials.createMaterial(material, 1, 1);
+    
     let obstacle = new MyObstacle(parameters, newMaterial, castShadow, receiveShadow);
     obstacles[obstacleID] = obstacle;
 
