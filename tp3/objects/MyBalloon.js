@@ -14,6 +14,7 @@ class MyBalloon extends THREE.Object3D {
         this.isSelected = false;
 
         this.vouchers = 0;
+        this.canMove = true;
         
         this.groupBalloon = new THREE.Group();
         this.groupBalloon.name = this.name;
@@ -151,12 +152,10 @@ class MyBalloon extends THREE.Object3D {
 
     exhaustiveTest(objectBB){
         if (this.balloonBB_box.intersectsBox(objectBB)) {
-            console.log("Colisão caixa");
             return true;
         }
     
         if (this.balloonBB_sphere.intersectsBox(objectBB)) {
-            console.log("Colisão esfera");
             return true;
         }
 
@@ -190,10 +189,20 @@ class MyBalloon extends THREE.Object3D {
     checkCollisionObstacles(obstacles){
         for (const key in obstacles){
             const obstacle = obstacles[key];
+            if (obstacle.cooldown && Date.now() < obstacle.cooldown) {
+                continue;
+            }
             let value = this.checkCollision(obstacle);
             if(value){
-                //TODO: obstacle logic
-            }
+                if(this.vouchers == 0){
+                    let penalty = obstacle.getPenalty();
+                    obstacle.cooldown = Date.now() + (penalty + 4) * 1000;
+                    this.freezeBalloon(penalty);
+                }
+                else{
+                    this.vouchers--;
+                }
+            }   
         }
     }
 
@@ -213,8 +222,20 @@ class MyBalloon extends THREE.Object3D {
             //TODO: logic of collision with autonomous balloon
         }
     }
+
     selected(){
         this.isSelected = true;
+    }
+
+    freezeBalloon(penalty) {
+        this.canMove = false;
+    
+        console.log(`Balloon stopped for ${penalty} seconds!`);
+    
+        setTimeout(() => {
+            this.canMove = true;
+            console.log("Balloon reactivated.");
+        }, penalty * 1000);
     }
 }
 export { MyBalloon };

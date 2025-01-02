@@ -72,6 +72,10 @@ class MyObstacle extends THREE.Object3D {
         return this.obstacleBB;
     }
 
+    getPenalty(){
+        return this.penalty;
+    }
+
     waitForShaders() {
         if (!this.shader.ready) {
             setTimeout(this.waitForShaders.bind(this), 100);
