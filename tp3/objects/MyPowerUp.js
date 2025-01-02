@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-
+import { MyShader } from './MyShader.js';
 class MyPowerUp extends THREE.Object3D {
     constructor(parameters, material, castShadow, receiveShadow) {
             super();
@@ -9,15 +9,19 @@ class MyPowerUp extends THREE.Object3D {
             this.powerup = new THREE.Mesh(this.powerup, material);
             this.powerup.rotation.set(Math.PI/4, 0, Math.PI/4);
           
-            const vertexShader = 'shaders/obstacle.vert';
-            const fragmentShader = 'shaders/obstacle.frag';
+            const vertexShader = 'shaders/powerup.vert';
+            const fragmentShader = 'shaders/powerup.frag';
+            const texture1 = new THREE.TextureLoader().load('scenes/textures/powerup.png');
+            const texture2 = new THREE.TextureLoader().load('scenes/textures/powerup_bump.png');
             this.shader = new MyShader( vertexShader, fragmentShader, {
-                time: { type: 'float', value: 0.0 },         // Tracks time for animation
-                amplitude: { type: 'float', value: 0.2 },   // Adjust pulsation intensity
+                texture1: { type: 'sampler2D', value: texture1 },
+                bumpmap: { type: 'sampler2D', value: texture2 },
+                time: { type: 'float', value: 0.0 }
             });
             
-            this.add(this.powerup);
             this.waitForShaders();
+            this.add(this.powerup);
+            this.animateRotation();
 
     }
 
@@ -38,17 +42,17 @@ class MyPowerUp extends THREE.Object3D {
             return;
         }
         this.powerup.material = this.shader.material;
-        this.animatePulsation();
+        this.powerup.material.needsUpdate = true;
     }
-    animatePulsation() {
+    animateRotation() {
         const clock = new THREE.Clock();
-        console.log("animatePulsation");
         const update = () => {
             const elapsedTime = clock.getElapsedTime();
-            this.shader.updateUniformsValue('time', elapsedTime);
+            this.shader.updateUniformsValue('time', elapsedTime);  // Pass the time to shader
             requestAnimationFrame(update);
         };
         update();
     }
+
 }
 export { MyPowerUp };

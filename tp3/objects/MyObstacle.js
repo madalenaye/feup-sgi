@@ -58,6 +58,7 @@ class MyObstacle extends THREE.Object3D {
         
         this.waitForShaders();
         this.add(this.rocket);
+        this.animatePulsation();
     }
 
     createBoundingVolume(){
@@ -79,9 +80,9 @@ class MyObstacle extends THREE.Object3D {
         this.rocket.traverse(child => {
             if (child.isMesh) {
                 child.material = this.shader.material;
+                child.material.needsUpdate = true;
             }
         });
-        this.animatePulsation();
     }
     animatePulsation() {
         const clock = new THREE.Clock();
