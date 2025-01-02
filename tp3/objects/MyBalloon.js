@@ -219,7 +219,12 @@ class MyBalloon extends THREE.Object3D {
     checkCollisionBalloon(balloon){
         let value = this.checkCollision(balloon);
         if(value){
-            //TODO: logic of collision with autonomous balloon
+            if(this.vouchers == 0){
+                this.freezeBalloon(3);
+            }
+            else{
+                this.vouchers--;
+            }
         }
     }
 
