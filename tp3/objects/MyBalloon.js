@@ -12,6 +12,8 @@ class MyBalloon extends THREE.Object3D {
         this.type = type;
         this.name = name;
         this.isSelected = false;
+
+        this.vouchers = 0;
         
         this.groupBalloon = new THREE.Group();
         this.groupBalloon.name = this.name;
@@ -124,15 +126,15 @@ class MyBalloon extends THREE.Object3D {
     createBoundingVolume(){
         this.matrixWorldNeedsUpdate = true;
         this.updateMatrixWorld(true);
+
         this.balloonBB = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
         this.balloonBB.setFromObject(this.groupBalloon, true);
-
+    
         this.balloonBB_box = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
-        this.balloonBB_box.setFromObject(this.basketGroup, true);
-
+        this.balloonBB_box.setFromObject(this.basket, true);
+    
         this.balloonBB_sphere = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
         this.balloonBB_sphere.setFromObject(this.balloon, true);
-
     }
 
     getBoundingVolume(){
@@ -142,17 +144,19 @@ class MyBalloon extends THREE.Object3D {
     updateBoundingBoxBalloon(){
         if(this.groupBalloon){
           this.balloonBB.setFromObject(this.groupBalloon, true);
-          this.balloonBB_box.setFromObject(this.basketGroup, true);
+          this.balloonBB_box.setFromObject(this.basket, true);
           this.balloonBB_sphere.setFromObject(this.balloon, true);
         }
     }
 
     exhaustiveTest(objectBB){
         if (this.balloonBB_box.intersectsBox(objectBB)) {
+            console.log("Colisão caixa");
             return true;
         }
     
         if (this.balloonBB_sphere.intersectsBox(objectBB)) {
+            console.log("Colisão esfera");
             return true;
         }
 
@@ -198,7 +202,7 @@ class MyBalloon extends THREE.Object3D {
             const powerup = powerups[key];
             let value = this.checkCollision(powerup);
             if(value){
-                //TODO: powerup logic
+                this.vouchers++;
             }
         }        
     }
