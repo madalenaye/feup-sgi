@@ -2,9 +2,9 @@ import * as THREE from 'three'
 
 class MyFirework {
 
-    constructor(app, scene) {
+    constructor(app, position) {
         this.app = app
-        this.scene = scene
+        this.position = position
 
         this.done     = false 
         this.dest     = [] 
@@ -23,7 +23,7 @@ class MyFirework {
             depthTest: false,
         })
         
-        this.height = 20
+        this.height = 3
         this.speed = 60
 
         this.launch() 
@@ -36,14 +36,14 @@ class MyFirework {
 
     launch() {
         let color = new THREE.Color()
-        color.setHSL( THREE.MathUtils.randFloat( 0.1, 0.9 ), 1, 0.9 )
+        color.setHSL( THREE.MathUtils.randFloat( 0.1, 0.9 ), 0.5, 0.8 )
         let colors = [ color.r, color.g, color.b ]
 
-        let x = THREE.MathUtils.randFloat( -5, 5 ) 
+        let x = THREE.MathUtils.randFloat( this.position.x - 0.5, this.position.x + 0.5 ) 
         let y = THREE.MathUtils.randFloat( this.height * 0.9, this.height * 1.1)
-        let z = THREE.MathUtils.randFloat( -5, 5 ) 
-        this.dest.push( x, y, z ) 
-        let vertices = [0,0,0]
+        let z = THREE.MathUtils.randFloat( this.position.z - 0.5, this.position.z + 0.5 ) 
+        this.dest.push(x, y, z) 
+        let vertices = [this.position.x, this.position.y, this.position.z]
         
         this.geometry = new THREE.BufferGeometry()
         this.geometry.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(vertices), 3 ) );
@@ -52,7 +52,6 @@ class MyFirework {
         this.points.castShadow = true;
         this.points.receiveShadow = true;
         this.app.scene.add( this.points )  
-        console.log("firework launched")
     }
 
     /**
@@ -60,10 +59,44 @@ class MyFirework {
      * @param {*} vector 
      */
     explode(origin, n, rangeBegin, rangeEnd) {
+        this.app.scene.remove( this.points)
+        const originVector = new THREE.Vector3(...origin);
+        
+        this.dest = [];
+        this.colors = [];
+        let vertices = [];
 
-       
-        this.app.scene.remove( this.points )
-        this.points.geometry.dispose()
+        this.geometry = new THREE.BufferGeometry();
+        for (let i = 0; i < n; i++){
+            const color = new THREE.Color();
+            color.setHSL(THREE.MathUtils.randFloat(0.1, 0.9), 0.6, 0.7);
+            this.colors.push(...color.toArray());
+
+            // random from and to positions 
+            let from = new THREE.Vector3(
+                THREE.MathUtils.randFloat(originVector.x - rangeBegin, originVector.x + rangeBegin),
+                THREE.MathUtils.randFloat(originVector.y - rangeBegin, originVector.y + rangeBegin),
+                THREE.MathUtils.randFloat(originVector.z - rangeBegin, originVector.z + rangeBegin)
+            );
+            let to = new THREE.Vector3(
+                THREE.MathUtils.randFloat(originVector.x - rangeEnd, originVector.x + rangeEnd),
+                THREE.MathUtils.randFloat(originVector.y - rangeEnd, originVector.y + rangeEnd),
+                THREE.MathUtils.randFloat(originVector.z - rangeEnd, originVector.z + rangeEnd)
+            );
+
+            vertices.push(from);
+            this.dest.push(to.x, to.y, to.z);
+
+        }
+        this.geometry.setFromPoints(vertices);
+        this.geometry.setAttribute('color', new THREE.BufferAttribute(new Float32Array(this.colors), 3));
+
+        this.points = new THREE.Points(this.geometry, this.material);
+        this.points.castShadow = true;
+        this.points.receiveShadow = true;
+
+        this.app.scene.add(this.points);
+
     }
     
     /**
