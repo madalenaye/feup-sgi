@@ -27,9 +27,10 @@ export const MySprite = {
         const vOffset = 1 - (row + 1) / totalRows;
 
         const paddingY = 0.055;
-
-        clonedMaterial.map.offset.set(uOffset, vOffset + paddingY);
-        clonedMaterial.map.repeat.set(1 / totalColumns, 1 / totalRows - paddingY * 2);
+        const paddingX = ["l", "L", "n", "N"].includes(char) ? 0.009 : 0;
+    
+        clonedMaterial.map.offset.set(uOffset + paddingX, vOffset + paddingY);
+        clonedMaterial.map.repeat.set(1 / totalColumns - paddingX * 2, 1 / totalRows - paddingY * 2);
 
         const charGeometry = new THREE.PlaneGeometry(charWidth, charHeight);
         return new THREE.Mesh(charGeometry, clonedMaterial);
