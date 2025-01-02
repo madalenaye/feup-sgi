@@ -16,6 +16,7 @@ class MyBalloon extends THREE.Object3D {
         this.groupBalloon = new THREE.Group();
         this.groupBalloon.name = this.name;
         this.buildBalloon();
+        this.create3PersonCamera();
     }
     buildBalloon() {
 
@@ -119,6 +120,34 @@ class MyBalloon extends THREE.Object3D {
         this.groupBalloon.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI/4);
         this.add(this.groupBalloon);
 
+    }
+
+    create3PersonCamera() {
+        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    
+        this.camera.position.set(0, this.radius * 2, -this.radius * 3);
+        
+        this.camera.lookAt(this.groupBalloon.position);
+    
+        //this.add(this.camera);
+    }
+
+    updateCameraPosition() {
+        const balloonPosition = new THREE.Vector3();
+        this.getWorldPosition(balloonPosition);
+
+        const localOffset = new THREE.Vector3(0, 10, -15);
+
+        const balloonQuaternion = new THREE.Quaternion();
+        this.getWorldQuaternion(balloonQuaternion);
+
+        localOffset.applyQuaternion(balloonQuaternion);
+
+        const desiredCameraPosition = balloonPosition.clone().add(localOffset);
+
+        this.camera.position.copy(desiredCameraPosition);
+
+        this.camera.lookAt(balloonPosition);
     }
 
     createBoundingVolume(){

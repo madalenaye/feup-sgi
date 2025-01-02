@@ -70,7 +70,7 @@ class MyRoute extends THREE.Object3D {
     
         const quaternionKF = new THREE.QuaternionKeyframeTrack('.quaternion', this.times, quaternionKeyframes);
     
-        const positionClip = new THREE.AnimationClip('positionAndRotationAnimation', this.times[this.times.length - 1], [positionKF, quaternionKF]);
+        const positionClip = new THREE.AnimationClip('positionAndRotationAnimation', this.times[this.times.length - 1], [positionKF]);
     
         this.mixer = new THREE.AnimationMixer(object);
         this.positionAction = this.mixer.clipAction(positionClip);

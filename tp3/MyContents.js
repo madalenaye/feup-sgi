@@ -168,10 +168,27 @@ class MyContents {
 
         this.lights = loadObjects.getLights();
         this.app.scene.add(myScene);
+
+        // Código para testar a camara 3º pessoa
+        // Não esquecer de apagar
+        this.route3 = this.objects["route_level3"];
+        this.balloon = this.balloons[0];
+        this.app.scene.add(this.balloon.camera);
+        this.route3.setupAnimation(this.balloon);
+        this.app.cameras["teste"] = this.balloon.camera;
+        this.app.activeCamera = this.balloon.camera;
+        this.app.setActiveCamera("teste");
+        this.route3.play();
   
     }
 
     update() {
+        // Código para testar a camara 3º pessoa
+        // Não esquecer de apagar
+        if(this.route3){
+            this.route3.update();
+            this.balloon.updateCameraPosition();
+        }
     }
 
 
@@ -208,7 +225,7 @@ class MyContents {
                 map: texture,
                 roughness: 1,
                 metalness: 0.5,
-                transparent: true,
+                transparent: false,
                 opacity: 0.8,
                 side: THREE.DoubleSide,
             });
