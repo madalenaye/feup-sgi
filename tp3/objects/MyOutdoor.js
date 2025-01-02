@@ -181,6 +181,14 @@ class MyOutdoor extends THREE.Object3D {
         this.add(this.gameStatusTextMesh);
     }
 
+    getTotalTime(){
+        const minutes = Math.floor(this.elapsedTime / 60);
+        const seconds = Math.floor(this.elapsedTime % 60);
+        const timeText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        return timeText;
+    }
+
     play(){
         if (!this.isPlaying) {
             this.isPlaying = true;
@@ -211,9 +219,7 @@ class MyOutdoor extends THREE.Object3D {
             this.elapsedTime += delta;
             this.lastTime = now;
 
-            const minutes = Math.floor(this.elapsedTime / 60);
-            const seconds = Math.floor(this.elapsedTime % 60);
-            const timeText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            const timeText = this.getTotalTime();
 
             this.setElapsedTime(timeText);
         }
