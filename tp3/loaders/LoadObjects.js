@@ -13,7 +13,7 @@ import { MyRoute } from '../objects/MyRoute.js';
 import { MyPowerUp } from '../objects/MyPowerUp.js';
 import { MyOutdoor } from '../objects/MyOutdoor.js';
 
-export const objects = [];
+export const objects = {};
 export const lights = [];
 export const routes = {};
 export const obstacles = {};
@@ -191,7 +191,7 @@ const dealWithNodes = function(node, materialId=null, materials){
                         }
                         
                         group.add(primitive);
-                        objects.push(primitive);
+                        objects[node.id] = primitive;
                         break;
                     default:
                         throw new Error('Invalid node type');
