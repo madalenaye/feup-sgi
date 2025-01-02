@@ -14,6 +14,7 @@ import { loadMaterials } from './loaders/LoadMaterials.js';
 import {loadObjects} from './loaders/LoadObjects.js';
 import { MyBalloon } from './objects/MyBalloon.js';
 import { MyPowerUp } from './objects/MyPowerUp.js';
+import { MyFirework } from './objects/MyFirework.js';
 
 
 /**
@@ -50,6 +51,7 @@ class MyContents {
         this.lights = null;
         this.balloons = {}
         this.textureLoader = new THREE.TextureLoader();
+        this.fireworks = [];
 
         this.reader = new MyFileReader(this.onSceneLoaded.bind(this));
         this.reader.open("scenes/GameScene.json");
@@ -93,6 +95,7 @@ class MyContents {
         this.initBalloons()
 
         
+        // provisório
         this.powerupTex = new THREE.TextureLoader().load('./scenes/textures/powerup.png');
         this.powerupTex.wrapS = THREE.RepeatWrapping;
         this.powerupTex.wrapT = THREE.RepeatWrapping;
@@ -101,6 +104,8 @@ class MyContents {
         this.powerup = new MyPowerUp({width: 2}, this.powerupMaterial, true, true);
         this.powerup.position.set(0, 5, 25);
         this.app.scene.add(this.powerup);
+
+        
     }
 
     /**
@@ -173,6 +178,26 @@ class MyContents {
     }
 
     update() {
+        // provisório
+        // add new fireworks every 5% of the calls
+        if(Math.floor(Math.random() * 20) + 1 === 1) {
+            const firework = new MyFirework(this.app, this.balloons[0].position)
+            this.fireworks.push(firework)
+            console.log("firework added")
+        }
+
+        // for each fireworks 
+        for( let i = 0; i < this.fireworks.length; i++ ) {
+            // is firework finished?
+            if (this.fireworks[i].done) {
+                // remove firework 
+                this.fireworks.splice(i,1) 
+                console.log("firework removed")
+                continue 
+            }
+            // otherwise update  firework
+            this.fireworks[i].update()
+        }
     }
 
 
