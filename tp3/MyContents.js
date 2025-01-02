@@ -107,7 +107,7 @@ class MyContents {
 
         // apagar depois
         this.testBalloon = this.balloons[3].clone();
-        this.testBalloon.position.set(0, 8, 0);
+        this.testBalloon.position.set(0, 7, 0);
         this.app.scene.add(this.testBalloon);
     }
 
@@ -201,10 +201,13 @@ class MyContents {
         //     // otherwise update  firework
         //     this.fireworks[i].update()
         // }
-
+         // todo add functions to accelerate and desaccelerate the balloon
         if (this.app.keys.includes("w")) this.testBalloon.position.y += 0.1;
         if (this.app.keys.includes("s")) this.testBalloon.position.y -= 0.1;
+        this.windLayers(this.testBalloon.position.y);
+        console.log(this.testBalloon.position.y);
     }
+
 
 
     turnOnLights(){
@@ -356,6 +359,21 @@ class MyContents {
             this.lastObj = null;
         }
     }
+    windLayers(y) {
+        if (7 < y && y < 12) {
+            console.log("north");
+        }
+        if (12 <= y && y < 17) {
+            console.log("south");
+        }
+        if (17 <= y && y < 22) {
+            console.log("east");
+        }
+        if (22 <= y && y <= 27) {
+            console.log("west");
+        }
+    }
+    
 }
 
 export { MyContents };
