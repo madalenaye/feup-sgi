@@ -2,52 +2,57 @@ import * as THREE from 'three';
 
 export const MySprite = {
 
-    loadSpritesheet() {
-        const texture = new THREE.TextureLoader().load("utils/spritesheet.png");
+    loadSpritesheet(color) {
+        const texture = new THREE.TextureLoader().load("utils/spritesheet2.png");
+
+        texture.magFilter = THREE.NearestFilter;
+        texture.minFilter = THREE.LinearMipMapLinearFilter;
+        texture.transparent = true;
+        texture.colorSpace = THREE.SRGBColorSpace;
 
         return new THREE.MeshBasicMaterial({
             map: texture,
-            transparent: false,
+            color,
+            transparent: true,
             side: THREE.DoubleSide
         });
     },
 
     createCharFromSpritesheet(char, charWidth, charHeight, material, totalRows = 16, totalColumns = 16) {
 
-        const clonedMaterial = material.clone();
-        clonedMaterial.map = material.map.clone();
-        clonedMaterial.map.needsUpdate = true;
+        const ascii = char.charCodeAt(0);
+        const col = ascii % totalColumns;
+        const row = Math.floor(ascii / totalColumns);
 
-        const asciiCode = char.charCodeAt(0);
+        const uSize = 1 / totalColumns;
+        const vSize = 1 / totalRows;
+        const uOffset = col * uSize;
+        const vOffset = 1 - (row + 1) * vSize;
 
-        const column = asciiCode % totalColumns;
-        const row = Math.floor(asciiCode / totalColumns);
+        const geometry = new THREE.PlaneGeometry(charWidth, charHeight);
+        const uv = geometry.attributes.uv;
 
-        const uOffset = column / totalColumns;
-        const vOffset = 1 - (row + 1) / totalRows;
+        uv.setXY(0, uOffset, vOffset + vSize);
+        uv.setXY(1, uOffset + uSize, vOffset + vSize);
+        uv.setXY(2, uOffset, vOffset);
+        uv.setXY(3, uOffset + uSize, vOffset);
 
-        const paddingY = 0.055;
-        const paddingX = ["l", "L", "n", "N"].includes(char) ? 0.009 : 0;
-    
-        clonedMaterial.map.offset.set(uOffset + paddingX, vOffset + paddingY);
-        clonedMaterial.map.repeat.set(1 / totalColumns - paddingX * 2, 1 / totalRows - paddingY * 2);
+        uv.needsUpdate = true;
 
-        const charGeometry = new THREE.PlaneGeometry(charWidth, charHeight);
-        return new THREE.Mesh(charGeometry, clonedMaterial);
+        return new THREE.Mesh(geometry, material);
     },
 
     createTextFromSpritesheet(text, charWidth, charHeight, material, spacing = 0, totalRows = 16, totalColumns = 16) {
         const group = new THREE.Group();
-    
-        for (let i = 0; i < text.length; i++) {
-            const char = text[i];
+        let offsetX = 0;
+
+        for (const char of text) {
             const charMesh = this.createCharFromSpritesheet(char, charWidth, charHeight, material, totalRows, totalColumns);
-    
-            charMesh.position.x = i * (charWidth + spacing);
-    
+            charMesh.position.x = offsetX;
             group.add(charMesh);
+            offsetX += charWidth + spacing;
         }
-    
+
         return group;
     }
 }

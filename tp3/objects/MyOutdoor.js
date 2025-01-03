@@ -6,7 +6,7 @@ class MyOutdoor extends THREE.Object3D {
         super();
 
         this.groupOutdoor = new THREE.Group();
-        this.sprite = MySprite.loadSpritesheet();
+        this.sprite = MySprite.loadSpritesheet(0xffffff);
         this.elapsedTime = 0;
         this.isPlaying = false;
         this.lastTime = null;
@@ -76,6 +76,7 @@ class MyOutdoor extends THREE.Object3D {
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(19.5,5.7,-0.33);
         textMesh.rotation.set(0,0,Math.PI);
+        textMesh.scale.set(1, -1, 1);
         this.add(textMesh);
     }
 
@@ -83,6 +84,7 @@ class MyOutdoor extends THREE.Object3D {
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(19.5, 4.2, -0.33);
         textMesh.rotation.set(0,0,Math.PI);
+        textMesh.scale.set(1, -1, 1);
         this.add(textMesh);
     }
 
@@ -90,6 +92,7 @@ class MyOutdoor extends THREE.Object3D {
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(19.5, 2.7, -0.33);
         textMesh.rotation.set(0,0,Math.PI);
+        textMesh.scale.set(1, -1, 1);
         this.add(textMesh);
     }
 
@@ -97,6 +100,7 @@ class MyOutdoor extends THREE.Object3D {
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(19.5, 1.2, -0.33);
         textMesh.rotation.set(0,0,Math.PI);
+        textMesh.scale.set(1, -1, 1);
         this.add(textMesh);
     }
 
@@ -104,6 +108,7 @@ class MyOutdoor extends THREE.Object3D {
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(19.5, -0.3, -0.33);
         textMesh.rotation.set(0,0,Math.PI);
+        textMesh.scale.set(1, -1, 1);
         this.add(textMesh);        
     }
 
@@ -112,6 +117,7 @@ class MyOutdoor extends THREE.Object3D {
         let textMesh = MySprite.createTextFromSpritesheet(this.status, charWidth, charHeight, this.sprite);
         textMesh.position.set(11.0, -0.3, -0.33);
         textMesh.rotation.set(0,0,Math.PI);
+        textMesh.scale.set(1, -1, 1);
         this.gameStatusTextMesh = textMesh;
         this.add(textMesh);
 
@@ -124,6 +130,7 @@ class MyOutdoor extends THREE.Object3D {
         this.timeTextMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         this.timeTextMesh.position.set(10.3, 5.7, -0.33);
         this.timeTextMesh.rotation.set(0, 0, Math.PI);
+        this.timeTextMesh.scale.set(1, -1, 1);
         this.add(this.timeTextMesh);
     }
 
@@ -133,6 +140,7 @@ class MyOutdoor extends THREE.Object3D {
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(8.0, 4.2, -0.33);
         textMesh.rotation.set(0,0,Math.PI);
+        textMesh.scale.set(1, -1, 1);
         this.add(textMesh);
     }
 
@@ -142,6 +150,7 @@ class MyOutdoor extends THREE.Object3D {
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(8.8, 4.2, -0.33);
         textMesh.rotation.set(0,0,Math.PI);
+        textMesh.scale.set(1, -1, 1);
         this.add(textMesh);
     }
 
@@ -153,6 +162,7 @@ class MyOutdoor extends THREE.Object3D {
         let textMesh = MySprite.createTextFromSpritesheet(this.airLayer, charWidth, charHeight, this.sprite);
         textMesh.position.set(12.5, 2.7, -0.33);
         textMesh.rotation.set(0,0,Math.PI);
+        textMesh.scale.set(1, -1, 1);
         this.airLayerTextMesh = textMesh;
         this.add(textMesh);
     }
@@ -162,7 +172,8 @@ class MyOutdoor extends THREE.Object3D {
         let text = `${this.vouchers}`
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(13.0, 1.2, -0.33);
-        textMesh.rotation.set(0,0,Math.PI);
+        textMesh.rotation.set(0,Math.PI,0);
+        textMesh.scale.set(1, -1, 1);
         this.add(textMesh);
 
     }
@@ -177,6 +188,7 @@ class MyOutdoor extends THREE.Object3D {
         this.gameStatusTextMesh = MySprite.createTextFromSpritesheet(this.status, charWidth, charHeight, this.sprite);
         this.gameStatusTextMesh.position.set(11.0, -0.3, -0.33);
         this.gameStatusTextMesh.rotation.set(0, 0, Math.PI);
+        this.gameStatusTextMesh.scale.set(1, -1, 1);
     
         this.add(this.gameStatusTextMesh);
     }
