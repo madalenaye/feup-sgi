@@ -76,6 +76,9 @@ class MyContents {
 
         // provisório
         this.currentState = this.state.USER_BALLOON;
+        this.hudWind = document.getElementById("wind");
+        this.hudWind.style.display = "block";
+        this.hudWind.innerHTML = "Layer 0";
 
     }
     /**
@@ -206,6 +209,7 @@ class MyContents {
         if (this.app.keys.includes("s")) this.testBalloon.position.y -= 0.1;
         this.windLayers(this.testBalloon.position.y);
         console.log(this.testBalloon.position.y);
+        console.log(this.hudWind.innerHTML);
     }
 
 
@@ -360,20 +364,27 @@ class MyContents {
         }
     }
     windLayers(y) {
+        if (y <= 7){
+            this.hudWind.innerHTML = "Layer 0";
+        }
         if (7 < y && y < 12) {
             console.log("north");
+            this.hudWind.innerHTML = "North";
             this.testBalloon.position.z += 0.1;
         }
         if (12 <= y && y < 17) {
             console.log("south");
+            this.hudWind.innerHTML = "South";
             this.testBalloon.position.z -= 0.1;
         }
         if (17 <= y && y < 22) {
             console.log("east");
+            this.hudWind.innerHTML = "East";
             this.testBalloon.position.x += 0.1;
         }
         if (22 <= y && y <= 27) {
             console.log("west");
+            this.hudWind.innerHTML = "West";
             this.testBalloon.position.x -= 0.1;
         }
     }
