@@ -163,7 +163,7 @@ class MyBalloon extends THREE.Object3D {
     }
     
     checkCollision(object) {
-        const objectBB = object.getBoundingVolume()
+        const objectBB = object.getBoundingVolume();
         if (this.balloonBB && objectBB) {
           const isIntersecting = this.balloonBB.intersectsBox(objectBB);
     
@@ -183,6 +183,15 @@ class MyBalloon extends THREE.Object3D {
           return false;
         }
     
+        return false;
+    }
+
+    simpleCheckCollision(object){
+        const objectBB = object.getBoundingVolume();
+        if(this.balloonBB && objectBB){
+            const isIntersecting = this.balloonBB.intersectsBox(objectBB);
+            return isIntersecting;
+        }
         return false;
     }
 
@@ -241,6 +250,18 @@ class MyBalloon extends THREE.Object3D {
             this.canMove = true;
             console.log("Balloon reactivated.");
         }, penalty * 1000);
+    }
+
+    getVouchers(){
+        return this.vouchers;
+    }
+
+    decreaseVouchers(){
+        this.vouchers--;
+    }
+
+    getDistance(){
+        return (this.radius * 1.7);
     }
 }
 export { MyBalloon };
