@@ -34,6 +34,7 @@ class MyApp  {
 
         this.objects = [];
         this.lights = [];
+        this.keys = [];
 
         // other attributes
         this.renderer = null
@@ -76,6 +77,7 @@ class MyApp  {
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
+        this.getKeys();
     }
 
      /**
@@ -214,6 +216,17 @@ class MyApp  {
 
         this.lastCameraName = this.activeCameraName
         this.stats.end()
+    }
+
+    getKeys(){
+        document.onkeydown = (e) => {
+            if (!["w", "s"].includes(e.key)) return;
+            if(!this.keys.includes(e.key)) this.keys.push(e.key);
+        }
+        document.onkeyup = (e) => {
+            if (!["w", "s"].includes(e.key)) return;
+            if (this.keys.includes(e.key)) this.keys = this.keys.filter(k => k != e.key);
+        }
     }
 }
 
