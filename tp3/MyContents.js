@@ -181,6 +181,10 @@ class MyContents {
 
         this.lights = loadObjects.getLights();
         this.app.scene.add(myScene);
+
+        // provisório
+        this.outdoor2 = this.objects["outdoor_2"];
+        this.outdoor2.startUpdatingTextures(this.app, this.app.activeCamera, 15000);
   
     }
 
