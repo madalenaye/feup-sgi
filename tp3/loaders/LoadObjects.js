@@ -452,7 +452,7 @@ const createTrack = function(parameters, material, castShadow, receiveShadow){
     return track;
 }
 
-const createObstacle = function(parameters, obstacleID, material, castShadow, receiveShadow, group){
+const createObstacle = function(parameters, obstacleID, material, castShadow, receiveShadow){
     if(material == null || material == undefined){
         throw new Error("Error in function createObstacle. Lack of material");  
     }

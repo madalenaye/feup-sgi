@@ -54,5 +54,9 @@ class MyPowerUp extends THREE.Object3D {
         update();
     }
 
+    getDistance(){
+        return (2 * this.width);
+    }
+
 }
 export { MyPowerUp };

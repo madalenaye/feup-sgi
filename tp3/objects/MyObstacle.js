@@ -98,6 +98,10 @@ class MyObstacle extends THREE.Object3D {
         };
         update();
     }
+
+    getDistance(){
+        return (2 * this.height);
+    }
 }
 
 export { MyObstacle };
