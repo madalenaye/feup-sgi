@@ -78,7 +78,8 @@ class MyContents {
         this.currentState = this.state.USER_BALLOON;
         this.hudWind = document.getElementById("wind");
         this.hudWind.style.display = "block";
-        this.hudWind.innerHTML = "Layer 0";
+        this.hudWind.innerHTML = "No wind";
+        this.windSpeed = 0.1;
 
     }
     /**
@@ -205,10 +206,13 @@ class MyContents {
         //     this.fireworks[i].update()
         // }
          // todo add functions to accelerate and desaccelerate the balloon
-        if (this.app.keys.includes("w")) this.testBalloon.position.y += 0.1;
-        if (this.app.keys.includes("s")) this.testBalloon.position.y -= 0.1;
-        this.windLayers(this.testBalloon.position.y);
-        console.log(this.testBalloon.position.y);
+        // Check for key presses and ensure the action only triggers once per press
+        if (this.app.keys.includes("w")) this.testBalloon.ascend();
+
+        if (this.app.keys.includes("s")) this.testBalloon.descend();
+  
+        this.windLayers(this.testBalloon);
+        console.log("here" + this.testBalloon.currentLayer)
         console.log(this.hudWind.innerHTML);
     }
 
@@ -363,30 +367,53 @@ class MyContents {
             this.lastObj = null;
         }
     }
-    windLayers(y) {
-        if (y <= 7){
-            this.hudWind.innerHTML = "No wind";
+    windLayers() {
+        switch(this.testBalloon.currentLayer){
+            case 0:
+                this.hudWind.innerHTML = "No wind";
+                break;
+            case 1:
+                this.hudWind.innerHTML = "North ↑";
+                this.testBalloon.position.z += this.windSpeed;
+                break;
+            case 2:
+                this.hudWind.innerHTML = "South ↓";
+                this.testBalloon.position.z -= this.windSpeed;
+                break;
+            case 3:
+                this.hudWind.innerHTML = "East →";
+                this.testBalloon.position.x += this.windSpeed;
+                break;
+            case 4:
+                this.hudWind.innerHTML = "West ←";
+                this.testBalloon.position.x -= this.windSpeed;
+                break;
+            default:
+                break;
         }
-        if (7 < y && y < 12) {
-            console.log("north");
-            this.hudWind.innerHTML = "North ↑";
-            this.testBalloon.position.z += 0.1;
-        }
-        if (12 <= y && y < 17) {
-            console.log("south");
-            this.hudWind.innerHTML = "South ↓";
-            this.testBalloon.position.z -= 0.1;
-        }
-        if (17 <= y && y < 22) {
-            console.log("east");
-            this.hudWind.innerHTML = "East →";
-            this.testBalloon.position.x += 0.1;
-        }
-        if (22 <= y && y <= 27) {
-            console.log("west");
-            this.hudWind.innerHTML = "West ←";
-            this.testBalloon.position.x -= 0.1;
-        }
+        // if (y <= 7){
+        //     this.hudWind.innerHTML = "No wind";
+        // }
+        // if (7 < y && y < 12) {
+        //     console.log("north");
+        //     this.hudWind.innerHTML = "North ↑";
+        //     this.testBalloon.position.z += 0.1;
+        // }
+        // if (12 <= y && y < 17) {
+        //     console.log("south");
+        //     this.hudWind.innerHTML = "South ↓";
+        //     this.testBalloon.position.z -= 0.1;
+        // }
+        // if (17 <= y && y < 22) {
+        //     console.log("east");
+        //     this.hudWind.innerHTML = "East →";
+        //     this.testBalloon.position.x += 0.1;
+        // }
+        // if (22 <= y && y <= 27) {
+        //     console.log("west");
+        //     this.hudWind.innerHTML = "West ←";
+        //     this.testBalloon.position.x -= 0.1;
+        // }
     }
     
 }

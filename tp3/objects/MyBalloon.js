@@ -12,6 +12,10 @@ class MyBalloon extends THREE.Object3D {
         this.type = type;
         this.name = name;
         this.isSelected = false;
+        this.currentLayer = 0;
+        this.maxLayers = 5;
+        this.cooldownTime = 300;
+        this.canChangeLayer = true;
 
         this.vouchers = 0;
         this.canMove = true;
@@ -237,5 +241,38 @@ class MyBalloon extends THREE.Object3D {
             console.log("Balloon reactivated.");
         }, penalty * 1000);
     }
+    ascend(delta){
+        this.lastAscend += delta;
+        if (this.canChangeLayer){
+            if (this.currentLayer < this.maxLayers - 1){
+                this.currentLayer += 1;
+                console.log("here here" + this.currentLayer)
+                this.groupBalloon.position.y += 5;
+            }
+            else{
+                console.log("Balloon reached maximum height!");
+            }
+            this.startCooldown();
+        }
+    }
+    descend(){
+        if (this.canChangeLayer){
+            if (this.currentLayer > 0){
+                this.currentLayer -= 1;
+                this.groupBalloon.position.y -= 5;
+            }
+            else{
+                console.log("Balloon reached minimum height!");
+            }
+            this.startCooldown();
+        }
+    }
+    startCooldown(){
+        this.canChangeLayer = false;
+        setTimeout(() => {
+            this.canChangeLayer = true;
+        }, this.cooldownTime);
+    }
+  
 }
 export { MyBalloon };
