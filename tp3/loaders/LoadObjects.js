@@ -12,6 +12,7 @@ import { MyObstacle } from '../objects/MyObstacle.js';
 import { MyRoute } from '../objects/MyRoute.js';
 import { MyPowerUp } from '../objects/MyPowerUp.js';
 import { MyOutdoor } from '../objects/MyOutdoor.js';
+import { MyOutdoor2 } from '../objects/MyOutdoor2.js';
 
 export const objects = {};
 export const lights = [];
@@ -186,6 +187,8 @@ const dealWithNodes = function(node, materialId=null, materials){
                             case "outdoor":
                                 primitive = createOutdoor(child.representations[0], material, castShadow, receiveShadow);
                                 break;
+                            case "outdoor2":
+                                primitive = createOutdoor2(child.representations[0], material, castShadow, receiveShadow);
                             default:
                                 throw new Error('Invalid primitive type ' + child.subtype);
                         }
@@ -495,6 +498,17 @@ const createOutdoor = function(parameters, material, castShadow, receiveShadow){
     let outdoor = new MyOutdoor(parameters, newMaterial, castShadow, receiveShadow);
 
     return outdoor;
+}
+
+const createOutdoor2 = function(parameters, material, castShadow, receiveShadow){
+    if(material == null || material == undefined){
+        throw new Error("Error in function createOutdoor2. Lack of material");  
+    }
+
+    let newMaterial = loadMaterials.createMaterial(material, 1, 1);
+    let outdoor2 = new MyOutdoor2(parameters, newMaterial, castShadow, receiveShadow);
+
+    return outdoor2
 }
 
 const degreesToRadians = (degrees) => degrees * (Math.PI / 180);

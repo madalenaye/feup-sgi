@@ -221,6 +221,13 @@ class YASFstructures{
             {name: "distance", type: "float", required: false, default: 0.0}, // The distance at which to display this level of detail. Default 0.0.
         ]
 
+        this.descriptors["outdoor2"] = [
+            {name: "type", type: "string"},
+            {name: "width", type: "float"},
+            {name: "height", type: "float"},
+            {name: "distance", type: "float", required: false, default: 0.0}, // The distance at which to display this level of detail. Default 0.0.
+        ]
+
         // to be used in final classes of TP2 or in TP3
         this.descriptors["model3d"] = [
             {name: "type", type: "string"},

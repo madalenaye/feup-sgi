@@ -183,7 +183,7 @@ class MyContents {
         if(Math.floor(Math.random() * 20) + 1 === 1) {
             const firework = new MyFirework(this.app, this.balloons[0].position)
             this.fireworks.push(firework)
-            console.log("firework added")
+            //console.log("firework added")
         }
 
         // for each fireworks 
@@ -192,7 +192,7 @@ class MyContents {
             if (this.fireworks[i].done) {
                 // remove firework 
                 this.fireworks.splice(i,1) 
-                console.log("firework removed")
+                //console.log("firework removed")
                 continue 
             }
             // otherwise update  firework
