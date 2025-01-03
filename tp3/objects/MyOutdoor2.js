@@ -39,6 +39,5 @@ class MyOutdoor2 extends THREE.Object3D {
         this.add(this.groupOutdoor2);
     }
 
-
 }
 export { MyOutdoor2 };
