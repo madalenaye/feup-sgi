@@ -123,9 +123,7 @@ class MyBalloon extends THREE.Object3D {
             this.stringGroup.add(string);
         }
         this.groupBalloon.add(this.stringGroup);
-        this.groupBalloon.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI/4);
         this.add(this.groupBalloon);
-
     }
 
     createBoundingVolume(){
@@ -247,7 +245,7 @@ class MyBalloon extends THREE.Object3D {
             if (this.currentLayer < this.maxLayers - 1){
                 this.currentLayer += 1;
                 console.log("here here" + this.currentLayer)
-                this.groupBalloon.position.y += 5;
+                this.updatePosition();
             }
             else{
                 console.log("Balloon reached maximum height!");
@@ -260,6 +258,7 @@ class MyBalloon extends THREE.Object3D {
             if (this.currentLayer > 0){
                 this.currentLayer -= 1;
                 this.groupBalloon.position.y -= 5;
+                this.updatePosition();
             }
             else{
                 console.log("Balloon reached minimum height!");
@@ -272,6 +271,10 @@ class MyBalloon extends THREE.Object3D {
         setTimeout(() => {
             this.canChangeLayer = true;
         }, this.cooldownTime);
+    }
+    updatePosition(){
+        const layerHeight = 5;
+        this.groupBalloon.position.y = layerHeight * this.currentLayer;
     }
   
 }

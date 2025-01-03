@@ -110,7 +110,7 @@ class MyContents {
         this.app.scene.add(this.powerup);
 
         // apagar depois
-        this.testBalloon = this.balloons[3].clone();
+        this.testBalloon = this.balloons[3];
         this.testBalloon.position.set(0, 7, 0);
         this.app.scene.add(this.testBalloon);
     }
@@ -207,13 +207,16 @@ class MyContents {
         // }
          // todo add functions to accelerate and desaccelerate the balloon
         // Check for key presses and ensure the action only triggers once per press
-        if (this.app.keys.includes("w")) this.testBalloon.ascend();
+        if (this.app.keys.includes("w")) {
+            this.testBalloon.ascend();
+            this.testBalloon.updatePosition();
+            console.log("hereeee" + this.testBalloon.position.y)
+        }
 
         if (this.app.keys.includes("s")) this.testBalloon.descend();
   
         this.windLayers(this.testBalloon);
-        console.log("here" + this.testBalloon.currentLayer)
-        console.log(this.hudWind.innerHTML);
+
     }
 
 
