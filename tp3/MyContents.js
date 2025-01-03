@@ -207,11 +207,7 @@ class MyContents {
         // }
          // todo add functions to accelerate and desaccelerate the balloon
         // Check for key presses and ensure the action only triggers once per press
-        if (this.app.keys.includes("w")) {
-            this.testBalloon.ascend();
-            this.testBalloon.updatePosition();
-            console.log("hereeee" + this.testBalloon.position.y)
-        }
+        if (this.app.keys.includes("w")) this.testBalloon.ascend();
 
         if (this.app.keys.includes("s")) this.testBalloon.descend();
   

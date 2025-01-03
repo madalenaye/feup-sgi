@@ -16,6 +16,9 @@ class MyBalloon extends THREE.Object3D {
         this.maxLayers = 5;
         this.cooldownTime = 300;
         this.canChangeLayer = true;
+        this.layerHeight = 4;
+        this.targetY = 0; 
+        this.smoothFactor = 0.05
 
         this.vouchers = 0;
         this.canMove = true;
@@ -239,13 +242,11 @@ class MyBalloon extends THREE.Object3D {
             console.log("Balloon reactivated.");
         }, penalty * 1000);
     }
-    ascend(delta){
-        this.lastAscend += delta;
+    ascend(){
         if (this.canChangeLayer){
             if (this.currentLayer < this.maxLayers - 1){
                 this.currentLayer += 1;
-                console.log("here here" + this.currentLayer)
-                this.updatePosition();
+                this.updatePosition(this.layerHeight);
             }
             else{
                 console.log("Balloon reached maximum height!");
@@ -257,8 +258,7 @@ class MyBalloon extends THREE.Object3D {
         if (this.canChangeLayer){
             if (this.currentLayer > 0){
                 this.currentLayer -= 1;
-                this.groupBalloon.position.y -= 5;
-                this.updatePosition();
+                this.updatePosition(-this.layerHeight);
             }
             else{
                 console.log("Balloon reached minimum height!");
@@ -272,10 +272,31 @@ class MyBalloon extends THREE.Object3D {
             this.canChangeLayer = true;
         }, this.cooldownTime);
     }
-    updatePosition(){
-        const layerHeight = 5;
-        this.groupBalloon.position.y = layerHeight * this.currentLayer;
+
+    updatePosition(offset) {
+        const targetY = this.position.y + offset;
+        this.smoothTransition(targetY);
     }
-  
+
+    lerp(start, end, t) {
+        return start * (1 - t) + end * t;
+    }
+
+    smoothTransition(targetY, duration = 0.5) {
+        const startY = this.position.y;
+        const startTime = performance.now();
+    
+        const animate = (time) => {
+            const elapsed = (time - startTime) / 1000;
+            const t = Math.min(elapsed / duration, 1);
+            this.position.y = this.lerp(startY, targetY, t);
+    
+            if (t < 1) {
+                requestAnimationFrame(animate);
+            }
+        };
+    
+        requestAnimationFrame(animate);
+    }  
 }
 export { MyBalloon };
