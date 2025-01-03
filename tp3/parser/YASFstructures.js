@@ -324,7 +324,7 @@ class YASFstructures{
         ]
 
         this.primaryNodeIds = ["globals", "fog" ,"textures", "materials", "cameras", "graph"]
-        this.primitiveIds = ["cylinder", "rectangle", "triangle", "sphere", "nurbs" , "box", "model3d", "skybox", "polygon", "ring", "circle", "track", "obstacle", "route", "outdoor"]
+        this.primitiveIds = ["cylinder", "rectangle", "triangle", "sphere", "nurbs" , "box", "model3d", "skybox", "polygon", "ring", "circle", "track", "obstacle", "route", "outdoor", "outdoor2"]
         this.lightIds = ["spotlight", "pointlight", "directionallight"]
     }
 

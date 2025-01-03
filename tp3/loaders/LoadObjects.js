@@ -189,6 +189,7 @@ const dealWithNodes = function(node, materialId=null, materials){
                                 break;
                             case "outdoor2":
                                 primitive = createOutdoor2(child.representations[0], material, castShadow, receiveShadow);
+                                break;
                             default:
                                 throw new Error('Invalid primitive type ' + child.subtype);
                         }

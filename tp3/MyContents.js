@@ -76,6 +76,10 @@ class MyContents {
 
         // provisório
         this.currentState = this.state.USER_BALLOON;
+        this.hudWind = document.getElementById("wind");
+        this.hudWind.style.display = "block";
+        this.hudWind.innerHTML = "No wind";
+        this.windSpeed = 0.1;
 
     }
     /**
@@ -105,7 +109,10 @@ class MyContents {
         this.powerup.position.set(0, 5, 25);
         this.app.scene.add(this.powerup);
 
-        
+        // apagar depois
+        this.testBalloon = this.balloons[3];
+        this.testBalloon.position.set(0, 7, 0);
+        this.app.scene.add(this.testBalloon);
     }
 
     /**
@@ -179,26 +186,35 @@ class MyContents {
 
     update() {
         // provisório
-        // add new fireworks every 5% of the calls
-        if(Math.floor(Math.random() * 20) + 1 === 1) {
-            const firework = new MyFirework(this.app, this.balloons[0].position)
-            this.fireworks.push(firework)
-            //console.log("firework added")
-        }
+  
+        // if(Math.floor(Math.random() * 20) + 1 === 1) {
+        //     const firework = new MyFirework(this.app, this.balloons[0].position)
+        //     this.fireworks.push(firework)
+        //     console.log("firework added")
+        // }
 
-        // for each fireworks 
-        for( let i = 0; i < this.fireworks.length; i++ ) {
-            // is firework finished?
-            if (this.fireworks[i].done) {
-                // remove firework 
-                this.fireworks.splice(i,1) 
-                //console.log("firework removed")
-                continue 
-            }
-            // otherwise update  firework
-            this.fireworks[i].update()
-        }
+        // // for each fireworks 
+        // for( let i = 0; i < this.fireworks.length; i++ ) {
+        //     // is firework finished?
+        //     if (this.fireworks[i].done) {
+        //         // remove firework 
+        //         this.fireworks.splice(i,1) 
+        //         console.log("firework removed")
+        //         continue 
+        //     }
+        //     // otherwise update  firework
+        //     this.fireworks[i].update()
+        // }
+         // todo add functions to accelerate and desaccelerate the balloon
+        // Check for key presses and ensure the action only triggers once per press
+        if (this.app.keys.includes("w")) this.testBalloon.ascend();
+
+        if (this.app.keys.includes("s")) this.testBalloon.descend();
+  
+        this.windLayers(this.testBalloon);
+
     }
+
 
 
     turnOnLights(){
@@ -232,10 +248,7 @@ class MyContents {
             const texture = this.textureLoader.load(config.texturePath);
             const material = new THREE.MeshStandardMaterial({
                 map: texture,
-                roughness: 1,
-                metalness: 0.5,
-                transparent: true,
-                opacity: 0.8,
+                transparent: false,
                 side: THREE.DoubleSide,
             });
             const balloon = new MyBalloon(4, material, config.color, config.type || 0, config.name);
@@ -353,6 +366,55 @@ class MyContents {
             this.lastObj = null;
         }
     }
+    windLayers() {
+        switch(this.testBalloon.currentLayer){
+            case 0:
+                this.hudWind.innerHTML = "No wind";
+                break;
+            case 1:
+                this.hudWind.innerHTML = "North ↑";
+                this.testBalloon.position.z += this.windSpeed;
+                break;
+            case 2:
+                this.hudWind.innerHTML = "South ↓";
+                this.testBalloon.position.z -= this.windSpeed;
+                break;
+            case 3:
+                this.hudWind.innerHTML = "East →";
+                this.testBalloon.position.x += this.windSpeed;
+                break;
+            case 4:
+                this.hudWind.innerHTML = "West ←";
+                this.testBalloon.position.x -= this.windSpeed;
+                break;
+            default:
+                break;
+        }
+        // if (y <= 7){
+        //     this.hudWind.innerHTML = "No wind";
+        // }
+        // if (7 < y && y < 12) {
+        //     console.log("north");
+        //     this.hudWind.innerHTML = "North ↑";
+        //     this.testBalloon.position.z += 0.1;
+        // }
+        // if (12 <= y && y < 17) {
+        //     console.log("south");
+        //     this.hudWind.innerHTML = "South ↓";
+        //     this.testBalloon.position.z -= 0.1;
+        // }
+        // if (17 <= y && y < 22) {
+        //     console.log("east");
+        //     this.hudWind.innerHTML = "East →";
+        //     this.testBalloon.position.x += 0.1;
+        // }
+        // if (22 <= y && y <= 27) {
+        //     console.log("west");
+        //     this.hudWind.innerHTML = "West ←";
+        //     this.testBalloon.position.x -= 0.1;
+        // }
+    }
+    
 }
 
 export { MyContents };

@@ -1230,16 +1230,16 @@
                     {
                         "type": "translate",
                         "amount": {
-                            "x": -30.0,
-                            "y": 9.9,
-                            "z": 49.0
+                            "x": -48.0,
+                            "y": 22.3,
+                            "z": -28.0
                         }
                     },
                     {
                         "type": "rotate",
                         "amount": {
                             "x": 0.0,
-                            "y": 0.0,
+                            "y": 90.0,
                             "z": 0.0
                         }
                     }
@@ -1249,8 +1249,8 @@
                 },
                 "children": {
                     "outdoor_prim": {
-                        "type": "outdoor",
-                        "width": 30.0,
+                        "type": "outdoor2",
+                        "width": 40.0,
                         "height": 20.0
                     }
                 }
