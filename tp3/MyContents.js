@@ -79,12 +79,12 @@ class MyContents {
         // provisório
         this.currentState = this.state.USER_BALLOON;
         this.hudWind = document.getElementById("wind");
-        this.hudWind.style.display = "block";
-        this.hudWind.innerHTML = "No wind";
+        this.hudWind.style.display = "none";
         this.windSpeed = 0.02;
 
-        this.menu = new MyMenu(this.app);
-        this.menu.position.set(0, 25, -74); // Example position
+        const menuTexture = this.textureLoader.load('./scenes/textures/menu.jpg');
+        const menuMaterial = new THREE.MeshStandardMaterial({ map: menuTexture, side: THREE.DoubleSide });
+        this.menu = new MyMenu(menuMaterial);
         this.app.scene.add(this.menu);
 
     }
@@ -118,7 +118,7 @@ class MyContents {
         // apagar depois
         this.testBalloon = this.balloons[3];
         this.testBalloon.position.set(0, 8, 0);
-        this.app.scene.add(this.testBalloon);
+        //this.app.scene.add(this.testBalloon);
 
     }
 
@@ -187,7 +187,7 @@ class MyContents {
         this.objects = loadObjects.getObjects();
 
         this.lights = loadObjects.getLights();
-        this.app.scene.add(myScene);
+        //this.app.scene.add(myScene);
 
         // provisório
         this.outdoor2 = this.objects["outdoor_2"];
