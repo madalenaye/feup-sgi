@@ -16,6 +16,7 @@ import { MyBalloon } from './objects/MyBalloon.js';
 import { MyPowerUp } from './objects/MyPowerUp.js';
 import { MyFirework } from './objects/MyFirework.js';
 import { MyBillboardBalloon } from './objects/MyBillboardBalloon.js';
+import { MyMenu } from './objects/MyMenu.js';
 
 
 /**
@@ -82,6 +83,10 @@ class MyContents {
         this.hudWind.innerHTML = "No wind";
         this.windSpeed = 0.02;
 
+        this.menu = new MyMenu(this.app);
+        this.menu.position.set(0, 25, -74); // Example position
+        this.app.scene.add(this.menu);
+
     }
     /**
      * initializes the contents
@@ -114,6 +119,7 @@ class MyContents {
         this.testBalloon = this.balloons[3];
         this.testBalloon.position.set(0, 8, 0);
         this.app.scene.add(this.testBalloon);
+
     }
 
     /**
@@ -268,8 +274,8 @@ class MyContents {
                 transparent: true,
                 side: THREE.DoubleSide,
             });
-            const billboard = new MyBillboardBalloon(billboardMaterial);
-            lod.addLevel(billboard, 90);
+            const billboard = new MyBillboardBalloon(this.app, billboardMaterial);
+            lod.addLevel(billboard, 130);
     
             lod.position.set(...config.position);
             this.app.scene.add(lod);
@@ -410,29 +416,6 @@ class MyContents {
             default:
                 break;
         }
-        // if (y <= 7){
-        //     this.hudWind.innerHTML = "No wind";
-        // }
-        // if (7 < y && y < 12) {
-        //     console.log("north");
-        //     this.hudWind.innerHTML = "North ↑";
-        //     this.testBalloon.position.z += 0.1;
-        // }
-        // if (12 <= y && y < 17) {
-        //     console.log("south");
-        //     this.hudWind.innerHTML = "South ↓";
-        //     this.testBalloon.position.z -= 0.1;
-        // }
-        // if (17 <= y && y < 22) {
-        //     console.log("east");
-        //     this.hudWind.innerHTML = "East →";
-        //     this.testBalloon.position.x += 0.1;
-        // }
-        // if (22 <= y && y <= 27) {
-        //     console.log("west");
-        //     this.hudWind.innerHTML = "West ←";
-        //     this.testBalloon.position.x -= 0.1;
-        // }
     }
     
 }

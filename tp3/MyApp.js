@@ -158,10 +158,25 @@ class MyApp  {
                 this.controls = new OrbitControls( this.activeCamera, this.renderer.domElement );
                 this.controls.enableZoom = true;
                 this.controls.update();
+                this.updateCameraTarget();
             }
             else {
                 this.controls.object = this.activeCamera
+                if (this.activeCamera.userData.target !== undefined) {
+                this.controls.target.copy(this.activeCamera.userData.target)
+                this.controls.update()
+                }
             }
+        }
+    }
+    /**
+     * updates the camera target
+     * @method
+     */
+    updateCameraTarget() {
+        if (this.activeCamera.userData.target !== undefined){
+            this.controls.target.copy(this.activeCamera.userData.target)
+            this.controls.update()
         }
     }
 

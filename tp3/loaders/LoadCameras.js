@@ -41,7 +41,8 @@ export const loadCameras = {
             }
 
             camera.name = data[key].id;
-            camera.lookAt(new THREE.Vector3(data[key].target[0], data[key].target[1], data[key].target[2]))
+            camera.userData.target = new THREE.Vector3(data[key].target[0], data[key].target[1], data[key].target[2]);
+            camera.lookAt(camera.userData.target);
             camera.position.set(data[key].location[0], data[key].location[1], data[key].location[2]);
             cameras.push(camera);
         });
