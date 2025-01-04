@@ -11,11 +11,11 @@ class MyMenu extends THREE.Object3D{
         this.sprite = MySprite.loadSpritesheet(0x00174c);
         this.blueSprite = MySprite.loadSpritesheet(0x1255ca);
         this.startButton = MySprite.createTextFromSpritesheet("start", 1.5, 1.5, this.sprite);
-        this.startButton.position.set(-3.7, -9, 1.2);
+        this.startButton.position.set(-3.45, -10, 1.2);
         this.mesh.add(this.startButton);
 
-        this.author1 = MySprite.createTextFromSpritesheet("Madalena Ye - 202108795 | Manuel Serrano - 202402793", 0.5, 0.6, this.blueSprite);
-        this.author1.position.set(-13, 3, 1.2);
+        this.author1 = MySprite.createTextFromSpritesheet("Madalena Ye - 202108795 | Manuel Serrano - 202402793", 0.5, 0.8, this.blueSprite);
+        this.author1.position.set(-13, 2.6, 1.2);
         this.mesh.add(this.author1);
         
         this.logo = new THREE.Mesh(
@@ -23,14 +23,14 @@ class MyMenu extends THREE.Object3D{
             new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load("scenes/textures/feup-logo.png"), transparent: true })
         );
         this.mesh.add(this.logo);
-        this.logo.position.set(0, 5, 1.2);
-        this.logo.scale.set(0.3, 0.1, 0.3);
+        this.logo.position.set(0, 4.5, 1.2);
+        this.logo.scale.set(0.45, 0.1, 0.3);
 
         this.name = MySprite.createTextFromSpritesheet("Rising", 2.8, 2.8, this.sprite);
-        this.name.position.set(-8, 10, 1.2)
+        this.name.position.set(-8, 9.5, 1.2)
         this.mesh.add(this.name);
         this.name1 = MySprite.createTextFromSpritesheet("Rivals", 2.5, 2.5, this.blueSprite);
-        this.name1.position.set(-6, 7.5, 1.2)
+        this.name1.position.set(-6, 7, 1.2)
         this.mesh.add(this.name1);
 
         this.playerName = MySprite.createTextFromSpritesheet("Player Name: ", 1, 1, this.sprite);
@@ -68,6 +68,15 @@ class MyMenu extends THREE.Object3D{
         this.pickBotBalloon = MySprite.createTextFromSpritesheet("Pick", 1, 1, this.sprite);
         this.pickBotBalloon.position.set(10, -5, 1.2);
         this.mesh.add(this.pickBotBalloon);
+
+        this.pickTrack = MySprite.createTextFromSpritesheet("Track:", 1, 1, this.sprite);
+        this.pickTrack.position.set(-12, -7, 1.2);
+        this.mesh.add(this.pickTrack);
+
+        this.track = MySprite.createTextFromSpritesheet("Change", 1, 1, this.sprite);
+        this.track.position.set(10, -7, 1.2);
+        this.mesh.add(this.track);
+
 
         this.add(this.mesh);
 

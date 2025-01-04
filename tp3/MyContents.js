@@ -85,6 +85,7 @@ class MyContents {
         const menuTexture = this.textureLoader.load('./scenes/textures/menu.jpg');
         const menuMaterial = new THREE.MeshStandardMaterial({ map: menuTexture, side: THREE.DoubleSide });
         this.menu = new MyMenu(menuMaterial);
+        this.menu.position.set(0, 32, -74);
         this.app.scene.add(this.menu);
 
     }
@@ -118,7 +119,7 @@ class MyContents {
         // apagar depois
         this.testBalloon = this.balloons[3];
         this.testBalloon.position.set(0, 8, 0);
-        //this.app.scene.add(this.testBalloon);
+        this.app.scene.add(this.testBalloon);
 
     }
 
@@ -187,7 +188,7 @@ class MyContents {
         this.objects = loadObjects.getObjects();
 
         this.lights = loadObjects.getLights();
-        //this.app.scene.add(myScene);
+        this.app.scene.add(myScene);
 
         // provisório
         this.outdoor2 = this.objects["outdoor_2"];

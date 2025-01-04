@@ -48,7 +48,7 @@
             }
         },
         "cameras": {
-            "initial": "cam1",
+            "initial": "menu",
             "cam1": {
                 "type": "perspective",
                 "angle": 75,
