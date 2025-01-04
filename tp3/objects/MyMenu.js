@@ -1,8 +1,9 @@
 import * as THREE from "three";
 import {MySprite} from '../utils/MySprite.js'
+import {MyButton} from './MyButton.js'
 
 class MyMenu extends THREE.Object3D{
-    constructor(material, app){
+    constructor(material, currentLayer){
         super();
         this.level = 1;
         this.objects = [];
@@ -13,6 +14,7 @@ class MyMenu extends THREE.Object3D{
         this.geometry = new THREE.BoxGeometry( 50, 25, 2 );
         this.material = material
         this.mesh = new THREE.Mesh( this.geometry, this.material );
+        this.layer = currentLayer;
         
         this.sprite = MySprite.loadSpritesheet(0x00174c);
         this.blueSprite = MySprite.loadSpritesheet(0x1255ca);
@@ -43,7 +45,7 @@ class MyMenu extends THREE.Object3D{
         this.playerText.position.set(-18, 1, 1.2);
         this.mesh.add(this.playerText);
 
-        this.changeName = MySprite.createTextFromSpritesheet("Change", 1, 1, this.blueSprite);
+        this.changeName = new MyButton("Change", this.blueSprite, 1, 1, 8, 3);
         this.changeName.position.set(10, 1, 1.2);
         this.mesh.add(this.changeName);
 
@@ -51,11 +53,11 @@ class MyMenu extends THREE.Object3D{
         this.levelText.position.set(-12, -1, 1.2);
         this.mesh.add(this.levelText);
 
-        this.levelDown = MySprite.createTextFromSpritesheet("-", 1, 1, this.blueSprite);
+        this.levelDown = new MyButton("-", this.blueSprite, 1, 1, 1, -0.05);
         this.levelDown.position.set(10, -1, 1.2);
         this.mesh.add(this.levelDown);
 
-        this.levelUp = MySprite.createTextFromSpritesheet("+", 1, 1, this.blueSprite);
+        this.levelUp = new MyButton("+", this.blueSprite, 1, 1, 1, -0.05);
         this.levelUp.position.set(12, -1, 1.2);
         this.mesh.add(this.levelUp);
 
@@ -63,7 +65,7 @@ class MyMenu extends THREE.Object3D{
         this.userBalloonText.position.set(-19, -3, 1.2);
         this.mesh.add(this.userBalloonText);
 
-        this.pickBalloon = MySprite.createTextFromSpritesheet("Pick", 1, 1, this.blueSprite);
+        this.pickBalloon = new MyButton("Pick", this.blueSprite, 1, 1, 8, 3);
         this.pickBalloon.position.set(10, -3, 1.2);
         this.mesh.add(this.pickBalloon);
 
@@ -71,7 +73,7 @@ class MyMenu extends THREE.Object3D{
         this.botBalloonText.position.set(-18, -5, 1.2);
         this.mesh.add(this.botBalloonText);
 
-        this.pickBotBalloon = MySprite.createTextFromSpritesheet("Pick", 1, 1, this.blueSprite);
+        this.pickBotBalloon = new MyButton("Pick", this.blueSprite, 1, 1, 8, 3);
         this.pickBotBalloon.position.set(10, -5, 1.2);
         this.mesh.add(this.pickBotBalloon);
 
@@ -79,7 +81,7 @@ class MyMenu extends THREE.Object3D{
         this.trackText.position.set(-12, -7, 1.2);
         this.mesh.add(this.trackText);
 
-        this.track = MySprite.createTextFromSpritesheet("Change", 1, 1, this.blueSprite);
+        this.track = new MyButton("Change", this.blueSprite, 1, 1, 8, 3);
         this.track.position.set(10, -7, 1.2);
         this.mesh.add(this.track);
 

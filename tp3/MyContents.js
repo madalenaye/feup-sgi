@@ -72,21 +72,22 @@ class MyContents {
         document.addEventListener('pointerdown', this.onPointerDown.bind(this));
 
         this.playerBalloon = null;
+        this.playerName = null;
         this.enemyBalloon = null;
         this.previousPlayerBalloon = null;
         this.previousEnemyBalloon = null;
+        
+        // Main Menu
+        const menuTexture = this.textureLoader.load('./scenes/textures/menu.jpg');
+        const menuMaterial = new THREE.MeshStandardMaterial({ map: menuTexture, side: THREE.DoubleSide });
+        this.menu = new MyMenu(menuMaterial, this.currentLayer);
+        this.menu.position.set(0, 32, -74);
+        this.app.scene.add(this.menu);
+        this.currentState = this.state.MENU;
 
-        // provisório
-        this.currentState = this.state.USER_BALLOON;
         this.hudWind = document.getElementById("wind");
         this.hudWind.style.display = "none";
         this.windSpeed = 0.02;
-
-        const menuTexture = this.textureLoader.load('./scenes/textures/menu.jpg');
-        const menuMaterial = new THREE.MeshStandardMaterial({ map: menuTexture, side: THREE.DoubleSide });
-        this.menu = new MyMenu(menuMaterial, this.app);
-        this.menu.position.set(0, 32, -74);
-        this.app.scene.add(this.menu);
 
     }
     /**
@@ -227,19 +228,6 @@ class MyContents {
 
     }
 
-
-
-    turnOnLights(){
-        for (let i of this.lights){
-            i.visible = true
-        } 
-    }
-    turnOffLights(){
-        for (let i of this.lights){
-            i.visible = false
-        }
-    }
-
     /**
      * Initializes the balloons
      * @method
@@ -301,6 +289,9 @@ class MyContents {
                 case this.state.ENEMY_BALLOON:
                     this.enemySelectionBalloon(obj);
                     break;
+                case this.state.MENU:
+                    this.selectMenuOption(obj);
+                    break;
                 default:
                     break;
             }
@@ -332,7 +323,7 @@ class MyContents {
 
         this.raycaster.setFromCamera(this.pointer, this.app.activeCamera);
         var intersects = this.raycaster.intersectObjects(this.app.scene.children);
-
+        console.log(intersects[0]);
         if (intersects.length > 0){
             const obj = intersects[0].object;
             switch (this.currentState) {
@@ -342,7 +333,10 @@ class MyContents {
                 case this.state.ENEMY_BALLOON:
                     this.enemyHoverBalloon(obj);
                     break;
+                case this.state.MENU:
+                    this.menuHover(obj);
                 default:
+                    break;
             }
         }
         else{
@@ -354,9 +348,31 @@ class MyContents {
                     case this.state.ENEMY_BALLOON:
                         this.enemyHoverBalloon(this.lastObj, false);
                         break;
+                    case this.state.MENU:
+                        this.menuHover(this.lastObj, false);
+                        break;
                     default:
+                        break;
                 }
             }
+        }
+    }
+    menuHover(obj, hovering = true){
+        let menuObjects = this.menu.objects;
+        if (hovering){
+            if (this.lastObj != obj.parent){
+                if (this.lastObj){
+                    this.lastObj.scale.set(1, 1, 1);
+                }
+                this.lastObj = obj.parent;
+                if (menuObjects.includes(this.lastObj)){
+                    this.lastObj.scale.set(1.2, 1.2, 1.2);
+                }
+            }
+        }
+        else{
+            this.lastObj.scale.set(1, 1, 1);
+            this.lastObj = null;
         }
     }
     userHoverBalloon(obj, hovering = true){
