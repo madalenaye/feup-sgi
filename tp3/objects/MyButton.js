@@ -5,7 +5,6 @@ class MyButton extends THREE.Object3D{
     constructor(text, sprite, charWidth, charHeight, width, x, name){
         super();
         this.sprite = sprite;
-        this.isSelected = false;
         this.name = name;
         this.buttonText = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         this.buttonText.position.set(0,0,0.05);

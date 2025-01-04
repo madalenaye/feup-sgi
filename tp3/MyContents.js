@@ -39,7 +39,8 @@ class MyContents {
         MENU: 1,
         GAME_OVER: 2,
         USER_BALLOON: 3,
-        ENEMY_BALLOON: 4
+        ENEMY_BALLOON: 4,
+        CHANGE_NAME: 5
     }
     /**
        constructs the object
@@ -330,7 +331,8 @@ class MyContents {
                 console.log("Game started");
                 break;
             case "changeName":
-                console.log("Change name");
+                this.currentState = this.state.CHANGE_NAME;
+                this.changeName();
                 break;
             case "levelDown":
                 if (this.level > 1) this.level--;
@@ -470,6 +472,25 @@ class MyContents {
                 break;
             default:
                 break;
+        }
+    }
+    changeName(){
+        if (this.currentState === this.state.CHANGE_NAME){
+            const keyboardHandler = (e) => {
+                const isAlphaNumeric = /^[a-zA-Z0-9 ]$/.test(e.key);
+                if (isAlphaNumeric || (e.key === 'Backspace' && this.playerName)){
+                    if (e.key === 'Backspace') this.playerName = this.playerName.slice(0, -1);
+                    else this.playerName = (this.playerName || '') + e.key;
+                    this.playerName = this.playerName.slice(0, 10);
+                    this.menu.updatePlayerName(this.playerName);
+                }
+                else if(e.key === 'Enter'){
+                    this.currentState = this.state.MENU;
+                    this.menu.updatePlayerName(this.playerName);
+                    document.removeEventListener('keydown', keyboardHandler);
+                }
+            };
+            document.addEventListener('keydown', keyboardHandler);
         }
     }
     
