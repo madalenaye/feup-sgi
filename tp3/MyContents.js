@@ -79,7 +79,7 @@ class MyContents {
         this.hudWind = document.getElementById("wind");
         this.hudWind.style.display = "block";
         this.hudWind.innerHTML = "No wind";
-        this.windSpeed = 0.1;
+        this.windSpeed = 0.02;
 
     }
     /**
