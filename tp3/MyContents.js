@@ -15,6 +15,7 @@ import {loadObjects} from './loaders/LoadObjects.js';
 import { MyBalloon } from './objects/MyBalloon.js';
 import { MyPowerUp } from './objects/MyPowerUp.js';
 import { MyFirework } from './objects/MyFirework.js';
+import { MyBillboardBalloon } from './objects/MyBillboardBalloon.js';
 
 
 /**
@@ -49,7 +50,7 @@ class MyContents {
         this.axis = null
         this.objects = null
         this.lights = null;
-        this.balloons = {}
+        this.balloons = [];
         this.textureLoader = new THREE.TextureLoader();
         this.fireworks = [];
 
@@ -79,7 +80,7 @@ class MyContents {
         this.hudWind = document.getElementById("wind");
         this.hudWind.style.display = "block";
         this.hudWind.innerHTML = "No wind";
-        this.windSpeed = 0.1;
+        this.windSpeed = 0.02;
 
     }
     /**
@@ -100,7 +101,7 @@ class MyContents {
 
         // apagar depois
         this.testBalloon = this.balloons[3];
-        this.testBalloon.position.set(0, 7, 0);
+        this.testBalloon.position.set(0, 8, 0);
         this.app.scene.add(this.testBalloon);
     }
 
@@ -225,32 +226,47 @@ class MyContents {
      * Initializes the balloons
      * @method
      */
-    initBalloons(){
+    initBalloons() {
         const balloonConfigs = [
-            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-65, 17, 5], type: 0, name: "player_balloon1" },
-            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-65, 17, 25], type: 2, name: "player_balloon2" },
-            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-65, 17, 45], type: 1, name: "player_balloon3" },
-            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-44, 17, 65], type: 0, name: "enemy_balloon1" },
-            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-24, 17, 65], type: 2, name: "enemy_balloon2" },
-            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-4, 17, 65], type: 1, name: "enemy_balloon3" },
+            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-65, 17, 10], type: 0, name: "player_balloon1", billboardTexture: './scenes/textures/billboard_1.png'},
+            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-65, 17, 25], type: 2, name: "player_balloon2", billboardTexture: './scenes/textures/billboard_2.png'},
+            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-65, 17, 40], type: 1, name: "player_balloon3", billboardTexture: './scenes/textures/billboard_3.png'},
+            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-40, 17, 65], type: 0, name: "enemy_balloon1", billboardTexture: './scenes/textures/billboard_1.png'},
+            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-25, 17, 65], type: 2, name: "enemy_balloon2", billboardTexture: './scenes/textures/billboard_2.png'},
+            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-10, 17, 65], type: 1, name: "enemy_balloon3", billboardTexture: './scenes/textures/billboard_3.png'},
         ];
-        
-        this.balloons = [];
-        
-        balloonConfigs.forEach((config, index) => {
-            const texture = this.textureLoader.load(config.texturePath);
-            const material = new THREE.MeshStandardMaterial({
-                map: texture,
+    
+        balloonConfigs.forEach((config) => {
+            // Create the balloon
+            const balloonTexture = this.textureLoader.load(config.texturePath);
+            const balloonMaterial = new THREE.MeshStandardMaterial({
+                map: balloonTexture,
                 transparent: false,
                 side: THREE.DoubleSide,
             });
-            const balloon = new MyBalloon(4, material, config.color, config.type || 0, config.name);
-            balloon.position.set(...config.position);
-            this.app.scene.add(balloon);
-            this.balloons[index] = balloon;
-        });
+    
+            const balloon = new MyBalloon(4, balloonMaterial, config.color, config.type || 0, config.name);
         
+            const lod = new THREE.LOD();
+
+            lod.addLevel(balloon, 0);
+
+            const billboardTexture = this.textureLoader.load(config.billboardTexture);
+            const billboardMaterial = new THREE.MeshBasicMaterial({
+                map: billboardTexture,
+                transparent: true,
+                side: THREE.DoubleSide,
+            });
+            const billboard = new MyBillboardBalloon(billboardMaterial);
+            lod.addLevel(billboard, 90);
+    
+            lod.position.set(...config.position);
+            this.app.scene.add(lod);
+            this.balloons.push(balloon);
+    
+        });
     }
+    
     onPointerDown(event) {
         this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
