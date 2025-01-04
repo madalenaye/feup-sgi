@@ -26,7 +26,7 @@ class MyTrack extends THREE.Object3D {
 
         this.curve = new THREE.Group();
 
-        line.position.y = -2.7;
+        line.position.y = -5.5;
 
         this.curve.add(trackMesh);
         this.curve.add(line);
