@@ -353,6 +353,7 @@
             },
             "floor":{
                 "type": "node",
+                "receiveshadows": true,
                 "transforms": [
                     {
                         "type": "translate",

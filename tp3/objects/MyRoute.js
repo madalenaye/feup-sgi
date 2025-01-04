@@ -46,7 +46,6 @@ class MyRoute extends THREE.Object3D {
     changeInitialPoint(point){
         this.balloonRoute[0] = point;
         this.balloonRoute[this.balloonRoute.length -1] = point;
-        console.log(this.balloonRoute);
     }
 
     setupAnimation(object){

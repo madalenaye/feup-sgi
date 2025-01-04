@@ -125,8 +125,33 @@ class MyBalloon extends THREE.Object3D {
 
             this.stringGroup.add(string);
         }
+
+        //Shadows
+        this.balloonBaseEdges.castShadow = true;
+        this.balloon.castShadow = true;
+        this.basket.castShadow = true;
+        this.basketBase.castShadow = true;
+
         this.groupBalloon.add(this.stringGroup);
         this.add(this.groupBalloon);
+    }
+
+    createBalloonLight(){
+        this.balloonLight = new THREE.DirectionalLight(0xffcd00, 0.4); 
+        this.balloonLight.position.set(0, 7, 0);
+        this.balloonLight.target = this.basketBase; 
+        this.balloonLight.castShadow = true;
+
+        this.balloonLight.shadow.mapSize.width = 1024; 
+        this.balloonLight.shadow.mapSize.height = 1024;
+        this.balloonLight.shadow.camera.near = 0.5;
+        this.balloonLight.shadow.camera.far = 200;
+        this.balloonLight.shadow.camera.left = -10;
+        this.balloonLight.shadow.camera.right = 10;
+        this.balloonLight.shadow.camera.top = 10;
+        this.balloonLight.shadow.camera.bottom = -10;
+
+        this.add(this.balloonLight);
     }
 
     createBoundingVolume(){
