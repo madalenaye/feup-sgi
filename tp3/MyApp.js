@@ -157,11 +157,26 @@ class MyApp  {
                 // Orbit controls allow the camera to orbit around a target.
                 this.controls = new OrbitControls( this.activeCamera, this.renderer.domElement );
                 this.controls.enableZoom = true;
+                this.controls.autoRotate = false;
                 this.controls.update();
+                this.updateCameraTarget();
             }
             else {
                 this.controls.object = this.activeCamera
+                if (this.activeCamera.userData.target !== undefined) {
+                this.controls.target.copy(this.activeCamera.userData.target)
+                this.controls.autoRotate = false;
+                this.controls.update()
+                }
             }
+        }
+    }
+
+    updateCameraTarget() {
+        if (this.activeCamera.userData.target !== undefined){
+            this.controls.target.copy(this.activeCamera.userData.target)
+            this.controls.autoRotate = false;
+            this.controls.update()
         }
     }
 
@@ -206,7 +221,7 @@ class MyApp  {
         }
 
         // required if controls.enableDamping or controls.autoRotate are set to true
-        this.controls.update();
+        //this.controls.update();
 
         // render the scene
         this.renderer.render(this.scene, this.activeCamera);
