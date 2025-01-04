@@ -84,7 +84,7 @@ class MyContents {
 
         const menuTexture = this.textureLoader.load('./scenes/textures/menu.jpg');
         const menuMaterial = new THREE.MeshStandardMaterial({ map: menuTexture, side: THREE.DoubleSide });
-        this.menu = new MyMenu(menuMaterial);
+        this.menu = new MyMenu(menuMaterial, this.app);
         this.menu.position.set(0, 32, -74);
         this.app.scene.add(this.menu);
 

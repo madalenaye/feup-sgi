@@ -2,8 +2,14 @@ import * as THREE from "three";
 import {MySprite} from '../utils/MySprite.js'
 
 class MyMenu extends THREE.Object3D{
-    constructor(material){
+    constructor(material, app){
         super();
+        this.level = 1;
+        this.objects = [];
+        this.playerName = "null";
+        this.userBalloon = "Pink";
+        this.botBalloon = "Blue";
+        this.trackSide = "A";
         this.geometry = new THREE.BoxGeometry( 50, 25, 2 );
         this.material = material
         this.mesh = new THREE.Mesh( this.geometry, this.material );
@@ -33,53 +39,70 @@ class MyMenu extends THREE.Object3D{
         this.name1.position.set(-6, 7, 1.2)
         this.mesh.add(this.name1);
 
-        this.playerName = MySprite.createTextFromSpritesheet("Player Name: ", 1, 1, this.sprite);
-        this.playerName.position.set(-18, 1, 1.2);
-        this.mesh.add(this.playerName);
+        this.playerText = MySprite.createTextFromSpritesheet(`Player Name: ${this.playerName}`, 1, 1, this.sprite);
+        this.playerText.position.set(-18, 1, 1.2);
+        this.mesh.add(this.playerText);
 
-        this.changeName = MySprite.createTextFromSpritesheet("Change", 1, 1, this.sprite);
+        this.changeName = MySprite.createTextFromSpritesheet("Change", 1, 1, this.blueSprite);
         this.changeName.position.set(10, 1, 1.2);
         this.mesh.add(this.changeName);
 
-        this.level = MySprite.createTextFromSpritesheet("Level: ", 1, 1, this.sprite);
-        this.level.position.set(-12, -1, 1.2);
-        this.mesh.add(this.level);
+        this.levelText = MySprite.createTextFromSpritesheet(`Level: ${this.level}`, 1, 1, this.sprite);
+        this.levelText.position.set(-12, -1, 1.2);
+        this.mesh.add(this.levelText);
 
-        this.levelDown = MySprite.createTextFromSpritesheet("-", 1, 1, this.sprite);
+        this.levelDown = MySprite.createTextFromSpritesheet("-", 1, 1, this.blueSprite);
         this.levelDown.position.set(10, -1, 1.2);
         this.mesh.add(this.levelDown);
 
-        this.levelUp = MySprite.createTextFromSpritesheet("+", 1, 1, this.sprite);
+        this.levelUp = MySprite.createTextFromSpritesheet("+", 1, 1, this.blueSprite);
         this.levelUp.position.set(12, -1, 1.2);
         this.mesh.add(this.levelUp);
 
-        this.userBalloon = MySprite.createTextFromSpritesheet("User Balloon: ", 1, 1, this.sprite);
-        this.userBalloon.position.set(-19, -3, 1.2);
-        this.mesh.add(this.userBalloon);
+        this.userBalloonText = MySprite.createTextFromSpritesheet(`User Balloon: ${this.userBalloon}`, 1, 1, this.sprite);
+        this.userBalloonText.position.set(-19, -3, 1.2);
+        this.mesh.add(this.userBalloonText);
 
-        this.pickBalloon = MySprite.createTextFromSpritesheet("Pick", 1, 1, this.sprite);
+        this.pickBalloon = MySprite.createTextFromSpritesheet("Pick", 1, 1, this.blueSprite);
         this.pickBalloon.position.set(10, -3, 1.2);
         this.mesh.add(this.pickBalloon);
 
-        this.botBalloon = MySprite.createTextFromSpritesheet("Bot balloon: ", 1, 1, this.sprite);
-        this.botBalloon.position.set(-18, -5, 1.2);
-        this.mesh.add(this.botBalloon);
+        this.botBalloonText = MySprite.createTextFromSpritesheet(`Bot balloon: ${this.botBalloon}`, 1, 1, this.sprite);
+        this.botBalloonText.position.set(-18, -5, 1.2);
+        this.mesh.add(this.botBalloonText);
 
-        this.pickBotBalloon = MySprite.createTextFromSpritesheet("Pick", 1, 1, this.sprite);
+        this.pickBotBalloon = MySprite.createTextFromSpritesheet("Pick", 1, 1, this.blueSprite);
         this.pickBotBalloon.position.set(10, -5, 1.2);
         this.mesh.add(this.pickBotBalloon);
 
-        this.pickTrack = MySprite.createTextFromSpritesheet("Track:", 1, 1, this.sprite);
-        this.pickTrack.position.set(-12, -7, 1.2);
-        this.mesh.add(this.pickTrack);
+        this.trackText = MySprite.createTextFromSpritesheet(`Track: ${this.trackSide}`, 1, 1, this.sprite);
+        this.trackText.position.set(-12, -7, 1.2);
+        this.mesh.add(this.trackText);
 
-        this.track = MySprite.createTextFromSpritesheet("Change", 1, 1, this.sprite);
+        this.track = MySprite.createTextFromSpritesheet("Change", 1, 1, this.blueSprite);
         this.track.position.set(10, -7, 1.2);
         this.mesh.add(this.track);
 
 
         this.add(this.mesh);
+        this.objects.push(this.startButton, this.changeName, this.levelDown, this.levelUp, this.pickBalloon, this.pickBotBalloon, this.track);
+    }
 
+    updatePlayerName(text){
+        MySprite.updateSpritesheetText(this.playerText, `Player Name: ${text}`, 1, 1, this.sprite);
+        this.playerName = text;
+    }
+    updateLevel(text){
+        MySprite.updateSpritesheetText(this.levelText, `Level: ${text}`, 1, 1, this.sprite);
+    }
+    updateUserBalloon(text){
+        MySprite.updateSpritesheetText(this.userBalloonText, `User Balloon: ${text}`, 1, 1, this.sprite);
+    }
+    updateBotBalloon(text){
+        MySprite.updateSpritesheetText(this.botBalloonText, `Bot balloon: ${text}`, 1, 1, this.sprite);
+    }
+    updateTrack(text){
+        MySprite.updateSpritesheetText(this.trackText, `Track: ${text}`, 1, 1, this.sprite);
     }
 }
 
