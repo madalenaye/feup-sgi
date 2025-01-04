@@ -98,6 +98,14 @@
             "finish_line_t":{
                 "filepath": "scenes/textures/finish_line.png",
                 "isVideo": false
+            },
+            "powerup_t":{
+                "filepath": "scenes/textures/powerup.png",
+                "isVideo": false
+            },
+            "powerup_bump_t":{
+                "filepath": "scenes/textures/powerup_bump.png",
+                "isVideo": false
             }
         },
         "materials": {
@@ -287,6 +295,30 @@
                 "texlength_s": 1.0,
                 "texlength_t": 1.0,
                 "shininess": 20.0,
+                "transparent": false,
+                "opacity": 1.0,
+                "twosided": true
+            },
+            "powerup_m":{
+                "color": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0
+                },
+                "emissive": {
+                    "r": 1.0,
+                    "g": 0.8,
+                    "b": 0.0
+                },
+                "specular": {
+                    "r": 0.5,
+                    "g": 0.5,
+                    "b": 0.5
+                },
+                "textureref": "powerup_t",
+                "texlength_s": 1.0,
+                "texlength_t": 1.0,
+                "shininess": 50.0,
                 "transparent": false,
                 "opacity": 1.0,
                 "twosided": true
@@ -557,7 +589,7 @@
                     "materialId": "rainbow_m"
                 },
                 "children": {
-                    "nodesList": ["obstacle_1", "obstacle_2", "obstacle_3", "obstacle_4", "obstacle_5", "route_level1", "route_level2", "route_level3"],
+                    "nodesList": ["obstacle_1", "obstacle_2", "obstacle_3", "obstacle_4", "powerup_1", "powerup_2", "powerup_3", "powerup_4", "route_level1", "route_level2", "route_level3"],
                     "track_1_prim": {
                         "type": "track",
                         "segments": 200,
@@ -621,8 +653,8 @@
                     {
                         "type": "translate",
                         "amount": {
-                            "x": -7.0,
-                            "y": 6.0,
+                            "x": -3.5,
+                            "y": 9.0,
                             "z": 15.0
                         }
                     },
@@ -653,8 +685,8 @@
                     {
                         "type": "translate",
                         "amount": {
-                            "x": 22.0,
-                            "y": 5.0,
+                            "x": 28.0,
+                            "y": 8.0,
                             "z": 23.0
                         }
                     },
@@ -686,8 +718,8 @@
                     {
                         "type": "translate",
                         "amount": {
-                            "x": -29.0,
-                            "y": 7.0,
+                            "x": -34.0,
+                            "y": 10.0,
                             "z": -25.0
                         }
                     },
@@ -719,39 +751,6 @@
                     {
                         "type": "translate",
                         "amount": {
-                            "x": 34.0,
-                            "y": 8.0,
-                            "z": -25.0
-                        }
-                    },
-                    {
-                        "type": "rotate",
-                        "amount": {
-                            "x": -90.0,
-                            "y": 0.0,
-                            "z": 0.0
-                        }
-                    }
-
-                ],
-                "materialref": {
-                    "materialId": "rocket_m"
-                },
-                "children": {
-                    "obstacle_4_prim": {
-                        "type": "obstacle",
-                        "radius": 1.0,
-                        "height": 2.0,
-                        "penalty": 8
-                    }
-                }
-            },
-            "obstacle_5":{
-                "type": "node",
-                "transforms": [
-                    {
-                        "type": "translate",
-                        "amount": {
                             "x": 28.0,
                             "y": 9.0,
                             "z": -12.0
@@ -775,7 +774,95 @@
                         "type": "obstacle",
                         "radius": 1.0,
                         "height": 2.0,
-                        "penalty": 9
+                        "penalty": 7
+                    }
+                }
+            },
+            "powerup_1":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 30.0,
+                            "y": 8.0,
+                            "z": 13.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "powerup_m"
+                },
+                "children": {
+                    "powerup_1_prim": {
+                        "type": "powerup",
+                        "width": 2.0
+                    }
+                }
+            },
+            "powerup_2":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 8.0,
+                            "y": 9.0,
+                            "z": 28.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "powerup_m"
+                },
+                "children": {
+                    "powerup_2_prim": {
+                        "type": "powerup",
+                        "width": 2.0
+                    }
+                }
+            },
+            "powerup_3":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": -21.0,
+                            "y": 10.0,
+                            "z": 1.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "powerup_m"
+                },
+                "children": {
+                    "powerup_3_prim": {
+                        "type": "powerup",
+                        "width": 2.0
+                    }
+                }
+            },
+            "powerup_4":{
+                "type": "node",
+                "transforms": [
+                    {
+                        "type": "translate",
+                        "amount": {
+                            "x": 13.0,
+                            "y": 9.0,
+                            "z": -30.0
+                        }
+                    }
+                ],
+                "materialref": {
+                    "materialId": "powerup_m"
+                },
+                "children": {
+                    "powerup_4_prim": {
+                        "type": "powerup",
+                        "width": 2.0
                     }
                 }
             },
