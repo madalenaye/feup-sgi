@@ -20,6 +20,7 @@ class MyMenu extends THREE.Object3D{
         this.blueSprite = MySprite.loadSpritesheet(0x1255ca);
         this.startButton = MySprite.createTextFromSpritesheet("start", 1.5, 1.5, this.sprite);
         this.startButton.position.set(-3.45, -10, 1.2);
+        this.startButton.name = "start";
         this.mesh.add(this.startButton);
 
         this.author1 = MySprite.createTextFromSpritesheet("Madalena Ye - 202108795 | Manuel Serrano - 202402793", 0.5, 0.8, this.blueSprite);
@@ -45,7 +46,7 @@ class MyMenu extends THREE.Object3D{
         this.playerText.position.set(-18, 1, 1.2);
         this.mesh.add(this.playerText);
 
-        this.changeName = new MyButton("Change", this.blueSprite, 1, 1, 8, 3);
+        this.changeName = new MyButton("Change", this.blueSprite, 1, 1, 8, 3, "changeName");
         this.changeName.position.set(10, 1, 1.2);
         this.mesh.add(this.changeName);
 
@@ -53,11 +54,11 @@ class MyMenu extends THREE.Object3D{
         this.levelText.position.set(-12, -1, 1.2);
         this.mesh.add(this.levelText);
 
-        this.levelDown = new MyButton("-", this.blueSprite, 1, 1, 1, -0.05);
+        this.levelDown = new MyButton("-", this.blueSprite, 1, 1, 1, -0.05, "levelDown");
         this.levelDown.position.set(10, -1, 1.2);
         this.mesh.add(this.levelDown);
 
-        this.levelUp = new MyButton("+", this.blueSprite, 1, 1, 1, -0.05);
+        this.levelUp = new MyButton("+", this.blueSprite, 1, 1, 1, -0.05, "levelUp");
         this.levelUp.position.set(12, -1, 1.2);
         this.mesh.add(this.levelUp);
 
@@ -65,7 +66,7 @@ class MyMenu extends THREE.Object3D{
         this.userBalloonText.position.set(-19, -3, 1.2);
         this.mesh.add(this.userBalloonText);
 
-        this.pickBalloon = new MyButton("Pick", this.blueSprite, 1, 1, 8, 3);
+        this.pickBalloon = new MyButton("Pick", this.blueSprite, 1, 1, 8, 3, "pickBalloon");
         this.pickBalloon.position.set(10, -3, 1.2);
         this.mesh.add(this.pickBalloon);
 
@@ -73,7 +74,7 @@ class MyMenu extends THREE.Object3D{
         this.botBalloonText.position.set(-18, -5, 1.2);
         this.mesh.add(this.botBalloonText);
 
-        this.pickBotBalloon = new MyButton("Pick", this.blueSprite, 1, 1, 8, 3);
+        this.pickBotBalloon = new MyButton("Pick", this.blueSprite, 1, 1, 8, 3, "pickBotBalloon");
         this.pickBotBalloon.position.set(10, -5, 1.2);
         this.mesh.add(this.pickBotBalloon);
 
@@ -81,7 +82,7 @@ class MyMenu extends THREE.Object3D{
         this.trackText.position.set(-12, -7, 1.2);
         this.mesh.add(this.trackText);
 
-        this.track = new MyButton("Change", this.blueSprite, 1, 1, 8, 3);
+        this.track = new MyButton("Change", this.blueSprite, 1, 1, 8, 3, "track");
         this.track.position.set(10, -7, 1.2);
         this.mesh.add(this.track);
 

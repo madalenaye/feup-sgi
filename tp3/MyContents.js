@@ -89,6 +89,10 @@ class MyContents {
         this.hudWind.style.display = "none";
         this.windSpeed = 0.02;
 
+        // Game configuration
+        this.level = 1;
+        this.track = "A";
+
     }
     /**
      * initializes the contents
@@ -105,6 +109,10 @@ class MyContents {
 
         // init balloons
         this.initBalloons()
+        this.playerBalloon = this.balloons[0];
+        this.previousPlayerBalloon = this.balloons[0];
+        this.enemyBalloon = this.balloons[1];
+        this.previousEnemyBalloon = this.balloons[1];
 
         
         // provisório
@@ -316,14 +324,44 @@ class MyContents {
                 break;
         }
     }
-
+    selectMenuOption(obj) {
+        switch (obj.parent.name) {
+            case "start":
+                console.log("Game started");
+                break;
+            case "changeName":
+                console.log("Change name");
+                break;
+            case "levelDown":
+                if (this.level > 1) this.level--;
+                this.menu.updateLevel(this.level);
+                break;
+            case "levelUp":
+                if (this.level < 3) this.level++;
+                this.menu.updateLevel(this.level);
+                break;
+            case "pickBalloon":
+                console.log("Pick balloon");
+                break;
+            case "pickBotBalloon":
+                console.log("Pick bot balloon");
+                break;
+            case "track":
+                if (this.track === "A") this.track = "B";
+                else this.track = "A";
+                this.menu.updateTrack(this.track);
+                break;
+            default:
+                break;
+        }
+    }
     onPointerMove(event) {
         this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
         this.raycaster.setFromCamera(this.pointer, this.app.activeCamera);
         var intersects = this.raycaster.intersectObjects(this.app.scene.children);
-        console.log(intersects[0]);
+    
         if (intersects.length > 0){
             const obj = intersects[0].object;
             switch (this.currentState) {
