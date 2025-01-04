@@ -9,6 +9,8 @@ class MyRoute extends THREE.Object3D {
 
         this.controlPoints = vectorPoints;
         this.rotatedControlPoints = this.rotatePointsZ(vectorPoints);
+        this.balloonRoute = this.rotatePointsZ(vectorPoints);
+   
         this.times = parameters.controlpoints_time.map(point => point.time);
 
         material.transparent = true;
@@ -41,18 +43,24 @@ class MyRoute extends THREE.Object3D {
         return points.map(point => point.clone().applyMatrix4(rotationMatrix));
     }
 
+    changeInitialPoint(point){
+        this.balloonRoute[0] = point;
+        this.balloonRoute[this.balloonRoute.length -1] = point;
+        console.log(this.balloonRoute);
+    }
+
     setupAnimation(object){
 
         const positionKeyframes = [];
         const quaternionKeyframes = [];
     
-        for (let i = 0; i < this.rotatedControlPoints.length; i++) {
-            const point = this.rotatedControlPoints[i];
+        for (let i = 0; i < this.balloonRoute.length; i++) {
+            const point = this.balloonRoute[i];
             positionKeyframes.push(point.x, point.y, point.z);
     
-            const nextIndex = i === this.rotatedControlPoints.length - 1 ? i : i + 1;
-            const currentPoint = this.rotatedControlPoints[i];
-            const nextPoint = this.rotatedControlPoints[nextIndex];
+            const nextIndex = i === this.balloonRoute.length - 1 ? i : i + 1;
+            const currentPoint = this.balloonRoute[i];
+            const nextPoint = this.balloonRoute[nextIndex];
     
             const direction = new THREE.Vector3()
                 .subVectors(nextPoint, currentPoint)
