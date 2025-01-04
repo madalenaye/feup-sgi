@@ -171,16 +171,6 @@ class MyContents {
         this.lights = loadObjects.getLights();
         this.app.scene.add(myScene);
 
-
-        this.obstacles = loadObjects.getObstacles();
-
-        for (const key in this.obstacles){
-            const object = this.obstacles[key];
-            let bounding = object.getBoundingVolume();
-            const balloonBBHelper = new THREE.Box3Helper(bounding, 0xff0000); // Cor vermelha
-            this.app.scene.add(balloonBBHelper);
-        }
-
         // provisório
         this.outdoor2 = this.objects["outdoor_2"];
         this.outdoor2.startUpdatingTextures(this.app, this.app.activeCamera, 15000);
