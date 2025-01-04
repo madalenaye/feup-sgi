@@ -112,7 +112,7 @@ class MyContents {
 
         // apagar depois
         this.testBalloon = this.balloons[3];
-        this.testBalloon.position.set(0, 7, 0);
+        this.testBalloon.position.set(0, 8, 0);
         this.app.scene.add(this.testBalloon);
     }
 
@@ -239,12 +239,12 @@ class MyContents {
      */
     initBalloons() {
         const balloonConfigs = [
-            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-65, 17, 5], type: 0, name: "player_balloon1" },
-            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-65, 17, 25], type: 2, name: "player_balloon2" },
-            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-65, 17, 45], type: 1, name: "player_balloon3" },
-            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-44, 17, 65], type: 0, name: "enemy_balloon1" },
-            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-24, 17, 65], type: 2, name: "enemy_balloon2" },
-            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-4, 17, 65], type: 1, name: "enemy_balloon3" },
+            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-65, 17, 10], type: 0, name: "player_balloon1", billboardTexture: './scenes/textures/billboard_1.png'},
+            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-65, 17, 25], type: 2, name: "player_balloon2", billboardTexture: './scenes/textures/billboard_2.png'},
+            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-65, 17, 40], type: 1, name: "player_balloon3", billboardTexture: './scenes/textures/billboard_3.png'},
+            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-40, 17, 65], type: 0, name: "enemy_balloon1", billboardTexture: './scenes/textures/billboard_1.png'},
+            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-25, 17, 65], type: 2, name: "enemy_balloon2", billboardTexture: './scenes/textures/billboard_2.png'},
+            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-10, 17, 65], type: 1, name: "enemy_balloon3", billboardTexture: './scenes/textures/billboard_3.png'},
         ];
     
         balloonConfigs.forEach((config) => {
