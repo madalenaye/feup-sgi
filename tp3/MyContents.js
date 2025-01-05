@@ -16,6 +16,7 @@ import { MyBalloon } from './objects/MyBalloon.js';
 import { MyPowerUp } from './objects/MyPowerUp.js';
 import { MyFirework } from './objects/MyFirework.js';
 import { MyBillboardBalloon } from './objects/MyBillboardBalloon.js';
+import { MyMenu } from './objects/MyMenu.js';
 
 
 /**
@@ -38,7 +39,8 @@ class MyContents {
         MENU: 1,
         GAME_OVER: 2,
         USER_BALLOON: 3,
-        ENEMY_BALLOON: 4
+        ENEMY_BALLOON: 4,
+        CHANGE_NAME: 5
     }
     /**
        constructs the object
@@ -71,16 +73,27 @@ class MyContents {
         document.addEventListener('pointerdown', this.onPointerDown.bind(this));
 
         this.playerBalloon = null;
+        this.playerName = null;
         this.enemyBalloon = null;
         this.previousPlayerBalloon = null;
         this.previousEnemyBalloon = null;
+        
+        // Main Menu
+        const menuTexture = this.textureLoader.load('./scenes/textures/menu.jpg');
+        const menuMaterial = new THREE.MeshStandardMaterial({ map: menuTexture, side: THREE.DoubleSide });
+        this.menu = new MyMenu(menuMaterial, this.layers.MENU);
+        this.menu.position.set(0, 32, -74);
+        this.app.scene.add(this.menu);
+        this.currentState = this.state.MENU;
+        this.currentLayer = this.layers.NONE
 
-        // provisório
-        this.currentState = this.state.USER_BALLOON;
         this.hudWind = document.getElementById("wind");
-        this.hudWind.style.display = "block";
-        this.hudWind.innerHTML = "No wind";
+        this.hudWind.style.display = "none";
         this.windSpeed = 0.02;
+
+        // Game configuration
+        this.level = 1;
+        this.track = "A";
 
     }
     /**
@@ -98,7 +111,18 @@ class MyContents {
 
         // init balloons
         this.initBalloons()
+        
+        const userBalloons = [this.balloons[0], this.balloons[1], this.balloons[2]];
+        const enemyBalloons = [this.balloons[3], this.balloons[4], this.balloons[5]];
 
+        userBalloons.forEach(balloon => balloon.layers.set(this.layers.USER_BALLOON));
+        enemyBalloons.forEach(balloon => balloon.layers.set(this.layers.ENEMY_BALLOON));
+
+        this.playerBalloon = userBalloons[0];
+        this.previousPlayerBalloon = userBalloons[0];
+        this.enemyBalloon = enemyBalloons[0];
+        this.previousEnemyBalloon = enemyBalloons[0];
+    
         // apagar depois
         this.testBalloon = this.balloons[3];
         this.testBalloon.position.set(0, 8, 0);
@@ -151,6 +175,7 @@ class MyContents {
             this.app.activeCamera = this.app.cameras[activeCameraId];
             this.app.setActiveCamera(activeCameraId);
         }
+
         if (this.app.gui) {
             this.app.gui.onContentsReady();
         }
@@ -171,11 +196,10 @@ class MyContents {
 
         this.lights = loadObjects.getLights();
         this.app.scene.add(myScene);
-
-        // provisório
+        
+        // Outdoor display
         this.outdoor2 = this.objects["outdoor_2"];
         this.outdoor2.startUpdatingTextures(this.app, this.app.activeCamera, 15000);
-  
     }
 
     update() {
@@ -206,20 +230,6 @@ class MyContents {
         if (this.app.keys.includes("s")) this.testBalloon.descend();
   
         this.windLayers(this.testBalloon);
-
-    }
-
-
-
-    turnOnLights(){
-        for (let i of this.lights){
-            i.visible = true
-        } 
-    }
-    turnOffLights(){
-        for (let i of this.lights){
-            i.visible = false
-        }
     }
 
     /**
@@ -257,8 +267,8 @@ class MyContents {
                 transparent: true,
                 side: THREE.DoubleSide,
             });
-            const billboard = new MyBillboardBalloon(billboardMaterial);
-            lod.addLevel(billboard, 90);
+            const billboard = new MyBillboardBalloon(this.app, billboardMaterial);
+            lod.addLevel(billboard, 130);
     
             lod.position.set(...config.position);
             this.app.scene.add(lod);
@@ -283,6 +293,9 @@ class MyContents {
                 case this.state.ENEMY_BALLOON:
                     this.enemySelectionBalloon(obj);
                     break;
+                case this.state.MENU:
+                    this.selectMenuOption(obj);
+                    break;
                 default:
                     break;
             }
@@ -292,9 +305,20 @@ class MyContents {
         switch (obj.parent.parent.name.split("_")[0]) {
             case "player":
                 this.playerBalloon = obj.parent.parent;
-                this.playerBalloon.selected();
                 this.previousPlayerBalloon = this.playerBalloon;
-                console.log("Player balloon selected: " + this.playerBalloon.name);
+                const balloonName = this.playerBalloon.name.split("_")[1];
+                switch (balloonName) {
+                    case "balloon1":
+                        this.menu.updateUserBalloon("Pink");
+                        break;
+                    case "balloon2":
+                        this.menu.updateUserBalloon("Blue");
+                        break;
+                    case "balloon3":
+                        this.menu.updateUserBalloon("Green");
+                        break;
+                }
+                this.changeTo(this.state.MENU);
                 break;
         }
     }
@@ -303,18 +327,61 @@ class MyContents {
             case "enemy":
                 this.enemyBalloon = obj.parent.parent;
                 this.previousEnemyBalloon = this.enemyBalloon;
-                console.log("Enemy balloon selected: " + this.enemyBalloon.name);
+                const balloonName = this.enemyBalloon.name.split("_")[1];
+                switch (balloonName) {
+                    case "balloon1":
+                        this.menu.updateBotBalloon("Pink");
+                        break;
+                    case "balloon2":
+                        this.menu.updateBotBalloon("Blue");
+                        break;
+                    case "balloon3":
+                        this.menu.updateBotBalloon("Green");
+                        break;
+                }
+                this.changeTo(this.state.MENU);
                 break;
         }
     }
-
+    selectMenuOption(obj) {
+        switch (obj.parent.name) {
+            case "start":
+                console.log("Game started");
+                break;
+            case "changeName":
+                this.currentState = this.state.CHANGE_NAME;
+                this.changeName();
+                break;
+            case "levelDown":
+                if (this.level > 1) this.level--;
+                this.menu.updateLevel(this.level);
+                break;
+            case "levelUp":
+                if (this.level < 3) this.level++;
+                this.menu.updateLevel(this.level);
+                break;
+            case "pickBalloon":
+                this.changeTo(this.state.USER_BALLOON);
+                break;
+            case "pickBotBalloon":
+                this.currentState = this.state.ENEMY_BALLOON;
+                break;
+            case "track":
+                if (this.track === "A") this.track = "B";
+                else this.track = "A";
+                this.menu.updateTrack(this.track);
+                break;
+            default:
+                break;
+        }
+    }
     onPointerMove(event) {
         this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
         this.raycaster.setFromCamera(this.pointer, this.app.activeCamera);
         var intersects = this.raycaster.intersectObjects(this.app.scene.children);
-
+    
         if (intersects.length > 0){
             const obj = intersects[0].object;
             switch (this.currentState) {
@@ -324,7 +391,11 @@ class MyContents {
                 case this.state.ENEMY_BALLOON:
                     this.enemyHoverBalloon(obj);
                     break;
+                case this.state.MENU:
+                    this.menuHover(obj);
+                    break;
                 default:
+                    break;
             }
         }
         else{
@@ -336,9 +407,31 @@ class MyContents {
                     case this.state.ENEMY_BALLOON:
                         this.enemyHoverBalloon(this.lastObj, false);
                         break;
+                    case this.state.MENU:
+                        this.menuHover(this.lastObj, false);
+                        break;
                     default:
+                        break;
                 }
             }
+        }
+    }
+    menuHover(obj, hovering = true){
+        let menuObjects = this.menu.objects;
+        if (hovering){
+            if (this.lastObj != obj.parent){
+                if (this.lastObj){
+                    this.lastObj.scale.set(1, 1, 1);
+                }
+                this.lastObj = obj.parent;
+                if (menuObjects.includes(this.lastObj)){
+                    this.lastObj.scale.set(1.2, 1.2, 1.2);
+                }
+            }
+        }
+        else{
+            this.lastObj.scale.set(1, 1, 1);
+            this.lastObj = null;
         }
     }
     userHoverBalloon(obj, hovering = true){
@@ -399,31 +492,74 @@ class MyContents {
             default:
                 break;
         }
-        // if (y <= 7){
-        //     this.hudWind.innerHTML = "No wind";
-        // }
-        // if (7 < y && y < 12) {
-        //     console.log("north");
-        //     this.hudWind.innerHTML = "North ↑";
-        //     this.testBalloon.position.z += 0.1;
-        // }
-        // if (12 <= y && y < 17) {
-        //     console.log("south");
-        //     this.hudWind.innerHTML = "South ↓";
-        //     this.testBalloon.position.z -= 0.1;
-        // }
-        // if (17 <= y && y < 22) {
-        //     console.log("east");
-        //     this.hudWind.innerHTML = "East →";
-        //     this.testBalloon.position.x += 0.1;
-        // }
-        // if (22 <= y && y <= 27) {
-        //     console.log("west");
-        //     this.hudWind.innerHTML = "West ←";
-        //     this.testBalloon.position.x -= 0.1;
-        // }
     }
-    
+    changeName(){
+        if (this.currentState === this.state.CHANGE_NAME){
+            const keyboardHandler = (e) => {
+                const isAlphaNumeric = /^[a-zA-Z0-9 ]$/.test(e.key);
+                if (isAlphaNumeric || (e.key === 'Backspace' && this.playerName)){
+                    if (e.key === 'Backspace') this.playerName = this.playerName.slice(0, -1);
+                    else this.playerName = (this.playerName || '') + e.key;
+                    this.playerName = this.playerName.slice(0, 10);
+                    this.menu.updatePlayerName(this.playerName);
+                }
+                else if(e.key === 'Enter'){
+                    this.currentState = this.state.MENU;
+                    this.menu.updatePlayerName(this.playerName);
+                    document.removeEventListener('keydown', keyboardHandler);
+                }
+            };
+            document.addEventListener('keydown', keyboardHandler);
+        }
+    }
+
+    setCamera(camera){
+        this.app.activeCameraName = camera;
+        this.app.updateCameraIfRequired();
+    }
+    changeTo(state){
+        switch(state){
+            case this.state.MENU:
+                this.selectedLayer = this.layers.MENU;
+                this.updateLayer()
+                this.currentState = this.state.MENU;
+                this.setCamera("menu");
+                break;
+            case this.state.GAME:
+                //TODO
+                console.log("Game started");
+                break;
+            case this.state.GAME_OVER:
+                //TODO
+                console.log("Game over");
+                break;
+            case this.state.USER_BALLOON:
+                this.selectedLayer = this.layers.USER_BALLOON;
+                this.updateLayer()
+                this.currentState = this.state.USER_BALLOON;
+                this.setCamera("user_balloon");
+                break;
+            case this.state.ENEMY_BALLOON:
+                this.selectedLayer = this.layers.ENEMY_BALLOON;
+                this.updateLayer()
+                this.currentState = this.state.ENEMY_BALLOON;
+                this.setCamera("enemy_balloon");
+                break;
+        }
+    }
+
+    updateLayer(){
+        switch(this.selectedLayer){
+            case this.layers.NONE:
+                this.raycaster.layers.enableAll();
+                this.currentLayer = this.selectedLayer;
+                break;
+            default:
+                this.raycaster.layers.enable(this.selectedLayer);
+                this.currentLayer = this.selectedLayer;
+                break;
+        }
+    }
 }
 
 export { MyContents };
