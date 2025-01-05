@@ -127,7 +127,7 @@ class MyContents {
     
         // apagar depois
         // this.testBalloon = this.balloons[3];
-        // this.testBalloon.position.set(0, 8, 0);
+        // this.testBalloon.position.set(31, 14, -2);
         // this.app.scene.add(this.testBalloon);
     }
 
@@ -218,6 +218,10 @@ class MyContents {
             this.updateEnemyAnimation();
 
             this.moveMyBalloon();
+            this.setCurrentLap(this.playerBalloon);
+            let value = this.verifyFinalRace(this.playerBalloon);
+            this.setCurrentLap(this.enemyBalloon);
+            let value2 = this.verifyFinalRace(this.enemyBalloon);
             this.collisionPowerups();
         }
         // provisório
@@ -497,21 +501,26 @@ class MyContents {
         switch(this.playerBalloon.currentLayer){
             case 0:
                 this.hudWind.innerHTML = "No wind";
+                this.setAirLayer("No wind");
                 break;
             case 1:
                 this.hudWind.innerHTML = "North ↑";
+                this.setAirLayer("North");
                 this.playerBalloon.position.z += this.windSpeed;
                 break;
             case 2:
                 this.hudWind.innerHTML = "South ↓";
+                this.setAirLayer("South");
                 this.playerBalloon.position.z -= this.windSpeed;
                 break;
             case 3:
                 this.hudWind.innerHTML = "East →";
+                this.setAirLayer("East");
                 this.playerBalloon.position.x += this.windSpeed;
                 break;
             case 4:
                 this.hudWind.innerHTML = "West ←";
+                this.setAirLayer("West");
                 this.playerBalloon.position.x -= this.windSpeed;
                 break;
             default:
@@ -550,6 +559,7 @@ class MyContents {
                 this.setCamera("menu");
                 break;
             case this.state.GAME:
+                this.setTotalLaps();
                 this.createBalloonShadow();
                 this.positionMyBalloon(35, 14, 0); // change
                 this.positionEnemyBalloon(22, 14, 0); // change
@@ -687,6 +697,22 @@ class MyContents {
 
     updateOutdoorTime(){
         this.outdoor.update();
+    }
+
+    setTotalLaps(){
+        this.outdoor.setTotalLaps(this.loops);
+    }
+
+    setAirLayer(layer){
+        this.outdoor.setAirLayer(layer);
+    }
+
+    setCurrentLap(balloon){
+        balloon.increaseLaps(this.outdoor);
+    }
+
+    verifyFinalRace(balloon){
+        return balloon.checkEndOfRace(this.loops);
     }
 
     collisionPowerups(){

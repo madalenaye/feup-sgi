@@ -21,7 +21,9 @@ class MyBalloon extends THREE.Object3D {
         this.smoothFactor = 0.05
 
         this.vouchers = 0;
+        this.currentLap = 0;
         this.canMove = true;
+        this.hasCrossedLine = false;
         
         this.groupBalloon = new THREE.Group();
         this.groupBalloon.name = this.name;
@@ -418,5 +420,27 @@ class MyBalloon extends THREE.Object3D {
     getDistance(){
         return (this.radius * 1.7);
     }
+
+    increaseLaps(outdoor){
+        let myPosition = new THREE.Vector3();
+        this.getWorldPosition(myPosition);
+        let approximationZ = Math.round(myPosition.z);
+
+        if (myPosition.x > 0 && approximationZ === -2) {
+            if (!this.hasCrossedLine) {
+                this.currentLap++;
+                outdoor.setCurrentLap(this.currentLap);
+                this.hasCrossedLine = true;
+            }
+        }   
+        else {
+            this.hasCrossedLine = false;
+        }
+    }
+
+    checkEndOfRace(totalLaps){
+        return this.currentLap === totalLaps;
+    }
+
 }
 export { MyBalloon };

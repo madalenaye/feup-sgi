@@ -135,22 +135,29 @@ class MyOutdoor extends THREE.Object3D {
     }
 
     setTotalLaps(laps, charWidth = 0.7, charHeight = 0.7){
+        if(this.totalLapsMesh){
+            this.remove(this.totalLapsMesh);
+        }
         this.totalLaps = laps;
         const text = `/${this.totalLaps}`;
-        let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
-        textMesh.position.set(8.0, 4.2, -0.33);
-        textMesh.rotation.set(0,0,Math.PI);
-        textMesh.scale.set(1, -1, 1);
-        this.add(textMesh);
+        this.totalLapsMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
+        this.totalLapsMesh.position.set(8.0, 4.2, -0.33);
+        this.totalLapsMesh.rotation.set(0,0,Math.PI);
+        this.totalLapsMesh.scale.set(1, -1, 1);
+        this.add(this.totalLapsMesh);
     }
 
     setCurrentLap(currentLap, charWidth = 0.7, charHeight = 0.7){
         this.currentLap = currentLap;
+        if(this.currentLapTextMesh){
+            this.remove(this.currentLapTextMesh);
+        }
         let text = `${this.currentLap}`
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(8.8, 4.2, -0.33);
         textMesh.rotation.set(0,0,Math.PI);
         textMesh.scale.set(1, -1, 1);
+        this.currentLapTextMesh = textMesh;
         this.add(textMesh);
     }
 
