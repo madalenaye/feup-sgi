@@ -11,13 +11,12 @@ class MyBalloon extends THREE.Object3D {
         this.isCollidingMap = new Map();
         this.type = type;
         this.name = name;
+        this.windLayer = 0;
         this.nameUser = nameUser;
-        this.isSelected = false;
-        this.currentLayer = 0;
         this.maxLayers = 5;
         this.cooldownTime = 300;
         this.canChangeLayer = true;
-        this.layerHeight = 4;
+        this.layerHeight = 2;
         this.targetY = 0; 
         this.smoothFactor = 0.05
 
@@ -157,74 +156,6 @@ class MyBalloon extends THREE.Object3D {
         this.add(this.balloonLight);
     }
 
-    create3PersonCamera(app){
-        this.thirdPersonCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    
-        const initialOffset = new THREE.Vector3(0, 10, -30);
-        this.thirdPersonCamera.position.copy(initialOffset); 
-        
-        const initialTarget = new THREE.Vector3(0, 5, 0);
-        this.thirdPersonCamera.lookAt(initialTarget);
-        this.thirdPersonCamera.userData.offset = initialOffset.clone();
-        
-        app.scene.add(this.thirdPersonCamera);
-
-        this.thirdName = `third_${this.uuid}`;
-        app.cameras[this.thirdName] = this.thirdPersonCamera;
-    }
-
-    updateCameraPosition() {
-        const balloonMatrix = this.groupBalloon.matrixWorld;
-
-        const rotatedOffset = this.thirdPersonCamera.userData.offset.clone();
-        rotatedOffset.applyMatrix4(new THREE.Matrix4().extractRotation(balloonMatrix)); 
-
-        const balloonPosition = new THREE.Vector3().setFromMatrixPosition(balloonMatrix);
-        this.thirdPersonCamera.position.copy(balloonPosition).add(rotatedOffset);
-
-        const lookAtTarget = new THREE.Vector3().setFromMatrixPosition(balloonMatrix);
-        this.thirdPersonCamera.lookAt(lookAtTarget);
-    }
-
-    createFirstPersonCamera(app) {
-        this.firstPersonCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        
-        this.firstPersonCamera.position.set(0, 0, 0);
-        this.firstPersonCamera.rotation.set(0, Math.PI, 0);
-    
-        this.groupBalloon.add(this.firstPersonCamera);
-
-        this.firstName = `first_${this.uuid}`;
-        app.cameras[this.firstName] = this.firstPersonCamera;
-    }
-
-    updateFirstPersonCamera() {
-        this.firstPersonCamera.rotation.set(0, Math.PI, 0);
-    }
-
-    setupCameraSwitching(app) {
-        window.addEventListener('keydown', (event) => {
-            switch (event.key) {
-                case '1':
-                    app.setActiveCamera(this.firstName);
-                    break;
-    
-                case '3': 
-                    app.setActiveCamera(this.thirdName);
-                    break;
-    
-                case 'c':
-                    app.setActiveCamera("cam1");
-                    break;
-    
-                default:
-                    break;
-            }
-    
-        });
-    }
-
-
     createBoundingVolume(){
         this.matrixWorldNeedsUpdate = true;
         this.updateMatrixWorld(true);
@@ -357,8 +288,8 @@ class MyBalloon extends THREE.Object3D {
     }
     ascend(){
         if (this.canChangeLayer){
-            if (this.currentLayer < this.maxLayers - 1){
-                this.currentLayer += 1;
+            if (this.windLayer < this.maxLayers - 1){
+                this.windLayer += 1;
                 this.updatePosition(this.layerHeight);
             }
             else{
@@ -369,8 +300,8 @@ class MyBalloon extends THREE.Object3D {
     }
     descend(){
         if (this.canChangeLayer){
-            if (this.currentLayer > 0){
-                this.currentLayer -= 1;
+            if (this.windLayer > 0){
+                this.windLayer -= 1;
                 this.updatePosition(-this.layerHeight);
             }
             else{
