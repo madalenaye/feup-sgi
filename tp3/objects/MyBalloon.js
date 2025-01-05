@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 class MyBalloon extends THREE.Object3D {
 
-    constructor(radius, material, baseColor, type, name) {
+    constructor(radius, material, baseColor, type, name, nameUser) {
         super();
         this.radius = radius;
         this.basketRadius = radius/3;
@@ -11,6 +11,7 @@ class MyBalloon extends THREE.Object3D {
         this.isCollidingMap = new Map();
         this.type = type;
         this.name = name;
+        this.nameUser = nameUser;
         this.isSelected = false;
         this.currentLayer = 0;
         this.maxLayers = 5;
