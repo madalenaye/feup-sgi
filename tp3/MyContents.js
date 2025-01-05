@@ -201,9 +201,6 @@ class MyContents {
         this.obstacles = loadObjects.getObstacles();
         this.powerups = loadObjects.getPowerups();
         this.currentRoute = this.routes["route_level" + this.level];
-        // this.changeEnemyStartingPoint();
-        // console.log(this.currentRoute);
-        // this.enemyAnimationSetup();
         
         // Outdoor display
         this.outdoor2 = this.objects["outdoor_2"];
@@ -215,6 +212,8 @@ class MyContents {
             this.updateBalloonCameras();
             this.updateBoundingVolumes();
             this.updateEnemyAnimation();
+
+            this.moveMyBalloon();
         }
         // provisório
   
@@ -238,9 +237,9 @@ class MyContents {
         // }
          // todo add functions to accelerate and desaccelerate the balloon
         // Check for key presses and ensure the action only triggers once per press
-        if (this.app.keys.includes("w")) this.testBalloon.ascend();
+        // if (this.app.keys.includes("w")) this.testBalloon.ascend();
 
-        if (this.app.keys.includes("s")) this.testBalloon.descend();
+        // if (this.app.keys.includes("s")) this.testBalloon.descend();
   
         //this.windLayers(this.testBalloon);
     }
@@ -482,25 +481,25 @@ class MyContents {
         }
     }
     windLayers() {
-        switch(this.testBalloon.currentLayer){
+        switch(this.playerBalloon.currentLayer){
             case 0:
                 this.hudWind.innerHTML = "No wind";
                 break;
             case 1:
                 this.hudWind.innerHTML = "North ↑";
-                this.testBalloon.position.z += this.windSpeed;
+                this.playerBalloon.position.z += this.windSpeed;
                 break;
             case 2:
                 this.hudWind.innerHTML = "South ↓";
-                this.testBalloon.position.z -= this.windSpeed;
+                this.playerBalloon.position.z -= this.windSpeed;
                 break;
             case 3:
                 this.hudWind.innerHTML = "East →";
-                this.testBalloon.position.x += this.windSpeed;
+                this.playerBalloon.position.x += this.windSpeed;
                 break;
             case 4:
                 this.hudWind.innerHTML = "West ←";
-                this.testBalloon.position.x -= this.windSpeed;
+                this.playerBalloon.position.x -= this.windSpeed;
                 break;
             default:
                 break;
@@ -649,6 +648,14 @@ class MyContents {
     updateBoundingVolumes(){
         this.playerBalloon.updateBoundingBoxBalloon();
         this.enemyBalloon.updateBoundingBoxBalloon();
+    }
+
+    moveMyBalloon(){
+        if (this.app.keys.includes("w")) this.playerBalloon.ascend();
+
+        if (this.app.keys.includes("s")) this.playerBalloon.descend();
+
+        this.windLayers();
     }
 }
 
