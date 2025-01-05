@@ -157,7 +157,7 @@ class MyBalloon extends THREE.Object3D {
     create3PersonCamera(app){
         this.thirdPersonCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     
-        const initialOffset = new THREE.Vector3(0, 10, 30);
+        const initialOffset = new THREE.Vector3(0, 10, -30);
         this.thirdPersonCamera.position.copy(initialOffset); 
         
         const initialTarget = new THREE.Vector3(0, 5, 0);

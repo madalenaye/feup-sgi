@@ -36,11 +36,11 @@ class MyShader {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 
                 if (isVertex) { 
-                    console.log("loaded vs " + theUrl)  
+                    //console.log("loaded vs " + theUrl)  
                     obj.vertexShader = xmlhttp.responseText 
                 }
                 else { 
-                    console.log("loaded fs " + theUrl)  
+                    //console.log("loaded fs " + theUrl)  
                     obj.fragmentShader = xmlhttp.responseText
                 }
                 obj.buildShader.bind(obj)()
@@ -61,7 +61,7 @@ class MyShader {
                 fragmentShader: this.fragmentShader,
             }) 
             // report built!
-            console.log("built shader from " + this.vert_url + ", " + this.frag_url)  
+            //console.log("built shader from " + this.vert_url + ", " + this.frag_url)  
             this.ready = true
         }
     }

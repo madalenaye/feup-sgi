@@ -124,9 +124,9 @@ class MyContents {
         this.previousEnemyBalloon = enemyBalloons[0];
     
         // apagar depois
-        this.testBalloon = this.balloons[3];
-        this.testBalloon.position.set(0, 8, 0);
-        this.app.scene.add(this.testBalloon);
+        // this.testBalloon = this.balloons[3];
+        // this.testBalloon.position.set(0, 8, 0);
+        // this.app.scene.add(this.testBalloon);
     }
 
     /**
@@ -229,7 +229,7 @@ class MyContents {
 
         if (this.app.keys.includes("s")) this.testBalloon.descend();
   
-        this.windLayers(this.testBalloon);
+        //this.windLayers(this.testBalloon);
     }
 
     /**
@@ -346,7 +346,7 @@ class MyContents {
     selectMenuOption(obj) {
         switch (obj.parent.name) {
             case "start":
-                console.log("Game started");
+                this.changeTo(this.state.GAME);
                 break;
             case "changeName":
                 this.currentState = this.state.CHANGE_NAME;
@@ -514,8 +514,7 @@ class MyContents {
     }
 
     setCamera(camera){
-        this.app.activeCameraName = camera;
-        this.app.updateCameraIfRequired();
+        this.app.setActiveCamera(camera);
     }
     changeTo(state){
         switch(state){
@@ -526,8 +525,13 @@ class MyContents {
                 this.setCamera("menu");
                 break;
             case this.state.GAME:
-                //TODO
-                console.log("Game started");
+                this.createBalloonShadow();
+                this.positionMyBalloon(35, 14, 0); // change
+                this.positionEnemyBalloon(25, 14, 0); // change
+                this.createBoundingVolumes();
+                this.createBalloonCameras();
+                this.setCamera(this.playerBalloon.thirdName);
+                this.currentState = this.state.GAME;
                 break;
             case this.state.GAME_OVER:
                 //TODO
@@ -559,6 +563,54 @@ class MyContents {
                 this.currentLayer = this.selectedLayer;
                 break;
         }
+    }
+
+    createBalloonShadow(){
+        this.playerBalloon.createBalloonLight();
+    }
+
+    createBalloonCameras(){
+        this.playerBalloon.create3PersonCamera(this.app);
+        this.playerBalloon.createFirstPersonCamera(this.app);
+        this.playerBalloon.setupCameraSwitching(this.app);
+        this.playerBalloon.updateCameraPosition();
+    }
+
+    createBoundingVolumes(){
+        this.playerBalloon.createBoundingVolume();
+        this.balloonBB = this.playerBalloon.getBoundingVolume();
+        
+        // const balloonBBHelper = new THREE.Box3Helper(this.playerBalloon.balloonBB, 0xff0000); // Cor vermelha
+        // this.app.scene.add(balloonBBHelper);
+      
+        // const balloonBB2Helper = new THREE.Box3Helper(this.playerBalloon.balloonBB_box, 0xff0000); // Cor vermelha
+        // this.app.scene.add(balloonBB2Helper);
+      
+        // const balloonBB3Helper = new THREE.Box3Helper(this.playerBalloon.balloonBB_sphere, 0xff0000); // Cor vermelha
+        // this.app.scene.add(balloonBB3Helper);
+
+        this.enemyBalloon.createBoundingVolume();
+        this.balloonBB2 = this.enemyBalloon.getBoundingVolume();
+        
+        // const balloonBB1Helper = new THREE.Box3Helper(this.enemyBalloon.balloonBB, 0xff0000); // Cor vermelha
+        // this.app.scene.add(balloonBB1Helper);
+      
+        // const balloonBB21Helper = new THREE.Box3Helper(this.enemyBalloon.balloonBB_box, 0xff0000); // Cor vermelha
+        // this.app.scene.add(balloonBB21Helper);
+      
+        // const balloonBB31Helper = new THREE.Box3Helper(this.enemyBalloon.balloonBB_sphere, 0xff0000); // Cor vermelha
+        // this.app.scene.add(balloonBB31Helper);
+
+    }
+
+    positionMyBalloon(pointX, pointY, pointZ){
+        this.playerBalloon.position.set(pointX, pointY, pointZ);
+        this.app.scene.add(this.playerBalloon);
+    }
+
+    positionEnemyBalloon(pointX, pointY, pointZ){
+        this.enemyBalloon.position.set(pointX, pointY, pointZ);
+        this.app.scene.add(this.enemyBalloon);
     }
 }
 

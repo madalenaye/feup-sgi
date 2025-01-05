@@ -90,7 +90,7 @@ class MyObstacle extends THREE.Object3D {
     }
     animatePulsation() {
         const clock = new THREE.Clock();
-        console.log("animatePulsation");
+        //console.log("animatePulsation");
         const update = () => {
             const elapsedTime = clock.getElapsedTime();
             this.shader.updateUniformsValue('time', elapsedTime);
