@@ -96,6 +96,8 @@ class MyContents {
         this.level = 1;
         this.track = "A";
         this.loops = 1;
+        this.pointA = new THREE.Vector3(37, 14, 0);
+        this.pointB = new THREE.Vector3(22, 14, 0);
 
     }
     /**
@@ -204,6 +206,7 @@ class MyContents {
         this.powerups = loadObjects.getPowerups();
         this.currentRoute = this.routes["route_level" + this.level];
         this.outdoor = this.objects["outdoor"];
+        this.track_2 = this.objects["track_1"];
         
         // Outdoor display
         this.outdoor2 = this.objects["outdoor_2"];
@@ -216,13 +219,16 @@ class MyContents {
             this.updateBalloonCameras();
             this.updateBoundingVolumes();
             this.updateEnemyAnimation();
-
+            
+            this.putObjectOnTrack();
             this.moveMyBalloon();
             this.setCurrentLap(this.playerBalloon);
             let value = this.verifyFinalRace(this.playerBalloon);
             this.setCurrentLap(this.enemyBalloon);
             let value2 = this.verifyFinalRace(this.enemyBalloon);
             this.collisionPowerups();
+            this.collisionObstacles();
+            this.collisionEnemyBalloon();
         }
         // provisório
   
@@ -244,13 +250,6 @@ class MyContents {
         //     // otherwise update  firework
         //     this.fireworks[i].update()
         // }
-         // todo add functions to accelerate and desaccelerate the balloon
-        // Check for key presses and ensure the action only triggers once per press
-        // if (this.app.keys.includes("w")) this.testBalloon.ascend();
-
-        // if (this.app.keys.includes("s")) this.testBalloon.descend();
-  
-        //this.windLayers(this.testBalloon);
     }
 
     /**
@@ -561,12 +560,14 @@ class MyContents {
             case this.state.GAME:
                 this.setTotalLaps();
                 this.createBalloonShadow();
-                this.positionMyBalloon(35, 14, 0); // change
-                this.positionEnemyBalloon(22, 14, 0); // change
+                console.log("Posição na pista");
+                console.log(this.track);
+                this.positionMyBalloon();
+                this.positionEnemyBalloon();
                 this.createBoundingVolumes();
                 this.createBalloonCameras();
                 this.setCamera(this.playerBalloon.thirdName);
-                this.changeEnemyStartingPoint(new THREE.Vector3(22, 14, 0)); //change
+                this.changeEnemyStartingPoint();
                 this.enemyAnimationSetup();
                 this.outdoorTimePlay();
                 this.hudWind.style.display = "block";
@@ -647,18 +648,21 @@ class MyContents {
 
     }
 
-    positionMyBalloon(pointX, pointY, pointZ){
-        this.playerBalloon.position.set(pointX, pointY, pointZ);
+    positionMyBalloon(){
+        const targetPoint = this.track === "A" ? this.pointA : this.pointB;
+        this.playerBalloon.position.set(targetPoint.x, targetPoint.y, targetPoint.z);
         this.app.scene.add(this.playerBalloon);
     }
 
-    positionEnemyBalloon(pointX, pointY, pointZ){
-        this.enemyBalloon.position.set(pointX, pointY, pointZ);
+    positionEnemyBalloon(){
+        const targetPoint = this.track === "A" ? this.pointB : this.pointA;
+        this.enemyBalloon.position.set(targetPoint.x, targetPoint.y, targetPoint.z);
         this.app.scene.add(this.enemyBalloon);
     }
 
-    changeEnemyStartingPoint(point){
-        this.currentRoute.changeInitialPoint(point);
+    changeEnemyStartingPoint(){
+        const targetPoint = this.track === "A" ? this.pointB : this.pointA;
+        this.currentRoute.changeInitialPoint(targetPoint);
     }
 
     enemyAnimationSetup(){
@@ -676,11 +680,13 @@ class MyContents {
     }
 
     moveMyBalloon(){
-        if (this.app.keys.includes("w")) this.playerBalloon.ascend();
+        if(this.playerBalloon.getCanMove()){
+            if (this.app.keys.includes("w")) this.playerBalloon.ascend();
 
-        if (this.app.keys.includes("s")) this.playerBalloon.descend();
+            if (this.app.keys.includes("s")) this.playerBalloon.descend();
 
-        this.windLayers();
+            this.windLayers();
+        }
     }
 
     outdoorTimePlay(){
@@ -715,8 +721,23 @@ class MyContents {
         return balloon.checkEndOfRace(this.loops);
     }
 
+    putObjectOnTrack(){
+        let value = this.track_2.isObjectInsideTrack(this.playerBalloon);
+        if(!value){
+            this.track_2.putObjectOnTrack(this.playerBalloon, this.obstacles, this.powerups);
+        }
+    }
+
     collisionPowerups(){
         this.playerBalloon.checkCollisionPowerups(this.powerups, this.outdoor);
+    }
+
+    collisionObstacles(){
+        this.playerBalloon.checkCollisionObstacles(this.obstacles, this.outdoor);
+    }
+
+    collisionEnemyBalloon(){
+        this.playerBalloon.checkCollisionBalloon(this.enemyBalloon, this.outdoor);
     }
 }
 

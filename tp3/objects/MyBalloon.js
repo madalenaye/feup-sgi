@@ -295,7 +295,7 @@ class MyBalloon extends THREE.Object3D {
         return false;
     }
 
-    checkCollisionObstacles(obstacles){
+    checkCollisionObstacles(obstacles, outdoor){
         for (const key in obstacles){
             const obstacle = obstacles[key];
             if (obstacle.cooldown && Date.now() < obstacle.cooldown) {
@@ -305,11 +305,12 @@ class MyBalloon extends THREE.Object3D {
             if(value){
                 if(this.vouchers == 0){
                     let penalty = obstacle.getPenalty();
-                    obstacle.cooldown = Date.now() + (penalty + 4) * 1000;
+                    obstacle.cooldown = Date.now() + (penalty + 8) * 1000;
                     this.freezeBalloon(penalty);
                 }
                 else{
                     this.vouchers--;
+                    outdoor.setVouchers(this.vouchers);
                 }
             }   
         }
@@ -326,14 +327,16 @@ class MyBalloon extends THREE.Object3D {
         }        
     }
 
-    checkCollisionBalloon(balloon){
+    checkCollisionBalloon(balloon, outdoor){
         let value = this.checkCollision(balloon);
         if(value){
             if(this.vouchers == 0){
+                console.log("Colidi");
                 this.freezeBalloon(3);
             }
             else{
                 this.vouchers--;
+                outdoor.setVouchers(this.vouchers);
             }
         }
     }
@@ -419,6 +422,10 @@ class MyBalloon extends THREE.Object3D {
 
     getDistance(){
         return (this.radius * 1.7);
+    }
+
+    getCanMove(){
+        return this.canMove;
     }
 
     increaseLaps(outdoor){
