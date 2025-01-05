@@ -17,6 +17,7 @@ import { MyPowerUp } from './objects/MyPowerUp.js';
 import { MyFirework } from './objects/MyFirework.js';
 import { MyBillboardBalloon } from './objects/MyBillboardBalloon.js';
 import { MyMenu } from './objects/MyMenu.js';
+import { MyGameOver } from './objects/MyGameOver.js';
 
 
 /**
@@ -91,6 +92,12 @@ class MyContents {
         this.hudWind = document.getElementById("wind");
         this.hudWind.style.display = "none";
         this.windSpeed = 0.02;
+
+        //Game Over
+        this.gameOver = new MyGameOver();
+        this.gameOver.position.set(74, 32, 0);
+        this.gameOver.rotation.set(0, -Math.PI/2, 0);
+        this.app.scene.add(this.gameOver);
 
         // Game configuration
         this.level = 1;

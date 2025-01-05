@@ -112,6 +112,22 @@
                     "y": 15.0,
                     "z": 65
                 }
+            },
+            "game_over":{
+                "type": "perspective",
+                "angle": 60,
+                "near": 0.1,
+                "far": 1000,
+                "location": {
+                    "x" : 40,
+                    "y" : 30,
+                    "z" : 0
+                },
+                "target":{
+                    "x": 74,
+                    "y": 30,
+                    "z": 0
+                }
             }
         },
         "textures": {

@@ -331,7 +331,6 @@ class MyBalloon extends THREE.Object3D {
         let value = this.checkCollision(balloon);
         if(value){
             if(this.vouchers == 0){
-                console.log("Colidi");
                 this.freezeBalloon(3);
             }
             else{
