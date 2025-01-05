@@ -122,17 +122,7 @@ class MyContents {
         this.previousPlayerBalloon = userBalloons[0];
         this.enemyBalloon = enemyBalloons[0];
         this.previousEnemyBalloon = enemyBalloons[0];
-        
-        // provisório
-        this.powerupTex = new THREE.TextureLoader().load('./scenes/textures/powerup.png');
-        this.powerupTex.wrapS = THREE.RepeatWrapping;
-        this.powerupTex.wrapT = THREE.RepeatWrapping;
-        this.powerupTex.repeat.set(1, 1);
-        this.powerupMaterial = new THREE.MeshStandardMaterial({ map: this.powerupTex, roughness: 1, side: THREE.DoubleSide });
-        this.powerup = new MyPowerUp({width: 2}, this.powerupMaterial, true, true);
-        this.powerup.position.set(0, 5, 25);
-        this.app.scene.add(this.powerup);
-
+    
         // apagar depois
         this.testBalloon = this.balloons[3];
         this.testBalloon.position.set(0, 8, 0);

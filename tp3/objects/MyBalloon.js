@@ -125,9 +125,102 @@ class MyBalloon extends THREE.Object3D {
 
             this.stringGroup.add(string);
         }
+
+        //Shadows
+        this.balloonBaseEdges.castShadow = true;
+        this.balloon.castShadow = true;
+        this.basket.castShadow = true;
+        this.basketBase.castShadow = true;
+
         this.groupBalloon.add(this.stringGroup);
         this.add(this.groupBalloon);
     }
+
+    createBalloonLight(){
+        this.balloonLight = new THREE.DirectionalLight(0xffcd00, 0.4); 
+        this.balloonLight.position.set(0, 7, 0);
+        this.balloonLight.target = this.basketBase; 
+        this.balloonLight.castShadow = true;
+
+        this.balloonLight.shadow.mapSize.width = 1024; 
+        this.balloonLight.shadow.mapSize.height = 1024;
+        this.balloonLight.shadow.camera.near = 0.5;
+        this.balloonLight.shadow.camera.far = 200;
+        this.balloonLight.shadow.camera.left = -10;
+        this.balloonLight.shadow.camera.right = 10;
+        this.balloonLight.shadow.camera.top = 10;
+        this.balloonLight.shadow.camera.bottom = -10;
+
+        this.add(this.balloonLight);
+    }
+
+    create3PersonCamera(app){
+        this.thirdPersonCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    
+        const initialOffset = new THREE.Vector3(0, 10, 30);
+        this.thirdPersonCamera.position.copy(initialOffset); 
+        
+        const initialTarget = new THREE.Vector3(0, 5, 0);
+        this.thirdPersonCamera.lookAt(initialTarget);
+        this.thirdPersonCamera.userData.offset = initialOffset.clone();
+        
+        app.scene.add(this.thirdPersonCamera);
+
+        this.thirdName = `third_${this.uuid}`;
+        app.cameras[this.thirdName] = this.thirdPersonCamera;
+    }
+
+    updateCameraPosition() {
+        const balloonMatrix = this.groupBalloon.matrixWorld;
+
+        const rotatedOffset = this.thirdPersonCamera.userData.offset.clone();
+        rotatedOffset.applyMatrix4(new THREE.Matrix4().extractRotation(balloonMatrix)); 
+
+        const balloonPosition = new THREE.Vector3().setFromMatrixPosition(balloonMatrix);
+        this.thirdPersonCamera.position.copy(balloonPosition).add(rotatedOffset);
+
+        const lookAtTarget = new THREE.Vector3().setFromMatrixPosition(balloonMatrix);
+        this.thirdPersonCamera.lookAt(lookAtTarget);
+    }
+
+    createFirstPersonCamera(app) {
+        this.firstPersonCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        
+        this.firstPersonCamera.position.set(0, 0, 0);
+        this.firstPersonCamera.rotation.set(0, Math.PI, 0);
+    
+        this.groupBalloon.add(this.firstPersonCamera);
+
+        this.firstName = `first_${this.uuid}`;
+        app.cameras[this.firstName] = this.firstPersonCamera;
+    }
+
+    updateFirstPersonCamera() {
+        this.firstPersonCamera.rotation.set(0, Math.PI, 0);
+    }
+
+    setupCameraSwitching(app) {
+        window.addEventListener('keydown', (event) => {
+            switch (event.key) {
+                case '1':
+                    app.setActiveCamera(this.firstName);
+                    break;
+    
+                case '3': 
+                    app.setActiveCamera(this.thirdName);
+                    break;
+    
+                case 'c':
+                    app.setActiveCamera("cam1");
+                    break;
+    
+                default:
+                    break;
+            }
+    
+        });
+    }
+
 
     createBoundingVolume(){
         this.matrixWorldNeedsUpdate = true;

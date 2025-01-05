@@ -19,6 +19,7 @@ class MyTrack extends THREE.Object3D {
         let lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000});
         let trackGeometry = new THREE.TubeGeometry(path, parameters.segments, parameters.width, 3 , parameters.closed);
         let trackMesh = new THREE.Mesh(trackGeometry, material);
+        trackMesh.receiveShadow = true;
 
         let points = path.getPoints(parameters.segments);
         let bGeometry = new THREE.BufferGeometry().setFromPoints(points);
