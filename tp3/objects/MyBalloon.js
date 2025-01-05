@@ -155,31 +155,6 @@ class MyBalloon extends THREE.Object3D {
         this.add(this.balloonLight);
     }
 
-    /*
-
-    setupCameraSwitching(app) {
-        window.addEventListener('keydown', (event) => {
-            switch (event.key) {
-                case '1':
-                    app.setActiveCamera(this.firstName);
-                    break;
-    
-                case '3': 
-                    app.setActiveCamera(this.thirdName);
-                    break;
-    
-                case 'c':
-                    app.setActiveCamera("cam1");
-                    break;
-    
-                default:
-                    break;
-            }
-    
-        });
-    }*/
-
-
     createBoundingVolume(){
         this.matrixWorldNeedsUpdate = true;
         this.updateMatrixWorld(true);

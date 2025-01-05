@@ -97,6 +97,7 @@ class MyContents {
         this.loops = 1;
         this.pointA = new THREE.Vector3(35, 10, 0);
         this.pointB = new THREE.Vector3(25, 10, 0);
+        this.thirdPerson = true;
 
     }
     /**
@@ -211,45 +212,8 @@ class MyContents {
         if(this.currentState == this.state.GAME){
             this.updateOutdoorTime();
             this.updateCamera();
-            //this.updateBalloonCameras();
-            // const pos = new THREE.Vector3();
-            // this.playerBalloon.getWorldPosition(pos);
-            /*switch(this.playerBalloon.windLayer){
-                case 1:
-                    this.app.activeCamera.position.set(pos.x + 5, pos.y + 2, pos.z - 25)
-                    break;
-                case 2:
-                    this.app.activeCamera.position.set(pos.x + 5, pos.y + 2, pos.z - 25)
-                    break;
-                case 3:
-                    this.app.activeCamera.position.set(pos.x - 15, pos.y + 2, pos.z - 25)
-                    break;
-                case 4:
-                    this.app.activeCamera.position.set(pos.x + 5, pos.y + 2, pos.z - 25)
-                    break;
-            }*/
-        //    const targetCameraPosition = new THREE.Vector3();
-        //    switch(this.playerBalloon.windLayer){
-        //         case 1:
-        //             targetCameraPosition.set(pos.x + 5, pos.y + 2, pos.z - 25);
-        //             break;
-        //         case 2:
-        //             targetCameraPosition.set(pos.x + 5, pos.y + 2, pos.z - 25);
-        //             break;
-        //         case 3:
-        //             targetCameraPosition.set(pos.x - 15, pos.y + 2, pos.z - 25);
-        //             break;
-        //         case 4:
-        //             targetCameraPosition.set(pos.x + 5, pos.y + 2, pos.z - 25);
-        //             break;
-
-        //    }
-        //     this.app.activeCamera.position.lerp(targetCameraPosition, 0.05);
-        //     this.app.updateNewCameraTarget(pos);
-
             this.updateBoundingVolumes();
             this.updateEnemyAnimation();
-            
             this.putObjectOnTrack();
             this.moveMyBalloon();
             this.setCurrentLap(this.playerBalloon);
@@ -592,7 +556,8 @@ class MyContents {
                 this.positionMyBalloon();
                 this.positionEnemyBalloon();
                 this.createBoundingVolumes();
-                this.thirdPersonCamera();
+                this.setCameras();
+                this.changeCamera();
                 this.changeEnemyStartingPoint();
                 this.enemyAnimationSetup();
                 this.outdoorTimePlay();
@@ -634,18 +599,6 @@ class MyContents {
     createBalloonShadow(){
         this.playerBalloon.createBalloonLight();
     }
-
-    /*createBalloonCameras(){
-        this.playerBalloon.create3PersonCamera(this.app);
-        this.playerBalloon.createFirstPersonCamera(this.app);
-        this.playerBalloon.setupCameraSwitching(this.app);
-        this.playerBalloon.updateCameraPosition();
-    }
-
-    updateBalloonCameras(){
-        this.playerBalloon.updateCameraPosition();
-        this.playerBalloon.updateFirstPersonCamera();
-    }*/
 
     createBoundingVolumes(){
         this.playerBalloon.createBoundingVolume();
@@ -766,38 +719,84 @@ class MyContents {
         this.playerBalloon.checkCollisionBalloon(this.enemyBalloon, this.outdoor);
     }
 
-    thirdPersonCamera(){
-        this.setCamera("third_person");
-        const pos = new THREE.Vector3();
-        this.playerBalloon.getWorldPosition(pos);
-        this.app.activeCamera.position.set(pos.x + 5, pos.y + 2, pos.z - 15);
-        this.app.updateNewCameraTarget(pos);
+ 
+    setCameras(){
+        if (this.thirdPerson){
+            this.setCamera("third_person");
+            const pos = new THREE.Vector3();
+            this.playerBalloon.getWorldPosition(pos);
+            this.app.activeCamera.position.set(pos.x + 5, pos.y + 2, pos.z - 15);
+            this.app.updateNewCameraTarget(pos);
+        }
+        else {
+            this.setCamera("first_person");
+            const pos = new THREE.Vector3();
+            this.playerBalloon.getWorldPosition(pos);
+            this.app.activeCamera.position.set(pos.x + 0.1, pos.y - 0.1, pos.z - 1);
+            this.app.updateNewCameraTarget(pos);
+        }
+    }
+
+    changeCamera(){
+        document.addEventListener('keydown', (e) => {
+            switch (e.key) {
+                case '1':
+                    this.thirdPerson = false;
+                    break;
+    
+                case '3': 
+                    this.thirdPerson = true;
+                    break;
+                default:
+                    break;
+            }
+        });
+        this.setCameras();
     }
 
     updateCamera(){
         const pos = new THREE.Vector3();
         this.playerBalloon.getWorldPosition(pos);
         const targetCameraPosition = new THREE.Vector3();
-        switch(this.playerBalloon.windLayer){
-            case 0:
-                targetCameraPosition.set(pos.x + 5, pos.y + 2, pos.z - 15);
-                break;
-            case 1:
-                targetCameraPosition.set(pos.x + 5, pos.y + 2, pos.z - 25);
-                break;
-            case 2:
-                targetCameraPosition.set(pos.x + 5, pos.y + 2, pos.z + 25);
-                this.windHud
-                break;
-            case 3:
-                targetCameraPosition.set(pos.x + 15, pos.y + 2, pos.z - 25);
-                break;
-            case 4:
-                targetCameraPosition.set(pos.x - 15, pos.y + 2, pos.z - 25);
-                break;
+        if (this.thirdPerson){
+            switch(this.playerBalloon.windLayer){
+                case 0:
+                    targetCameraPosition.set(pos.x + 5, pos.y + 2, pos.z - 15);
+                    break;
+                case 1:
+                    targetCameraPosition.set(pos.x + 5, pos.y + 2, pos.z - 20);
+                    break;
+                case 2:
+                    targetCameraPosition.set(pos.x + 5, pos.y + 2, pos.z + 20);
+                    this.windHud
+                    break;
+                case 3:
+                    targetCameraPosition.set(pos.x + 15, pos.y + 2, pos.z - 25);
+                    break;
+                case 4:
+                    targetCameraPosition.set(pos.x - 15, pos.y + 2, pos.z - 25);
+                    break;
+            }
+            this.app.activeCamera.position.lerp(targetCameraPosition, 0.05);
+            this.app.updateNewCameraTarget(pos);
         }
-        this.app.activeCamera.position.lerp(targetCameraPosition, 0.05);
-        this.app.updateNewCameraTarget(pos);
+        else{
+            switch(this.playerBalloon.windLayer){
+                case 2:
+                    targetCameraPosition.set(pos.x + 0.1, pos.y - 0.1, pos.z + 1);
+                    break;
+                case 3:
+                    targetCameraPosition.set(pos.x + 0.4, pos.y - 0.1, pos.z - 1);
+                    break;
+                case 4:
+                    targetCameraPosition.set(pos.x - 0.4, pos.y - 0.1, pos.z - 1);
+                    break;
+                default:
+                    targetCameraPosition.set(pos.x + 0.1, pos.y - 0.1, pos.z - 1);
+            }
+            this.app.activeCamera.position.lerp(targetCameraPosition, 0.05);
+            this.app.updateNewCameraTarget(pos);
+        }
     }
 }
 
