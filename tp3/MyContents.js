@@ -95,6 +95,7 @@ class MyContents {
         // Game configuration
         this.level = 1;
         this.track = "A";
+        this.loops = 1;
 
     }
     /**
@@ -372,6 +373,14 @@ class MyContents {
                 if (this.track === "A") this.track = "B";
                 else this.track = "A";
                 this.menu.updateTrack(this.track);
+                break;
+            case "loopDown":
+                if (this.loops > 1) this.loops--;
+                this.menu.updateLoops(this.loops);
+                break;
+            case "loopUp":
+                this.loops++;
+                this.menu.updateLoops(this.loops);
                 break;
             default:
                 break;
