@@ -54,5 +54,22 @@ export const MySprite = {
         }
 
         return group;
+    },
+    updateSpritesheetText(group, newText, charWidth, charHeight, material, spacing = 0, totalRows = 16, totalColumns = 16) {
+        // Remove all existing children
+        while (group.children.length > 0) {
+            group.remove(group.children[0]);
+        }
+    
+        // Add new characters
+        let offsetX = 0;
+        for (const char of newText) {
+            const charMesh = this.createCharFromSpritesheet(char, charWidth, charHeight, material, totalRows, totalColumns);
+            charMesh.position.x = offsetX;
+            group.add(charMesh);
+            offsetX += charWidth + spacing;
+        }
     }
+    
+    
 }
