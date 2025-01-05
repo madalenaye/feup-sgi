@@ -196,6 +196,14 @@ class MyContents {
 
         this.lights = loadObjects.getLights();
         this.app.scene.add(myScene);
+
+        this.routes = loadObjects.getRoutes();
+        this.obstacles = loadObjects.getObstacles();
+        this.powerups = loadObjects.getPowerups();
+        this.currentRoute = this.routes["route_level" + this.level];
+        // this.changeEnemyStartingPoint();
+        // console.log(this.currentRoute);
+        // this.enemyAnimationSetup();
         
         // Outdoor display
         this.outdoor2 = this.objects["outdoor_2"];
@@ -203,6 +211,11 @@ class MyContents {
     }
 
     update() {
+        if(this.currentState == this.state.GAME){
+            this.updateBalloonCameras();
+            this.updateBoundingVolumes();
+            this.updateEnemyAnimation();
+        }
         // provisório
   
         // if(Math.floor(Math.random() * 20) + 1 === 1) {
@@ -527,10 +540,12 @@ class MyContents {
             case this.state.GAME:
                 this.createBalloonShadow();
                 this.positionMyBalloon(35, 14, 0); // change
-                this.positionEnemyBalloon(25, 14, 0); // change
+                this.positionEnemyBalloon(22, 14, 0); // change
                 this.createBoundingVolumes();
                 this.createBalloonCameras();
                 this.setCamera(this.playerBalloon.thirdName);
+                this.changeEnemyStartingPoint(new THREE.Vector3(22, 14, 0)); //change
+                this.enemyAnimationSetup();
                 this.currentState = this.state.GAME;
                 break;
             case this.state.GAME_OVER:
@@ -576,6 +591,11 @@ class MyContents {
         this.playerBalloon.updateCameraPosition();
     }
 
+    updateBalloonCameras(){
+        this.playerBalloon.updateCameraPosition();
+        this.playerBalloon.updateFirstPersonCamera();
+    }
+
     createBoundingVolumes(){
         this.playerBalloon.createBoundingVolume();
         this.balloonBB = this.playerBalloon.getBoundingVolume();
@@ -611,6 +631,24 @@ class MyContents {
     positionEnemyBalloon(pointX, pointY, pointZ){
         this.enemyBalloon.position.set(pointX, pointY, pointZ);
         this.app.scene.add(this.enemyBalloon);
+    }
+
+    changeEnemyStartingPoint(point){
+        this.currentRoute.changeInitialPoint(point);
+    }
+
+    enemyAnimationSetup(){
+        this.currentRoute.setupAnimation(this.enemyBalloon);
+        this.currentRoute.play();
+    }
+
+    updateEnemyAnimation(){
+        this.currentRoute.update();
+    }
+
+    updateBoundingVolumes(){
+        this.playerBalloon.updateBoundingBoxBalloon();
+        this.enemyBalloon.updateBoundingBoxBalloon();
     }
 }
 
