@@ -168,13 +168,16 @@ class MyOutdoor extends THREE.Object3D {
     }
 
     setVouchers(vouchers, charWidth = 0.7, charHeight = 0.7){
+        if (this.vouchersTextMesh) {
+            this.remove(this.vouchersTextMesh);
+        }
         this.vouchers = vouchers
         let text = `${this.vouchers}`
-        let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
-        textMesh.position.set(13.0, 1.2, -0.33);
-        textMesh.rotation.set(0,Math.PI,0);
-        textMesh.scale.set(1, -1, 1);
-        this.add(textMesh);
+        this.vouchersTextMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
+        this.vouchersTextMesh.position.set(13.0, 1.2, -0.33);
+        this.vouchersTextMesh.rotation.set(0,Math.PI,0);
+        //this.vouchersTextMesh.scale.set(1, -1, 1);
+        this.add(this.vouchersTextMesh);
 
     }
 

@@ -201,6 +201,7 @@ class MyContents {
         this.obstacles = loadObjects.getObstacles();
         this.powerups = loadObjects.getPowerups();
         this.currentRoute = this.routes["route_level" + this.level];
+        this.outdoor = this.objects["outdoor"];
         
         // Outdoor display
         this.outdoor2 = this.objects["outdoor_2"];
@@ -209,11 +210,13 @@ class MyContents {
 
     update() {
         if(this.currentState == this.state.GAME){
+            this.updateOutdoorTime();
             this.updateBalloonCameras();
             this.updateBoundingVolumes();
             this.updateEnemyAnimation();
 
             this.moveMyBalloon();
+            this.collisionPowerups();
         }
         // provisório
   
@@ -545,6 +548,8 @@ class MyContents {
                 this.setCamera(this.playerBalloon.thirdName);
                 this.changeEnemyStartingPoint(new THREE.Vector3(22, 14, 0)); //change
                 this.enemyAnimationSetup();
+                this.outdoorTimePlay();
+                this.hudWind.style.display = "block";
                 this.currentState = this.state.GAME;
                 break;
             case this.state.GAME_OVER:
@@ -656,6 +661,26 @@ class MyContents {
         if (this.app.keys.includes("s")) this.playerBalloon.descend();
 
         this.windLayers();
+    }
+
+    outdoorTimePlay(){
+        this.outdoor.play();
+    }
+
+    outdoorTimePause(){
+        this.outdoor.pause();
+    }
+
+    outdoorTimeResume(){
+        this.outdoor.resume();
+    }
+
+    updateOutdoorTime(){
+        this.outdoor.update();
+    }
+
+    collisionPowerups(){
+        this.playerBalloon.checkCollisionPowerups(this.powerups, this.outdoor);
     }
 }
 
