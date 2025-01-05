@@ -48,6 +48,7 @@ class MyMenu extends THREE.Object3D{
 
         this.changeName = new MyButton("Change", this.blueSprite, 1, 1, 8, 3, "changeName");
         this.changeName.position.set(10, 1, 1.2);
+        this.changeName.layers.set(this.layer);
         this.mesh.add(this.changeName);
 
         this.levelText = MySprite.createTextFromSpritesheet(`Level: ${this.level}`, 1, 1, this.sprite);
@@ -56,10 +57,12 @@ class MyMenu extends THREE.Object3D{
 
         this.levelDown = new MyButton("-", this.blueSprite, 1, 1, 1, -0.05, "levelDown");
         this.levelDown.position.set(10, -1, 1.2);
+        this.levelDown.layers.set(this.layer);
         this.mesh.add(this.levelDown);
 
         this.levelUp = new MyButton("+", this.blueSprite, 1, 1, 1, -0.05, "levelUp");
         this.levelUp.position.set(12, -1, 1.2);
+        this.levelUp.layers.set(this.layer);
         this.mesh.add(this.levelUp);
 
         this.userBalloonText = MySprite.createTextFromSpritesheet(`User Balloon: ${this.userBalloon}`, 1, 1, this.sprite);
@@ -68,6 +71,7 @@ class MyMenu extends THREE.Object3D{
 
         this.pickBalloon = new MyButton("Pick", this.blueSprite, 1, 1, 8, 3, "pickBalloon");
         this.pickBalloon.position.set(10, -3, 1.2);
+        this.pickBalloon.layers.set(this.layer);
         this.mesh.add(this.pickBalloon);
 
         this.botBalloonText = MySprite.createTextFromSpritesheet(`Bot balloon: ${this.botBalloon}`, 1, 1, this.sprite);
@@ -76,6 +80,7 @@ class MyMenu extends THREE.Object3D{
 
         this.pickBotBalloon = new MyButton("Pick", this.blueSprite, 1, 1, 8, 3, "pickBotBalloon");
         this.pickBotBalloon.position.set(10, -5, 1.2);
+        this.pickBotBalloon.layers.set(this.layer);
         this.mesh.add(this.pickBotBalloon);
 
         this.trackText = MySprite.createTextFromSpritesheet(`Track: ${this.trackSide}`, 1, 1, this.sprite);
@@ -84,6 +89,7 @@ class MyMenu extends THREE.Object3D{
 
         this.track = new MyButton("Change", this.blueSprite, 1, 1, 8, 3, "track");
         this.track.position.set(10, -7, 1.2);
+        this.track.layers.set(this.layer);
         this.mesh.add(this.track);
 
 

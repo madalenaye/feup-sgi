@@ -177,7 +177,7 @@ class MyApp  {
         if (this.activeCamera.userData.target !== undefined){
             this.controls.target.copy(this.activeCamera.userData.target)
             this.controls.update()
-        }
+         }
     }
 
     /**
