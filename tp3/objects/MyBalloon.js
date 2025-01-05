@@ -165,6 +165,9 @@ class MyBalloon extends THREE.Object3D {
         this.thirdPersonCamera.userData.offset = initialOffset.clone();
         
         app.scene.add(this.thirdPersonCamera);
+
+        this.thirdName = `third_${this.uuid}`;
+        app.cameras[this.thirdName] = this.thirdPersonCamera;
     }
 
     updateCameraPosition() {
@@ -180,17 +183,42 @@ class MyBalloon extends THREE.Object3D {
         this.thirdPersonCamera.lookAt(lookAtTarget);
     }
 
-    createFirstPersonCamera() {
+    createFirstPersonCamera(app) {
         this.firstPersonCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         
         this.firstPersonCamera.position.set(0, 0, 0);
         this.firstPersonCamera.rotation.set(0, Math.PI, 0);
     
         this.groupBalloon.add(this.firstPersonCamera);
+
+        this.firstName = `first_${this.uuid}`;
+        app.cameras[this.firstName] = this.firstPersonCamera;
     }
 
     updateFirstPersonCamera() {
         this.firstPersonCamera.rotation.set(0, Math.PI, 0);
+    }
+
+    setupCameraSwitching(app) {
+        window.addEventListener('keydown', (event) => {
+            switch (event.key) {
+                case '1':
+                    app.setActiveCamera(this.firstName);
+                    break;
+    
+                case '3': 
+                    app.setActiveCamera(this.thirdName);
+                    break;
+    
+                case 'c':
+                    app.setActiveCamera("cam1");
+                    break;
+    
+                default:
+                    break;
+            }
+    
+        });
     }
 
 
