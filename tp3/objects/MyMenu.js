@@ -117,6 +117,7 @@ class MyMenu extends THREE.Object3D{
     }
     updateLevel(text){
         MySprite.updateSpritesheetText(this.levelText, `Level: ${text}`, 1, 1, this.sprite);
+        this.level = text;
     }
     updateUserBalloon(text){
         MySprite.updateSpritesheetText(this.userBalloonText, `User Balloon: ${text}`, 1, 1, this.sprite);

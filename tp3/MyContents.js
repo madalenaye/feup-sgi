@@ -16,6 +16,7 @@ import { MyBalloon } from './objects/MyBalloon.js';
 import { MyFirework } from './objects/MyFirework.js';
 import { MyBillboardBalloon } from './objects/MyBillboardBalloon.js';
 import { MyMenu } from './objects/MyMenu.js';
+import { MyGameOver } from './objects/MyGameOver.js';
 
 
 /**
@@ -90,6 +91,12 @@ class MyContents {
         this.hudWind = document.getElementById("wind");
         this.hudWind.style.display = "none";
         this.windSpeed = 0.05;
+
+        //Game Over
+        this.gameOver = new MyGameOver();
+        this.gameOver.position.set(74, 32, 0);
+        this.gameOver.rotation.set(0, -Math.PI/2, 0);
+        this.app.scene.add(this.gameOver);
 
         // Game configuration
         this.level = 1;
@@ -199,7 +206,6 @@ class MyContents {
         this.routes = loadObjects.getRoutes();
         this.obstacles = loadObjects.getObstacles();
         this.powerups = loadObjects.getPowerups();
-        this.currentRoute = this.routes["route_level" + this.level];
         this.outdoor = this.objects["outdoor"];
         this.track_2 = this.objects["track_1"];
         
@@ -218,8 +224,24 @@ class MyContents {
             this.moveMyBalloon();
             this.setCurrentLap(this.playerBalloon);
             let value = this.verifyFinalRace(this.playerBalloon);
+            if(value){
+                this.outdoorTimePause();
+                this.stopEnemyAnimation();
+                this.winner = this.playerName;
+                this.loser = "Bot";
+                this.currentState = this.state.GAME_OVER;
+                this.changeTo(this.currentState);
+            }
             this.setCurrentLap(this.enemyBalloon);
             let value2 = this.verifyFinalRace(this.enemyBalloon);
+            if(value2){
+                this.outdoorTimePause();
+                this.stopEnemyAnimation();
+                this.winner = "Bot";
+                this.loser = this.playerName;
+                this.currentState = this.state.GAME_OVER;
+                this.changeTo(this.currentState);
+            }
             this.collisionPowerups();
             this.collisionObstacles();
             this.collisionEnemyBalloon();
@@ -252,12 +274,12 @@ class MyContents {
      */
     initBalloons() {
         const balloonConfigs = [
-            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-65, 17, 10], type: 0, name: "player_balloon1", billboardTexture: './scenes/textures/billboard_1.png'},
-            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-65, 17, 25], type: 2, name: "player_balloon2", billboardTexture: './scenes/textures/billboard_2.png'},
-            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-65, 17, 40], type: 1, name: "player_balloon3", billboardTexture: './scenes/textures/billboard_3.png'},
-            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-40, 17, 65], type: 0, name: "enemy_balloon1", billboardTexture: './scenes/textures/billboard_1.png'},
-            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-25, 17, 65], type: 2, name: "enemy_balloon2", billboardTexture: './scenes/textures/billboard_2.png'},
-            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-10, 17, 65], type: 1, name: "enemy_balloon3", billboardTexture: './scenes/textures/billboard_3.png'},
+            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-65, 17, 10], type: 0, name: "player_balloon1", nameUser: "Pink", billboardTexture: './scenes/textures/billboard_1.png'},
+            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-65, 17, 25], type: 2, name: "player_balloon2", nameUser: "Blue", billboardTexture: './scenes/textures/billboard_2.png'},
+            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-65, 17, 40], type: 1, name: "player_balloon3", nameUser: "Green", billboardTexture: './scenes/textures/billboard_3.png'},
+            { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-40, 17, 65], type: 0, name: "enemy_balloon1", nameUser: "Pink", billboardTexture: './scenes/textures/billboard_1.png'},
+            { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-25, 17, 65], type: 2, name: "enemy_balloon2", nameUser: "Blue", billboardTexture: './scenes/textures/billboard_2.png'},
+            { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-10, 17, 65], type: 1, name: "enemy_balloon3", nameUser: "Green", billboardTexture: './scenes/textures/billboard_3.png'},
         ];
     
         balloonConfigs.forEach((config) => {
@@ -269,7 +291,8 @@ class MyContents {
                 side: THREE.DoubleSide,
             });
     
-            const balloon = new MyBalloon(4, balloonMaterial, config.color, config.type || 0, config.name);
+            const balloon = new MyBalloon(4, balloonMaterial, config.color, config.type || 0, config.name, config.nameUser);
+        
             const lod = new THREE.LOD();
 
             lod.addLevel(balloon, 0);
@@ -540,7 +563,8 @@ class MyContents {
     }
 
     setCamera(camera){
-        this.app.setActiveCamera(camera);
+        this.app.activeCameraName = camera;
+        this.app.updateCameraIfRequired();
     }
     changeTo(state){
         switch(state){
@@ -558,6 +582,7 @@ class MyContents {
                 this.createBoundingVolumes();
                 this.setCameras();
                 this.changeCamera();
+                this.currentRoute = this.routes["route_level" + this.level];
                 this.changeEnemyStartingPoint();
                 this.enemyAnimationSetup();
                 this.outdoorTimePlay();
@@ -565,8 +590,13 @@ class MyContents {
                 this.currentState = this.state.GAME;
                 break;
             case this.state.GAME_OVER:
-                //TODO
-                console.log("Game over");
+                this.gameOver.updatePlayerBalloon(this.playerBalloon.nameUser);
+                this.gameOver.updateBotBalloon(this.enemyBalloon.nameUser);
+                this.gameOver.updateWinner(this.winner);
+                this.gameOver.updateLoser(this.loser);
+                this.gameOver.updateWinnerTime(this.getTotalTime());
+                this.hudWind.style.display = "none";
+                this.setCamera("game_over");
                 break;
             case this.state.USER_BALLOON:
                 this.selectedLayer = this.layers.USER_BALLOON;
@@ -649,6 +679,10 @@ class MyContents {
         this.currentRoute.play();
     }
 
+    stopEnemyAnimation(){
+        this.currentRoute.stop();
+    }
+
     updateEnemyAnimation(){
         this.currentRoute.update();
     }
@@ -682,6 +716,10 @@ class MyContents {
 
     updateOutdoorTime(){
         this.outdoor.update();
+    }
+
+    getTotalTime(){
+        return (this.outdoor.getTotalTime());
     }
 
     setTotalLaps(){
@@ -768,7 +806,6 @@ class MyContents {
                     break;
                 case 2:
                     targetCameraPosition.set(pos.x + 5, pos.y + 2, pos.z + 20);
-                    this.windHud
                     break;
                 case 3:
                     targetCameraPosition.set(pos.x + 15, pos.y + 2, pos.z - 25);

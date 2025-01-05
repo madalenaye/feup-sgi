@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 class MyBalloon extends THREE.Object3D {
 
-    constructor(radius, material, baseColor, type, name) {
+    constructor(radius, material, baseColor, type, name, nameUser) {
         super();
         this.radius = radius;
         this.basketRadius = radius/3;
@@ -12,6 +12,7 @@ class MyBalloon extends THREE.Object3D {
         this.type = type;
         this.name = name;
         this.windLayer = 0;
+        this.nameUser = nameUser;
         this.maxLayers = 5;
         this.cooldownTime = 300;
         this.canChangeLayer = true;
@@ -262,7 +263,6 @@ class MyBalloon extends THREE.Object3D {
         let value = this.checkCollision(balloon);
         if(value){
             if(this.vouchers == 0){
-                console.log("Colidi");
                 this.freezeBalloon(3);
             }
             else{
