@@ -53,6 +53,7 @@ class MyContents {
         this.objects = null
         this.lights = null;
         this.balloons = [];
+        this.billboards = [];
         this.textureLoader = new THREE.TextureLoader();
         this.fireworks = [];
 
@@ -112,16 +113,16 @@ class MyContents {
         // init balloons
         this.initBalloons()
         
-        const userBalloons = [this.balloons[0], this.balloons[1], this.balloons[2]];
-        const enemyBalloons = [this.balloons[3], this.balloons[4], this.balloons[5]];
+        this.userBalloons = [this.balloons[0], this.balloons[1], this.balloons[2], this.billboards[0], this.billboards[1], this.billboards[2]];
+        this.enemyBalloons = [this.balloons[3], this.balloons[4], this.balloons[5], this.billboards[3], this.billboards[4], this.billboards[5]];
 
-        userBalloons.forEach(balloon => balloon.layers.set(this.layers.USER_BALLOON));
-        enemyBalloons.forEach(balloon => balloon.layers.set(this.layers.ENEMY_BALLOON));
+        this.userBalloons.forEach(balloon => balloon.layers.set(this.layers.USER_BALLOON));
+        this.enemyBalloons.forEach(balloon => balloon.layers.set(this.layers.ENEMY_BALLOON));
 
-        this.playerBalloon = userBalloons[0];
-        this.previousPlayerBalloon = userBalloons[0];
-        this.enemyBalloon = enemyBalloons[0];
-        this.previousEnemyBalloon = enemyBalloons[0];
+        this.playerBalloon = this.userBalloons[0];
+        this.previousPlayerBalloon = this.userBalloons[0];
+        this.enemyBalloon = this.enemyBalloons[0];
+        this.previousEnemyBalloon = this.enemyBalloons[0];
     
         // apagar depois
         // this.testBalloon = this.balloons[3];
@@ -225,9 +226,9 @@ class MyContents {
         // }
          // todo add functions to accelerate and desaccelerate the balloon
         // Check for key presses and ensure the action only triggers once per press
-        if (this.app.keys.includes("w")) this.testBalloon.ascend();
+        //if (this.app.keys.includes("w")) this.testBalloon.ascend();
 
-        if (this.app.keys.includes("s")) this.testBalloon.descend();
+        //if (this.app.keys.includes("s")) this.testBalloon.descend();
   
         //this.windLayers(this.testBalloon);
     }
@@ -268,11 +269,12 @@ class MyContents {
                 side: THREE.DoubleSide,
             });
             const billboard = new MyBillboardBalloon(this.app, billboardMaterial);
-            lod.addLevel(billboard, 130);
+            lod.addLevel(billboard, 200);
     
             lod.position.set(...config.position);
             this.app.scene.add(lod);
             this.balloons.push(balloon);
+            this.billboards.push(billboard);
     
         });
     }
@@ -364,7 +366,7 @@ class MyContents {
                 this.changeTo(this.state.USER_BALLOON);
                 break;
             case "pickBotBalloon":
-                this.currentState = this.state.ENEMY_BALLOON;
+                this.changeTo(this.state.ENEMY_BALLOON);
                 break;
             case "track":
                 if (this.track === "A") this.track = "B";
@@ -381,9 +383,11 @@ class MyContents {
 
         this.raycaster.setFromCamera(this.pointer, this.app.activeCamera);
         var intersects = this.raycaster.intersectObjects(this.app.scene.children);
-    
         if (intersects.length > 0){
             const obj = intersects[0].object;
+            console.log(obj);
+            console.log(obj.parent.parent);
+            console.log(obj.parent.parent.layers)
             switch (this.currentState) {
                 case this.state.USER_BALLOON:
                     this.userHoverBalloon(obj);
@@ -441,7 +445,7 @@ class MyContents {
                     this.lastObj.scale.set(1, 1, 1);
                 }
                 this.lastObj = obj.parent.parent;
-                if (this.lastObj.name.split("_")[0] == "player"){
+                if (this.userBalloons.includes(this.lastObj)){
                     this.lastObj.scale.set(1.2, 1.2, 1.2);
                 }
             }
@@ -458,7 +462,7 @@ class MyContents {
                     this.lastObj.scale.set(1, 1, 1);
                 }
                 this.lastObj = obj.parent.parent;
-                if (this.lastObj.name.split("_")[0] == "enemy"){
+                if (this.enemyBalloons.includes(this.lastObj)){
                     this.lastObj.scale.set(1.2, 1.2, 1.2);
                 }
             }
