@@ -1,8 +1,24 @@
+/**
+ * @file MyGameOver.js
+ * @class MyGameOver
+ * @extends THREE.Object3D
+ */
+
 import * as THREE from "three";
 import {MySprite} from '../utils/MySprite.js'
 import {MyButton} from './MyButton.js'
 
+/**
+ * @class
+ * @classdesc Represents a game over screen with player results, buttons, and options to restart or return to the home menu.
+ */
+
 class MyGameOver extends THREE.Object3D{
+    /**
+     * Constructs a new MyGameOver instance. 
+     * @constructor
+     * @param {number} currentLayer - The rendering layer for this object.
+     */
     constructor(currentLayer){
         super();
         const textureLoader = new THREE.TextureLoader()
@@ -59,18 +75,47 @@ class MyGameOver extends THREE.Object3D{
         this.objects.push(this.restart, this.home);
     }
 
+    /**
+     * @method
+     * Updates the player balloon text.
+     * @param {string} text - The updated text to display.
+     */
     updatePlayerBalloon(text){
         MySprite.updateSpritesheetText(this.playerBalloon, `Player Balloon: ${text}`, 1, 1, this.sprite);
     }
+
+    /**
+     * @method
+     * Updates the bot balloon text.
+     * @param {string} text - The updated text to display.
+     */
     updateBotBalloon(text){
         MySprite.updateSpritesheetText(this.enemyBalloon, `Bot balloon: ${text}`, 1, 1, this.sprite);
     }
+
+    /**
+     * @method
+     * Updates the winner text.
+     * @param {string} text - The updated text to display.
+     */
     updateWinner(text){
         MySprite.updateSpritesheetText(this.winner, `Winner: ${text}`, 1, 1, this.sprite);
     }
+
+    /**
+     * @method
+     * Updates the loser text.
+     * @param {string} text - The updated text to display.
+     */
     updateLoser(text){
         MySprite.updateSpritesheetText(this.loser, `Loser: ${text}`, 1, 1, this.sprite);
     }
+
+    /**
+     * @method
+     * Updates the winner time text.
+     * @param {string} text - The updated text to display.
+     */
     updateWinnerTime(text){
         MySprite.updateSpritesheetText(this.winnerTime, `Winner Time: ${text}`, 1, 1, this.sprite);
     }
