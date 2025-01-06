@@ -1,7 +1,25 @@
+/**
+ * @file MyFirework.js
+ * @class MyFirework
+ * @extends THREE.Object3D
+ */
+
 import * as THREE from 'three'
+
+/**
+ * @class
+ * @classdesc Represents a firework simulation with particle effects, including launch and explosion phases.
+ */
 
 class MyFirework {
 
+    /**
+     * Constructs a new MyFirework instance. 
+     * @constructor
+     * @param {Object} app - The application instance containing the scene and rendering context.
+     * @param {THREE.Vector3} position - The initial position of the firework.
+     * @param {number} size - The size of the firework particles.
+     */
     constructor(app, position, size) {
         this.app = app
         this.position = position
