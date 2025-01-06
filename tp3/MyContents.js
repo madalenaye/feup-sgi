@@ -626,6 +626,7 @@ class MyContents {
                 this.outdoorTimePlay();
                 this.displayHud();
                 this.changeGameStatus();
+                this.resetPowerups();
                 this.currentState = this.state.GAME;
                 break;
             case this.state.GAME_OVER:
@@ -967,6 +968,11 @@ class MyContents {
 
     goToMainMenu(){
         console.log("Home selected");
+    }
+    resetPowerups(){
+       for (let i = 0; i < this.powerups.length; i++){
+           this.powerups[i].canCollide = true;
+       }
     }
 }
 
