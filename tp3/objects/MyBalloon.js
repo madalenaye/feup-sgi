@@ -1,7 +1,30 @@
+/**
+ * @file MyBalloon.js
+ * @class MyBalloon
+ * @extends THREE.Object3D
+ */
+
+
 import * as THREE from 'three';
+
+/**
+ * @class
+ * @classdesc Represents a 3D balloon object with interactive features such as collisions, movement, and height adjustment.
+ */
+
 
 class MyBalloon extends THREE.Object3D {
 
+    /**
+     * Constructs a new MyBalloon instance.
+     * @constructor
+     * @param {Float} radius - The radius of the balloon.
+     * @param {THREE.Material} material - The material used for the balloon.
+     * @param {String} baseColor - The base color of the balloon.
+     * @param {Number} type - The type of the balloon, affecting its shape.
+     * @param {String} name - The name of the balloon.
+     * @param {String} nameUser - The name of the user controlling the balloon.
+     */
     constructor(radius, material, baseColor, type, name, nameUser) {
         super();
         this.radius = radius;
@@ -29,6 +52,11 @@ class MyBalloon extends THREE.Object3D {
         this.groupBalloon.name = this.name;
         this.buildBalloon();
     }
+
+    /**
+     * @method
+     * Builds the 3D structure of the balloon, including the base, basket, and strings.
+     */
     buildBalloon() {
 
         /* Balloon */
@@ -138,6 +166,10 @@ class MyBalloon extends THREE.Object3D {
         this.add(this.groupBalloon);
     }
 
+    /**
+     * @method
+     * Creates and adds a directional light source to simulate illumination from the balloon.
+     */
     createBalloonLight(){
         this.balloonLight = new THREE.DirectionalLight(0xffcd00, 0.4); 
         this.balloonLight.position.set(0, 7, 0);
@@ -156,6 +188,10 @@ class MyBalloon extends THREE.Object3D {
         this.add(this.balloonLight);
     }
 
+    /**
+     * @method
+     * Creates bounding volumes for collision detection.
+     */
     createBoundingVolume(){
         this.matrixWorldNeedsUpdate = true;
         this.updateMatrixWorld(true);
@@ -170,10 +206,19 @@ class MyBalloon extends THREE.Object3D {
         this.balloonBB_sphere.setFromObject(this.balloon, true);
     }
 
+    /**
+     * @method
+     * Retrieves the balloon's bounding volume.
+     * @returns {THREE.Box3} The bounding volume.
+     */
     getBoundingVolume(){
         return this.balloonBB;
     }
 
+    /**
+     * @method
+     * Updates the bounding volume for collision detection.
+     */
     updateBoundingBoxBalloon(){
         if(this.groupBalloon){
           this.balloonBB.setFromObject(this.groupBalloon, true);
@@ -182,6 +227,12 @@ class MyBalloon extends THREE.Object3D {
         }
     }
 
+    /**
+     * @method
+     * Checks for collisions using detailed testing with bounding boxes.
+     * @param {THREE.Box3} objectBB - The bounding box of the object to test.
+     * @returns {Boolean} True if a collision is detected, otherwise false.
+     */
     exhaustiveTest(objectBB){
         if (this.balloonBB_box.intersectsBox(objectBB)) {
             return true;
@@ -193,7 +244,13 @@ class MyBalloon extends THREE.Object3D {
 
         return false;
     }
-    
+
+    /**
+     * @method
+     * Checks for collisions with another object's bounding box.
+     * @param {THREE.Object3D} object - The object to test for collisions.
+     * @returns {Boolean} True if a collision occurs, otherwise false.
+     */
     checkCollision(object) {
         const objectBB = object.getBoundingVolume();
         if (this.balloonBB && objectBB) {
@@ -218,6 +275,12 @@ class MyBalloon extends THREE.Object3D {
         return false;
     }
 
+    /**
+     * @method
+     * Performs a simple collision check using bounding boxes.
+     * @param {THREE.Object3D} object - The object to test for collisions.
+     * @returns {Boolean} True if a collision occurs, otherwise false.
+     */
     simpleCheckCollision(object){
         const objectBB = object.getBoundingVolume();
         if(this.balloonBB && objectBB){
@@ -227,6 +290,12 @@ class MyBalloon extends THREE.Object3D {
         return false;
     }
 
+    /**
+     * @method
+     * Checks for collisions with obstacles and applies penalties or consumes vouchers.
+     * @param {Object} obstacles - The obstacles to check for collisions.
+     * @param {Object} outdoor - The outdoor environment to update vouchers.
+     */
     checkCollisionObstacles(obstacles, outdoor){
         for (const key in obstacles){
             const obstacle = obstacles[key];
@@ -248,6 +317,12 @@ class MyBalloon extends THREE.Object3D {
         }
     }
 
+    /**
+     * @method
+     * Checks for collisions with power-ups and updates vouchers.
+     * @param {Object} powerups - The power-ups to check for collisions.
+     * @param {Object} outdoor - The outdoor environment to update vouchers.
+     */
     checkCollisionPowerups(powerups, outdoor){
         for (const key in powerups){
             const powerup = powerups[key];
@@ -260,6 +335,12 @@ class MyBalloon extends THREE.Object3D {
         }        
     }
 
+    /**
+     * @method
+     * Checks for collisions with other balloons and applies penalties.
+     * @param {Object} balloon - The balloon to check for collisions.
+     * @param {Object} outdoor - The outdoor environment to update vouchers.
+     */
     checkCollisionBalloon(balloon, outdoor){
         let value = this.checkCollision(balloon);
         if(value){
@@ -273,10 +354,19 @@ class MyBalloon extends THREE.Object3D {
         }
     }
 
+    /**
+     * @method
+     * Marks the balloon as selected.
+     */
     selected(){
         this.isSelected = true;
     }
 
+    /**
+     * @method
+     * Freezes the balloon's movement for a specified duration.
+     * @param {Number} penalty - The duration in seconds for which the balloon is frozen.
+     */
     freezeBalloon(penalty) {
         this.canMove = false;
     
@@ -287,6 +377,11 @@ class MyBalloon extends THREE.Object3D {
             console.log("Balloon reactivated.");
         }, penalty * 1000);
     }
+
+    /**
+     * @method
+     * Moves the balloon upward by one layer if allowed.
+     */
     ascend(){
         if (this.canChangeLayer){
             if (this.windLayer < this.maxLayers - 1){
@@ -299,6 +394,11 @@ class MyBalloon extends THREE.Object3D {
             this.startCooldown();
         }
     }
+
+    /**
+     * @method
+     * Moves the balloon downward by one layer if allowed.
+     */
     descend(){
         if (this.canChangeLayer){
             if (this.windLayer > 0){
@@ -311,6 +411,11 @@ class MyBalloon extends THREE.Object3D {
             this.startCooldown();
         }
     }
+
+    /**
+     * @method
+     * Starts a cooldown period before another layer change is allowed.
+     */
     startCooldown(){
         this.canChangeLayer = false;
         setTimeout(() => {
@@ -318,15 +423,34 @@ class MyBalloon extends THREE.Object3D {
         }, this.cooldownTime);
     }
 
+    /**
+     * @method
+     * Updates the position of the balloon based on layer height.
+     * @param {Number} offset - The height offset to adjust.
+     */
     updatePosition(offset) {
         const targetY = this.position.y + offset;
         this.smoothTransition(targetY);
     }
 
+    /**
+     * @method
+     * Performs linear interpolation between two values.
+     * @param {Number} start - The starting value.
+     * @param {Number} end - The ending value.
+     * @param {Number} t - The interpolation factor (0 to 1).
+     * @returns {Number} The interpolated value.
+     */
     lerp(start, end, t) {
         return start * (1 - t) + end * t;
     }
 
+    /**
+     * @method
+     * Performs smooth interpolation between positions for smooth transitions.
+     * @param {Number} targetY - The target Y position.
+     * @param {Number} [duration=0.5] - Duration of the transition.
+     */
     smoothTransition(targetY, duration = 0.5) {
         const startY = this.position.y;
         const startTime = performance.now();
@@ -344,22 +468,46 @@ class MyBalloon extends THREE.Object3D {
         requestAnimationFrame(animate);
     }  
 
+    /**
+     * @method
+     * Gets the number of vouchers the balloon has.
+     * @returns {Number} The number of vouchers.
+     */
     getVouchers(){
         return this.vouchers;
     }
 
+    /**
+     * @method
+     * Decreases the number of vouchers by one.
+     */
     decreaseVouchers(){
         this.vouchers--;
     }
 
+    /**
+     * @method
+     * Gets the distance factor used for collision detection.
+     * @returns {Float} The distance factor.
+     */
     getDistance(){
         return (this.radius * 1.7);
     }
 
+    /**
+     * @method
+     * Checks if the balloon is allowed to move.
+     * @returns {Boolean} True if the balloon can move, otherwise false.
+     */
     getCanMove(){
         return this.canMove;
     }
 
+    /**
+     * @method
+     * Increases the number of laps completed and updates the outdoor display.
+     * @param {Object} outdoor - The outdoor environment object.
+     */
     increaseLaps(outdoor){
         let myPosition = new THREE.Vector3();
         this.getWorldPosition(myPosition);
@@ -377,6 +525,12 @@ class MyBalloon extends THREE.Object3D {
         }
     }
 
+    /**
+     * @method
+     * Checks if the race has ended based on total laps.
+     * @param {Number} totalLaps - The total number of laps required.
+     * @returns {Boolean} True if the race is complete, otherwise false.
+     */
     checkEndOfRace(totalLaps){
         return this.currentLap === totalLaps;
     }
