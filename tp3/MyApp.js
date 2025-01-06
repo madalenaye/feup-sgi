@@ -175,12 +175,6 @@ class MyApp  {
      * updates the camera target
      * @method
      */
-    updateCameraTarget() {
-        if (this.activeCamera.userData.target !== undefined){
-            this.controls.target.copy(this.activeCamera.userData.target)
-            this.controls.update()
-         }
-    }
 
     updateCameraTarget() {
         if (this.activeCamera.userData.target !== undefined){
@@ -190,6 +184,10 @@ class MyApp  {
         }
     }
 
+    updateNewCameraTarget(target) {
+        this.activeCamera.userData.target = target
+        this.updateCameraTarget()
+    }
     /**
      * the window resize handler
      * @method
