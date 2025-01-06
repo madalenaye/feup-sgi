@@ -1,8 +1,9 @@
 import * as THREE from "three";
 import {MySprite} from '../utils/MySprite.js'
+import {MyButton} from './MyButton.js'
 
 class MyGameOver extends THREE.Object3D{
-    constructor(){
+    constructor(currentLayer){
         super();
         const textureLoader = new THREE.TextureLoader()
         const menuTexture = textureLoader.load('./scenes/textures/menu.jpg');
@@ -10,6 +11,7 @@ class MyGameOver extends THREE.Object3D{
         this.geometry = new THREE.BoxGeometry( 50, 25, 2 );
         this.material = menuMaterial
         this.mesh = new THREE.Mesh( this.geometry, this.material );
+        this.layer = currentLayer;
         
         this.sprite = MySprite.loadSpritesheet(0x00174c);
         this.blueSprite = MySprite.loadSpritesheet(0x1255ca);
@@ -41,8 +43,20 @@ class MyGameOver extends THREE.Object3D{
         this.winnerTime.position.set(-15, -5, 1.2);
         this.mesh.add(this.winnerTime);
 
+        this.restart = new MyButton("Restart", this.blueSprite, 1, 1, 8, 3, "restart");
+        this.restart.position.set(3, -8, 1.2);
+        this.restart.layers.set(this.layer);
+        this.mesh.add(this.restart);
+
+        this.home = new MyButton("Home", this.blueSprite, 1, 1, 8, 1.4, "home");
+        this.home.position.set(15, -8, 1.2);
+        this.restart.layers.set(this.layer);
+        this.mesh.add(this.home);
 
         this.add(this.mesh);
+
+        this.objects = [];
+        this.objects.push(this.restart, this.home);
     }
 
     updatePlayerBalloon(text){

@@ -32,6 +32,7 @@ class MyContents {
         MENU: 1,
         USER_BALLOON: 2,
         ENEMY_BALLOON: 3,   
+        GAME_OVER: 4
     }
     // todo
     state = {
@@ -99,7 +100,7 @@ class MyContents {
         this.vouchers.style.display = "none";
 
         //Game Over
-        this.gameOver = new MyGameOver();
+        this.gameOver = new MyGameOver(this.layers.GAME_OVER);
         this.gameOver.position.set(74, 32, 0);
         this.gameOver.rotation.set(0, -Math.PI/2, 0);
         this.app.scene.add(this.gameOver);
@@ -329,6 +330,9 @@ class MyContents {
                 case this.state.MENU:
                     this.selectMenuOption(obj);
                     break;
+                case this.state.GAME_OVER:
+                    this.selectBottom(obj);
+                    break;
                 default:
                     break;
             }
@@ -416,6 +420,20 @@ class MyContents {
                 break;
         }
     }
+
+    selectBottom(obj){
+        switch (obj.parent.name) {
+            case "restart":
+                this.restartGame(); 
+                break;
+            case "home":
+                this.goToMainMenu();
+                break;
+            default:
+                break;
+        }
+    }
+
     onPointerMove(event) {
         this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
@@ -434,6 +452,9 @@ class MyContents {
                 case this.state.MENU:
                     this.menuHover(obj);
                     break;
+                case this.state.GAME_OVER:
+                    this.bottonsHover(obj);
+                    break;
                 default:
                     break;
             }
@@ -450,6 +471,9 @@ class MyContents {
                     case this.state.MENU:
                         this.menuHover(this.lastObj, false);
                         break;
+                    case this.state.GAME_OVER:
+                        this.bottonsHover(this.lastObj, false);
+                        break;
                     default:
                         break;
                 }
@@ -465,6 +489,24 @@ class MyContents {
                 }
                 this.lastObj = obj.parent;
                 if (menuObjects.includes(this.lastObj)){
+                    this.lastObj.scale.set(1.2, 1.2, 1.2);
+                }
+            }
+        }
+        else{
+            this.lastObj.scale.set(1, 1, 1);
+            this.lastObj = null;
+        }
+    }
+    bottonsHover(obj, hovering = true){
+        let bottonsObjects = this.gameOver.objects;
+        if (hovering){
+            if (this.lastObj != obj.parent){
+                if (this.lastObj){
+                    this.lastObj.scale.set(1, 1, 1);
+                }
+                this.lastObj = obj.parent;
+                if (bottonsObjects.includes(this.lastObj)){
                     this.lastObj.scale.set(1.2, 1.2, 1.2);
                 }
             }
@@ -586,6 +628,8 @@ class MyContents {
                 this.currentState = this.state.GAME;
                 break;
             case this.state.GAME_OVER:
+                this.selectedLayer = this.layers.GAME_OVER;
+                this.updateLayer();
                 this.gameOver.updatePlayerBalloon(this.playerBalloon.nameUser);
                 this.gameOver.updateBotBalloon(this.enemyBalloon.nameUser);
                 this.gameOver.updateWinner(this.winner);
@@ -914,6 +958,14 @@ class MyContents {
         this.raceTime.innerHTML = this.outdoor.elapsedTime.toFixed(2);
         this.lap.innerHTML = `Finished laps: ${this.outdoor.currentLap}/${this.loops}`;
         this.vouchers.innerHTML = `Vouchers: ${this.playerBalloon.vouchers}`;
+    }
+
+    restartGame(){
+        console.log("Restart selected");
+    }
+
+    goToMainMenu(){
+        console.log("Home selected");
     }
 }
 
