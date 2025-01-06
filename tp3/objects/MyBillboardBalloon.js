@@ -9,7 +9,7 @@ class MyBillboardBalloon extends THREE.Object3D {
         this.geometry = new THREE.PlaneGeometry(15, 15);
         this.mesh = new THREE.Mesh(this.geometry, this.material);
         this.mesh.position.set(0, 0, 0);
-        //this.mesh.lookAt(this.app.activeCamera.position);   
+        this.mesh.rotation.set(0, -Math.PI/4, 0);  
         this.billboard.add(this.mesh);
         this.add(this.billboard);
     }

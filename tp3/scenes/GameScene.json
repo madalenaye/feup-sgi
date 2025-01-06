@@ -10,7 +10,7 @@
                 "r": 1.0,
                 "g": 1.0,
                 "b": 1.0,
-                "intensity": 2
+                "intensity": 1.2
             },
             "fog": {
                 "color": {
@@ -184,11 +184,11 @@
                 "isVideo": false
             },
             "floor_t": {
-                "filepath": "scenes/textures/grass.png",
+                "filepath": "scenes/textures/ground.jpeg",
                 "isVideo": false
             },
             "floor_bump_t": {
-                "filepath": "scenes/textures/grass_bump.png",
+                "filepath": "scenes/textures/ground_bump.png",
                 "isVideo": false
             },
             "soil_t": {
@@ -273,18 +273,18 @@
                 },
                 "emissive": {
                     "r": 0.0,
-                    "g": 0.067,
+                    "g": 0.0,
                     "b": 0.0
                 },
                 "specular": {
-                    "r": 0.133,
-                    "g": 0.133,
-                    "b": 0.133
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0
                 },
                 "textureref": "floor_t",
                 "texlength_s": 1.0,
                 "texlength_t": 1.0,
-                "shininess": 3,
+                "shininess": 1,
                 "transparent": false,
                 "opacity": 1.0,
                 "twosided": true,

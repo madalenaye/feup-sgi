@@ -301,7 +301,7 @@ class MyContents {
                 side: THREE.DoubleSide,
             });
             const billboard = new MyBillboardBalloon(this.app, billboardMaterial);
-            lod.addLevel(billboard, 200);
+            lod.addLevel(billboard, 170);
     
             lod.position.set(...config.position);
             this.app.scene.add(lod);
