@@ -252,26 +252,10 @@ class MyContents {
             this.collisionObstacles();
             this.collisionEnemyBalloon();
         }
-        // provisório
-  
-        // if(Math.floor(Math.random() * 20) + 1 === 1) {
-        //     const firework = new MyFirework(this.app, this.balloons[0].position)
-        //     this.fireworks.push(firework)
-        //     console.log("firework added")
-        // }
 
-        // // for each fireworks 
-        // for( let i = 0; i < this.fireworks.length; i++ ) {
-        //     // is firework finished?
-        //     if (this.fireworks[i].done) {
-        //         // remove firework 
-        //         this.fireworks.splice(i,1) 
-        //         console.log("firework removed")
-        //         continue 
-        //     }
-        //     // otherwise update  firework
-        //     this.fireworks[i].update()
-        // }
+        if(this.currentState == this.state.GAME_OVER){
+            this.createFireworksGameOver();
+        }
     }
 
     /**
@@ -772,6 +756,33 @@ class MyContents {
 
     collisionEnemyBalloon(){
         this.playerBalloon.checkCollisionBalloon(this.enemyBalloon, this.outdoor);
+    }
+
+    createFireworksGameOver(){
+        if (Math.floor(Math.random() * 20) + 1 === 1) {
+            const spread = 5;
+            const offsetX = (Math.random() * 2 - 1) * spread;
+            const offsetY = (Math.random() * 2 - 1) * spread; 
+            const offsetZ = (Math.random() * 2 - 1) * spread;
+    
+            const origin = new THREE.Vector3(
+                this.gameOver.position.x + offsetX,
+                this.gameOver.position.y + offsetY,
+                this.gameOver.position.z + offsetZ
+            );
+    
+            const firework = new MyFirework(this.app, origin, 0.5);
+            this.fireworks.push(firework);
+        }
+    
+        for (let i = 0; i < this.fireworks.length; i++) {
+            if (this.fireworks[i].done) {
+                this.fireworks.splice(i, 1);
+                i--;
+                continue;
+            }
+            this.fireworks[i].update();
+        }
     }
 }
 

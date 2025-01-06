@@ -2,7 +2,7 @@ import * as THREE from 'three'
 
 class MyFirework {
 
-    constructor(app, position) {
+    constructor(app, position, size) {
         this.app = app
         this.position = position
 
@@ -15,7 +15,7 @@ class MyFirework {
         this.points   = null
         
         this.material = new THREE.PointsMaterial({
-            size: 0.1,
+            size: size,
             color: 0xffffff,
             opacity: 1,
             vertexColors: true,
