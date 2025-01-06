@@ -625,6 +625,7 @@ class MyContents {
                 this.enemyAnimationSetup();
                 this.outdoorTimePlay();
                 this.displayHud();
+                this.changeGameStatus();
                 this.resetPowerups();
                 this.currentState = this.state.GAME;
                 break;
