@@ -261,5 +261,37 @@ class MyOutdoor extends THREE.Object3D {
         this.setVouchers(0);
     }
 
+    resetTime() {
+        this.elapsedTime = 0;
+        this.lastTime = null;
+        this.isPlaying = false;
+    
+        this.setElapsedTime("00:00");
+    }
+
+    resetLapsCompleted(){
+        this.setCurrentLap(0);
+    }
+
+    resetAirLayer(){
+        this.setAirLayer("none");
+    }
+
+    resetVouchers(){
+        this.setVouchers(0);
+    }
+
+    resetTotalLaps(){
+        this.setTotalLaps("?");
+    }
+
+    reset(){
+        this.resetTime();
+        this.resetLapsCompleted();
+        this.resetAirLayer();
+        this.resetVouchers();
+        this.resetTotalLaps();
+    }
+
 }
 export { MyOutdoor };

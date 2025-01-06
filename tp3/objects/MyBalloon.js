@@ -381,5 +381,16 @@ class MyBalloon extends THREE.Object3D {
         return this.currentLap === totalLaps;
     }
 
+    resetBalloon() {
+        this.windLayer = 0;
+        this.targetY = 0;
+        this.vouchers = 0;
+        this.currentLap = 0;
+        this.canMove = true;
+        this.hasCrossedLine = false;
+        this.isCollidingMap = new Map();
+        this.canChangeLayer = true;
+    }
+
 }
 export { MyBalloon };
