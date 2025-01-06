@@ -1,6 +1,23 @@
+/**
+ * @file MyBillboardBalloon.js
+ * @class MyBillboardBalloon
+ * @extends THREE.Object3D
+ */
+
 import * as THREE from "three";
 
+/**
+ * @class
+ * @classdesc Represents a billboard balloon object that always faces the active camera.
+ */
+
 class MyBillboardBalloon extends THREE.Object3D {
+    /**
+     * Constructs a new MyBillboardBalloon instance. 
+     * @constructor
+     * @param {Object} app - The application instance containing the active camera.
+     * @param {THREE.Material} material - The material used for rendering the billboard balloon.
+     */
     constructor(app, material){
         super();
         this.material = material;
