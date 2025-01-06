@@ -1,6 +1,28 @@
+/**
+ * @file MyOutdoor2.js
+ * @class MyOutdoor2
+ * @extends THREE.Object3D
+ */
+
 import * as THREE from 'three';
 
+/**
+ * @class
+ * @classdesc Represents an outdoor display panel with shader-based rendering for RGB and depth textures.
+ */
+
 class MyOutdoor2 extends THREE.Object3D {
+    
+    /**
+     * Constructs a new MyOutdoor2 instance.
+     * @constructor
+     * @param {Object} parameters - Configuration parameters for the display.
+     * @param {number} parameters.width - The width of the display panel.
+     * @param {number} parameters.height - The height of the display panel.
+     * @param {THREE.Material} material - The material for the supports.
+     * @param {boolean} castShadow - Determines if the panel casts shadows.
+     * @param {boolean} receiveShadow - Determines if the panel receives shadows.
+     */
     constructor(parameters, material, castShadow, receiveShadow) {
         super();
 
@@ -67,6 +89,12 @@ class MyOutdoor2 extends THREE.Object3D {
         this.add(this.groupOutdoor2);
     }
 
+    /**
+     * @method
+     * Updates the RGB and depth textures of the display panel.
+     * @param {Object} app - The application containing the renderer and scene.
+     * @param {THREE.Camera} activeCamera - The active camera for rendering.
+     */
     updateTextures(app, activeCamera) {
         let renderer = app.renderer;
         let scene = app.scene;
@@ -101,6 +129,13 @@ class MyOutdoor2 extends THREE.Object3D {
         this.material.uniforms.textureDepth.value.needsUpdate = true;
     }
 
+    /**
+     * @method
+     * Starts periodically updating the textures of the display panel.
+     * @param {Object} app - The application containing the renderer and scene.
+     * @param {THREE.Camera} activeCamera - The active camera for rendering.
+     * @param {number} interval - The interval (in milliseconds) between updates.
+     */
     startUpdatingTextures(app, activeCamera, interval = 60000) {
         this.updateTextures(app, activeCamera); 
         setInterval(() => this.updateTextures(app, activeCamera), interval); 
