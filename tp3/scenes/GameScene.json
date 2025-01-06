@@ -160,6 +160,22 @@
                     "y": 30,
                     "z": 0
                 }
+            },
+            "pause": {
+                "type": "perspective",
+                "angle": 75,
+                "near": 0.1,
+                "far": 500,
+                "location": {
+                    "x": 36,
+                    "y": 11.9,
+                    "z": 40
+                },
+                "target": { 
+                    "x": 55,
+                    "y": 11.9,
+                    "z": 59
+                }
             }
         },
         "textures": {

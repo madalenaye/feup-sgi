@@ -105,6 +105,7 @@ class MyContents {
         this.pointA = new THREE.Vector3(35, 10, 0);
         this.pointB = new THREE.Vector3(25, 10, 0);
         this.thirdPerson = true;
+        this.running = true;
 
     }
     /**
@@ -212,10 +213,14 @@ class MyContents {
         // Outdoor display
         this.outdoor2 = this.objects["outdoor_2"];
         this.outdoor2.startUpdatingTextures(this.app, this.app.activeCamera, 15000);
+
     }
 
     update() {
         if(this.currentState == this.state.GAME){
+            if (!this.running) {
+                return;
+            }
             this.updateOutdoorTime();
             this.updateCamera();
             this.updateBoundingVolumes();
@@ -571,6 +576,7 @@ class MyContents {
                 this.enemyAnimationSetup();
                 this.outdoorTimePlay();
                 this.hudWind.style.display = "block";
+                this.changeGameStatus();
                 this.currentState = this.state.GAME;
                 break;
             case this.state.GAME_OVER:
@@ -667,6 +673,14 @@ class MyContents {
         this.currentRoute.stop();
     }
 
+    pauseEnemyAnimation(){
+        this.currentRoute.pause();
+    }
+
+    resumeEnemyAnimation(){
+        this.currentRoute.resume();
+    }
+
     updateEnemyAnimation(){
         this.currentRoute.update();
     }
@@ -716,6 +730,10 @@ class MyContents {
 
     setCurrentLap(balloon){
         balloon.increaseLaps(this.outdoor);
+    }
+
+    setGameStatus(){
+        this.outdoor.setGameStatus();
     }
 
     verifyFinalRace(balloon){
@@ -800,6 +818,35 @@ class MyContents {
             }
         });
         this.setCameras();
+    }
+
+    changeGameStatus() {
+        document.addEventListener('keydown', (e) => {
+            if (e.key === ' ') {
+                if (this.running) {
+                    this.pauseGame();
+                } else {
+                    this.resumeGame();
+                }
+                this.running = !this.running;
+            }
+        });
+    }
+
+    pauseGame(){
+        this.outdoorTimePause();
+        this.setGameStatus();
+        this.pauseEnemyAnimation();
+        this.playerBalloon.canMove = false;
+        this.setCamera("pause");
+    }
+
+    resumeGame(){
+        this.outdoorTimeResume();
+        this.setGameStatus();
+        this.resumeEnemyAnimation();
+        this.playerBalloon.canMove = true;
+        this.setCamera("third_person");
     }
 
     updateCamera(){

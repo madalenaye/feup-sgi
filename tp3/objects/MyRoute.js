@@ -98,8 +98,9 @@ class MyRoute extends THREE.Object3D {
     }
 
     resume(){
-        if(this.mixer){
+        if (this.mixer) {
             this.mixerPause = false;
+            this.clock.getDelta();
         }
     }
 
@@ -141,11 +142,13 @@ class MyRoute extends THREE.Object3D {
 
     update() {
 
-        const delta = this.clock.getDelta()
-        this.mixer.update(delta)
-
-        this.checkAnimationStateIsPause()
-        this.checkTracksEnabled()
+        if (!this.mixerPause) {
+            const delta = this.clock.getDelta();
+            this.mixer.update(delta);
+        }
+    
+        this.checkAnimationStateIsPause();
+        this.checkTracksEnabled();
 
     }
 
