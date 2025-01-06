@@ -270,7 +270,7 @@ class MyContents {
      * @method
      */
     initBalloons() {
-        const balloonConfigs = [
+        this.balloonConfigs = [
             { texturePath: './scenes/textures/balloon_1.png', color: 0x550b3d, position: [-65, 17, 10], type: 0, name: "player_balloon1", nameUser: "Pink", billboardTexture: './scenes/textures/billboard_1.png'},
             { texturePath: './scenes/textures/balloon_2.png', color: 0x37505A, position: [-65, 17, 25], type: 2, name: "player_balloon2", nameUser: "Blue", billboardTexture: './scenes/textures/billboard_2.png'},
             { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-65, 17, 40], type: 1, name: "player_balloon3", nameUser: "Green", billboardTexture: './scenes/textures/billboard_3.png'},
@@ -279,7 +279,7 @@ class MyContents {
             { texturePath: './scenes/textures/balloon_3.png', color: 0x4F5D4A, position: [-10, 17, 65], type: 1, name: "enemy_balloon3", nameUser: "Green", billboardTexture: './scenes/textures/billboard_3.png'},
         ];
     
-        balloonConfigs.forEach((config) => {
+        this.balloonConfigs.forEach((config) => {
         
             const balloonTexture = this.textureLoader.load(config.texturePath);
             const balloonMaterial = new THREE.MeshStandardMaterial({
@@ -626,6 +626,7 @@ class MyContents {
                 this.outdoorTimePlay();
                 this.displayHud();
                 this.changeGameStatus();
+                this.resetPowerups();
                 this.currentState = this.state.GAME;
                 break;
             case this.state.GAME_OVER:
@@ -718,6 +719,7 @@ class MyContents {
     enemyAnimationSetup(){
         this.currentRoute.setupAnimation(this.enemyBalloon);
         this.currentRoute.play();
+        this.currentRoute.resetAnimation();
     }
 
     stopEnemyAnimation(){
@@ -835,6 +837,16 @@ class MyContents {
             }
             this.fireworks[i].update();
         }
+    }
+
+    clearFireworks() {
+        for (let i = 0; i < this.fireworks.length; i++) {
+            const firework = this.fireworks[i];
+    
+            firework.reset();
+        }
+    
+        this.fireworks = [];
     }
  
     setCameras(){
@@ -962,11 +974,59 @@ class MyContents {
     }
 
     restartGame(){
-        console.log("Restart selected");
+        this.playerBalloon.resetBalloon();
+        this.enemyBalloon.resetBalloon();
+        this.repositionPlayerBalloon();
+        this.repositionEnemyBalloon();
+        this.clearFireworks();
+        this.outdoor.reset();
+        this.changeTo(this.state.GAME);
     }
 
     goToMainMenu(){
-        console.log("Home selected");
+        this.playerBalloon.resetBalloon();
+        this.enemyBalloon.resetBalloon();
+        this.repositionPlayerBalloon();
+        this.repositionEnemyBalloon();
+        this.playerName = null;
+        this.clearFireworks();
+        this.outdoor.reset();
+        this.changeTo(this.state.MENU);
+    }
+
+    repositionPlayerBalloon(){
+        const config = this.balloonConfigs.slice(0, 3).find(config => 
+            config.nameUser === this.playerBalloon.nameUser
+        );
+
+        if (config) {
+            this.playerBalloon.position.set(
+                config.position[0],
+                config.position[1],
+                config.position[2]
+            );
+        }
+    }
+
+    repositionEnemyBalloon() {
+        const config = this.balloonConfigs.slice(3, 6).find(config => 
+            config.nameUser === this.enemyBalloon.nameUser
+        );
+    
+        if (config) {
+            this.enemyBalloon.position.set(
+                config.position[0],
+                config.position[1],
+                config.position[2]
+            );
+        } 
+    }
+
+    resetPowerups(){
+        for (const key in this.powerups){
+            const powerup = this.powerups[key];
+            powerup.canCollide = true;
+        }
     }
 }
 
