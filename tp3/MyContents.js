@@ -625,6 +625,7 @@ class MyContents {
                 this.enemyAnimationSetup();
                 this.outdoorTimePlay();
                 this.displayHud();
+                this.resetPowerups();
                 this.currentState = this.state.GAME;
                 break;
             case this.state.GAME_OVER:
@@ -717,6 +718,7 @@ class MyContents {
     enemyAnimationSetup(){
         this.currentRoute.setupAnimation(this.enemyBalloon);
         this.currentRoute.play();
+        this.currentRoute.resetAnimation();
     }
 
     stopEnemyAnimation(){
@@ -981,21 +983,9 @@ class MyContents {
         this.repositionPlayerBalloon();
         this.repositionEnemyBalloon();
         this.playerName = null;
-        this.playerBalloon = this.userBalloons[0];
-        this.previousPlayerBalloon = this.userBalloons[0];
-        this.enemyBalloon = this.enemyBalloons[1];
-        this.previousEnemyBalloon = this.enemyBalloons[1];
+        this.currentRoute.resetAnimation();
         this.clearFireworks();
-        this.level = 1;
-        this.track = "A";
-        this.loops = 1;
         this.outdoor.reset();
-        this.menu.updatePlayerName(this.playerName);
-        this.menu.updateLevel(this.level);
-        this.menu.updateUserBalloon("Pink");
-        this.menu.updateBotBalloon("Blue");
-        this.menu.updateTrack(this.track);
-        this.menu.updateLoops(this.loops);
         this.changeTo(this.state.MENU);
     }
 
@@ -1025,6 +1015,13 @@ class MyContents {
                 config.position[2]
             );
         } 
+    }
+
+    resetPowerups(){
+        for (const key in this.powerups){
+            const powerup = this.powerups[key];
+            powerup.canCollide = true;
+        }
     }
 }
 
