@@ -1,7 +1,29 @@
+/**
+ * @file MyOutdoor.js
+ * @class MyOutdoor
+ * @extends THREE.Object3D
+ */
+
 import * as THREE from 'three';
 import {MySprite} from '../utils/MySprite.js'
 
+/**
+ * @class
+ * @classdesc Represents the outdoor display board that provides information such as elapsed time, laps, air layer, vouchers, and game status.
+ */
+
 class MyOutdoor extends THREE.Object3D {
+
+    /**
+     * Constructs a new MyOutdoor instance.
+     * @constructor
+     * @param {Object} parameters - Configuration parameters.
+     * @param {number} parameters.height - The height of the outdoor structure.
+     * @param {number} parameters.width - The width of the outdoor structure.
+     * @param {THREE.Material} material - The material for the structure.
+     * @param {boolean} castShadow - Determines if the outdoor casts shadows.
+     * @param {boolean} receiveShadow - Determines if the outdoor receives shadows.
+     */
     constructor(parameters, material, castShadow, receiveShadow) {
         super();
 
@@ -72,6 +94,10 @@ class MyOutdoor extends THREE.Object3D {
         this.createAllElements();
     }
 
+    /**
+     * @method
+     * Creates text for elapsed time.
+     */
     createElapsedTime(text, charWidth = 0.7, charHeight = 0.7){
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(19.5,5.7,-0.33);
@@ -80,6 +106,10 @@ class MyOutdoor extends THREE.Object3D {
         this.add(textMesh);
     }
 
+    /**
+     * @method
+     * Creates text for laps completed.
+     */
     createLapsCompleted(text, charWidth = 0.7, charHeight = 0.7){
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(19.5, 4.2, -0.33);
@@ -88,6 +118,10 @@ class MyOutdoor extends THREE.Object3D {
         this.add(textMesh);
     }
 
+    /**
+     * @method
+     * Creates text for the air layer.
+     */
     createAirLayer(text, charWidth = 0.7, charHeight = 0.7){
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(19.5, 2.7, -0.33);
@@ -96,6 +130,10 @@ class MyOutdoor extends THREE.Object3D {
         this.add(textMesh);
     }
 
+    /**
+     * @method
+     * Creates text for vouchers.
+     */
     createVouchers(text, charWidth = 0.7, charHeight = 0.7){
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(19.5, 1.2, -0.33);
@@ -104,6 +142,10 @@ class MyOutdoor extends THREE.Object3D {
         this.add(textMesh);
     }
 
+    /**
+     * @method
+     * Creates text for the game status.
+     */
     createGameStatus(text, charWidth = 0.7, charHeight = 0.7){
         let textMesh = MySprite.createTextFromSpritesheet(text, charWidth, charHeight, this.sprite);
         textMesh.position.set(19.5, -0.3, -0.33);
@@ -112,6 +154,10 @@ class MyOutdoor extends THREE.Object3D {
         this.add(textMesh);        
     }
 
+    /**
+     * @method
+     * Creates text for the Running game status.
+     */
     createGameStatusRunning(text, charWidth = 0.7, charHeight = 0.7){
         this.status = text;
         let textMesh = MySprite.createTextFromSpritesheet(this.status, charWidth, charHeight, this.sprite);
@@ -123,6 +169,10 @@ class MyOutdoor extends THREE.Object3D {
 
     }
 
+    /**
+     * @method
+     * Updates elapsed time text.
+     */
     setElapsedTime(text, charWidth = 0.7, charHeight = 0.7){
         if (this.timeTextMesh) {
             this.remove(this.timeTextMesh);
@@ -134,6 +184,10 @@ class MyOutdoor extends THREE.Object3D {
         this.add(this.timeTextMesh);
     }
 
+    /**
+     * @method
+     * Sets the total number of laps.
+     */
     setTotalLaps(laps, charWidth = 0.7, charHeight = 0.7){
         if(this.totalLapsMesh){
             this.remove(this.totalLapsMesh);
@@ -147,6 +201,10 @@ class MyOutdoor extends THREE.Object3D {
         this.add(this.totalLapsMesh);
     }
 
+    /**
+     * @method
+     * Updates the current lap.
+     */
     setCurrentLap(currentLap, charWidth = 0.7, charHeight = 0.7){
         this.currentLap = currentLap;
         if(this.currentLapTextMesh){
@@ -161,6 +219,10 @@ class MyOutdoor extends THREE.Object3D {
         this.add(textMesh);
     }
 
+    /**
+     * @method
+     * Updates the air layer.
+     */
     setAirLayer(airLayer, charWidth = 0.7, charHeight = 0.7){
         this.airLayer = airLayer;
         if (this.airLayerTextMesh) {
@@ -174,6 +236,10 @@ class MyOutdoor extends THREE.Object3D {
         this.add(textMesh);
     }
 
+    /**
+     * @method
+     * Updates vouchers count.
+     */
     setVouchers(vouchers, charWidth = 0.7, charHeight = 0.7){
         if (this.vouchersTextMesh) {
             this.remove(this.vouchersTextMesh);
@@ -188,6 +254,10 @@ class MyOutdoor extends THREE.Object3D {
 
     }
 
+    /**
+     * @method
+     * Toggles the game status between 'Running' and 'Paused'.
+     */
     setGameStatus(charWidth = 0.7, charHeight = 0.7){
         this.status = this.status === "Running" ? "Paused" : "Running";
 
@@ -203,6 +273,11 @@ class MyOutdoor extends THREE.Object3D {
         this.add(this.gameStatusTextMesh);
     }
 
+    /**
+     * @method
+     * Calculates and returns total time in minutes and seconds.
+     * @returns {string} Formatted time string.
+     */
     getTotalTime(){
         const minutes = Math.floor(this.elapsedTime / 60);
         const seconds = Math.floor(this.elapsedTime % 60);
@@ -211,6 +286,10 @@ class MyOutdoor extends THREE.Object3D {
         return timeText;
     }
 
+    /**
+     * @method
+     * Starts the timer.
+     */
     play(){
         if (!this.isPlaying) {
             this.isPlaying = true;
@@ -218,6 +297,10 @@ class MyOutdoor extends THREE.Object3D {
         }
     }
 
+    /**
+     * @method
+     * Pauses the timer.
+     */
     pause(){
         if (this.isPlaying) {
             this.isPlaying = false;
@@ -227,6 +310,10 @@ class MyOutdoor extends THREE.Object3D {
         }
     }
 
+    /**
+     * @method
+     * Resumes the timer.
+     */
     resume(){
         if (!this.isPlaying) {
             this.isPlaying = true;
@@ -234,6 +321,10 @@ class MyOutdoor extends THREE.Object3D {
         }
     }
 
+    /**
+     * @method
+     * Updates timer and display.
+     */
     update() {
         if (this.isPlaying) {
             const now = performance.now();
@@ -247,6 +338,10 @@ class MyOutdoor extends THREE.Object3D {
         }
     }
 
+    /**
+     * @method
+     * Creates all initial elements for the outdoor display.
+     */
     createAllElements(){
         this.createElapsedTime("Elapsed Time:");
         this.createLapsCompleted("Laps Completed:");
@@ -260,6 +355,11 @@ class MyOutdoor extends THREE.Object3D {
         this.setAirLayer("none");
         this.setVouchers(0);
     }
+
+    /**
+     * @method
+     * Resets the elapsed time to 00:00.
+     */
     resetTime() {
         this.elapsedTime = 0;
         this.lastTime = null;
@@ -268,22 +368,42 @@ class MyOutdoor extends THREE.Object3D {
         this.setElapsedTime("00:00");
     }
 
+    /**
+     * @method
+     * Resets the current lap count to 0.
+     */
     resetLapsCompleted(){
         this.setCurrentLap(0);
     }
 
+    /**
+     * @method
+     * Resets the air layer display to 'none'.
+     */
     resetAirLayer(){
         this.setAirLayer("none");
     }
 
+    /**
+     * @method
+     * Resets the voucher count to 0.
+     */
     resetVouchers(){
         this.setVouchers(0);
     }
 
+    /**
+     * @method
+     * Resets the total laps display to '?'.
+     */
     resetTotalLaps(){
         this.setTotalLaps("?");
     }
 
+    /**
+     * @method
+     * Resets all fields to default values.
+     */
     reset(){
         this.resetTime();
         this.resetLapsCompleted();
