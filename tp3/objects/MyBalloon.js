@@ -2,8 +2,9 @@ import * as THREE from 'three';
 
 class MyBalloon extends THREE.Object3D {
 
-    constructor(radius, material, baseColor, type, name, nameUser) {
+    constructor(app, radius, material, baseColor, type, name, nameUser) {
         super();
+        this.app = app;
         this.radius = radius;
         this.basketRadius = radius/3;
         this.material = material;
@@ -279,13 +280,39 @@ class MyBalloon extends THREE.Object3D {
 
     freezeBalloon(penalty) {
         this.canMove = false;
-    
+        
+        this.rotateCamera(penalty);
         console.log(`Balloon stopped for ${penalty} seconds!`);
-    
         setTimeout(() => {
             this.canMove = true;
             console.log("Balloon reactivated.");
         }, penalty * 1000);
+    }
+    rotateCamera(duration){
+        const startTime = performance.now();
+        const startPosition = this.app.activeCamera.position.clone();
+        const balloonPosition = new THREE.Vector3();
+        this.getWorldPosition(balloonPosition);
+    
+        const radius = startPosition.distanceTo(balloonPosition);
+        const initialAngle = Math.atan2(startPosition.z - balloonPosition.z, startPosition.x - balloonPosition.x);
+    
+        const animate = (time) => {
+            const elapsed = (time - startTime) / 1000; 
+            const t = Math.min(elapsed / duration, 1); 
+    
+            const angle = initialAngle + t * Math.PI * 2 * 4;
+            this.app.activeCamera.position.x = balloonPosition.x + radius * Math.cos(angle);
+            this.app.activeCamera.position.z = balloonPosition.z + radius * Math.sin(angle);
+    
+            this.app.activeCamera.lookAt(balloonPosition);
+    
+            if (t < 1) {
+                requestAnimationFrame(animate);
+            }
+        };
+    
+        requestAnimationFrame(animate);
     }
     ascend(){
         if (this.canChangeLayer){

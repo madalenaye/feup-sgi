@@ -288,7 +288,7 @@ class MyContents {
                 side: THREE.DoubleSide,
             });
     
-            const balloon = new MyBalloon(4, balloonMaterial, config.color, config.type || 0, config.name, config.nameUser);
+            const balloon = new MyBalloon(this.app, 4, balloonMaterial, config.color, config.type || 0, config.name, config.nameUser);
         
             const lod = new THREE.LOD();
 

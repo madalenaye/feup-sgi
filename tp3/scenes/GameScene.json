@@ -188,7 +188,7 @@
                 "isVideo": false
             },
             "floor_bump_t": {
-                "filepath": "scenes/textures/ground_bump.png",
+                "filepath": "scenes/textures/ground_map.png",
                 "isVideo": false
             },
             "soil_t": {
@@ -788,7 +788,7 @@
                         "type": "obstacle",
                         "radius": 1.0,
                         "height": 2.0,
-                        "penalty": 6
+                        "penalty": 2
                     }
                 }
             },
@@ -821,7 +821,7 @@
                         "type": "obstacle",
                         "radius": 1.0,
                         "height": 2.0,
-                        "penalty": 5
+                        "penalty": 2
                     }
                 }
             },
@@ -854,7 +854,7 @@
                         "type": "obstacle",
                         "radius": 1.0,
                         "height": 2.0,
-                        "penalty": 7
+                        "penalty": 3
                     }
                 }
             },
@@ -887,7 +887,7 @@
                         "type": "obstacle",
                         "radius": 1.0,
                         "height": 2.0,
-                        "penalty": 7
+                        "penalty": 3
                     }
                 }
             },
