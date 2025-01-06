@@ -1,8 +1,25 @@
+/**
+ * @file MyMenu.js
+ * @class MyMenu
+ * @extends THREE.Object3D
+ */
+
 import * as THREE from "three";
 import {MySprite} from '../utils/MySprite.js'
 import {MyButton} from './MyButton.js'
 
+/**
+ * @class
+ * @classdesc Represents the main menu interface of the application, providing options to configure gameplay settings.
+ */
+
 class MyMenu extends THREE.Object3D{
+    /**
+     * Constructs a new MyMenu instance. 
+     * @constructor
+     * @param {THREE.Material} material - The material for the menu background.
+     * @param {number} currentLayer - The rendering layer for this menu.
+     */
     constructor(material, currentLayer){
         super();
         this.level = 1;
@@ -111,23 +128,58 @@ class MyMenu extends THREE.Object3D{
         this.objects.push(this.startButton, this.changeName, this.levelDown, this.levelUp, this.pickBalloon, this.pickBotBalloon, this.track, this.loopDown, this.loopUp);
     }
 
+    /**
+     * @method
+     * Updates the player name text.
+     * @param {string} text - The new player name.
+     */
     updatePlayerName(text){
         MySprite.updateSpritesheetText(this.playerText, `Player Name: ${text}`, 1, 1, this.sprite);
         this.playerName = text;
     }
+
+    /**
+     * @method
+     * Updates the level text.
+     * @param {string} text - The new level value.
+     */
     updateLevel(text){
         MySprite.updateSpritesheetText(this.levelText, `Level: ${text}`, 1, 1, this.sprite);
         this.level = text;
     }
+
+    /**
+     * @method
+     * Updates the user balloon text.
+     * @param {string} text - The new user balloon selection.
+     */
     updateUserBalloon(text){
         MySprite.updateSpritesheetText(this.userBalloonText, `User Balloon: ${text}`, 1, 1, this.sprite);
     }
+
+    /**
+     * @method
+     * Updates the bot balloon text.
+     * @param {string} text - The new bot balloon selection.
+     */
     updateBotBalloon(text){
         MySprite.updateSpritesheetText(this.botBalloonText, `Bot balloon: ${text}`, 1, 1, this.sprite);
     }
+
+    /**
+     * @method
+     * Updates the track text.
+     * @param {string} text - The new track selection.
+     */
     updateTrack(text){
         MySprite.updateSpritesheetText(this.trackText, `Track: ${text}`, 1, 1, this.sprite);
     }
+
+    /**
+     * @method
+     * Updates the loops text.
+     * @param {string} text - The new number of loops.
+     */
     updateLoops(text){
         MySprite.updateSpritesheetText(this.loopText, `Loops: ${text}`, 1, 1, this.sprite);
     }
