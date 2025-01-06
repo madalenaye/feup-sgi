@@ -1,6 +1,7 @@
 /**
  * @file LoadObjects.js
- * @desc Complete
+ * @desc This module handles the loading and processing of 3D objects, lights, and materials in a Three.js scene. 
+ * It supports creating various geometric shapes, including boxes, cylinders, spheres, and custom NURBS surfaces.
  */
 
 import * as THREE from 'three';
@@ -41,7 +42,7 @@ export const loadObjects = {
     /**
      * Retrieves the array of loaded objects.
      * @method 
-     * @returns {Array} - An array of objects that have been loaded by the `load` method.
+     * @returns {Array} - A dictionary of objects that have been loaded by the `load` method.
      */    
     getObjects: function(){
         return objects;
@@ -56,18 +57,38 @@ export const loadObjects = {
         return lights;
     },
 
+    /**
+     * Retrieves the dictionary of loaded routes.
+     * @method
+     * @returns {Object} - A dictionary containing the loaded routes, where each route is identified by a unique ID.
+     */
     getRoutes: function(){
         return routes;
     },
 
+    /**
+     * Retrieves the dictionary of loaded obstacles.
+     * @method
+     * @returns {Object} - A dictionary containing the loaded obstacles, where each obstacle is identified by a unique ID.
+     */
     getObstacles: function(){
         return obstacles;
     },
 
+    /**
+     * Retrieves the dictionary of loaded power-ups.
+     * @method
+     * @returns {Object} - A dictionary containing the loaded power-ups, where each power-up is identified by a unique ID.
+     */
     getPowerups: function(){
         return powerups;
     },
 
+    /**
+     * Creates bounding volumes for the specified objects.
+     * @method
+     * @param {Object} objects - The dictionary of objects for which bounding volumes should be created.
+     */
     createBoundingVolumes: function (objects){
         if(objects){
             for (const key in objects) {
@@ -445,6 +466,15 @@ const createNurb = function(parameters, material, castShadow, receiveShadow){
 
 }
 
+/**
+ * Creates a track object with specified parameters and material.
+ * @method
+ * @param {Object} parameters - An object containing the properties of the track.
+ * @param {THREE.Material} material - The material to apply to the track.
+ * @param {boolean} castShadow - Whether the track should cast shadows in the scene.
+ * @param {boolean} receiveShadow - Whether the track should receive shadows in the scene.
+ * @returns {MyTrack} - A new MyTrack object representing the track with the specified properties.
+ */
 const createTrack = function(parameters, material, castShadow, receiveShadow){
     if(material == null || material == undefined){
         throw new Error("Error in function createTrack. Lack of material");  
@@ -456,6 +486,16 @@ const createTrack = function(parameters, material, castShadow, receiveShadow){
     return track;
 }
 
+/**
+ * Creates an obstacle object with specified parameters and material.
+ * @method
+ * @param {Object} parameters - An object containing the properties of the obstacle.
+ * @param {string} obstacleID - A unique identifier for the obstacle.
+ * @param {THREE.Material} material - The material to apply to the obstacle.
+ * @param {boolean} castShadow - Whether the obstacle should cast shadows in the scene.
+ * @param {boolean} receiveShadow - Whether the obstacle should receive shadows in the scene.
+ * @returns {MyObstacle} - A new MyObstacle object representing the obstacle with the specified properties.
+ */
 const createObstacle = function(parameters, obstacleID, material, castShadow, receiveShadow){
     if(material == null || material == undefined){
         throw new Error("Error in function createObstacle. Lack of material");  
@@ -468,6 +508,17 @@ const createObstacle = function(parameters, obstacleID, material, castShadow, re
 
     return obstacle;
 }
+
+/**
+ * Creates a power-up object with specified parameters and material.
+ * @method
+ * @param {Object} parameters - An object containing the properties of the power-up.
+ * @param {string} powerupID - A unique identifier for the power-up.
+ * @param {THREE.Material} material - The material to apply to the power-up.
+ * @param {boolean} castShadow - Whether the power-up should cast shadows in the scene.
+ * @param {boolean} receiveShadow - Whether the power-up should receive shadows in the scene.
+ * @returns {MyPowerUp} - A new MyPowerUp object representing the power-up with the specified properties.
+ */
 const createPowerup = function(parameters, powerupID, material, castShadow, receiveShadow){
     if(material == null || material == undefined){
         throw new Error("Error in function createPowerup. Lack of material");  
@@ -479,6 +530,17 @@ const createPowerup = function(parameters, powerupID, material, castShadow, rece
 
     return powerup;
 }
+
+/**
+ * Creates a route object with specified parameters and material.
+ * @method
+ * @param {Object} parameters - An object containing the properties of the route.
+ * @param {string} routeID - A unique identifier for the route.
+ * @param {THREE.Material} material - The material to apply to the route.
+ * @param {boolean} castShadow - Whether the route should cast shadows in the scene.
+ * @param {boolean} receiveShadow - Whether the route should receive shadows in the scene.
+ * @returns {MyRoute} - A new MyRoute object representing the route with the specified properties.
+ */
 const createRoute = function(parameters, routeID, material, castShadow, receiveShadow){
     if(material == null || material == undefined){
         throw new Error("Error in function createRoute. Lack of material");  
@@ -490,6 +552,16 @@ const createRoute = function(parameters, routeID, material, castShadow, receiveS
 
     return route;
 }
+
+/**
+ * Creates an outdoor object with specified parameters and material.
+ * @method
+ * @param {Object} parameters - An object containing the properties of the outdoor.
+ * @param {THREE.Material} material - The material to apply to the outdoor object.
+ * @param {boolean} castShadow - Whether the outdoor object should cast shadows in the scene.
+ * @param {boolean} receiveShadow - Whether the outdoor object should receive shadows in the scene.
+ * @returns {MyOutdoor} - A new MyOutdoor object representing the outdoor with the specified properties.
+ */
 const createOutdoor = function(parameters, material, castShadow, receiveShadow){
     if(material == null || material == undefined){
         throw new Error("Error in function createOutdoor. Lack of material");  
@@ -501,6 +573,15 @@ const createOutdoor = function(parameters, material, castShadow, receiveShadow){
     return outdoor;
 }
 
+/**
+ * Creates a second version of the outdoor object with specified parameters and material.
+ * @method
+ * @param {Object} parameters - An object containing the properties of the outdoor.
+ * @param {THREE.Material} material - The material to apply to the outdoor object.
+ * @param {boolean} castShadow - Whether the outdoor object should cast shadows in the scene.
+ * @param {boolean} receiveShadow - Whether the outdoor object should receive shadows in the scene.
+ * @returns {MyOutdoor2} - A new MyOutdoor object representing the outdoor with the specified properties.
+ */
 const createOutdoor2 = function(parameters, material, castShadow, receiveShadow){
     if(material == null || material == undefined){
         throw new Error("Error in function createOutdoor2. Lack of material");  
