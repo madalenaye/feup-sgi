@@ -1,6 +1,28 @@
+/**
+ * @file MyPowerUp.js
+ * @class MyPowerUp
+ * @extends THREE.Object3D
+ */
+
 import * as THREE from 'three';
 import { MyShader } from './MyShader.js';
+
+/**
+ * @class
+ * @classdesc Represents a power-up object in the scene with custom shader effects and rotation animation.
+ */
+
 class MyPowerUp extends THREE.Object3D {
+
+    /**
+     * Constructs a new MyPowerUp instance.
+     * @constructor
+     * @param {Object} parameters - Configuration parameters for the power-up.
+     * @param {number} parameters.width - The width of the power-up.
+     * @param {THREE.Material} material - The material used for the power-up.
+     * @param {boolean} castShadow - Determines if the power-up casts shadows.
+     * @param {boolean} receiveShadow - Determines if the power-up receives shadows.
+     */
     constructor(parameters, material, castShadow, receiveShadow) {
             super();
             this.width = parameters.width;
@@ -25,6 +47,10 @@ class MyPowerUp extends THREE.Object3D {
 
     }
 
+    /**
+     * @method
+     * Creates a bounding volume for collision detection.
+     */
     createBoundingVolume(){
         this.matrixWorldNeedsUpdate = true;
         this.updateMatrixWorld(true);
@@ -32,10 +58,19 @@ class MyPowerUp extends THREE.Object3D {
         this.powerupBB.setFromObject(this.powerup, true);
     }
 
+    /**
+     * @method
+     * Retrieves the bounding volume of the power-up.
+     * @returns {THREE.Box3} The bounding box for collision detection.
+     */
     getBoundingVolume(){
         return this.powerupBB;
     }
 
+    /**
+     * @method
+     * Waits for shaders to load and applies them to the power-up material.
+     */
     waitForShaders() {
         if (!this.shader.ready) {
             setTimeout(this.waitForShaders.bind(this), 100);
@@ -44,6 +79,11 @@ class MyPowerUp extends THREE.Object3D {
         this.powerup.material = this.shader.material;
         this.powerup.material.needsUpdate = true;
     }
+
+    /**
+     * @method
+     * Animates the rotation of the power-up and updates shader time uniforms.
+     */
     animateRotation() {
         const clock = new THREE.Clock();
         const update = () => {
@@ -54,6 +94,11 @@ class MyPowerUp extends THREE.Object3D {
         update();
     }
 
+    /**
+     * @method
+     * Calculates and returns the effective distance for interactions based on width.
+     * @returns {number} The interaction distance.
+     */
     getDistance(){
         return (2 * this.width);
     }
