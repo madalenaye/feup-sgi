@@ -77,8 +77,6 @@ class MyContents {
         this.playerBalloon = null;
         this.playerName = null;
         this.enemyBalloon = null;
-        this.previousPlayerBalloon = null;
-        this.previousEnemyBalloon = null;
         
         // Main Menu
         const menuTexture = this.textureLoader.load('./scenes/textures/menu.jpg');
@@ -138,9 +136,7 @@ class MyContents {
         this.enemyBalloons.forEach(balloon => balloon.layers.set(this.layers.ENEMY_BALLOON));
 
         this.playerBalloon = this.userBalloons[0];
-        this.previousPlayerBalloon = this.userBalloons[0];
         this.enemyBalloon = this.enemyBalloons[1];
-        this.previousEnemyBalloon = this.enemyBalloons[1];
     }
 
     /**
@@ -359,7 +355,6 @@ class MyContents {
         switch (obj.parent.parent.name.split("_")[0]) {
             case "player":
                 this.playerBalloon = obj.parent.parent;
-                this.previousPlayerBalloon = this.playerBalloon;
                 const balloonName = this.playerBalloon.name.split("_")[1];
                 switch (balloonName) {
                     case "balloon1":
@@ -777,27 +772,11 @@ class MyContents {
     createBoundingVolumes(){
         this.playerBalloon.createBoundingVolume();
         this.balloonBB = this.playerBalloon.getBoundingVolume();
-        
-        // const balloonBBHelper = new THREE.Box3Helper(this.playerBalloon.balloonBB, 0xff0000); // Cor vermelha
-        // this.app.scene.add(balloonBBHelper);
-      
-        // const balloonBB2Helper = new THREE.Box3Helper(this.playerBalloon.balloonBB_box, 0xff0000); // Cor vermelha
-        // this.app.scene.add(balloonBB2Helper);
-      
-        // const balloonBB3Helper = new THREE.Box3Helper(this.playerBalloon.balloonBB_sphere, 0xff0000); // Cor vermelha
-        // this.app.scene.add(balloonBB3Helper);
+    
 
         this.enemyBalloon.createBoundingVolume();
         this.balloonBB2 = this.enemyBalloon.getBoundingVolume();
         
-        // const balloonBB1Helper = new THREE.Box3Helper(this.enemyBalloon.balloonBB, 0xff0000); // Cor vermelha
-        // this.app.scene.add(balloonBB1Helper);
-      
-        // const balloonBB21Helper = new THREE.Box3Helper(this.enemyBalloon.balloonBB_box, 0xff0000); // Cor vermelha
-        // this.app.scene.add(balloonBB21Helper);
-      
-        // const balloonBB31Helper = new THREE.Box3Helper(this.enemyBalloon.balloonBB_sphere, 0xff0000); // Cor vermelha
-        // this.app.scene.add(balloonBB31Helper);
 
     }
 
