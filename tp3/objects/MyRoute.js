@@ -151,6 +151,14 @@ class MyRoute extends THREE.Object3D {
         this.checkTracksEnabled();
 
     }
+    resetAnimation() {
+        if (this.mixer && this.positionAction) {
+            this.positionAction.stop();
+    
+            this.mixer.setTime(0);
+    
+        }
+    }
 
 }
 
