@@ -534,6 +534,11 @@ class MyBalloon extends THREE.Object3D {
     checkEndOfRace(totalLaps){
         return this.currentLap === totalLaps;
     }
+
+    /**
+     * @method
+     * Resets the balloon's properties to their initial state.
+     */
     resetBalloon() {
         this.windLayer = 0;
         this.targetY = 0;
