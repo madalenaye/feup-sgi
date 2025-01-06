@@ -1,7 +1,30 @@
+/**
+ * @file MyTrack.js
+ * @class MyTrack
+ * @extends THREE.Object3D
+ */
+
 import * as THREE from 'three';
+
+/**
+ * @class
+ * @classdesc Represents a 3D track with geometry, collision detection, and object management.
+ */
 
 class MyTrack extends THREE.Object3D {
 
+    /**
+     * Constructs a new MyTrack instance.
+     * @constructor
+     * @param {Object} parameters - Configuration parameters for the track.
+     * @param {number} parameters.width - Width of the track.
+     * @param {Array} parameters.controlpoints - Control points defining the track path.
+     * @param {number} parameters.segments - Number of segments in the track geometry.
+     * @param {number} parameters.penalty - Penalty applied for leaving the track.
+     * @param {THREE.Material} material - Material used for the track.
+     * @param {boolean} [castShadow=false] - Determines if the track casts shadows.
+     * @param {boolean} [receiveShadow=false] - Determines if the track receives shadows.
+     */
     constructor(parameters, material, castShadow, receiveShadow) {
         super();
         this.width = parameters.width;
@@ -41,6 +64,12 @@ class MyTrack extends THREE.Object3D {
        
     }
 
+    /**
+     * @method
+     * Rotates the path around the Z-axis.
+     * @param {THREE.CatmullRomCurve3} path - The path to rotate.
+     * @returns {THREE.CatmullRomCurve3} - Rotated path.
+     */
     rotatePathZ(path) {
         const rotationMatrix = new THREE.Matrix4().makeRotationZ(Math.PI);
     
@@ -49,6 +78,11 @@ class MyTrack extends THREE.Object3D {
         return new THREE.CatmullRomCurve3(rotatedPoints, path.closed);
     }
 
+    /**
+     * @method
+     * Samples points along the track curve.
+     * @returns {Array<THREE.Vector3>} - Points sampled on the curve.
+     */
     pointsOnTheCurve(){
         const sampledPoints = [];
         for (let i = 0; i <= this.segments; i++) {
@@ -58,6 +92,12 @@ class MyTrack extends THREE.Object3D {
         return sampledPoints;
     }
 
+    /**
+     * @method
+     * Checks if an object is inside the track boundaries.
+     * @param {THREE.Object3D} object - The object to check.
+     * @returns {boolean} - True if inside, false otherwise.
+     */
     isObjectInsideTrack(object) {
 
         const position = new THREE.Vector3();
@@ -86,6 +126,13 @@ class MyTrack extends THREE.Object3D {
         return distance <= this.width;
     }
 
+    /**
+     * @method
+     * Moves an object back to the track if it is outside.
+     * @param {THREE.Object3D} balloon - The object to reposition.
+     * @param {Array} obstacles - List of obstacles.
+     * @param {Array} powerups - List of power-ups.
+     */
     putObjectOnTrack(balloon, obstacles, powerups){
         let value = this.isObjectInsideTrack(balloon);
         if(value == false){
@@ -104,6 +151,12 @@ class MyTrack extends THREE.Object3D {
         }
     }
 
+    /**
+     * @method
+     * Finds the closest point on the track to a given balloon.
+     * @param {THREE.Object3D} balloon - The object to check.
+     * @returns {THREE.Vector3} - The closest point on the track.
+     */
     findClosestPointOnTrack(balloon) {
         const position = new THREE.Vector3();
         balloon.getWorldPosition(position);
@@ -125,6 +178,15 @@ class MyTrack extends THREE.Object3D {
         return closestPoint;
     }
     
+    /**
+     * @method
+     * Finds a safe point on the track, avoiding collisions with obstacles and power-ups.
+     * @param {THREE.Vector3} startPoint - Starting point for the search.
+     * @param {THREE.Object3D} balloon - The balloon object.
+     * @param {Array} obstacles - List of obstacles.
+     * @param {Array} powerups - List of power-ups.
+     * @returns {THREE.Vector3} - A safe point on the track.
+     */
     findSafePoint(startPoint, balloon, obstacles, powerups) {
         let safePoint = startPoint.clone();
         let index = this.sampledPoints.indexOf(startPoint);
@@ -142,6 +204,15 @@ class MyTrack extends THREE.Object3D {
         return safePoint;
     }
 
+    /**
+     * @method
+     * Checks for collisions at a given point with obstacles and power-ups.
+     * @param {THREE.Vector3} point - The point to check.
+     * @param {THREE.Object3D} balloon - The balloon object.
+     * @param {Array} obstacles - List of obstacles.
+     * @param {Array} powerups - List of power-ups.
+     * @returns {boolean} - True if there is a collision, false otherwise.
+     */
     checkCollisionAtPoint(point, balloon, obstacles, powerups) {
         const tempPosition = new THREE.Vector3(point.x, point.y, point.z);
 

@@ -1,7 +1,17 @@
+/**
+ * @file MySprite.js
+ * @desc Provides utility methods for handling sprite-based text rendering.
+ */
+
 import * as THREE from 'three';
 
 export const MySprite = {
 
+    /**
+     * Loads a spritesheet with a specified color.
+     * @param {number} color - The color to tint the spritesheet.
+     * @returns {THREE.MeshBasicMaterial} - Material configured with the spritesheet texture.
+     */
     loadSpritesheet(color) {
         const texture = new THREE.TextureLoader().load("utils/spritesheet2.png");
 
@@ -18,6 +28,16 @@ export const MySprite = {
         });
     },
 
+    /**
+     * Creates a single character mesh from the spritesheet.
+     * @param {string} char - The character to create.
+     * @param {number} charWidth - Width of the character.
+     * @param {number} charHeight - Height of the character.
+     * @param {THREE.Material} material - Material to apply to the character.
+     * @param {number} [totalRows=16] - Total number of rows in the spritesheet.
+     * @param {number} [totalColumns=16] - Total number of columns in the spritesheet.
+     * @returns {THREE.Mesh} - Mesh representing the character.
+     */
     createCharFromSpritesheet(char, charWidth, charHeight, material, totalRows = 16, totalColumns = 16) {
 
         const ascii = char.charCodeAt(0);
@@ -42,6 +62,17 @@ export const MySprite = {
         return new THREE.Mesh(geometry, material);
     },
 
+    /**
+     * Creates a text string by combining multiple character meshes.
+     * @param {string} text - The text to render.
+     * @param {number} charWidth - Width of each character.
+     * @param {number} charHeight - Height of each character.
+     * @param {THREE.Material} material - Material to apply to each character.
+     * @param {number} [spacing=0] - Spacing between characters.
+     * @param {number} [totalRows=16] - Total rows in the spritesheet.
+     * @param {number} [totalColumns=16] - Total columns in the spritesheet.
+     * @returns {THREE.Group} - Group containing all character meshes.
+     */
     createTextFromSpritesheet(text, charWidth, charHeight, material, spacing = 0, totalRows = 16, totalColumns = 16) {
         const group = new THREE.Group();
         let offsetX = 0;
@@ -55,6 +86,18 @@ export const MySprite = {
 
         return group;
     },
+
+    /**
+     * Creates a text string by combining multiple character meshes.
+     * @param {string} text - The text to render.
+     * @param {number} charWidth - Width of each character.
+     * @param {number} charHeight - Height of each character.
+     * @param {THREE.Material} material - Material to apply to each character.
+     * @param {number} [spacing=0] - Spacing between characters.
+     * @param {number} [totalRows=16] - Total rows in the spritesheet.
+     * @param {number} [totalColumns=16] - Total columns in the spritesheet.
+     * @returns {THREE.Group} - Group containing all character meshes.
+     */
     updateSpritesheetText(group, newText, charWidth, charHeight, material, spacing = 0, totalRows = 16, totalColumns = 16) {
         // Remove all existing children
         while (group.children.length > 0) {
