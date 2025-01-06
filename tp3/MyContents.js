@@ -968,6 +968,15 @@ class MyContents {
 
     goToMainMenu(){
         console.log("Home selected");
+        this.playerBalloon.resetBalloon();
+        this.enemyBalloon.resetBalloon();
+        this.repositionPlayerBalloon();
+        this.repositionEnemyBalloon();
+        this.playerName = null;
+        this.currentRoute.resetAnimation();
+        this.clearFireworks();
+        this.outdoor.reset();
+        this.changeTo(this.state.MENU);
     }
     resetPowerups(){
        for (let i = 0; i < this.powerups.length; i++){
