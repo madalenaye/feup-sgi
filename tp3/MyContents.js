@@ -1,7 +1,6 @@
 /**
  * @file MyContents.js
  * @class MyContents
- * @desc 
  */
 
 import * as THREE from 'three';
@@ -26,7 +25,7 @@ import { MyGameOver } from './objects/MyGameOver.js';
 
 class MyContents {
 
-    // todo
+    // Defines different rendering layers for managing visibility of objects.
     layers = {
         NONE: 0,
         MENU: 1,
@@ -34,7 +33,8 @@ class MyContents {
         ENEMY_BALLOON: 3,   
         GAME_OVER: 4
     }
-    // todo
+    
+    // Represents the possible states of the game.
     state = {
         GAME: 0,
         MENU: 1,
@@ -223,6 +223,11 @@ class MyContents {
 
     }
 
+    /**
+     * Updates the game state based on the current phase of gameplay.
+     * Handles player and enemy movement, collision detection, and game over conditions.
+     * @method
+     */
     update() {
         if(this.currentState == this.state.GAME){
             if (!this.running) {
@@ -266,7 +271,8 @@ class MyContents {
     }
 
     /**
-     * Initializes the balloons
+     * Initializes the balloons for both player and enemy.
+     * Loads textures, creates materials, and sets positions.
      * @method
      */
     initBalloons() {
@@ -311,6 +317,11 @@ class MyContents {
         });
     }
     
+    /**
+     * Handles pointer (mouse or touch) down events for object selection.
+     * @method
+     * @param {PointerEvent} event - The pointer down event.
+     */
     onPointerDown(event) {
         this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
@@ -338,6 +349,12 @@ class MyContents {
             }
         }
     }
+
+    /**
+     * Handles the selection of a user balloon.
+     * @method
+     * @param {THREE.Object3D} obj - The object that was clicked.
+     */
     userSelectionBalloon(obj) {
         switch (obj.parent.parent.name.split("_")[0]) {
             case "player":
@@ -359,6 +376,12 @@ class MyContents {
                 break;
         }
     }
+
+    /**
+     * Handles the selection of an enemy balloon.
+     * @method
+     * @param {THREE.Object3D} obj - The object that was clicked.
+     */
     enemySelectionBalloon(obj) {
         switch (obj.parent.parent.name.split("_")[0]) {
             case "enemy":
@@ -380,6 +403,12 @@ class MyContents {
                 break;
         }
     }
+
+    /**
+     * Handles the selection of menu options based on the clicked object.
+     * @method
+     * @param {THREE.Object3D} obj - The object that was clicked.
+     */
     selectMenuOption(obj) {
         switch (obj.parent.name) {
             case "start":
@@ -421,6 +450,11 @@ class MyContents {
         }
     }
 
+    /**
+     * Handles the selection of buttons on the Game Over screen.
+     * @method
+     * @param {THREE.Object3D} obj - The object that was clicked.
+     */
     selectBottom(obj){
         switch (obj.parent.name) {
             case "restart":
@@ -434,6 +468,11 @@ class MyContents {
         }
     }
 
+    /**
+     * Handles pointer (mouse or touch) move events for hover interactions.
+     * @method
+     * @param {PointerEvent} event - The pointer move event.
+     */
     onPointerMove(event) {
         this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
@@ -480,6 +519,13 @@ class MyContents {
             }
         }
     }
+
+    /**
+     * Handles hover interactions for menu objects.
+     * @method
+     * @param {THREE.Object3D} obj - The object being hovered.
+     * @param {boolean} [hovering=true] - Whether the object is being hovered.
+     */
     menuHover(obj, hovering = true){
         let menuObjects = this.menu.objects;
         if (hovering){
@@ -498,6 +544,13 @@ class MyContents {
             this.lastObj = null;
         }
     }
+
+    /**
+     * Handles hover interactions for buttons on the Game Over screen.
+     * @method
+     * @param {THREE.Object3D} obj - The object being hovered.
+     * @param {boolean} [hovering=true] - Whether the object is being hovered.
+     */
     bottonsHover(obj, hovering = true){
         let bottonsObjects = this.gameOver.objects;
         if (hovering){
@@ -516,6 +569,13 @@ class MyContents {
             this.lastObj = null;
         }
     }
+
+    /**
+     * Handles hover interactions for user balloons.
+     * @method
+     * @param {THREE.Object3D} obj - The object being hovered.
+     * @param {boolean} [hovering=true] - Whether the object is being hovered.
+     */
     userHoverBalloon(obj, hovering = true){
         if (hovering){
             if (this.lastObj != obj.parent.parent){
@@ -533,6 +593,13 @@ class MyContents {
             this.lastObj = null;
         }
     }
+
+    /**
+     * Handles hover interactions for enemy balloons.
+     * @method
+     * @param {THREE.Object3D} obj - The object being hovered.
+     * @param {boolean} [hovering=true] - Whether the object is being hovered.
+     */
     enemyHoverBalloon(obj, hovering = true){
         if (hovering){
             if (this.lastObj != obj.parent.parent){
@@ -550,6 +617,12 @@ class MyContents {
             this.lastObj = null;
         }
     }
+
+    /**
+     * Updates the wind effect based on the player's balloon wind layer.
+     * Adjusts the player's position accordingly.
+     * @method
+     */
     windLayers() {
         switch(this.playerBalloon.windLayer){
             case 0:
@@ -580,6 +653,11 @@ class MyContents {
                 break;
         }
     }
+
+    /**
+     * Initiates the name change process for the player.
+     * @method
+     */
     changeName(){
         if (this.currentState === this.state.CHANGE_NAME){
             const keyboardHandler = (e) => {
@@ -600,10 +678,22 @@ class MyContents {
         }
     }
 
+    /**
+     * Sets the active camera in the application.
+     * @method
+     * @param {string} camera - The name of the camera to activate.
+     */
     setCamera(camera){
         this.app.activeCameraName = camera;
         this.app.updateCameraIfRequired();
     }
+
+    /**
+     * Changes the current state of the application to the specified state.
+     * Handles transitions between different game states.
+     * @method
+     * @param {number} state - The state to transition to.
+     */
     changeTo(state){
         switch(state){
             case this.state.MENU:
@@ -655,6 +745,10 @@ class MyContents {
         }
     }
 
+    /**
+     * Updates the rendering layers based on the selected layer.
+     * @method
+     */
     updateLayer(){
         switch(this.selectedLayer){
             case this.layers.NONE:
@@ -668,10 +762,18 @@ class MyContents {
         }
     }
 
+    /**
+     * Creates a shadow effect for the player's balloon.
+     * @method
+     */
     createBalloonShadow(){
         this.playerBalloon.createBalloonLight();
     }
 
+    /**
+     * Creates and updates bounding volumes for collision detection.
+     * @method
+     */
     createBoundingVolumes(){
         this.playerBalloon.createBoundingVolume();
         this.balloonBB = this.playerBalloon.getBoundingVolume();
@@ -699,50 +801,90 @@ class MyContents {
 
     }
 
+    /**
+     * Positions the player's balloon at the starting point based on the selected track.
+     * @method
+     */
     positionMyBalloon(){
         const targetPoint = this.track === "A" ? this.pointA : this.pointB;
         this.playerBalloon.position.set(targetPoint.x, targetPoint.y, targetPoint.z);
         this.app.scene.add(this.playerBalloon);
     }
 
+    /**
+     * Positions the enemy's balloon at the starting point based on the selected track.
+     * @method
+     */
     positionEnemyBalloon(){
         const targetPoint = this.track === "A" ? this.pointB : this.pointA;
         this.enemyBalloon.position.set(targetPoint.x, targetPoint.y, targetPoint.z);
         this.app.scene.add(this.enemyBalloon);
     }
 
+    /**
+     * Changes the enemy's starting point based on the selected track.
+     * @method
+     */
     changeEnemyStartingPoint(){
         const targetPoint = this.track === "A" ? this.pointB : this.pointA;
         this.currentRoute.changeInitialPoint(targetPoint);
     }
 
+    /**
+     * Sets up and starts the enemy balloon's animation along the current route.
+     * @method
+     */
     enemyAnimationSetup(){
         this.currentRoute.setupAnimation(this.enemyBalloon);
         this.currentRoute.play();
         this.currentRoute.resetAnimation();
     }
 
+    /**
+     * Stops the enemy balloon's animation.
+     * @method
+     */
     stopEnemyAnimation(){
         this.currentRoute.stop();
     }
 
+    /**
+     * Pauses the enemy balloon's animation.
+     * @method
+     */
     pauseEnemyAnimation(){
         this.currentRoute.pause();
     }
 
+    /**
+     * Resumes the enemy balloon's animation.
+     * @method
+     */
     resumeEnemyAnimation(){
         this.currentRoute.resume();
     }
 
+    /**
+     * Updates the enemy balloon's animation.
+     * @method
+     */
     updateEnemyAnimation(){
         this.currentRoute.update();
     }
 
+    /**
+     * Updates the bounding volumes for both player and enemy balloons.
+     * @method
+     */
     updateBoundingVolumes(){
         this.playerBalloon.updateBoundingBoxBalloon();
         this.enemyBalloon.updateBoundingBoxBalloon();
     }
 
+    /**
+     * Handles the movement of the player's balloon based on user input.
+     * @method
+     */
     moveMyBalloon(){
         if(this.playerBalloon.getCanMove()){
             if (this.app.keys.includes("w")) this.playerBalloon.ascend();
@@ -753,46 +895,95 @@ class MyContents {
         }
     }
 
+    /**
+     * Starts the outdoor time simulation.
+     * @method
+     */
     outdoorTimePlay(){
         this.outdoor.play();
     }
 
+    /**
+     * Pauses the outdoor time simulation.
+     * @method
+     */
     outdoorTimePause(){
         this.outdoor.pause();
     }
 
+    /**
+     * Resumes the outdoor time simulation.
+     * @method
+     */
     outdoorTimeResume(){
         this.outdoor.resume();
     }
 
+    /**
+     * Updates the outdoor time.
+     * @method
+     */
     updateOutdoorTime(){
         this.outdoor.update();
     }
 
+    /**
+     * Retrieves the total elapsed time of the outdoor simulation.
+     * @method
+     * @returns {number} The total elapsed time.
+     */
     getTotalTime(){
         return (this.outdoor.getTotalTime());
     }
 
+    /**
+     * Sets the total number of laps based on the current loop configuration.
+     * @method
+     */
     setTotalLaps(){
         this.outdoor.setTotalLaps(this.loops);
     }
 
+    /**
+     * Sets the current air layer based on wind direction.
+     * @method
+     * @param {string} layer - The current air layer (e.g., "North", "South").
+     */
     setAirLayer(layer){
         this.outdoor.setAirLayer(layer);
     }
 
+    /**
+     * Increments the lap count for the specified balloon.
+     * @method
+     * @param {MyBalloon} balloon - The balloon whose lap count is to be incremented.
+     */
     setCurrentLap(balloon){
         balloon.increaseLaps(this.outdoor);
     }
 
+    /**
+     * Updates the game status within the outdoor simulation.
+     * @method
+     */
     setGameStatus(){
         this.outdoor.setGameStatus();
     }
 
+    /**
+     * Checks if the race has reached its final condition for the specified balloon.
+     * @method
+     * @param {MyBalloon} balloon - The balloon to check.
+     * @returns {boolean} True if the race is finished for the balloon, else false.
+     */
     verifyFinalRace(balloon){
         return balloon.checkEndOfRace(this.loops);
     }
 
+    /**
+     * Ensures that the player's balloon stays within the track boundaries.
+     * @method
+     */
     putObjectOnTrack(){
         let value = this.track_2.isObjectInsideTrack(this.playerBalloon);
         if(!value){
@@ -800,18 +991,34 @@ class MyContents {
         }
     }
 
+    /**
+     * Checks and handles collisions between the player's balloon and power-ups.
+     * @method
+     */
     collisionPowerups(){
         this.playerBalloon.checkCollisionPowerups(this.powerups, this.outdoor);
     }
 
+    /**
+     * Checks and handles collisions between the player's balloon and obstacles.
+     * @method
+     */
     collisionObstacles(){
         this.playerBalloon.checkCollisionObstacles(this.obstacles, this.outdoor);
     }
 
+    /**
+     * Checks and handles collisions between the player's balloon and the enemy's balloon.
+     * @method
+     */
     collisionEnemyBalloon(){
         this.playerBalloon.checkCollisionBalloon(this.enemyBalloon, this.outdoor);
     }
 
+    /**
+     * Creates fireworks effects when the game is over.
+     * @method
+     */
     createFireworksGameOver(){
         if (Math.floor(Math.random() * 20) + 1 === 1) {
             const spread = 5;
@@ -839,6 +1046,10 @@ class MyContents {
         }
     }
 
+    /**
+     * Clears all existing fireworks.
+     * @method
+     */
     clearFireworks() {
         for (let i = 0; i < this.fireworks.length; i++) {
             const firework = this.fireworks[i];
@@ -849,6 +1060,10 @@ class MyContents {
         this.fireworks = [];
     }
  
+    /**
+     * Sets up the cameras based on the current perspective (third-person or first-person).
+     * @method
+     */
     setCameras(){
         if (this.thirdPerson){
             this.setCamera("third_person");
@@ -866,6 +1081,10 @@ class MyContents {
         }
     }
 
+    /**
+     * Allows the user to switch between different camera perspectives using keyboard inputs.
+     * @method
+     */
     changeCamera(){
         document.addEventListener('keydown', (e) => {
             switch (e.key) {
@@ -883,6 +1102,10 @@ class MyContents {
         this.setCameras();
     }
 
+    /**
+     * Sets up the game status toggle (pause/resume) using the spacebar.
+     * @method
+     */
     changeGameStatus() {
         document.addEventListener('keydown', (e) => {
             if (e.key === ' ') {
@@ -896,6 +1119,11 @@ class MyContents {
         });
     }
 
+    /**
+     * Pauses the game by stopping outdoor time, enemy animation, and disabling player movement.
+     * Also switches the camera to the pause view.
+     * @method
+     */
     pauseGame(){
         this.outdoorTimePause();
         this.setGameStatus();
@@ -904,6 +1132,11 @@ class MyContents {
         this.setCamera("pause");
     }
 
+    /**
+     * Resumes the game by restarting outdoor time, enemy animation, and enabling player movement.
+     * Also switches the camera back to the third-person view.
+     * @method
+     */
     resumeGame(){
         this.outdoorTimeResume();
         this.setGameStatus();
@@ -912,6 +1145,10 @@ class MyContents {
         this.setCamera("third_person");
     }
 
+    /**
+     * Updates the camera position smoothly based on the player's balloon position and wind effects.
+     * @method
+     */
     updateCamera(){
         const pos = new THREE.Vector3();
         this.playerBalloon.getWorldPosition(pos);
@@ -955,24 +1192,43 @@ class MyContents {
             this.app.updateNewCameraTarget(pos);
         }
     }
+
+    /**
+     * Displays the Heads-Up Display (HUD) elements.
+     * @method
+     */
     displayHud(){
         this.hudWind.style.display = "block";
         this.raceTime.style.display = "block";
         this.lap.style.display = "block";
         this.vouchers.style.display = "block";
     }
+
+    /**
+     * Hides the Heads-Up Display (HUD) elements.
+     * @method
+     */
     hideHud(){
         this.hudWind.style.display = "none";
         this.raceTime.style.display = "none";
         this.lap.style.display = "none";
         this.vouchers.style.display = "none";
     }
+
+    /**
+     * Updates the HUD elements with the latest game information.
+     * @method
+     */
     updateHud(){
         this.raceTime.innerHTML = this.outdoor.elapsedTime.toFixed(2);
         this.lap.innerHTML = `Finished laps: ${this.outdoor.currentLap}/${this.loops}`;
         this.vouchers.innerHTML = `Vouchers: ${this.playerBalloon.vouchers}`;
     }
 
+    /**
+     * Restarts the game by resetting balloons, repositioning them, clearing fireworks, resetting outdoor time, and transitioning to the game state.
+     * @method
+     */
     restartGame(){
         this.playerBalloon.resetBalloon();
         this.enemyBalloon.resetBalloon();
@@ -983,6 +1239,10 @@ class MyContents {
         this.changeTo(this.state.GAME);
     }
 
+    /**
+     * Returns to the main menu by resetting balloons, repositioning them, clearing fireworks, resetting outdoor time, and transitioning to the menu state.
+     * @method
+     */
     goToMainMenu(){
         this.playerBalloon.resetBalloon();
         this.enemyBalloon.resetBalloon();
@@ -994,6 +1254,10 @@ class MyContents {
         this.changeTo(this.state.MENU);
     }
 
+    /**
+     * Repositions the player's balloon based on its configuration.
+     * @method
+     */
     repositionPlayerBalloon(){
         const config = this.balloonConfigs.slice(0, 3).find(config => 
             config.nameUser === this.playerBalloon.nameUser
@@ -1008,6 +1272,10 @@ class MyContents {
         }
     }
 
+    /**
+     * Repositions the enemy's balloon based on its configuration.
+     * @method
+     */
     repositionEnemyBalloon() {
         const config = this.balloonConfigs.slice(3, 6).find(config => 
             config.nameUser === this.enemyBalloon.nameUser
@@ -1022,6 +1290,10 @@ class MyContents {
         } 
     }
 
+    /**
+     * Resets the collision state of all power-ups, allowing them to be collected again.
+     * @method
+     */
     resetPowerups(){
         for (const key in this.powerups){
             const powerup = this.powerups[key];
