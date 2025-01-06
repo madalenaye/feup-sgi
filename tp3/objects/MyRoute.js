@@ -1,7 +1,27 @@
+/**
+ * @file MyRoute.js
+ * @class MyRoute
+ * @extends THREE.Object3D
+ */
+
 import * as THREE from 'three';
+
+/**
+ * @class
+ * @classdesc Represents a route path with animations and transformations for 3D objects.
+ */
 
 class MyRoute extends THREE.Object3D {
 
+    /**
+     * Constructs a new MyRoute instance.
+     * @constructor
+     * @param {Object} parameters - Configuration parameters.
+     * @param {Array} parameters.controlpoints_time - Control points with position and time.
+     * @param {THREE.Material} material - Material for the route.
+     * @param {boolean} castShadow - Determines if the route casts shadows.
+     * @param {boolean} receiveShadow - Determines if the route receives shadows.
+     */
     constructor(parameters, material, castShadow, receiveShadow) {
         super();
         let vectorPoints = parameters.controlpoints_time.map(point => new THREE.Vector3(point.x, point.y, point.z));
@@ -37,17 +57,33 @@ class MyRoute extends THREE.Object3D {
         this.add(this.curve);
     }
 
+    /**
+     * @method
+     * Rotates points around the Z-axis.
+     * @param {Array<THREE.Vector3>} points - The points to rotate.
+     * @returns {Array<THREE.Vector3>} Rotated points.
+     */
     rotatePointsZ(points) {
         const rotationMatrix = new THREE.Matrix4().makeRotationZ(Math.PI);
       
         return points.map(point => point.clone().applyMatrix4(rotationMatrix));
     }
 
+    /**
+     * @method
+     * Changes the initial point of the route.
+     * @param {THREE.Vector3} point - The new initial point.
+     */
     changeInitialPoint(point){
         this.balloonRoute[0] = point;
         this.balloonRoute[this.balloonRoute.length -1] = point;
     }
 
+    /**
+     * @method
+     * Sets up the animation for the given object.
+     * @param {THREE.Object3D} object - The object to animate.
+     */
     setupAnimation(object){
 
         const positionKeyframes = [];
@@ -83,6 +119,10 @@ class MyRoute extends THREE.Object3D {
         this.positionAction = this.mixer.clipAction(positionClip);
     }
 
+    /**  
+     * @method
+     * Starts the animation.
+     */
     play() {
         if (this.mixer) {
             this.positionAction.play();
@@ -90,6 +130,9 @@ class MyRoute extends THREE.Object3D {
         }
     }
 
+    /**
+     * @method 
+     * Stops the animation. */
     stop() {
         if (this.mixer) {
             this.positionAction.stop();
@@ -97,6 +140,9 @@ class MyRoute extends THREE.Object3D {
         }
     }
 
+    /**
+     * @method 
+     * Resumes the animation. */
     resume(){
         if (this.mixer) {
             this.mixerPause = false;
@@ -104,16 +150,25 @@ class MyRoute extends THREE.Object3D {
         }
     }
 
+    /**
+     * @method 
+     * Pauses the animation. */
     pause(){
         if(this.mixer){
             this.mixerPause = true;
         }
     }
 
+    /**
+     * @method 
+     * Sets the mixer time for animation. */
     setMixerTime() {
         this.mixer.setTime(this.mixerTime);
     }
 
+    /**
+     * @method 
+     * Checks whether the animation state is paused and adjusts time scale. */
     checkAnimationStateIsPause() {
         if (this.mixerPause)
             this.mixer.timeScale = 0;
@@ -140,6 +195,9 @@ class MyRoute extends THREE.Object3D {
         }
     }
 
+    /**
+     * @method 
+     * Updates the animation state. */
     update() {
 
         if (!this.mixerPause) {
@@ -151,6 +209,11 @@ class MyRoute extends THREE.Object3D {
         this.checkTracksEnabled();
 
     }
+
+    /**
+     * @method
+     * Restart the animation.
+     */
     resetAnimation() {
         if (this.mixer && this.positionAction) {
             this.positionAction.stop();
