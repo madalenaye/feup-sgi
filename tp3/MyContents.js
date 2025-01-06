@@ -974,17 +974,21 @@ class MyContents {
     }
 
     restartGame(){
-        console.log("Restart selected");
+        this.playerBalloon.resetBalloon();
+        this.enemyBalloon.resetBalloon();
+        this.repositionPlayerBalloon();
+        this.repositionEnemyBalloon();
+        this.clearFireworks();
+        this.outdoor.reset();
+        this.changeTo(this.state.GAME);
     }
 
     goToMainMenu(){
-        console.log("Home selected");
         this.playerBalloon.resetBalloon();
         this.enemyBalloon.resetBalloon();
         this.repositionPlayerBalloon();
         this.repositionEnemyBalloon();
         this.playerName = null;
-        this.currentRoute.resetAnimation();
         this.clearFireworks();
         this.outdoor.reset();
         this.changeTo(this.state.MENU);
