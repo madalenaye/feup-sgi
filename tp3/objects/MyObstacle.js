@@ -1,7 +1,30 @@
+/**
+ * @file MyObstacle.js
+ * @class MyObstacle
+ * @extends THREE.Object3D
+ */
+
 import * as THREE from 'three';
 import { MyShader } from './MyShader.js';
+
+/**
+ * @class
+ * @classdesc Represents an obstacle object in the scene with geometry, shaders, and pulsating animation.
+ */
+
 class MyObstacle extends THREE.Object3D {
 
+    /**
+     * Constructs a new MyObstacle instance. 
+     * @constructor
+     * @param {Object} parameters - Configuration parameters for the obstacle.
+     * @param {number} parameters.height - The height of the obstacle.
+     * @param {number} parameters.radius - The radius of the obstacle.
+     * @param {number} parameters.penalty - The penalty associated with the obstacle.
+     * @param {THREE.Material} material - The material used for the obstacle.
+     * @param {boolean} castShadow - Determines if the obstacle casts shadows.
+     * @param {boolean} receiveShadow - Determines if the obstacle receives shadows.
+     */
     constructor(parameters, material, castShadow, receiveShadow) {
         super();
         this.height = parameters.height;
@@ -61,6 +84,10 @@ class MyObstacle extends THREE.Object3D {
         this.animatePulsation();
     }
 
+    /**
+     * @method
+     * Creates the bounding volume for collision detection.
+     */
     createBoundingVolume(){
         this.matrixWorldNeedsUpdate = true;
         this.updateMatrixWorld(true);
@@ -68,14 +95,28 @@ class MyObstacle extends THREE.Object3D {
         this.obstacleBB.setFromObject(this.rocket, true);
     }
 
+    /**
+     * @method
+     * Retrieves the bounding volume.
+     * @returns {THREE.Box3} The bounding volume for the obstacle.
+     */
     getBoundingVolume(){
         return this.obstacleBB;
     }
 
+    /**
+     * @method
+     * Retrieves the penalty associated with the obstacle.
+     * @returns {number} The penalty value.
+     */
     getPenalty(){
         return this.penalty;
     }
 
+    /**
+     * @method
+     * Waits for shaders to load and applies them to the obstacle.
+     */
     waitForShaders() {
         if (!this.shader.ready) {
             setTimeout(this.waitForShaders.bind(this), 100);
@@ -88,6 +129,11 @@ class MyObstacle extends THREE.Object3D {
             }
         });
     }
+
+    /**
+     * @method
+     * Animates the pulsating effect of the obstacle.
+     */
     animatePulsation() {
         const clock = new THREE.Clock();
         //console.log("animatePulsation");
@@ -99,6 +145,11 @@ class MyObstacle extends THREE.Object3D {
         update();
     }
 
+    /**
+     * @method
+     * Calculates and returns the distance based on the height of the obstacle.
+     * @returns {number} The calculated distance.
+     */
     getDistance(){
         return (2 * this.height);
     }
