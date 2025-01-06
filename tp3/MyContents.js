@@ -91,6 +91,12 @@ class MyContents {
         this.hudWind = document.getElementById("wind");
         this.hudWind.style.display = "none";
         this.windSpeed = 0.05;
+        this.raceTime = document.getElementById("time");
+        this.raceTime.style.display = "none";
+        this.lap = document.getElementById("lap");
+        this.lap.style.display = "none";
+        this.vouchers = document.getElementById("vouchers");
+        this.vouchers.style.display = "none";
 
         //Game Over
         this.gameOver = new MyGameOver();
@@ -132,8 +138,8 @@ class MyContents {
 
         this.playerBalloon = this.userBalloons[0];
         this.previousPlayerBalloon = this.userBalloons[0];
-        this.enemyBalloon = this.enemyBalloons[0];
-        this.previousEnemyBalloon = this.enemyBalloons[0];
+        this.enemyBalloon = this.enemyBalloons[1];
+        this.previousEnemyBalloon = this.enemyBalloons[1];
     }
 
     /**
@@ -223,6 +229,7 @@ class MyContents {
             }
             this.updateOutdoorTime();
             this.updateCamera();
+            this.updateHud();
             this.updateBoundingVolumes();
             this.updateEnemyAnimation();
             this.putObjectOnTrack();
@@ -575,8 +582,7 @@ class MyContents {
                 this.changeEnemyStartingPoint();
                 this.enemyAnimationSetup();
                 this.outdoorTimePlay();
-                this.hudWind.style.display = "block";
-                this.changeGameStatus();
+                this.displayHud();
                 this.currentState = this.state.GAME;
                 break;
             case this.state.GAME_OVER:
@@ -585,7 +591,7 @@ class MyContents {
                 this.gameOver.updateWinner(this.winner);
                 this.gameOver.updateLoser(this.loser);
                 this.gameOver.updateWinnerTime(this.getTotalTime());
-                this.hudWind.style.display = "none";
+                this.hideHud();
                 this.setCamera("game_over");
                 break;
             case this.state.USER_BALLOON:
@@ -891,6 +897,23 @@ class MyContents {
             this.app.activeCamera.position.lerp(targetCameraPosition, 0.05);
             this.app.updateNewCameraTarget(pos);
         }
+    }
+    displayHud(){
+        this.hudWind.style.display = "block";
+        this.raceTime.style.display = "block";
+        this.lap.style.display = "block";
+        this.vouchers.style.display = "block";
+    }
+    hideHud(){
+        this.hudWind.style.display = "none";
+        this.raceTime.style.display = "none";
+        this.lap.style.display = "none";
+        this.vouchers.style.display = "none";
+    }
+    updateHud(){
+        this.raceTime.innerHTML = this.outdoor.elapsedTime.toFixed(2);
+        this.lap.innerHTML = `Finished laps: ${this.outdoor.currentLap}/${this.loops}`;
+        this.vouchers.innerHTML = `Vouchers: ${this.playerBalloon.vouchers}`;
     }
 }
 

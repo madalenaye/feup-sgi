@@ -252,7 +252,8 @@ class MyBalloon extends THREE.Object3D {
         for (const key in powerups){
             const powerup = powerups[key];
             let value = this.checkCollision(powerup);
-            if(value){
+            if(value && powerup.canCollide){
+                powerup.canCollide = false;
                 this.vouchers++;
                 outdoor.setVouchers(this.vouchers);
             }
